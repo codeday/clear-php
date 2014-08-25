@@ -1,0 +1,150 @@
+body.dashboard
+    section.content > .countdown
+        padding: 0 0 2rem
+        border-bottom: 1px solid $foreground-color-lighter
+
+        .active
+            font-weight: 500
+            font-size: 2.5rem
+
+        .details
+            font-weight: 300
+            font-size: 0.75rem
+            padding-top: 0.3rem
+            .name
+                &:after
+                    content: "\2022"
+                    color: $foreground-color-lighter
+                    padding: 0 0.3rem
+
+    section.content > .my-events
+        border-bottom: 1px solid $foreground-color-lighter
+        ul
+            padding: 0
+            li
+                list-style-type: none
+                padding: 1rem 0
+
+                div
+                    float: left
+                    width: 16.66%
+                    display: block
+
+                    span
+                        display: block
+                        text-align: center
+
+                        &.number
+                            font-size: 2.25rem
+                            padding-top: 0.5rem
+
+                        &.label
+                            text-transform: uppercase
+                            font-weight: 300
+                            font-size: 0.75rem
+
+                    &.name
+                        border: 1px solid $foreground-color
+                        background-color: $foreground-color-lighter
+
+                        font:
+                            size: 2.25rem
+                            weight: 300
+
+                        text:
+                            align: center
+                            transform: uppercase
+
+                        width: 12%
+                        height: 4.5rem
+                        margin-right: 4.66%
+                        padding-top: 1rem
+
+                        &.open
+                            background-color: #15E014
+
+                        &.venue
+                            background-color: #0343FA
+
+                        &.closed
+                            background-color: #FB481C
+
+                &:after
+                    content: ""
+                    clear: both
+                    display: block
+                    width: 0
+                    height: 0
+
+    section.content > .other-events
+        padding-top: 2rem
+        section.map
+            float: right
+            width: 60%
+            div.heatmap
+                width: 100%
+                height: 300px
+
+        section.list
+            width: 35%
+            float: left
+            ul
+                margin: 0
+                padding: 0
+                li
+                    list-style-type: none
+                    padding: 0.15rem 0
+                    float: left
+                    width: 50%
+
+                    a
+                        text-decoration: none
+
+                    div.name
+                        border: 1px solid $foreground-color
+                        background-color: $foreground-color-lighter
+                        display: inline-block
+
+                        font:
+                            size: 0.75rem
+                            weight: 300
+
+                        text:
+                            align: center
+                            transform: uppercase
+
+                        width: 2.5rem
+                        margin-right: 0.2rem
+
+                        &.open
+                            background-color: #15E014
+
+                        &.venue
+                            background-color: #0343FA
+
+                        &.closed
+                            background-color: #FB481C
+
+                    div
+                        display: inline
+                        &.registrants:after
+                            content: ","
+                            margin: 0 0.2 0 -0.2rem
+                        span
+                            text-align: left
+
+                            &.number
+                                font-size: 0.75rem
+                                padding-top: 0.5rem
+
+                            &.label
+                                text-transform: uppercase
+                                font-weight: 300
+                                font-size: 0.75rem
+
+                    &:after
+                        content: ""
+                        clear: both
+                        display: block
+                        width: 0
+                        height: 0

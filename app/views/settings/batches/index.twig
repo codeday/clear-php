@@ -1,0 +1,28 @@
+{% extends "template.twig" %}
+{% block title %}Batches // Settings{% endblock %}
+{% block section %}settings{% endblock %}
+{% block subnav %}{% include "settings/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Batch Settings</h2>
+        <p>Batches are groups of events happening on the same day. The "loaded" batch is the batch
+           currently available on the API&thinsp;&mdash;&thinsp;meaning the batch displayed on the
+           website and other tools.</p>
+        <p>Click on a batch to edit the title, date, or participating cities, or to load it.</p>
+    </header>
+    <ul class="batches">
+        {% for batch in all_batches %}
+            <li {% if batch.is_loaded %}class="loaded"{% endif %}>
+                <a class="edit" href="/settings/batches/{{ batch.id }}">
+                    <span class="month">{{ batch.starts_at.timestamp|date('F') }}</span>
+                    <span class="year">{{ batch.starts_at.timestamp|date('Y') }}</span>
+                    <span class="day">{{ batch.starts_at.timestamp|date('d') }}</span>
+                    <span class="events">{{ batch.events|length }}</span>
+                </a>
+            </li>
+        {% endfor %}
+        <li class="new">
+            <a href="/settings/batches/create">+</a>
+        </li>
+    </ul>
+{% endblock %}

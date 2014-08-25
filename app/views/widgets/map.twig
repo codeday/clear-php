@@ -1,0 +1,129 @@
+{% macro region_picker(regions, url, zoom = null) %}
+    {% set scriptId = random() %}
+    <script type="text/javascript" id="{{ scriptId }}">
+        function initialize() {
+            var mapElem = document.createElement('div');
+            mapElem.classList.add('region-picker');
+
+            document.getElementById('{{ scriptId }}').parentNode.insertBefore(mapElem, document.getElementById('{{ scriptId }}'));
+
+            var map = new google.maps.Map(mapElem, window.defaultMapOptions);
+
+            {% if zoom %}
+                map.setZoom({{ zoom }});
+            {% endif %}
+
+            var overlay = new google.maps.OverlayView();
+            overlay.draw = function() {};
+            overlay.setMap(map);
+
+
+            var pointArray = new google.maps.MVCArray([
+                {% set isFirst = true %}
+                {% for region in regions %}
+                {% if not isFirst %},{% endif %}
+                new google.maps.LatLng({{ region.coordinates.lat }}, {{ region.coordinates.lng }})
+                {% set isFirst = false %}
+                {% endfor %}
+            ]);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: pointArray
+            });
+            heatmap.setMap(map);
+            heatmap.set('radius', 105);
+            heatmap.set('gradient', [
+                'rgba(0, 0, 0, 1)',
+                'rgba(0, 0, 0, 0.4)',
+                'rgba(0, 0, 0, 0)'
+            ]);
+
+            var tzColors = {
+                "Pacific": '#2A85F7',
+                "Mountain": '#639A93',
+                "Central": '#C47061',
+                "Eastern": '#DC6EED'
+            };
+
+            var circles = {
+                    {% set isFirst = true %}
+                    {% for region in regions %}
+                    {% if not isFirst %},{% endif %}
+                    "{{ region.webname|escape('js') }}": {
+                        "name": "{{ region.name|escape('js') }}",
+                        "webname": "{{ region.webname|escape('js') }}",
+                        "color": tzColors["{{ region.simple_timezone }}"],
+                        "circle": new google.maps.Circle({
+                    fillColor: tzColors["{{ region.simple_timezone }}"],
+                    fillOpacity: 1,
+                    strokeColor: '#000000',
+                    strokeOpacity: 0,
+                    strokeWeight: 6,
+                    radius: 50000,
+                    map: map,
+                    center: new google.maps.LatLng({{ region.coordinates.lat }}, {{ region.coordinates.lng }})
+                })
+            }
+            {% set isFirst = false %}
+            {% endfor %}
+        };
+
+        var divover = document.createElement('div');
+        divover.style.position = 'absolute';
+        divover.style.zIndex = '5000';
+        divover.style.backgroundColor = '#2A85F7';
+        divover.style.color = '#ffffff';
+        divover.style.padding = '2px';
+        divover.style.paddingLeft = '5px';
+        divover.style.fontSize = '10px';
+        divover.style.display = 'none';
+        mapElem.insertBefore(divover, null);
+
+        for (var city in circles) {
+            var circle = circles[city].circle;
+
+            google.maps.event.addListener(circle, "click", (function(circle, city) {
+                return function() {
+                    window.location = '{{ url }}'+city;
+                };
+            })(circle, city));
+            google.maps.event.addListener(circle, "mouseover", (function(circle, name, color) {
+                return function() {
+                    var point = overlay.getProjection().fromLatLngToContainerPixel(circle.getCenter());
+                    divover.style.left = (point.x + 8)+"px";
+                    divover.style.top = (point.y - 8)+"px";
+                    divover.style.backgroundColor = color;
+                    divover.style.display = "block";
+                    divover.innerText = name;
+                };
+            })(circle, circles[city].name, circles[city].color));
+
+            google.maps.event.addListener(circle, "mouseout", function() {
+                divover.style.display = "none";
+            });
+        }
+
+        {# Add picker #}
+        var textElem = document.createElement('input');
+        textElem.classList.add('region-picker');
+        textElem.placeholder = 'Filter by name...';
+        document.getElementById('{{ scriptId }}').parentNode.insertBefore(textElem, document.getElementById('{{ scriptId }}'));
+
+        textElem.addEventListener('keyup', function(){
+            var currentText = textElem.value;
+            for (var city in circles) {
+                var circle = circles[city].circle;
+                var name = circles[city].name.toLowerCase();
+
+                if (currentText.length == 0
+                        || city.substr(0, currentText.length) == currentText
+                        || name.substr(0, currentText.length) == currentText) {
+                    circle.setMap(map);
+                } else {
+                    circle.setMap(null);
+                }
+            }
+        });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+{% endmacro %}

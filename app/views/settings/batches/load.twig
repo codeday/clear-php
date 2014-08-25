@@ -1,0 +1,19 @@
+{% extends "template.twig" %}
+{% block title %}{{ batch.name }} // Batches // Settings{% endblock %}
+{% block section %}settings{% endblock %}
+{% block subnav %}{% include "settings/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Load Batch: {{ batch.name }}</h2>
+    </header>
+    {% if batch.is_loaded %}
+        <p>This batch is already loaded.</p>
+    {% else %}
+        <p>Are you sure you want to switch the loaded batch to {{ batch.name }}? This will unload
+           {{ loaded_batch.name }}.</p>
+        <form method="post">
+            <a href="/settings/batches/{{ batch.id }}">Back</a>
+            <input type="submit" value="Load"/>
+        </form>
+    {% endif %}
+{% endblock %}

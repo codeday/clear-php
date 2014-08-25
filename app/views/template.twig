@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>
+        {% if block('title') %}
+            {{ block('title') }} //
+        {% endif %}
+        Clear // CodeDay
+    </title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link id="favicon" rel="icon" type="image/png" href="/assets/img/favicon.png" />
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVggXa9btjGmzqgUim-1HjmnMtbF3UNms&sensor=false&libraries=visualization"></script>
+    <script type="text/javascript">
+        (function(){
+            var simpleMapStyle = [
+                {
+                    "featureType": "landscape",
+                    "stylers": [
+                        { "visibility": "off" }
+                    ]
+                },{
+                    "featureType": "administrative",
+                    "stylers": [
+                        { "visibility": "off" }
+                    ]
+                },{
+                    "featureType": "administrative.country",
+                    "elementType": "geometry",
+                    "stylers": [
+                        { "visibility": "on" }
+                    ]
+                },{
+                    "featureType": "administrative.province",
+                    "elementType": "geometry",
+                    "stylers": [
+                        { "visibility": "on" }
+                    ]
+                },{
+                    "featureType": "administrative.province",
+                    "elementType": "labels",
+                    "stylers": [
+                        { "visibility": "on" }
+                    ]
+                },{
+                    "featureType": "road",
+                    "stylers": [
+                        { "visibility": "off" }
+                    ]
+                },{
+                    "featureType": "transit",
+                    "stylers": [
+                        { "visibility": "off" }
+                    ]
+                },{
+                    "featureType": "poi",
+                    "stylers": [
+                        { "visibility": "off" }
+                    ]
+                },{
+                    "featureType": "landscape",
+                    "elementType": "geometry",
+                    "stylers": [
+                        { "saturation": -100 },
+                        { "lightness": 100 },
+                        { "visibility": "on" }
+                    ]
+                },{
+                    "featureType": "water",
+                    "stylers": [
+                        { "saturation": -100 },
+                        { "lightness": 27 }
+                    ]
+                }
+            ];
+            window.defaultMapOptions = {
+                center: new google.maps.LatLng(38.216194740798436, -95.59806542968748),
+                zoom: 4,
+                disableDefaultUI: true,
+                styles: simpleMapStyle,
+                scrollwheel: false,
+                draggable: false
+            }
+        })();
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body class="{{ block('section') }}">
+    <header>
+        <h1>
+            <span class="event">CodeDay</span>
+            <span class="tool">Close</span>
+        </h1>
+        <nav>
+            <ul>
+                <li {% if block('section') == 'dashboard' %}class="active"{% endif %}><a href="/">Dashboard</a></li>
+                {% if event %}
+                    <a href="/event/{{ event.id }}">{{ event.name }}</a>
+                {% endif %}
+                {% if me.is_admin %}
+                    <li {% if block('section') == 'tools' %}class="active"{% endif %}><a href="/tools">Tools</a></li>
+                    <li {% if block('section') == 'settings' %}class="active"{% endif %}><a href="/settings">Settings</a></li>
+                {% endif %}
+                <li class="event {% if block('section') == 'event' %}active{% endif %}">
+                </li>
+            </ul>
+        </nav>
+        <section class="user">
+            <ul>
+                <li class="username">{{ me.username }}</li>
+                <li class="logout"><a href="https://s5.studentrnd.org/login/logout">Logout</a></li>
+            </ul>
+        </section>
+    </header>
+
+    <div class="wrap">
+        {% if block('subnav') %}
+            <section class="subnav">
+                {{ block('subnav') }}
+            </section>
+        {% endif %}
+        <section class="content {% if block('subnav') %}with-subnav{% endif %}">
+            {{ block('content') }}
+        </section>
+    </div>
+
+    <footer>
+        Copyright &copy; 2014 StudentRND. <a href="#" class="toggle-sounds">Disable sounds</a>
+    </footer>
+    <script type="text/javascript">
+        $(document).on('ready', function(){
+            var sounds_enabled_val = null;
+            var set_sounds = function(new_val)
+            {
+                sounds_enabled_val = new_val;
+                localStorage['sounds_enabled'] = new_val.toString();
+            }
+
+
+            var sounds_enabled = function()
+            {
+                if (sounds_enabled_val !== null) {
+                    return sounds_enabled_val;
+                }
+
+                if (typeof(localStorage) === 'undefined') {
+                    return false;
+                }
+
+                return localStorage['sounds_enabled'] !== false.toString();
+            }
+
+            $('.toggle-sounds')
+                    .text((sounds_enabled() ? 'Disable' : 'Enable')+' sounds')
+                    .click(function(event){
+                        event.stopPropagation();
+                        set_sounds(!sounds_enabled());
+                        $(this).text((sounds_enabled() ? 'Disable' : 'Enable')+' sounds');
+                        return false;
+                    });
+
+            window.playSound = function(name)
+            {
+                if (sounds_enabled()) {
+                    var sound_obj = $('#sound-'+name);
+                    if ($('#sound-'+name).length < 1) {
+                        sound_obj = $('<audio id="sound-'+name+'" src="/assets/mp3/'+name+'.mp3" />');
+                        $("body").append(sound_obj);
+                    }
+                    sound_obj.get(0).play();
+                }
+            }
+        });
+    </script>
+    {{ block('scripts') }}
+</body>
+</html>

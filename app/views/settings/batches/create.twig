@@ -1,0 +1,19 @@
+{% extends "template.twig" %}
+{% block title %}New Batch // Settings{% endblock %}
+{% block section %}settings{% endblock %}
+{% block subnav %}{% include "settings/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>New Batch</h2>
+        <p>This creates a new batch of events. You'll be able to select the events
+           and customize the name in the next step.</p>
+    </header>
+    <form method="post">
+        <div class="field">
+            <label for="starts_at">Starts At</label>
+            <input required type="date" name="starts_at" id="starts_at" />
+            <span class="help">The start date of all events in this batch.</span>
+        </div>
+        <input type="submit" value="Create"/>
+    </form>
+{% endblock %}

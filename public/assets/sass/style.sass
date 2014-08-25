@@ -1,0 +1,23 @@
+$font: "Helvetica", sans-serif
+
+$background-color: #f7efef
+$foreground-color: #111
+$foreground-color-lighter: darken($background-color, 5)
+$accent-color: #FB481C
+
+$max-width: 1024px
+
+@import "parts/content", "parts/footer", "parts/header", "parts/forms", "parts/region-picker"
+@import "pages/dashboard", "pages/settings"
+
+*
+    box-sizing: border-box
+    -moz-box-sizing: border-box
+    -webkit-font-smoothing: antialiased
+    font-family: $font
+
+body
+    background-color: $background-color
+
+a, a:hover, a:active, a:visited
+    color: $foreground-color

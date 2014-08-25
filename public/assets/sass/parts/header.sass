@@ -1,0 +1,71 @@
+body > header
+    width: 100%
+    margin: 0 auto
+    max-width: $max-width
+    border-bottom: 1px solid $foreground-color-lighter
+
+    h1
+        float: left
+        text-indent: -19999px
+        width: 2rem
+        height: 2rem
+
+        background:
+            image: url(/assets/img/logo-square.png)
+            size: contain
+            position: 50% 50%
+            repeat: no-repeat
+
+    nav, section.user
+        padding-top: 0.7rem
+        ul
+            padding: 0
+            li
+                list-style-type: none
+                display: inline-block
+
+                a
+                    text-decoration: none
+    nav
+        float: left
+        padding-left: 1rem
+        ul li
+            &.active a
+                color: $accent-color
+                font-weight: 500
+                border-bottom: none
+
+            a
+                margin-right: 1rem
+                font-weight: 300
+                border-bottom: 1px dotted $foreground-color-lighter
+
+                &:hover
+                    border-bottom-color: $accent-color
+
+    section.user
+        float: right
+        font-size: 0.75rem
+        padding-top: 1.05rem
+        li
+            font-weight: 300
+
+            &.username
+                font-weight: 700
+
+            a:hover
+                color: $accent-color
+
+            &:not(:last-child)
+                padding-right: 0
+                &:after
+                    content: "\2022"
+                    color: $foreground-color-lighter
+                    padding: 0 0.5rem
+
+    &:after
+        content: ""
+        clear: both
+        display: block
+        width: 0
+        height: 0

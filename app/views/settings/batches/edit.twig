@@ -1,0 +1,196 @@
+{% extends "template.twig" %}
+{% block title %}{{ batch.name }} // Batches // Settings{% endblock %}
+{% block section %}settings{% endblock %}
+{% block subnav %}{% include "settings/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Batch Details: {{ batch.name }}</h2>
+        <p>CodeDay {{ batch.name }} is a series of events happening in {{ batch.events|length }}
+            regions on {{ batch.starts_at.timestamp|date('F j, Y') }}. You can edit its details
+            here.</p>
+    </header>
+    <form method="post">
+        <div class="field">
+            <label for="name">Name</label>
+            <input required type="text" name="name" id="name" value="{{ batch.name }}" placeholder="Spring 2099" />
+            <span class="help">The batch title, for use after the event title and region name
+                               (&ldquo;CodeDay Seattle [&hellip;]&rdquo;).</span>
+        </div>
+        <div class="field">
+            <label for="starts_at">Starts At</label>
+            <input required type="date" name="starts_at" id="starts_at" value="{{ batch.starts_at.timestamp|date('Y-m-d') }}" />
+            <span class="help">The start date of all events in this batch.</span>
+        </div>
+        {% if not batch.is_loaded %}
+            <a href="/settings/batches/{{ batch.id }}/delete">Delete</a>
+            <a href="/settings/batches/{{ batch.id }}/load">Load</a>
+        {% endif %}
+        <input type="submit" value="Save General" />
+    </form>
+
+    <header>
+        <h2>Region Selection: {{ batch.name }}</h2>
+        <p>Select participating regions by clicking their icons on the map. Set management details
+            using the table on the right.</p>
+    </header>
+    <section class="picker">
+        <div class="region-picker"></div>
+    </section>
+    <section class="details">
+        <form action="/settings/batches/{{ batch.id }}/updateregionsettings" method="post">
+            <table class="region-details">
+                <thead>
+                    <tr>
+                        <td>City</td>
+                        <td>Reg Est</td>
+                        <td>Manager</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in batch.events %}
+                        <tr id="region-details-{{ event.webname }}">
+                            <td>{{ event.name }}</td>
+                            <td><input type="text" name="region[{{ event.webname }}][registration_estimate]" value="{{ event.registration_estimate }}"/></td>
+                            <td><input type="text" name="region[{{ event.webname }}][manager_username]" value="{{ event.manager_username }}"/></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="submit" value="Save Regions" />
+        </form>
+    </section>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        function initialize() {
+            var mapElem = $('div.region-picker')[0];
+            var map = new google.maps.Map(mapElem, window.defaultMapOptions);
+            map.setZoom(3);
+
+            var overlay = new google.maps.OverlayView();
+            overlay.draw = function() {};
+            overlay.setMap(map);
+
+            var circles = {
+                    {% set isFirst = true %}
+                    {% for region in all_regions %}
+                    {% if not isFirst %},{% endif %}
+                    "{{ region.webname|escape('js') }}": {
+                "name": "{{ region.name|escape('js') }}",
+                        "in_batch": {% if batch.has_region(region) %}true{% else %}false{% endif %},
+                        "webname": "{{ region.webname|escape('js') }}",
+                        "color": "#{% if batch.has_region(region) %}ff0000{% else %}000000{% endif %}",
+                        "circle": new google.maps.Circle({
+                    fillColor: "#{% if batch.has_region(region) %}ff0000{% else %}000000{% endif %}",
+                    fillOpacity: 1,
+                    strokeColor: '#000000',
+                    strokeOpacity: 0,
+                    strokeWeight: 6,
+                    radius: 50000,
+                    map: map,
+                    center: new google.maps.LatLng({{ region.coordinates.lat }}, {{ region.coordinates.lng }})
+                })
+            }
+            {% set isFirst = false %}
+            {% endfor %}
+        };
+
+        var divover = document.createElement('div');
+        divover.style.position = 'absolute';
+        divover.style.zIndex = '5000';
+        divover.style.backgroundColor = '#2A85F7';
+        divover.style.color = '#ffffff';
+        divover.style.padding = '2px';
+        divover.style.paddingLeft = '5px';
+        divover.style.fontSize = '10px';
+        divover.style.display = 'none';
+        mapElem.insertBefore(divover, null);
+
+        for (var city in circles) {
+            var circle = circles[city].circle;
+
+            google.maps.event.addListener(circle, "click", (function(circle, city) {
+                return function() {
+                    var c = circles[city];
+
+                    c.color = '#cccccc';
+                    divover.style.backgroundColor = '#cccccc';
+                    circle.setOptions({ fillColor: '#cccccc' });
+
+                    $.ajax({
+                        url: '/settings/batches/{{ batch.id }}/updateregion',
+                        data: {
+                            id: c.webname,
+                            action: c.in_batch ? 'delete' : 'add'
+                        },
+                        dataType: 'json',
+                        method: 'POST',
+                        success: function(data) {
+                            if (c.in_batch) {
+                                c.color = '#000000';
+                                circle.setOptions({ fillColor: '#000000' });
+                                c.in_batch = false;
+                                $('#region-details-'+ c.webname).remove();
+                            } else {
+                                c.color = '#ff0000';
+                                circle.setOptions({ fillColor: '#ff0000'});
+                                c.in_batch = true;
+                                $('table.region-details tbody').append(
+                                        $('<tr>' +
+                                                '<td>'+data.data.name+'</td>' +
+                                                '<td><input type="text" name="region['+ c.webname+'][registration_estimate]" value="'+(data.data.registration_estimate || '')+'"/></td>' +
+                                                '<td><input type="text" name="region['+ c.webname+'][manager_username]" value="'+(data.data.manager_username || '')+'"/></td>' +
+                                          '</tr>')
+                                );
+                            }
+                        },
+                        failure: function(message) {
+                            alert(message);
+                            window.history.go(0);
+                        }
+                    });
+                };
+            })(circle, city));
+
+            google.maps.event.addListener(circle, "mouseover", (function(circle, city) {
+                return function() {
+                    var c = circles[city];
+                    var point = overlay.getProjection().fromLatLngToContainerPixel(circle.getCenter());
+                    divover.style.left = (point.x + 8)+"px";
+                    divover.style.top = (point.y - 8)+"px";
+                    divover.style.backgroundColor = c.color;
+                    divover.style.display = "block";
+                    divover.innerText = c.name;
+                };
+            })(circle, city));
+
+            google.maps.event.addListener(circle, "mouseout", function() {
+                divover.style.display = "none";
+            });
+        }
+
+        {# Add picker #}
+        var textElem = document.createElement('input');
+        textElem.classList.add('region-picker');
+        textElem.placeholder = 'Filter by name...';
+        mapElem.parentNode.insertBefore(textElem, mapElem);
+
+        textElem.addEventListener('keyup', function(){
+            var currentText = textElem.value;
+            for (var city in circles) {
+                var circle = circles[city].circle;
+                var name = circles[city].name.toLowerCase();
+
+                if (currentText.length == 0
+                        || city.substr(0, currentText.length) == currentText
+                        || name.substr(0, currentText.length) == currentText) {
+                    circle.setMap(map);
+                } else {
+                    circle.setMap(null);
+                }
+            }
+        });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+{% endblock %}

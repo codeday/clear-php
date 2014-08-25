@@ -1,0 +1,18 @@
+{% extends "template.twig" %}
+{% block title %}{{ batch.name }} // Batches // Settings{% endblock %}
+{% block section %}settings{% endblock %}
+{% block subnav %}{% include "settings/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Delete Batch: {{ batch.name }}</h2>
+    </header>
+    {% if batch.is_loaded %}
+        <p>You can't delete the loaded batch.</p>
+    {% else %}
+        <p>Are you sure you want to delete {{ batch.name }}? There is no undo.</p>
+        <form method="post">
+            <a href="/settings/batches/{{ batch.id }}">Back</a>
+            <input type="submit" value="Delete"/>
+        </form>
+    {% endif %}
+{% endblock %}

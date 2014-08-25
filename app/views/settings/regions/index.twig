@@ -1,0 +1,15 @@
+{% extends "template.twig" %}
+{% block title %}Regions // Settings{% endblock %}
+{% block section %}settings{% endblock %}
+{% import "widgets/map.twig" as map %}
+{% block subnav %}{% include "settings/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Region Settings</h2>
+        <p>Regions are areas where CodeDay events happen. Except in the case of sparsely populated
+           states (in which case, the state name should be used), these are usually cities. Creating
+           a region simplifies running events there in the future.</p>
+        <p>Select a region on the map below to edit it, or create a new region with the New button.</p>
+    </header>
+    {{ map.region_picker(all_regions, '/settings/regions/') }}
+{% endblock %}
