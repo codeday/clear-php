@@ -17,7 +17,9 @@ abstract class ContractualController extends \Controller {
         }
 
         $response = \Response::make();
-        $response->header('Content-type', 'text/javascript');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', '*');
+        $response->headers->set('Content-type', 'text/javascript');
         $response->setContent(json_encode($contract));
         return $response;
     }
