@@ -14,6 +14,9 @@ class Events extends ContractualController {
             'is_open' => 'allow_registrations'
         ],
         'venue',
+        'starts_at',
+        'ends_at',
+        'batch_name',
         'waiver' => 'waiver_link',
         'manager' => 'manager_username'
     ];

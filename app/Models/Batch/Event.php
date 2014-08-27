@@ -15,6 +15,21 @@ class Event extends \Eloquent {
         return 'CodeDay '.$this->region->name.' '.$this->batch->name;
     }
 
+    public function getBatchNameAttribute()
+    {
+        return $this->batch->name;
+    }
+
+    public function getStartsAtAttribute()
+    {
+        return $this->batch->starts_at->timestamp;
+    }
+
+    public function getEndsAtAttribute()
+    {
+        return $this->batch->starts_at->addDay()->timestamp;
+    }
+
     public function region()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\Region', 'region_id', 'id');
