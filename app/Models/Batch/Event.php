@@ -69,6 +69,7 @@ class Event extends \Eloquent {
             'city' => $this->venue_city,
             'state' => $this->venue_state,
             'postal' => $this->venue_postal,
+            'country' => $this->venue_country,
             'full_address' => $this->venue_full_address
         ];
     }

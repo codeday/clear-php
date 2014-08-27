@@ -21,21 +21,40 @@ class Regions extends ContractualController {
     {
         $lat = \Input::get('lat');
         $lng = \Input::get('lng');
-        $radius = \Input::get('radius') ? \Input::get('radius') : 100;
+        $radius = \Input::get('radius');
+        $limit = \Input::get('limit');
+        $withCurrentEvent = \Input::get('with_current_event') !== null && \Input::get('with_current_event') !== '0';
 
         $this->fields[] = 'distance';
 
+        $bindings = [$lat, $lng, $lat];
+
         $regions = Models\Region::select(
-            \DB::raw("*,
+            \DB::raw("regions.*,
                       ( 3959 * acos( cos( radians(?) ) *
                         cos( radians( lat ) )
                         * cos( radians( lng ) - radians(?)
                         ) + sin( radians(?) ) *
                         sin( radians( lat ) ) )
                       ) AS distance"))
-            ->havingRaw(\DB::raw('distance <= ?'))
-            ->orderBy("distance", "ASC")
-            ->setBindings([$lat, $lng, $lat,  $radius])
+            ->orderBy("distance", "ASC");
+
+        if ($radius) {
+            $regions = $regions->havingRaw(\DB::raw('distance <= ?'));
+            $bindings[] = $radius;
+        }
+
+        if ($limit) {
+            $regions = $regions->limit($limit);
+        }
+
+        if ($withCurrentEvent) {
+            $regions = $regions->rightJoin('batches_events', 'batches_events.region_id', '=', 'regions.id')
+                ->whereNotNull('regions.id');
+        }
+
+        $regions = $regions
+            ->setBindings($bindings)
             ->get();
 
         return $this->getContract($regions);
@@ -48,7 +67,7 @@ class Regions extends ContractualController {
         $lng = \Input::get('lng');
 
         if ($lat && $lng) {
-
+            // TODO
             /* $regions = Models\Region::select(
                 \DB::raw("*,
                       ( 3959 * acos( cos( radians(?) ) *

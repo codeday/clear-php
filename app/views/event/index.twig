@@ -1,0 +1,24 @@
+{% extends "template.twig" %}
+{% block title %}{{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>{{ event.full_name }}</h2>
+    </header>
+
+    <h3>Event Status</h3>
+    <form method="post" action="/event/{{ event.id }}/update-registration-status">
+        {% if event.allow_registrations %}
+            <input type="hidden" name="allow_registrations" value="0" />
+            <input type="submit" class="toggle_registrations off" value="Close Registrations" />
+        {% elseif event.venue %}
+            <input type="hidden" name="allow_registrations" value="1" />
+            <input type="submit" class="toggle_registrations off" value="Open Registrations" />
+        {% else %}
+            <input type="hidden" name="allow_registrations" value="0" />
+            <input type="submit" class="toggle_registrations off" value="Open Registrations" disabled />
+            <p>Requires Venue</p>
+        {% endif %}
+    </form>
+{% endblock %}

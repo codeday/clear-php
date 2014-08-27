@@ -1,0 +1,79 @@
+{% extends "template.twig" %}
+{% block title %}{{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Venue</h2>
+        <p>Once you've secured a venue, you can set its details here. Please do not
+           enter information until the venue is confirmed.</p>
+        <p>Name, Address (Line 1), City, State, and Postal Code are required to publish
+           the site.</p>
+    </header>
+    <form method="post">
+        <div class="field">
+            <label for="venue_name">Venue Name</label>
+            <input type="text" name="venue_name" id="venue_name" value="{{ event.venue.name }}" placeholder="Puppet Labs" />
+            <span class="help">The name of the organization hosting the event.</span>
+        </div>
+        <div class="field">
+            <label for="venue_address_1">Venue Address</label>
+            <input type="text" name="venue_address_1" id="venue_address_1" value="{{ event.venue_address_1 }}" placeholder="111 Main St."/>
+            <input type="text" name="venue_address_2" id="venue_address_2" value="{{ event.venue_address_2 }}" placeholder="STE 100" />
+            <input type="text" name="venue_country" id="venue_country" value="{{ event.venue.country }}" placeholder="USA" />
+            <input type="text" name="venue_postal" id="venue_postal" value="{{ event.venue.postal }}" placeholder="98109" />
+            <input type="text" name="venue_state" id="venue_state" value="{{ event.venue.state }}" placeholder="WA" />
+            <input type="text" name="venue_city" id="venue_city" value="{{ event.venue.city }}" placeholder="Seattle" />
+            <span class="help">The address of the venue, including suite or floor number (if required).</span>
+        </div>
+        <div class="field">
+            <label for="waiver_link">Waiver Link</label>
+            <input type="url" name="waiver_link" id="waiver_link" placeholder="https://www.dropbox.com/s/4y1qkxzp15gb879/waiver.pdf" />
+            <span class="help">If the venue requires students to sign a waiver, include a link to the file here. (Host on Dropbox if necessary.)</span>
+        </div>
+
+        <input type="submit" value="Save" />
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        var placeSearch, autocomplete;
+
+        $(document).ready(function(){
+            var autocomplete = new google.maps.places.Autocomplete(
+                    (document.getElementById('venue_name')),
+                    { types: ['establishment'], componentRestrictions: {
+                        country: "us"
+                    } });
+
+            $('#venue_name').keydown(function (e) {
+                if (e.which == 13 && $('.pac-container:visible').length) {
+                    var place = autocomplete.getPlace();
+                    $('#venue_name').blur();
+                    $('#venue_name').val(place.name || '');
+                    return false;
+                }
+            });
+
+            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                var place = autocomplete.getPlace();
+
+                var address = {};
+                for (var i = 0; i < place.address_components.length; i++) {
+                    var addressType = place.address_components[i].types[0];
+                    var addressComponent = place.address_components[i]['short_name']
+
+                    address[addressType] = addressComponent;
+                }
+
+                $('#venue_name').val(place.name || '');
+                $('#venue_address_1').val((address['street_number']+' ' || '')+(address['route'] || ''));
+                $('#venue_address_2').val(address['subpremise'] || '');
+                $('#venue_city').val(address['locality'] || '');
+                $('#venue_state').val(address['administrative_area_level_1'] || '');
+                $('#venue_postal').val(address['postal_code'] || '');
+                $('#venue_country').val(address['country'] || '');
+            });
+        });
+    </script>
+{% endblock %}

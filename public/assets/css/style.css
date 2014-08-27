@@ -442,6 +442,16 @@ body.settings ul.batches {
     width: 0;
     height: 0; }
 
+body.event form div.field #venue_city, body.event form div.field #venue_state, body.event form div.field #venue_postal, body.event form div.field #venue_country {
+  width: 18%;
+  margin-left: 0.75%; }
+body.event form div.field #venue_country {
+  clear: right; }
+body.event form div.field #venue_city {
+  width: 22.75%; }
+body.event form div.field #venue_state {
+  width: 14%; }
+
 * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;

@@ -5,7 +5,9 @@
 });
 
 \Route::bind('event', function($val) {
-    return \CodeDay\Clear\Models\Batch\Event::where('id', '=', $val)->firstOrFail();
+    $event = \CodeDay\Clear\Models\Batch\Event::where('id', '=', $val)->firstOrFail();
+    \View::share('event', $event);
+    return $event;
 });
 
 \Route::bind('batch', function($val) {
