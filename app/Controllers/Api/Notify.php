@@ -4,6 +4,15 @@ namespace CodeDay\Clear\Controllers\Api;
 use \CodeDay\Clear\Models;
 
 class Notify {
+    public function optionsSubscribe()
+    {
+        $response = \Response::make();
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', '*');
+        $response->headers->set('Content-type', 'text/javascript');
+        return $response;
+    }
+
     public function postSubscribe()
     {
         $batch = Models\Batch::find(\Input::get('batch'));
