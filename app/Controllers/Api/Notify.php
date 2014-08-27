@@ -11,11 +11,19 @@ class Notify {
         $event = Models\Batch\Event::find(\Input::get('event'));
         $email = \Input::get('email');
 
+        $response = \Response::make();
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', '*');
+        $response->headers->set('Content-type', 'text/javascript');
+
+
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            \App::abort(400, json_encode([
+            $response->setStatusCode(400);
+            $response->setContent(json_encode([
                 'status' => 400,
                 'message' => 'Invalid email.'
             ]));
+            return $response;
         }
 
         if ($event) {
@@ -50,9 +58,10 @@ class Notify {
             $notify_model->save();
         }
 
-        return json_encode([
+        $response->setContent(json_encode([
             'status' => 200,
             'message' => 'Subscribed'
-        ]);
+        ]));
+        return $response;
     }
 } 
