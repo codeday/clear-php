@@ -1,7 +1,7 @@
 <?php
 namespace CodeDay\Clear\Models;
 
-class Batch extends \Eloquent {
+class Notify extends \Eloquent {
     protected $table = 'notify';
 
     public function region()
