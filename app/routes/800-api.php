@@ -6,4 +6,6 @@
 
     \Route::controller('events', 'Events');
     \Route::get('event/{event}', 'Events@getEvent');
+
+    \Route::controller('notify', 'Notify');
 });
