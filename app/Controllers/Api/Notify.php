@@ -3,7 +3,7 @@ namespace CodeDay\Clear\Controllers\Api;
 
 use \CodeDay\Clear\Models;
 
-class Notify {
+class Notify extends \Controller {
     public function optionsSubscribe()
     {
         $response = \Response::make();
