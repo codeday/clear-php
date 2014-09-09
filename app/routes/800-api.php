@@ -8,4 +8,5 @@
     \Route::get('event/{event}', 'Events@getEvent');
 
     \Route::controller('notify', 'Notify');
+    \Route::controller('batches', 'Batches');
 });
