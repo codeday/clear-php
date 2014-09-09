@@ -53,6 +53,8 @@ class Regions extends ContractualController {
                 ->whereNotNull('regions.id');
         }
 
+        $regions = $regions->groupBy('regions.id');
+
         $regions = $regions
             ->setBindings($bindings)
             ->get();
