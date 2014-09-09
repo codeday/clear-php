@@ -7,6 +7,8 @@ class Events extends ContractualController {
     protected $fields = [
         'id',
         'name',
+        'webname',
+        'abbr',
         'full_name',
         'registration_info' => [
             'estimate' => 'registration_estimate',
