@@ -86,14 +86,21 @@
                         " title="{{ event.name }}">
                                 {{ event.abbr }}
                             </div>
-                            <div class="registrants">
-                                <span class="number">{{ event.registrations.count }}</span>
-                                <span class="label">Reg</span>
-                            </div>
-                            <div class="this-week">
-                                <span class="number">{{ event.registrations_this_week|length }}</span>
-                                <span class="label">Week</span>
-                            </div>
+                            {% if not event.allow_registrations %}
+                                <div class="notify">
+                                    <span class="number">{{ event.notify.count }}</span>
+                                    <span class="label">Sub</span>
+                                </div>
+                            {% else %}
+                                <div class="registrants">
+                                    <span class="number">{{ event.registrations.count }}</span>
+                                    <span class="label">Reg</span>
+                                </div>
+                                <div class="this-week">
+                                    <span class="number">{{ event.registrations_this_week|length }}</span>
+                                    <span class="label">Week</span>
+                                </div>
+                            {% endif %}
                         {% if me.is_admin %}
                             </a>
                         {% endif %}
