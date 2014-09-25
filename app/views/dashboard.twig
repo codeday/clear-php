@@ -33,26 +33,33 @@
                             " title="{{ event.name }}">
                                 {{ event.abbr }}
                             </div>
-                            <div class="registrants">
-                                <span class="number">{{ event.registrations.count }}</span>
-                                <span class="label">Registrations</span>
-                            </div>
-                            <div class="today">
-                                <span class="number">{{ event.registrations_today|length }}</span>
-                                <span class="label">Today</span>
-                            </div>
-                            <div class="this-week">
-                                <span class="number">{{ event.registrations_this_week|length }}</span>
-                                <span class="label">This Week</span>
-                            </div>
-                            <div class="percent">
-                                <span class="number">{{ ((event.registrations.count / event.registration_estimate) * 100)|round(0) }}%</span>
-                                <span class="label">Of Commitment</span>
-                            </div>
-                            <div class="predicted">
-                                <span class="number">?</span>
-                                <span class="label">Predicted</span>
-                            </div>
+                            {% if not event.allow_registrations %}
+                                <div class="notify">
+                                    <span class="number">{{ event.notify.count }}</span>
+                                    <span class="label">Subscribers</span>
+                                </div>
+                            {% else %}
+                                <div class="registrants">
+                                    <span class="number">{{ event.registrations.count }}</span>
+                                    <span class="label">Registrations</span>
+                                </div>
+                                <div class="today">
+                                    <span class="number">{{ event.registrations_today|length }}</span>
+                                    <span class="label">Today</span>
+                                </div>
+                                <div class="this-week">
+                                    <span class="number">{{ event.registrations_this_week|length }}</span>
+                                    <span class="label">This Week</span>
+                                </div>
+                                <div class="percent">
+                                    <span class="number">{{ ((event.registrations.count / event.registration_estimate) * 100)|round(0) }}%</span>
+                                    <span class="label">Of Commitment</span>
+                                </div>
+                                <div class="predicted">
+                                    <span class="number">?</span>
+                                    <span class="label">Predicted</span>
+                                </div>
+                            {% endif %}
                         </a>
                     </li>
                 {% endfor %}
@@ -324,10 +331,16 @@
                         continue;
                     }
                     var event = data[id];
-
                     var current_data = $('#my-'+id+', #hud-'+id);
+                    var alert_val;
 
-                    if (previous_events[id] && previous_events[id] < event.registrations) {
+                    if (event.allow_registrations) {
+                        alert_val = event.registrations;
+                    } else {
+                        alert_val = event.notify;
+                    }
+
+                    if (previous_events[id] && previous_events[id] < alert_val) {
                         playSound('registration');
 
                         var nameplate = current_data.find('div.name');
@@ -347,7 +360,8 @@
                     current_data.find('.this-week .number').text(event.this_week);
                     current_data.find('.percent .number').text(event.percent)+'%';
                     current_data.find('.predicted .number').text(event.predicted);
-                    previous_events[id] = event.registrations;
+                    current_data.find('.notify .number').text(event.notify);
+                    previous_events[id] = alert_val;
                 }
             }
 

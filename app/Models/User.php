@@ -6,6 +6,11 @@ class User extends \Eloquent {
     protected $primaryKey = 'username';
     public $incrementing = false;
 
+    public function getNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name;
+    }
+
     public function check_group($group)
     {
         if ($this->is_admin) {

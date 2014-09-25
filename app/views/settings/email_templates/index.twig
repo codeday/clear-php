@@ -1,0 +1,64 @@
+{% extends "template.twig" %}
+{% block title %}Email Templates // Settings{% endblock %}
+{% block section %}settings{% endblock %}
+{% block subnav %}{% include "settings/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Email Templates</h2>
+        <p>Sample best-practice emails, used to simplify life for Regional Managers.</p>
+    </header>
+
+    <h3>Current Templates</h3>
+    <ul>
+        {% for template in email_templates %}
+            <li>{{ template.name }}
+                <form action="/settings/email-templates/{{ template.id }}/delete" method="post">
+                    <input type="submit" value="(Delete)"/>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Create New</h3>
+    <form method="post" action="/settings/email-templates/new">
+        <div class="field">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" placeholder="Attendee Reminder" required />
+            <span class="help">Name of the template to display in the control panel.</span>
+        </div>
+
+        <div class="field">
+            <label for="to">To</label>
+            <select name="to" id="to">
+                <option value="attendees">Attendees</option>
+                <option value="notify">Notify subscribers</option>
+                <option value="notify-unreg">Notify subscribers who haven't registered</option>
+            </select>
+            <span class="help">Who to send the email to.</span>
+        </div>
+
+        <div class="field">
+            <label for="from">From</label>
+            <select name="from" id="from">
+                <option value="studentrnd" selected>StudentRND &lt;contact@studentrnd.org&gt;</option>
+                <option value="me">Currently Logged In User</option>
+                <option value="manager">Event Manager</option>
+            </select>
+            <span class="help">From whom the email will come.</span>
+        </div>
+
+        <div class="field">
+            <label for="subject">Subject</label>
+            <input type="text" name="subject" id="subject" placeholder="CodeDay is coming!" required />
+            <span class="help">The subject line of the message.</span>
+        </div>
+
+        <div class="field">
+            <label for="message">Message</label>
+            <textarea name="message" id="message" placeholder="Thanks for signing up for CodeDay!" required></textarea>
+            <span class="help">The message to send. Supports limited template tags.</span>
+        </div>
+
+        <input type="submit" value="Add" />
+    </form>
+{% endblock %}

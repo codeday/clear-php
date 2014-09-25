@@ -13,3 +13,7 @@
 \Route::bind('batch', function($val) {
     return \CodeDay\Clear\Models\Batch::where('id', '=', $val)->firstOrFail();
 });
+
+\Route::bind('email_template', function($val) {
+    return \CodeDay\Clear\Models\EmailTemplate::where('id', '=', $val)->firstOrFail();
+});

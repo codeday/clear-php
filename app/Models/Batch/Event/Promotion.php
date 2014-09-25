@@ -12,6 +12,11 @@ class Promotion extends \Eloquent {
         );
     }
 
+    public function getDates()
+    {
+        return ['created_at', 'updated_at', 'expires_at'];
+    }
+
     public function event()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\Batch\Event', 'batches_event_id', 'id');

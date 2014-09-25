@@ -25,7 +25,9 @@ class DashboardController extends \Controller {
                 'today' => count($event->registrations_today),
                 'this_week' => count($event->registrations_this_week),
                 'percent' => round(($event->registrations->count()/$event->registration_estimate)*100),
-                'predicted' => '?'
+                'predicted' => '?',
+                'notify' => $event->notify->count(),
+                'allow_registrations' => $event->allow_registrations
             ];
         }
 

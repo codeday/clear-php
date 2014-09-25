@@ -30,9 +30,42 @@ class Event extends \Eloquent {
         return $this->batch->starts_at->addDay()->timestamp;
     }
 
+    public function getManager()
+    {
+        return $this->belongsTo('\CodeDay\Clear\Models\User', 'manager_username', 'username');
+    }
+
     public function region()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\Region', 'region_id', 'id');
+    }
+
+    public function notify()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Notify', 'batches_event_id', 'id');
+    }
+
+    public function getUnregisteredNotifyAttribute()
+    {
+        $notify = iterator_to_array($this->notify);
+        $registrations = iterator_to_array($this->registrations);
+
+        $subtraction = [];
+        foreach ($notify as $entry) {
+            $registered = false;
+
+            foreach ($registrations as $reg) {
+                if ($reg->email == $entry->email) {
+                    $registered = true;
+                }
+            }
+
+            if (!$registered) {
+                $subtraction[] = $entry;
+            }
+        }
+
+        return $subtraction;
     }
 
     public function batch()

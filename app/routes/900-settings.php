@@ -20,5 +20,9 @@
     \Route::get('regions/{region}', 'RegionsController@getEdit');
     \Route::post('regions/{region}', 'RegionsController@postEdit');
 
+    \Route::get('email-templates', 'EmailTemplatesController@getIndex');
+    \Route::post('email-templates/new', 'EmailTemplatesController@postNew');
+    \Route::post('email-templates/{email_template}/delete', 'EmailTemplatesController@postDelete');
+
     \Route::controller('', 'IndexController');
 });

@@ -1,0 +1,155 @@
+{% extends "template.twig" %}
+{% block title %}{{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Promotions</h2>
+        <p>You can use promotions to incentivize registrations and to provide scholarship tickets.</p>
+        <p>You can also create promotion codes for different teachers/groups to track who's
+           actually promoted CodeDay.</p>
+    </header>
+
+    {% if event.promotions.count > 0 %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Discount</th>
+                    <th>Uses</th>
+                    <th>Expires At</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for promotion in event.promotions %}
+                    {% if promotion.percent_discount != 100 or promotion.allowed_uses != 1 or promotion.expires_at != null %}
+                        <tr>
+                            <td>{{ promotion.code }}</td>
+                            <td>{{ promotion.percent_discount }}%</td>
+                            <td>
+                                {{ promotion.registrations.count }}
+                                {% if promotion.allowed_uses %}/{{ promotion.allowed_uses }}{% endif %}
+                            </td>
+                            <td>
+                                {% if promotion.expires_at %}
+                                    {{ promotion.expires_at.timestamp|date('F j') }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ promotion.notes }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                <tr><td colspan="5"></td></tr>
+                {% for promotion in event.promotions %}
+                    {% if promotion.percent_discount == 100 and promotion.allowed_uses == 1 and promotion.expires_at == null %}
+                        <tr>
+                            <td>{{ promotion.code }}</td>
+                            <td colspan="4">({% if promotion.registrations.count == 0 %}Unu{% else %}U{% endif %}sed Scholarship)</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <h3>Create New Promotion</h3>
+    <form method="post" action="/event/{{ event.id }}/promotions/new">
+        <div class="field">
+            <label for="type">Type</label>
+            <select name="type" id="type">
+                <option value="none" selected>Select One</option>
+                <option value="tracking">Tracking</option>
+                <option value="scholarship">Scholarship</option>
+                <option value="custom">Custom</option>
+            </select>
+        </div>
+
+        <div class="field" style="display: none">
+            <label for="code">Code</label>
+            <input type="text" name="code" id="code" value="" placeholder="BELLEVUEHIGH" maxlength="15" />
+            <span class="help">The coupon code students should enter. Leave blank to generate.</span>
+        </div>
+
+        <div class="field" style="display: none">
+            <label for="notes">Notes</label>
+            <textarea name="notes" id="notes"></textarea>
+            <span class="help">Notes on code purpose, for internal use.</span>
+        </div>
+
+        <div class="field" style="display: none">
+            <label for="percent_discount">Discount %</label>
+            <input type="number" name="percent_discount" id="percent_discount" value="" placeholder="50" min="1" max="100" step="1" required />
+            <span class="help">The amount to discount tickets when the code is applied.</span>
+        </div>
+
+        <div class="field" style="display: none">
+            <label for="expires_at">Expires On</label>
+            <input type="date" name="expires_at" id="expires_at" value="" />
+            <span class="help">When the code is no longer valid.</span>
+        </div>
+
+        <div class="field" style="display: none">
+            <label for="allowed_uses">Allowed Uses</label>
+            <input type="number" name="allowed_uses" id="allowed_uses" value="" placeholder="50" min="1" max="100" step="1" />
+            <span class="help">The number of times this code is allowed to be used, if any limit is to be imposed.</span>
+        </div>
+
+        <input type="submit" value="Create" />
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var types = {
+                tracking: {
+                    expires_at: null,
+                    allowed_uses: null,
+                    percent_discount: 20
+                },
+                scholarship: {
+                    code: null,
+                    notes: "Ticket scholarship",
+                    percent_discount: 100,
+                    expires_at: null,
+                    allowed_uses: 1
+                },
+                none: {
+                    code: null,
+                    notes: null,
+                    percent_discount: null,
+                    expires_at: null,
+                    allowed_uses: null
+                },
+                custom: {}
+            };
+            var all_fields = ['code', 'notes', 'percent_discount', 'expires_at', 'allowed_uses'];
+
+            $('#type').on('change', function(){
+                var selected_type = $(this).val();
+                var options = types[selected_type];
+
+                console.log(selected_type);
+                console.log(options);
+
+                for (var i in all_fields) {
+                    var key = all_fields[i];
+                    var val = options[key];
+                    console.log(key, val);
+                    var input = $('#'+key);
+                    var field = input.parent();
+
+                    if (typeof(val) === 'undefined') {
+                        input.val('');
+                        field.css('display', 'block');
+                    } else {
+                        input.val(val);
+                        field.css('display', 'none');
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}
