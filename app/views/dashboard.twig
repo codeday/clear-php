@@ -23,7 +23,7 @@
                         <a href="/event/{{ event.id }}">
                             <div class="
                                 name
-                                {% if event.allow_registrations %}
+                                {% if event.allow_registrations_calculated %}
                                     open
                                 {% elseif event.venue %}
                                     venue
@@ -33,7 +33,7 @@
                             " title="{{ event.name }}">
                                 {{ event.abbr }}
                             </div>
-                            {% if not event.allow_registrations %}
+                            {% if not event.allow_registrations_calculated %}
                                 <div class="notify">
                                     <span class="number">{{ event.notify.count }}</span>
                                     <span class="label">Subscribers</span>
@@ -76,7 +76,7 @@
                         {% endif %}
                             <div class="
                             name
-                            {% if event.allow_registrations %}
+                            {% if event.allow_registrations_calculated %}
                                 open
                             {% elseif event.venue %}
                                 venue
@@ -86,7 +86,7 @@
                         " title="{{ event.name }}">
                                 {{ event.abbr }}
                             </div>
-                            {% if not event.allow_registrations %}
+                            {% if not event.allow_registrations_calculated %}
                                 <div class="notify">
                                     <span class="number">{{ event.notify.count }}</span>
                                     <span class="label">Sub</span>
@@ -341,7 +341,7 @@
                     var current_data = $('#my-'+id+', #hud-'+id);
                     var alert_val;
 
-                    if (event.allow_registrations) {
+                    if (event.allow_registrations_calculated) {
                         alert_val = event.registrations;
                     } else {
                         alert_val = event.notify;
