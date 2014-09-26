@@ -131,6 +131,7 @@ class BatchesController extends \Controller {
         $batch = \Route::input('batch');
         $batch->name = \Input::get('name');
         $batch->starts_at = \Input::get('starts_at');
+        $batch->allow_registrations = \Input::get('allow_registrations') ? true : false;
         $batch->save();
 
         return \Redirect::to('/settings/batches/'.$batch->id);

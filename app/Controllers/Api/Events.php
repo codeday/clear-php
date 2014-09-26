@@ -13,7 +13,7 @@ class Events extends ContractualController {
         'registration_info' => [
             'estimate' => 'registration_estimate',
             'max' => 'max_registrations',
-            'is_open' => 'allow_registrations'
+            'is_open' => 'allow_registrations_calculated'
         ],
         'is_early_bird_pricing',
         'cost',

@@ -21,6 +21,12 @@
             <input required type="date" name="starts_at" id="starts_at" value="{{ batch.starts_at.timestamp|date('Y-m-d') }}" />
             <span class="help">The start date of all events in this batch.</span>
         </div>
+        <div class="field">
+            <label for="allow_registrations">Allow Registrations</label>
+            <input type="checkbox" name="allow_registrations" id="allow_registrations" value="1" {% if batch.allow_registrations %}checked{% endif %} />
+            <span class="help">Global allow/disallow for this batch. Events with registrations open in the batch
+                               will allow registrations if this is checked.</span>
+        </div>
         {% if not batch.is_loaded %}
             <a href="/settings/batches/{{ batch.id }}/delete">Delete</a>
             <a href="/settings/batches/{{ batch.id }}/load">Load</a>

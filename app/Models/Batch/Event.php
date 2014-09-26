@@ -10,6 +10,11 @@ class Event extends \Eloquent {
     protected $table = 'batches_events';
     public $incrementing = false;
 
+    public function getAllowRegistrationsCalculatedAttribute()
+    {
+        return $this->allow_registrations && $this->batch->allow_registrations;
+    }
+
     public function getFullNameAttribute()
     {
         return 'CodeDay '.$this->region->name.' '.$this->batch->name;
