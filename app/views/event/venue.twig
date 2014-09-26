@@ -31,6 +31,11 @@
             <input type="url" name="waiver_link" id="waiver_link" placeholder="https://www.dropbox.com/s/4y1qkxzp15gb879/waiver.pdf" />
             <span class="help">If the venue requires students to sign a waiver, include a link to the file here. (Host on Dropbox if necessary.)</span>
         </div>
+        <div class="field">
+            <label for="max_registrations">Max Registrations</label>
+            <input type="number" name="max_registrations" id="max_registrations" value="{{ event.max_registrations }}" placeholder="100" />
+            <span class="help">The number of participants the venue supports.</span>
+        </div>
 
         <input type="submit" value="Save" />
     </form>

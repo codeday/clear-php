@@ -19,6 +19,7 @@ class VenueController extends \Controller {
         $event->venue_postal = \Input::get('venue_postal');
         $event->venue_country= \Input::get('venue_country');
         $event->waiver_link = \Input::get('waiver_link');
+        $event->max_registrations = \Input::get('max_registrations');
 
         $event->save();
         return \Redirect::to('/event/'.$event->id.'/venue');
