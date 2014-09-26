@@ -1,0 +1,25 @@
+<p>Hey {{ first_name }}!</p>
+<p>Thanks for registering for CodeDay {{ event.name }}! We're really excited to meet you. Here's
+an event summary for your convinience:</p>
+<p>
+    <strong>CodeDay {{ event.name }}</strong><br />
+    {{ event.starts_at|date('F j, Y') }}, noon-noon<br />
+    {% if event.venue %}
+        Hosted at {{ event.venue.name }}<br />
+        {{ event.venue_address_1 }}<br />
+        {% if event.venue_address_2 %}
+            {{ event.venue_address_2 }}<br />
+        {% endif %}
+        {{ event.venue.city }} {{ event.venue.state }} {{ event.venue.postal }}
+    {% endif %}
+</p>
+{% if total_cost and total_cost != 0 and total_cost != unit_cost %}
+    <p>Your card was charged ${{ total_cost }} for this and other tickets.</p>
+{% elseif total_cost and total_cost != 0 %}
+    <p>Your card was charged ${{ total_cost }} for this ticket.</p>
+{% endif %}
+<p>You do <strong>not</strong> need to bring this email to CodeDay, we will check you in by name.</p>
+<p>
+    Thanks for registering! If you have any questions, please reply to this email.<br />
+    The StudentRND Team
+</p>

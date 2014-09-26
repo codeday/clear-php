@@ -45,6 +45,41 @@ class Event extends \Eloquent {
         return $this->hasMany('\CodeDay\Clear\Models\Notify', 'batches_event_id', 'id');
     }
 
+    public function getCostAttribute()
+    {
+        if ($this->is_early_bird_pricing) {
+            return 10;
+        } else {
+            return 20;
+        }
+    }
+
+    public function getIsEarlyBirdPricingAttribute()
+    {
+        return $this->early_bird_ends_at->isFuture()
+            && $this->registrations->count() <= $this->early_bird_max_registrations;
+    }
+
+    public function getEarlyBirdEndsAtAttribute()
+    {
+        return $this->batch->starts_at->subWeek();
+    }
+
+    public function getStripePublicKeyAttribute()
+    {
+        return \Config::get('stripe.public');
+    }
+
+    public function getRemainingRegistrationsAttribute()
+    {
+        return $this->max_registrations - $this->registrations->count();
+    }
+
+    public function getEarlyBirdMaxRegistrationsAttribute()
+    {
+        return $this->max_registrations * 0.6;
+    }
+
     public function getUnregisteredNotifyAttribute()
     {
         $notify = iterator_to_array($this->notify);

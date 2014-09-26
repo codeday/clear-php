@@ -13,7 +13,8 @@
                 "php": ">=5.5.0",
                 "laravel/framework": "4.2.*",
                 "rcrowe/twigbridge": "0.6.*@dev",
-                "studentrnd/s5api": "dev-master"
+                "studentrnd/s5api": "dev-master",
+                "stripe/stripe-php": "dev-master"
         },
         "autoload": {
                 "classmap": [

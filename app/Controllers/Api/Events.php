@@ -15,6 +15,9 @@ class Events extends ContractualController {
             'max' => 'max_registrations',
             'is_open' => 'allow_registrations'
         ],
+        'is_early_bird_pricing',
+        'cost',
+        'stripe_public_key',
         'venue',
         'starts_at',
         'ends_at',

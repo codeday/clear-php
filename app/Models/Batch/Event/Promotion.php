@@ -12,6 +12,15 @@ class Promotion extends \Eloquent {
         );
     }
 
+    public function getRemainingUsesAttribute()
+    {
+        if ($this->allowed_uses) {
+            return $this->allowed_uses - $this->registrations->count();
+        } else {
+            return null;
+        }
+    }
+
     public function getDates()
     {
         return ['created_at', 'updated_at', 'expires_at'];
