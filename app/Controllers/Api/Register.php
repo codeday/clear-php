@@ -56,7 +56,7 @@ class Register extends \Controller {
             ->first();
 
         $card_token = \Input::get('card_token');
-        $quoted_price = intval(\Input::get('quoted_price'));
+        $quoted_price = floatval(\Input::get('quoted_price'));
 
         $first_names = \Input::get('first_names');
         $last_names = \Input::get('last_names');
@@ -83,7 +83,7 @@ class Register extends \Controller {
             return [
                 'status' => 500,
                 'error' => 'quote_mismatch',
-                'message' => 'The total cost has changed to $'.$total_cost.' since you first loaded the page.'
+                'message' => 'The total cost has changed from $'.number_format($quoted_price, 2).' to $'.number_format($total_cost, 2).' since you first loaded the page.'
             ];
         }
 
