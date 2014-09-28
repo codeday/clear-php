@@ -341,7 +341,7 @@
                     var current_data = $('#my-'+id+', #hud-'+id);
                     var alert_val;
 
-                    if (event.allow_registrations_calculated) {
+                    if (event.allow_registrations) {
                         alert_val = event.registrations;
                     } else {
                         alert_val = event.notify;
@@ -365,7 +365,7 @@
                     current_data.find('.registrants .number').text(event.registrations);
                     current_data.find('.today .number').text(event.today);
                     current_data.find('.this-week .number').text(event.this_week);
-                    current_data.find('.percent .number').text(event.percent)+'%';
+                    current_data.find('.percent .number').text(event.percent+'%');
                     current_data.find('.predicted .number').text(event.predicted);
                     current_data.find('.notify .number').text(event.notify);
                     previous_events[id] = alert_val;

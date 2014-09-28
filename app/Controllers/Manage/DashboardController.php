@@ -12,10 +12,10 @@ class DashboardController extends \Controller {
 
     public function getUpdates()
     {
-        if (Models\User::me()->is_admin && count(Models\User::me()->managedEvents()) == 0) {
+        if (Models\User::me()->is_admin) {
             $events = Models\Batch::Loaded()->events;
         } else {
-            $events = Models\User::me()->managed_events;
+            $events = Models\User::me()->current_managed_events;
         }
 
         $event_update = [];
