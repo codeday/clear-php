@@ -35,7 +35,7 @@ class Event extends \Eloquent {
         return $this->batch->starts_at->addDay()->timestamp;
     }
 
-    public function getManager()
+    public function manager()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\User', 'manager_username', 'username');
     }
@@ -48,6 +48,16 @@ class Event extends \Eloquent {
     public function notify()
     {
         return $this->hasMany('\CodeDay\Clear\Models\Notify', 'batches_event_id', 'id');
+    }
+
+    public function isUserAllowed($user)
+    {
+        return $this->manager_username == $user->username ||
+            \CodeDay\Clear\Models\User::select('users.*')
+                ->join('users_grants', 'users_grants.username', '=', 'users.username')
+                ->where('users_grants.username', '=', $user->username)
+                ->where('users_grants.batches_event_id', '=', $this->id)
+                ->exists();
     }
 
     public function getCostAttribute()
@@ -111,6 +121,11 @@ class Event extends \Eloquent {
     public function batch()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\Batch', 'batch_id', 'id');
+    }
+
+    public function grants()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\User\Grant', 'batches_event_id', 'id');
     }
 
     public function promotions()

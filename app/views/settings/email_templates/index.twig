@@ -12,7 +12,7 @@
     <ul>
         {% for template in email_templates %}
             <li>{{ template.name }}
-                <form action="/settings/email-templates/{{ template.id }}/delete" method="post">
+                <form action="/settings/email-templates/{{ template.id }}/delete" method="post" class="small">
                     <input type="submit" value="(Delete)"/>
                 </form>
             </li>

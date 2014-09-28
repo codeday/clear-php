@@ -4,6 +4,7 @@
     \Route::controller('/venue', 'VenueController');
     \Route::controller('/promotions', 'PromotionsController');
     \Route::controller('/emails', 'EmailsController');
+    \Route::controller('/subusers', 'SubusersController');
 
     \Route::get('/', 'IndexController@getIndex');
     \Route::post('/update-registration-status', 'IndexController@postUpdateRegistrationStatus');

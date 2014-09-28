@@ -19,6 +19,7 @@ use \CodeDay\Clear\Models;
 {
     \View::share('me', Models\User::me());
     if (Models\User::me()->username != \Route::input('event')->manager_username
+        && !\Route::input('event')->isUserAllowed(Models\User::me())
         && !Models\User::me()->is_admin) {
         \App::abort(401);
     }
@@ -27,7 +28,8 @@ use \CodeDay\Clear\Models;
 \Route::filter('s5_manage_events', function()
 {
     \View::share('me', Models\User::me());
-    if (!Models\User::me()->events->exists()) {
+    if (count(Models\User::me()->current_managed_events) == 0
+        && !Models\User::me()->is_admin) {
         \App::abort(401);
     }
 });

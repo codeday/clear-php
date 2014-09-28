@@ -182,6 +182,15 @@ a.action, form input[type="submit"], button {
     width: 0;
     height: 0; }
 
+form.small {
+  display: inline-block; }
+  form.small input[type="submit"] {
+    display: inline-block;
+    float: none;
+    width: auto;
+    height: auto;
+    padding: 0.1rem; }
+
 table.edit {
   width: 100%; }
   table.edit td, table.edit th {

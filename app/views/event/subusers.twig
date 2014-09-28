@@ -1,0 +1,40 @@
+{% extends "template.twig" %}
+{% block title %}{{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Subusers</h2>
+        <p>You can use this to allow volunteers, evangelists, etc. to manage this event.
+           Invited users will be given permissions to manage this event, including to
+            grant or revoke access to other users (except to the event manager).</p>
+        <p>If you need to invite someone without an s5 account, send them this link to invite
+           them: <a href="{{ s5_invite_link }}">{{ s5_invite_link }}</a></p>
+    </header>
+
+    {% if event.grants.count > 0 %}
+        <h3>Remove Users</h3>
+        <ul>
+            {% for grant in event.grants %}
+                <li>
+                    {{ grant.user.name }} ({{ grant.username }})
+                    <form action="/event/{{ event.id }}/subusers/revoke" method="post" class="small">
+                        <input type="hidden" name="username" value="{{ grant.username }}"/>
+                        <input type="submit" value="Revoke"/>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h3>Add New User</h3>
+    <form action="/event/{{ event.id }}/subusers/grant" method="post">
+        <div class="field">
+            <label for="username">s5 Username</label>
+            <input type="text" name="username" id="username" value="" placeholder="tylermenezes" required />
+            <span class="help">The s5 username of the person to be given access to this event.</span>
+        </div>
+
+        <input type="submit" value="Add" />
+    </form>
+{% endblock %}

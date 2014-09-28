@@ -85,8 +85,13 @@ class User extends \Eloquent {
 
     public function getCurrentManagedEventsAttribute()
     {
-        return Batch\Event::where('manager_username', '=', $this->username)
+        return Batch\Event::select('batches_events.*')
                         ->where('batch_id', '=', Batch::Loaded()->id)
+                        ->join('users_grants', 'users_grants.batches_event_id', '=', 'batches_events.id', 'left')
+                        ->where(function($query) {
+                            $query->where('users_grants.username', '=', $this->username)
+                                ->orWhere('batches_events.manager_username', '=', $this->username);
+                        })
                         ->get();
     }
 

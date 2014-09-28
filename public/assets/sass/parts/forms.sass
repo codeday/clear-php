@@ -46,6 +46,7 @@ a.action, form input[type="submit"], button
     padding: 0.5rem 1rem
     margin-bottom: 0.5rem
     font-size: 1rem
+
     &:hover
         background-color: $foreground-color
         color: $background-color
@@ -55,6 +56,15 @@ a.action, form input[type="submit"], button
         display: block
         width: 0
         height: 0
+
+form.small
+    display: inline-block
+    input[type="submit"]
+        display: inline-block
+        float: none
+        width: auto
+        height: auto
+        padding: 0.1rem
 
 table.edit
     width: 100%
