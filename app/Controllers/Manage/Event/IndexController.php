@@ -1,6 +1,8 @@
 <?php
 namespace CodeDay\Clear\Controllers\Manage\Event;
 
+use \CodeDay\Clear\Models;
+
 class IndexController extends \Controller {
     public function getIndex()
     {
@@ -19,5 +21,30 @@ class IndexController extends \Controller {
 
         $event->save();
         return \Redirect::to('/event/'.$event->id);
+    }
+
+    public function getChartdata()
+    {
+        $event = \Route::input('event');
+        $first_registration = Models\Batch\Event\Registration::where('batches_event_id', '=', $event->id)
+            ->orderBy('created_at', 'ASC')
+            ->first();
+
+        if (!$first_registration) {
+            return '';
+        }
+
+        $data = ['date,delta,registrations'];
+        for ($date = $first_registration->created_at->copy()->subDay();
+             $date->isPast();
+             $date->addDay()) {
+            $data[] = implode(',', [
+                $date->format('j-M-y'),
+                count($event->getRegistrationsOn($date)),
+                count($event->getRegistrationsAsOf($date->copy()->addDay())) // at end of day
+            ]);
+        }
+
+        return implode("\n", $data);
     }
 } 

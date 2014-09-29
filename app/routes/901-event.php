@@ -13,5 +13,6 @@
     \Route::controller('/registrations', 'RegistrationsController');
 
     \Route::get('/', 'IndexController@getIndex');
+    \Route::get('/chartdata.csv', 'IndexController@getChartdata');
     \Route::post('/update-registration-status', 'IndexController@postUpdateRegistrationStatus');
 });

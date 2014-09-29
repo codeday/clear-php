@@ -7,8 +7,13 @@
         <h2>{{ event.full_name }}</h2>
     </header>
 
+    {% if event.allow_registrations_calculated %}
+        <div id="registrations-over-time" style="width:100%"></div>
+        <p>(Line = attendees, bar = change this day)</p>
+    {% endif %}
+
     <h3>Event Status</h3>
-    <form method="post" action="/event/{{ event.id }}/update-registration-status">
+    <form method="post" action="/event/{{ event.id }}/update-registration-status" class="small">
         {% if event.allow_registrations %}
             <input type="hidden" name="allow_registrations" value="0" />
             <input type="submit" class="toggle_registrations off" value="Close Registrations" />
@@ -21,4 +26,106 @@
             <p>Requires Venue</p>
         {% endif %}
     </form>
+{% endblock %}
+{% block scripts %}
+    <style type="text/css">
+        #registrations-over-time .axis path,
+        #registrations-over-time .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        #registrations-over-time .line {
+            fill: none;
+            stroke: #000;
+            stroke-width: 2px;
+        }
+
+        #registrations-over-time rect {
+            fill: #ccc;
+        }
+    </style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+    <script type="text/javascript">
+
+        var elem = $('#registrations-over-time');
+
+        var margin = {top: 20, right: 20, bottom: 30, left: 50},
+                width = elem.width() - margin.left - margin.right,
+                height = (elem.width() * 0.4) - margin.top - margin.bottom;
+
+        var parseDate = d3.time.format("%d-%b-%y").parse;
+
+        var x = d3.time.scale()
+                .range([0, width]);
+
+        var y = d3.scale.linear()
+                .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+        var line = d3.svg.line()
+                .x(function(d) { return x(d.date); })
+                .y(function(d) { return y(d.registrations); });
+
+        var svg = d3.select("#registrations-over-time").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        d3.csv("/event/{{ event.id }}/chartdata.csv", function(error, data) {
+            data.forEach(function(d) {
+                d.date = parseDate(d.date);
+                d.delta = +d.delta;
+                d.registrations = +d.registrations;
+            });
+
+            x.domain([
+                d3.min(data, function(d) { return d.date; }),
+                parseDate('{{ event.starts_at|date('j-M-y')|escape('js') }}')
+            ]);
+            y.domain([0, Math.max({{ event.max_registrations|escape('js') }}, d3.max(data, function(d) { return d.registrations; }))]);
+
+            var width = x(data[1].date) - x(data[0].date);
+
+            svg.selectAll('rect')
+                    .data(data)
+                    .enter()
+                    .append('rect')
+                    .attr('x', function(d) { return x(d.date) - width; })
+                    .attr('y', function(d) { return y(d.delta); })
+                    .attr("width", width)
+                    .attr("height", function(d) { return height - y(d.delta); });
+
+            svg.append("path")
+                    .datum(data)
+                    .attr("class", "line")
+                    .attr("d", line);
+
+
+            svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+
+            svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
+                    .append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .text("Registrations");
+        });
+
+    </script>
 {% endblock %}

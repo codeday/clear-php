@@ -146,6 +146,22 @@ class Event extends \Eloquent {
                                 ->get();
     }
 
+    public function getRegistrationsAsOf(Carbon $asof)
+    {
+
+        return Event\Registration::where('batches_event_id', '=', $this->id)
+            ->where('created_at', '<', $asof)
+            ->get();
+    }
+
+    public function getRegistrationsOn(Carbon $date)
+    {
+        return Event\Registration::where('batches_event_id', '=', $this->id)
+            ->where('created_at', '>', $date->copy()->subDay())
+            ->where('created_at', '<', $date->copy()->addDay())
+            ->get();
+    }
+
     public function getRegistrationsTodayAttribute()
     {
         return $this->getRegistrationsSince(Carbon::today());
