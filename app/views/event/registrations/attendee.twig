@@ -57,7 +57,7 @@
                     <span class="help">If checked, the attendee will be provided with a refund for this ticket.</span>
                 </div>
             {% endif %}
-            {% if count(registration.related_registrations) > 0 %}
+            {% if registration.related_registrations|length > 0 %}
                 <div class="field">
                     <label for="related">Include Related?</label>
                     <input type="checkbox" name="related" id="related" value="1"/>
