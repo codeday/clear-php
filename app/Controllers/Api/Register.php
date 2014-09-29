@@ -55,7 +55,6 @@ class Register extends \Controller {
             ->where('batches_event_id', '=', $event->id)
             ->first();
 
-        $card_token = \Input::get('card_token');
         $quoted_price = floatval(\Input::get('quoted_price'));
 
         $first_names = \Input::get('first_names');
@@ -129,57 +128,11 @@ class Register extends \Controller {
         }
 
         // Create the charge
-        \Stripe::setApiKey(\Config::get('stripe.secret'));
-
         try {
-            $for_descriptor = implode(', ', array_map(function($e) { return $e->first_name.' '.$e->last_name; }, $registrants));
-
             $charge = null;
             if ($total_cost != 0) {
-                $charge = \Stripe_Charge::create([
-                    "amount" => $total_cost * 100, // in cents
-                    "currency" => "usd",
-                    "card"  => $card_token,
-                    "description" => 'CodeDay '.$event->name.' Registration: '.$for_descriptor,
-                    "statement_description" => "CODEDAY",
-                    "receipt_email" => $registrants[0]->email,
-                    "metadata" => [
-                        "registrations_count" => count($registrants)
-                    ]
-                ]);
+                $charge = $this->processCard($total_cost, $registrants);
             }
-
-            foreach ($registrants as $registrant) {
-                $row = new Models\Batch\Event\Registration;
-                $row->batches_event_id = $event->id;
-                if ($charge) {
-                    $row->stripe_id = $charge->id;
-                }
-                $row->amount_paid = $unit_cost;
-                if ($promotion) {
-                    $row->batches_events_promotion_id = $promotion->id;
-                }
-                $row->first_name = $registrant->first_name;
-                $row->last_name = $registrant->last_name;
-                $row->email = $registrant->email;
-                $row->save();
-
-                \Mail::send('emails/registration', [
-                        'first_name' => $registrant->first_name,
-                        'last_name' => $registrant->last_name,
-                        'total_cost' => $total_cost,
-                        'unit_cost' => $unit_cost
-                    ], function($envelope) use ($registrant, $event) {
-                        $envelope->from('contact@studentrnd.org', 'StudentRND');
-                        $envelope->to($registrant->email, $registrant->first_name.' '.$registrant->last_name);
-                        $envelope->subject('CodeDay '.$event->name);
-                });
-
-                return [
-                    'status' => 200
-                ];
-            }
-
         } catch(\Stripe_CardError $e) {
             $e_json = $e->getJsonBody();
             $error = $e_json['error'];
@@ -189,5 +142,96 @@ class Register extends \Controller {
                 'message' => $error['message']
             ];
         }
+
+        // Create registration rows:
+        // We'll try to create each registrant in the database. In the event that something
+        // goes wrong, we'll roll it all back.
+        \DB::beginTransaction();
+        foreach ($registrants as $registrant) {
+            try {
+                $this->processRegistration($unit_cost, $registrant, $charge, $promotion);
+            } catch (\Exception $ex) {
+                \DB::rollBack();
+
+                if ($charge) {
+                    $charge->refunds->create();
+                }
+
+                return [
+                    'status' => 500,
+                    'error' => 'database_error',
+                    'message' => 'There was an error processing your registration information. The charge on your card was cancelled.'
+                ];
+            }
+        }
+        \DB::commit();
+
+        // Try to send confirmation emails
+        foreach ($registrants as $registrant) {
+            try {
+                $this->sendEmail($unit_cost, $total_cost, $registrant);
+            } catch (\Exception $ex) {}
+        }
+
+        return [
+            'status' => 200
+        ];
     }
+
+    private function processCard($total_cost, $registrants)
+    {
+        $event = \Route::input('event');
+        $card_token = \Input::get('card_token');
+        $for_descriptor = implode(', ', array_map(function($e) {
+                return $e->first_name.' '.$e->last_name;
+            }, $registrants));
+
+        \Stripe::setApiKey(\Config::get('stripe.secret'));
+        return \Stripe_Charge::create([
+            "amount" => $total_cost * 100, // in cents
+            "currency" => "usd",
+            "card"  => $card_token,
+            "description" => 'CodeDay '.$event->name.' Registration: '.$for_descriptor,
+            "statement_description" => "CODEDAY",
+            "metadata" => [
+                "registrations_count" => count($registrants)
+            ]
+        ]);
+    }
+
+    private function processRegistration($unit_cost, $registrant_info, $charge = null, $promotion = null)
+    {
+        $event = \Route::input('event');
+
+        $row = new Models\Batch\Event\Registration;
+        $row->batches_event_id = $event->id;
+        if ($charge) {
+            $row->stripe_id = $charge->id;
+        }
+        $row->amount_paid = $unit_cost;
+        if ($promotion) {
+            $row->batches_events_promotion_id = $promotion->id;
+        }
+        $row->first_name = $registrant_info->first_name;
+        $row->last_name = $registrant_info->last_name;
+        $row->email = $registrant_info->email;
+        $row->save();
+    }
+
+    private function sendEmail($unit_cost, $total_cost, $registrant_info)
+    {
+        $event = \Route::input('event');
+
+        \Mail::send('emails/registration', [
+            'first_name' => $registrant_info->first_name,
+            'last_name' => $registrant_info->last_name,
+            'total_cost' => $total_cost,
+            'unit_cost' => $unit_cost
+        ], function($envelope) use ($registrant_info, $event) {
+            $envelope->from('contact@studentrnd.org', 'StudentRND');
+            $envelope->to($registrant_info->email, $registrant_info->first_name.' '.$registrant_info->last_name);
+            $envelope->subject('CodeDay '.$event->name);
+        });
+    }
+
 } 

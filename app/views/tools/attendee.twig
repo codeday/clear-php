@@ -1,0 +1,39 @@
+{% extends "template.twig" %}
+{% block title %}Attendee Finder{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Attendee Finder</h2>
+        <p>This tool will allow you to find attendees across events in the current batch.</p>
+    </header>
+
+    <form method="get" class="small">
+        <label for="search">Name/Email</label>
+        <input type="text" name="search" id="search" value="{{ search }}" placeholder="Tyler" />
+        <input type="submit" value="Search"/>
+    </form>
+
+    {% if attendees %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Event</th>
+                    <th>Amount Paid</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for attendee in attendees %}
+                    <tr>
+                        <td><a href="/event/{{ attendee.event.id }}/registrations/attendee/{{ attendee.id }}">{{ attendee.name }}</a></td>
+                        <td>{{ attendee.email }}</td>
+                        <td>${{ attendee.amount_paid|number_format(2) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

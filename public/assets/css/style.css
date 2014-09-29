@@ -460,6 +460,51 @@ body.event form div.field #venue_city {
   width: 22.75%; }
 body.event form div.field #venue_state {
   width: 14%; }
+body.event .all.promotions {
+  width: 100%; }
+  body.event .all.promotions thead tr th {
+    text-align: left; }
+  body.event .all.promotions td {
+    padding: 5px; }
+  body.event .all.promotions .notes {
+    width: 40%;
+    height: 4rem;
+    overflow-y: auto; }
+  body.event .all.promotions .code {
+    width: 25%; }
+    body.event .all.promotions .code input {
+      border: 1px dotted #fb481c;
+      background-color: #ffeae4;
+      text-align: center;
+      border-radius: 5px;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      padding: 4px; }
+  body.event .all.promotions .scholarship .code input {
+    border-color: black;
+    background-color: #dddddd; }
+body.event .current.registrations ul {
+  padding: 0; }
+  body.event .current.registrations ul li {
+    list-style-type: none;
+    width: 15%;
+    margin: 0;
+    padding: 1rem;
+    display: inline-block;
+    text-align: center; }
+    body.event .current.registrations ul li img {
+      width: 100%;
+      height: auto; }
+    body.event .current.registrations ul li a {
+      text-decoration: none;
+      border: 0; }
+    body.event .current.registrations ul li a > span {
+      display: block;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 0.7rem; }
 
 * {
   box-sizing: border-box;

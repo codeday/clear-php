@@ -11,10 +11,10 @@
     </header>
 
     {% if event.promotions.count > 0 %}
-        <table>
+        <table class="all promotions">
             <thead>
                 <tr>
-                    <th>Code</th>
+                    <th>&nbsp;</th>
                     <th>Discount</th>
                     <th>Uses</th>
                     <th>Expires At</th>
@@ -24,19 +24,19 @@
             <tbody>
                 {% for promotion in event.promotions %}
                     {% if promotion.percent_discount != 100 or promotion.allowed_uses != 1 or promotion.expires_at != null %}
-                        <tr>
-                            <td>{{ promotion.code }}</td>
+                        <tr class="promo">
+                            <td class="code"><input type="text" value="{{ promotion.code }}" readonly /></td>
                             <td>{{ promotion.percent_discount }}%</td>
                             <td>
-                                {{ promotion.registrations.count }}
-                                {% if promotion.allowed_uses %}/{{ promotion.allowed_uses }}{% endif %}
+                                {{ promotion.registrations.count }}{#
+                                #}{% if promotion.allowed_uses %}/{{ promotion.allowed_uses }}{% endif %}
                             </td>
                             <td>
                                 {% if promotion.expires_at %}
                                     {{ promotion.expires_at.timestamp|date('F j') }}
                                 {% endif %}
                             </td>
-                            <td>
+                            <td class="notes">
                                 {{ promotion.notes }}
                             </td>
                         </tr>
@@ -45,8 +45,8 @@
                 <tr><td colspan="5"></td></tr>
                 {% for promotion in event.promotions %}
                     {% if promotion.percent_discount == 100 and promotion.allowed_uses == 1 and promotion.expires_at == null %}
-                        <tr>
-                            <td>{{ promotion.code }}</td>
+                        <tr class="scholarship">
+                            <td class="code"><input type="text" value="{{ promotion.code }}" readonly /></td>
                             <td colspan="4">({% if promotion.registrations.count == 0 %}Unu{% else %}U{% endif %}sed Scholarship)</td>
                         </tr>
                     {% endif %}
@@ -103,6 +103,10 @@
 {% block scripts %}
     <script type="text/javascript">
         $(document).ready(function(){
+            $('.all.promotions .code input').click(function(){
+                this.setSelectionRange(0, this.value.length);
+            });
+
             var types = {
                 tracking: {
                     expires_at: null,

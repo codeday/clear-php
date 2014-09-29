@@ -93,15 +93,13 @@
         <nav>
             <ul>
                 <li {% if block('section') == 'dashboard' %}class="active"{% endif %}><a href="/">Dashboard</a></li>
+                <li {% if block('section') == 'tools' %}class="active"{% endif %}><a href="/tools">Tools</a></li>
+                {% if me.is_admin %}
+                    <li {% if block('section') == 'settings' %}class="active"{% endif %}><a href="/settings">Settings</a></li>
+                {% endif %}
                 {% if event %}
                     <li class="active"><a href="/event/{{ event.id }}">{{ event.name }}</a></li>
                 {% endif %}
-                {% if me.is_admin %}
-                    <li {% if block('section') == 'tools' %}class="active"{% endif %}><a href="/tools">Tools</a></li>
-                    <li {% if block('section') == 'settings' %}class="active"{% endif %}><a href="/settings">Settings</a></li>
-                {% endif %}
-                <li class="event {% if block('section') == 'event' %}active{% endif %}">
-                </li>
             </ul>
         </nav>
         <section class="user">

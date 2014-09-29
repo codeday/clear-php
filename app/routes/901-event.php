@@ -6,6 +6,12 @@
     \Route::controller('/emails', 'EmailsController');
     \Route::controller('/subusers', 'SubusersController');
 
+    \Route::get('/registrations/attendee/{registration}', 'RegistrationsController@getAttendee');
+    \Route::post('/registrations/attendee/{registration}', 'RegistrationsController@postAttendee');
+    \Route::post('/registrations/attendee/{registration}/cancel', 'RegistrationsController@postCancel');
+    \Route::post('/registrations/attendee/{registration}/refund', 'RegistrationsController@postRefund');
+    \Route::controller('/registrations', 'RegistrationsController');
+
     \Route::get('/', 'IndexController@getIndex');
     \Route::post('/update-registration-status', 'IndexController@postUpdateRegistrationStatus');
 });

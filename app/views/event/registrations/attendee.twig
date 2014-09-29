@@ -1,0 +1,89 @@
+{% extends "template.twig" %}
+{% block title %}{{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <section class="info registration">
+        <h3>Update Attendee Information</h3>
+        <form method="post">
+            <div class="field">
+                <label for="first_name">First Name</label>
+                <input type="text" name="first_name" id="first_name" value="{{ registration.first_name }}" required />
+            </div>
+            <div class="field">
+                <label for="last_name">Last Name</label>
+                <input type="text" name="last_name" id="last_name" value="{{ registration.last_name }}" required />
+            </div>
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" value="{{ registration.email }}" required />
+            </div>
+            <input type="submit" value="Save" />
+        </form>
+    </section>
+
+    {% if registration.related_registrations|length > 0 %}
+        <section class="current registrations related">
+            <h3>Other Attendees In This Purchase</h3>
+            <ul>
+                {% for attendee in registration.related_registrations %}
+                    <li>
+                        <a href="/event/{{ event.id }}/registrations/attendee/{{ attendee.id }}">
+                            <img src="http://www.gravatar.com/avatar/{{ attendee.email_md5 }}?s=200&d=mm" alt="{{ attendee.name }}"/>
+                                <span class="name">
+                                    <span class="first">{{ attendee.first_name }}</span>
+                                    <span class="last">{{ attendee.last_name }}</span>
+                                </span>
+                            <span class="email">{{ attendee.email }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+
+    <section class="cancel">
+        <h3>Cancel and Delete</h3>
+        <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/cancel" method="post">
+            <div class="field">
+                <label for="email">Send Email?</label>
+                <input type="checkbox" name="email" id="email" value="1" checked />
+                <span class="help">If checked, sends an email to the attendee informing them of the cancellation.</span>
+            </div>
+            {% if registration.stripe_id %}
+                <div class="field">
+                    <label for="refund">Refund?</label>
+                    <input type="checkbox" name="refund" id="refund" value="1" checked />
+                    <span class="help">If checked, the attendee will be provided with a refund for this ticket.</span>
+                </div>
+            {% endif %}
+            {% if count(registration.related_registrations) > 0 %}
+                <div class="field">
+                    <label for="related">Include Related?</label>
+                    <input type="checkbox" name="related" id="related" value="1"/>
+                    <span class="help">This will also cancel all other registrations in this order.</span>
+                </div>
+            {% endif %}
+            <input type="submit" value="Delete Attendee"/>
+        </form>
+    </section>
+
+    <section class="refund">
+        <h3>Partial Refund</h3>
+        <p>This will refund part or all of the purchase price without cancelling the ticket.</p>
+        <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/refund" method="post">
+            <div class="field">
+                <label for="email">Send Email?</label>
+                <input type="checkbox" name="email" id="email" value="1" checked />
+                <span class="help">If checked, sends an email to the attendee informing them of the refund.</span>
+            </div>
+            <div class="field">
+                <label for="amount">Amount</label>
+                <input type="text" name="amount" id="amount" pattern="\d+(\.\d\d)?" required />
+                <span class="help">The amount of the purchase to refund. This cannot exceed
+                                   ${{ registration.amount_paid|number_format(2) }}.</span>
+            </div>
+            <input type="submit" value="Refund Attendee"/>
+        </form>
+    </section>
+{% endblock %}
