@@ -22,7 +22,6 @@
                     <th>Email</th>
                     <th>Event</th>
                     <th>Amount Paid</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +37,7 @@
                             {% endif %}
                         </td>
                         <td>{{ attendee.email }}</td>
+                        <td>{{ attendee.event.full_name }}</td>
                         <td>${{ attendee.amount_paid|number_format(2) }}</td>
                     </tr>
                 {% endfor %}
