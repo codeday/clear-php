@@ -44,7 +44,7 @@
 
     <section class="cancel">
         <h3>Cancel and Delete</h3>
-        <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/cancel" method="post">
+        <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/cancel" method="post" class="dangerous">
             <div class="field">
                 <label for="email">Send Email?</label>
                 <input type="checkbox" name="email" id="email" value="1" checked />
@@ -68,22 +68,24 @@
         </form>
     </section>
 
-    <section class="refund">
-        <h3>Partial Refund</h3>
-        <p>This will refund part or all of the purchase price without cancelling the ticket.</p>
-        <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/refund" method="post">
-            <div class="field">
-                <label for="email">Send Email?</label>
-                <input type="checkbox" name="email" id="email" value="1" checked />
-                <span class="help">If checked, sends an email to the attendee informing them of the refund.</span>
-            </div>
-            <div class="field">
-                <label for="amount">Amount</label>
-                <input type="text" name="amount" id="amount" pattern="\d+(\.\d\d)?" required />
-                <span class="help">The amount of the purchase to refund. This cannot exceed
-                                   ${{ registration.amount_paid|number_format(2) }}.</span>
-            </div>
-            <input type="submit" value="Refund Attendee"/>
-        </form>
-    </section>
+    {% if registration.amount_paid > 0 %}
+        <section class="refund">
+            <h3>Partial Refund</h3>
+            <p>This will refund part or all of the purchase price without cancelling the ticket.</p>
+            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/refund" method="post" class="dangerous">
+                <div class="field">
+                    <label for="email">Send Email?</label>
+                    <input type="checkbox" name="email" id="email" value="1" checked />
+                    <span class="help">If checked, sends an email to the attendee informing them of the refund.</span>
+                </div>
+                <div class="field">
+                    <label for="amount">Amount</label>
+                    <input type="text" name="amount" id="amount" pattern="\d+(\.\d\d)?" required />
+                    <span class="help">The amount of the purchase to refund. This cannot exceed
+                                       ${{ registration.amount_paid|number_format(2) }}.</span>
+                </div>
+                <input type="submit" value="Refund Attendee"/>
+            </form>
+        </section>
+    {% endif %}
 {% endblock %}

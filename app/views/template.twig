@@ -8,6 +8,7 @@
         Clear // CodeDay
     </title>
     <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="stylesheet" href="/assets/css/sweet-alert.css"/>
     <link id="favicon" rel="icon" type="image/png" href="/assets/img/favicon.png" />
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVggXa9btjGmzqgUim-1HjmnMtbF3UNms&sensor=false&libraries=visualization,places"></script>
     <script type="text/javascript">
@@ -124,8 +125,23 @@
     <footer>
         Copyright &copy; 2014 StudentRND. <a href="#" class="toggle-sounds">Disable sounds</a>
     </footer>
+    <script type="text/javascript" src="/assets/js/sweet-alert.min.js"></script>
     <script type="text/javascript">
         $(document).on('ready', function(){
+            $('form.dangerous').on('submit', function(e){
+                e.preventDefault();
+                var form = this;
+
+                swal({
+                    title: 'Danger! Danger!',
+                    text: 'Are you sure you want to do this?',
+                    type: 'warning',
+                    showCancelButton: true
+                }, function(){
+                    form.submit();
+                });
+            });
+
             var sounds_enabled_val = null;
             var set_sounds = function(new_val)
             {
