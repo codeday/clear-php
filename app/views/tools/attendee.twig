@@ -30,11 +30,11 @@
                     <tr>
                         <td>
                             {% if attendee.deleted_at != null %}
+                                <span style="text-decoration: line-through">{{ attendee.name }}</span>
+                            {% else %}
                                 <a href="/event/{{ attendee.event.id }}/registrations/attendee/{{ attendee.id }}">
                                     {{ attendee.name }}
                                 </a>
-                            {% else %}
-                                <span style="text-decoration: line-through">{{ attendee.name }}</span>
                             {% endif %}
                         </td>
                         <td>{{ attendee.email }}</td>
