@@ -28,7 +28,15 @@
             <tbody>
                 {% for attendee in attendees %}
                     <tr>
-                        <td><a href="/event/{{ attendee.event.id }}/registrations/attendee/{{ attendee.id }}">{{ attendee.name }}</a></td>
+                        <td>
+                            {% if attendee.deleted_at != null %}
+                                <a href="/event/{{ attendee.event.id }}/registrations/attendee/{{ attendee.id }}">
+                                    {{ attendee.name }}
+                                </a>
+                            {% else %}
+                                <span style="text-decoration: line-through">{{ attendee.name }}</span>
+                            {% endif %}
+                        </td>
                         <td>{{ attendee.email }}</td>
                         <td>${{ attendee.amount_paid|number_format(2) }}</td>
                     </tr>
