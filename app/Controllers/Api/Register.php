@@ -195,9 +195,7 @@ class Register extends \Controller {
             "statement_description" => "CODEDAY",
             "metadata" => [
                 "registrations_count" => count($registrants),
-                "registrants" => array_map(function($e) {
-                    return $e->first_name.' '.$e->last_name;
-                }, $registrants),
+                "registrants" => $for_descriptor,
                 "region" => $event->name
             ]
         ]);
