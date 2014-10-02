@@ -9,7 +9,7 @@ class Register extends \Controller {
     public function getPromotion()
     {
         $event = \Route::input('event');
-        $promotion = Models\Batch\Event\Promotion::where('code', '=', \Input::get('code'))
+        $promotion = Models\Batch\Event\Promotion::where('code', '=', strtoupper(\Input::get('code')))
             ->where('batches_event_id', '=', $event->id)
             ->firstOrFail();
 
@@ -51,7 +51,7 @@ class Register extends \Controller {
     private function _postRegister()
     {
         $event = \Route::input('event');
-        $promotion = Models\Batch\Event\Promotion::where('code', '=', \Input::get('code'))
+        $promotion = Models\Batch\Event\Promotion::where('code', '=', strtoupper(\Input::get('code')))
             ->where('batches_event_id', '=', $event->id)
             ->first();
 
