@@ -24,7 +24,8 @@ class Events extends ContractualController {
         'ends_at',
         'batch_name',
         'waiver' => 'waiver_link',
-        'manager' => 'manager_username'
+        'manager' => 'manager_username',
+        'evangelist' => 'evangelist_username'
     ];
 
     public function getIndex()

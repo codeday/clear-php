@@ -40,6 +40,11 @@ class Event extends \Eloquent {
         return $this->belongsTo('\CodeDay\Clear\Models\User', 'manager_username', 'username');
     }
 
+    public function evangelist()
+    {
+        return $this->belongsTo('\CodeDay\Clear\Models\User', 'evangelist_username', 'username');
+    }
+
     public function region()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\Region', 'region_id', 'id');
