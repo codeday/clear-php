@@ -90,7 +90,8 @@ class User extends \Eloquent {
                         ->join('users_grants', 'users_grants.batches_event_id', '=', 'batches_events.id', 'left')
                         ->where(function($query) {
                             $query->where('users_grants.username', '=', $this->username)
-                                ->orWhere('batches_events.manager_username', '=', $this->username);
+                                ->orWhere('batches_events.manager_username', '=', $this->username)
+                                ->orWhere('batches_events.evangelist_username', '=', $this->username);
                         })
                         ->get();
     }
