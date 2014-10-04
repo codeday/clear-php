@@ -92,7 +92,14 @@ class Event extends \Eloquent {
 
     public function getRemainingRegistrationsAttribute()
     {
-        return $this->max_registrations - $this->registrations->count();
+        return max(0, $this->max_registrations - $this->registrations->count());
+    }
+
+    public function getIsEarlybirdEndingAttribute()
+    {
+        return $this->is_earlybird_pricing &&
+        ($this->early_bird_ends_at->copy()->addDay()->isPast()
+        || $this->registrations->count() >= ($this->early_bird_max_registrations - 10));
     }
 
     public function getEarlyBirdMaxRegistrationsAttribute()
