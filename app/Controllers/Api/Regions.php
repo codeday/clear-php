@@ -50,7 +50,8 @@ class Regions extends ContractualController {
 
         if ($withCurrentEvent) {
             $regions = $regions->rightJoin('batches_events', 'batches_events.region_id', '=', 'regions.id')
-                ->whereNotNull('regions.id');
+                ->whereNotNull('regions.id')
+                ->whereNull('batches_events.deleted_at');
         }
 
         $regions = $regions->groupBy('regions.id');
