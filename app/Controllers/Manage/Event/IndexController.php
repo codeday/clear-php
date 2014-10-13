@@ -23,6 +23,16 @@ class IndexController extends \Controller {
         return \Redirect::to('/event/'.$event->id);
     }
 
+    public function postNotes()
+    {
+        $event = \Route::input('event');
+
+        $event->notes = \Input::get('notes');
+        $event->save();
+
+        return \Redirect::to('/event/'.$event->id);
+    }
+
     public function getChartdata()
     {
         $event = \Route::input('event');

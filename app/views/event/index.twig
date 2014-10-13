@@ -12,6 +12,16 @@
         <p>(Line = attendees, bar = change this day)</p>
     {% endif %}
 
+    <h3>Notes</h3>
+    <form action="/event/{{ event.id }}/notes" method="post">
+        <div class="field">
+            <label for="notes">Notes</label>
+            <textarea name="notes">{{ event.notes }}</textarea>
+            <span class="help">(For internal use only.)</span>
+        </div>
+        <input type="submit" value="Save"/>
+    </form>
+
     <h3>Event Status</h3>
     <form method="post" action="/event/{{ event.id }}/update-registration-status" class="small">
         {% if event.allow_registrations %}
