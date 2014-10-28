@@ -4,6 +4,7 @@
 
     \Route::get('', function(){ return \Redirect::to('/tools/attendee'); });
     \Route::controller('/attendee', 'AttendeeController');
+    \Route::controller('/checkin', 'CheckinController');
 
     \Route::group(['before' => 's5_admin'], function(){
         \Route::controller('promotions', 'PromotionsController');

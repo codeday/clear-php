@@ -1,0 +1,131 @@
+{% extends "template.twig" %}
+{% block title %}Checkin{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Checkin</h2>
+        <p>This tool will allow you to check in attendees at the door.</p>
+    </header>
+
+    {% if not event %}
+        {% if me.is_admin %}
+            {% set events = loaded_batch.events %}
+        {% else %}
+            {% set events = me.current_managed_events %}
+        {% endif %}
+
+        <h3>Available Events</h3>
+        <ul>
+            {% for event in events %}
+                <li><a href="?event={{ event.id }}">{{ event.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <input type="text" id="search" placeholder="Search by name or email" value="" autocomplete="off" />
+        <style type="text/css">
+            .checked-in td {
+                text-decoration: line-through;
+                opacity: 0.3;
+            }
+            #search {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+            #registrants {
+                width: 100%;
+            }
+        </style>
+        <table id="registrants">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Registered At</th>
+                    <th>Check In?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registration in event.registrations %}
+                    <tr {% if registration.checked_in_at %}class="checked-in"{% endif %}>
+                        <td class="name">{{ registration.name }}</td>
+                        <td class="email">{{ registration.email }}</td>
+                        <td>{{ registration.created_at|date('M j, Y') }}</td>
+                        <td>
+                            <form class="checkin" method="post">
+                                <input type="hidden" name="id" value="{{ registration.id }}" />
+                                <input type="hidden" name="action" value="{% if registration.checked_in_at %}out{% else %}in{% endif %}"/>
+                                <input type="submit" value="{% if registration.checked_in_at %}Undo{% else %}Checkin{% endif %}" />
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+    <script type="application/javascript">
+        $('#search').on('keyup', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var search = $(this).val();
+
+            $('#registrants tr').each(function(i, elem) {
+                var name = "" + $(elem).children('.name').text();
+                var email = "" + $(elem).children('.email').text();
+
+                if (name.toUpperCase().indexOf(search.toUpperCase()) >= 0
+                    || email.toUpperCase().indexOf(search.toUpperCase()) >= 0
+                    || search == "") {
+                    $(this).css('display', 'table-row');
+                } else {
+                    $(this).css('display', 'none');
+                }
+            });
+
+            return false;
+        });
+        $('form.checkin').on('submit', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+
+            var _this = $(this);
+            var id = $(this).children('input[name="id"]').val();
+            var action = $(this).children('input[name="action"]').val();
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/tools/checkin?event={{ event.id }}',
+                data: {
+                    id: id,
+                    action: action
+                },
+                success: function(data) {
+                    if (action == 'in') {
+                        _this.parent().parent().addClass('checked-in');
+                        _this.children('input[name="action"]').val('out');
+                        _this.children('input[type="submit"]').val('Undo');
+                    } else {
+                        _this.parent().parent().removeClass('checked-in');
+                        _this.children('input[name="action"]').val('in');
+                        _this.children('input[type="submit"]').val('Checkin');
+                    }
+                    $('#search').val('').trigger('keyup');
+                },
+                error: function(error) {
+                    swal({
+                        title: 'Something has gone wrong.',
+                        text: error,
+                        type: 'error'
+                    });
+                }
+            });
+
+            return false;
+        });
+    </script>
+{% endblock %}

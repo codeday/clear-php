@@ -44,6 +44,11 @@ class Registration extends \Eloquent {
             ->get();
     }
 
+    public function getDates()
+    {
+        return ['created_at', 'updated_at', 'checked_in_at'];
+    }
+
     public function promotion()
     {
         return $this->hasOne('\CodeDay\Clear\Models\Batch\Event\Promotion', 'batches_events_promotion_id', 'id');
