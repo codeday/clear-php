@@ -23,7 +23,7 @@
                         <td>{{ sponsor.name }}</td>
                         <td>{{ sponsor.url }}</td>
                         <td>
-                            <form action="/event/{{ event.id }}/sponsors/delete" class="small">
+                            <form action="/event/{{ event.id }}/sponsors/delete" method="post" class="small">
                                 <input type="hidden" name="id" value="{{ sponsor.id }}" />
                                 <input type="submit" value="Delete" />
                             </form>
