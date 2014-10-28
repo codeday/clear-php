@@ -9,6 +9,8 @@
     \Route::controller('events', 'Events');
     \Route::get('event/{event}', 'Events@getEvent');
 
+    \Route::get('/i/{class}/{id}_{imagesize}.jpg', 'ImageController@redirectPhoto');
+    \Route::get('/i/{class}/{id}_{imagesize}/{timestamp}.jpg', 'ImageController@showPhoto');
 
     \Route::controller('notify', 'Notify');
     \Route::controller('batches', 'Batches');

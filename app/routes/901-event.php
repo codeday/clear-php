@@ -12,6 +12,8 @@
     \Route::post('/registrations/attendee/{registration}/refund', 'RegistrationsController@postRefund');
     \Route::controller('/registrations', 'RegistrationsController');
 
+    \Route::controller('/sponsors', 'SponsorsController');
+
     \Route::get('/', 'IndexController@getIndex');
     \Route::get('/chartdata.csv', 'IndexController@getChartdata');
     \Route::post('/update-registration-status', 'IndexController@postUpdateRegistrationStatus');

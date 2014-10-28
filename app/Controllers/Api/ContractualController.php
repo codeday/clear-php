@@ -52,7 +52,13 @@ abstract class ContractualController extends \Controller {
 
         if ($value instanceof \Eloquent) {
             return $value->{$value->getKeyName()};
-        } elseif (self::isIterable($value)) {
+        } elseif (is_array($value)) {
+            $arr = [];
+            foreach ($value as $key=>$val) {
+                $arr[$key] = $val;
+            }
+            return $arr;
+        } elseif ($value instanceof \Traversable) {
             $arr = [];
             foreach ($value as $obj) {
                 $arr[] = $obj->{$obj->getKeyName()};

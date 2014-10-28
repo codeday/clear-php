@@ -1,0 +1,61 @@
+{% extends "template.twig" %}
+{% block title %}{{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Sponsors</h2>
+        <p>Sponsors are listed on the website.</p>
+    </header>
+    {% if event.sponsors|length > 0 %}
+        <h3>Manage Sponsors</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>URL</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sponsor in event.sponsors %}
+                    <tr>
+                        <td>{{ sponsor.name }}</td>
+                        <td>{{ sponsor.url }}</td>
+                        <td>
+                            <form action="/event/{{ event.id }}/sponsors/delete" class="small">
+                                <input type="hidden" name="id" value="{{ sponsor.id }}" />
+                                <input type="submit" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <h3>Create Sponsor</h3>
+    <form method="post" enctype="multipart/form-data">
+        <div class="field">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" required />
+            <span class="help">The name of the sponsoring company.</span>
+        </div>
+        <div class="field">
+            <label for="logo">Logo</label>
+            <input type="file" name="logo" id="logo" required />
+            <span class="help">The company's logo, for use on the website.</span>
+        </div>
+        <div class="field">
+            <label for="url">URL</label>
+            <input type="url" name="url" id="url" />
+            <span class="help">The URL of the company's website, for use on the website.</span>
+        </div>
+        <div class="field">
+            <label for="description">Description</label>
+            <textarea name="description" id="description"></textarea>
+            <span class="help">Description of what the company does. To be passed on to the Evangelist.</span>
+        </div>
+
+        <input type="submit" value="Create" />
+    </form>
+{% endblock %}

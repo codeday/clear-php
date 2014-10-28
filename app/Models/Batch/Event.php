@@ -145,6 +145,26 @@ class Event extends \Eloquent {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\Promotion', 'batches_event_id', 'id');
     }
 
+    public function sponsors()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\Sponsor', 'batches_event_id', 'id');
+    }
+
+    public function getSponsorsInfoAttribute()
+    {
+        $sponsors_info = [];
+
+        foreach ($this->sponsors as $sponsor) {
+            $sponsors_info[] = (object)[
+                'name' => $sponsor->name,
+                'logo' => 'https://clear.codeday.org/api/i/sponsor/'.$sponsor->id.'_256/'.$sponsor->updated_at->timestamp.'.jpg',
+                'url' => $sponsor->description
+            ];
+        }
+
+        return $sponsors_info;
+    }
+
     public function registrations()
     {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\Registration', 'batches_event_id', 'id');
