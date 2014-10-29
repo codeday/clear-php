@@ -191,17 +191,17 @@ class Event extends \Eloquent {
             ],
             (Object)[
                 'time' => 3,
-                'title' => 'Splunk: Make your game better with data',
-                'type' => 'workshop',
-                'url' => 'https://studentrnd.org/build/making-better-games-with-splunk',
-                'description' => 'Learn how others play your game and use that knowledge to make it more fun with minimal work.'
-            ],
-            (Object)[
-                'time' => 4,
                 'title' => 'Fancy Hands: Build a prank-call service',
                 'type' => 'workshop',
                 'url' => 'https://studentrnd.org/build/prank-calling-friends-with-fancy-hands',
                 'description' => 'Learn how to use Fancy Hands, an API to real people'
+            ],
+            (Object)[
+                'time' => 5,
+                'title' => 'Splunk: Make your game better with data',
+                'type' => 'workshop',
+                'url' => 'https://studentrnd.org/build/making-better-games-with-splunk',
+                'description' => 'Learn how others play your game and use that knowledge to make it more fun with minimal work.'
             ],
             (Object)[
                 'time' => 7,
