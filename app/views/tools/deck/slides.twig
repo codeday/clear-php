@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CodeDay {{ event.name }} Kickoff</title>
+
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="stylesheet" media="screen" href="/assets/js/deck/core/deck.core.css">
+    <link rel="stylesheet" media="print" href="/assets/js/deck/core/print.css">
+    <link rel="stylesheet" media="screen" href="/assets/js/deck/extensions/navigation/deck.navigation.css">
+    <link rel="stylesheet" media="screen" href="/assets/js/deck/extensions/status/deck.status.css">
+    <link rel="stylesheet" media="screen" href="/assets/css/deck/themes/transition/horizontal-slide.css">
+    <style type="text/css">
+        html {
+            font-size: 2vh;
+        }
+
+        .deck-container {
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+        }
+
+        .slide {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding: 1rem;
+            margin: 0;
+            background-color: #fff;
+            font-family: helvetica, arial, sans-serif;
+            background-size: cover;
+            background-position: 50% 50%;
+        }
+
+        .slide h1, .slide h2, .slide h3 {
+            text-transform: uppercase;
+        }
+
+        .slide.video {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+        }
+
+        .slide.video iframe {
+            width: 80%;
+            height: 70%;
+            margin: 0 auto;
+        }
+
+        .slide.video h1 {
+            font-size: 5rem;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .slide.title hgroup {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+        }
+
+        .slide.title.bottom hgroup {
+            top: auto;
+            bottom: 0;
+            padding-bottom: 5rem;
+        }
+
+        .slide.title hgroup h1 {
+            color: #fff;
+            font-size: 7rem;
+            margin: 0;
+        }
+
+        .slide.title hgroup h2 {
+            color: #fff;
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .slide div.credit {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem 1rem 3rem;
+            color: #fff;
+        }
+
+        .slide.title div.credit {
+            top: 0;
+            bottom: auto;
+            padding: 1rem;
+        }
+
+        .slide.list div {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .slide.list div h1 {
+            color: #fff;
+            font-size: 5rem;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .slide.list div ul {
+            color: #fff;
+            font-size: 3rem;
+            padding-left: 5rem;
+            margin: 0;
+        }
+
+        .slide.list div ul.first {
+            margin-bottom: 0;
+        }
+
+        .slide.sponsors h1 {
+            color: #000;
+            font-size: 5rem;
+            text-align: center;
+            margin: 0.5rem;
+        }
+
+        .slide.sponsors h2 {
+            color: #000;
+            font-size: 2rem;
+            text-align: center;
+            margin: 0.5rem;
+        }
+
+        .slide.sponsors div {
+            text-align: center;
+            padding: 0 5rem;
+        }
+
+        .slide.sponsors div span {
+            display: inline-block;
+            padding: 1rem;
+        }
+
+        .slide.sponsors div img {
+            width: 12rem;
+            height: auto;
+            max-height: 12rem;
+            margin: 30px 30px;
+        }
+
+        .slide.sponsors.event div img {
+            width: 20rem;
+            height: auto;
+            margin: 30px 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="deck-container">
+    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/intro.jpg)">
+        <hgroup>
+            <h1>CodeDay</h1>
+            <h2>Build Something Awesome in 24 Hours</h2>
+        </hgroup>
+    </section>
+
+    {% if loaded_batch.video_id %}
+        <section class="slide video">
+            <h1>Global Video</h1>
+            <iframe src="//www.youtube.com/embed/{{ loaded_batch.video_id }}?autohide=1&disablekb=1&fs=0&modestbranding=1&rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
+            <p>(Click arrow to advance to next slide.)</p>
+        </section>
+    {% endif %}
+
+    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/technologists.jpg)">
+        <hgroup>
+            <h2>StudentRND makes students</h2>
+            <h1>Fall in love with coding</h1>
+        </hgroup>
+    </section>
+
+    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/time.jpg)">
+        <hgroup>
+            <h2>As students, there's often</h2>
+            <h1>Not Enough Time</h1>
+        </hgroup>
+        <div class="credit">
+            Photo by marcp_dmoz - https://www.flickr.com/photos/marcp_dmoz/4037053218 - CC BY-NC-SA
+        </div>
+    </section>
+
+    <section class="slide" style="background-image: url(/assets/img/kickoff/busy.jpg)">
+        <!-- study -->
+        <div class="credit">
+            Photo by Youssef Abdelaal - https://www.flickr.com/photos/youssefabdelaal/3198473615 - CC BY-NC-SA
+        </div>
+    </section>
+
+    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/nottoday.jpg)">
+        <hgroup>
+            <h1>Not Today</h1>
+            <h2>Today is CodeDay. Here's how it works:</h2>
+        </hgroup>
+    </section>
+
+    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/ideas.jpg)">
+        <hgroup>
+            <h2>Think of</h2>
+            <h1>Fun Ideas</h1>
+        </hgroup>
+    </section>
+
+    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/pitch.jpg)">
+        <hgroup>
+            <h1>Pitch Your Ideas</h1>
+        </hgroup>
+    </section>
+
+    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/teams.jpg)">
+        <hgroup>
+            <h1>Form Teams</h1>
+        </hgroup>
+    </section>
+
+    <section class="slide title" style="background-image: url(/assets/img/kickoff/build.jpg)">
+        <hgroup>
+            <h1>Build It</h1>
+        </hgroup>
+    </section>
+
+    <section class="slide title" style="background-image: url(/assets/img/kickoff/fun.jpg)">
+        <hgroup>
+            <h1>Have Fun</h1>
+        </hgroup>
+    </section>
+
+    <section class="slide title" style="background-image: url(/assets/img/kickoff/present.jpg)">
+        <hgroup>
+            <h1>Present It</h1>
+        </hgroup>
+    </section>
+
+    <section class="slide title" style="background-image: url(/assets/img/kickoff/learn.jpg)">
+        <hgroup>
+            <h1>Go Learn</h1>
+        </hgroup>
+    </section>
+
+    <section class="slide list" style="background-image: url(/assets/img/kickoff/workshops.jpg)">
+        <div>
+            <h1>Workshops</h1>
+            <ul class="first">
+                <li><strong>2:00:</strong> Beginner: Intro to Coding</li>
+                <li><strong>3:00:</strong> Splunk: Doing Fun Things With Data</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slide list" style="background-image: url(/assets/img/kickoff/awards.jpg)">
+        <div>
+            <h1>Awards</h1>
+            <ul>
+                <li>Top Overall</li>
+                <li>Best App</li>
+                <li>Best Game</li>
+            </ul>
+        </div>
+    </section>
+
+    {% if (event.sponsors|length) > 0 %}
+        <section class="slide sponsors event">
+            <h2>Time to hear from our</h2>
+            <h1>Event Sponsors</h1>
+            <div>
+                {% for sponsor in event.sponsors %}
+                    <span><img src="/api/i/sponsor/{{ sponsor.id }}_256.jpg" alt="{{ sponsor.name }}" /></span>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    <section class="slide sponsors">
+        <h2>Thanks again to our</h2>
+        <h1>Global Sponsors</h1>
+        <div>
+            <span><img src="/assets/img/sponsors/splunk.png" alt="Splunk" /></span>
+            <span><img src="/assets/img/sponsors/intellectualventures.png" alt="Intellectual Ventures" /></span>
+            <span><img src="/assets/img/sponsors/lexisnexis.jpg" alt="Lexis Nexis" /></span>
+            <span><img src="/assets/img/sponsors/lob.png" alt="Lob" /></span>
+            <span><img src="/assets/img/sponsors/fancyhands.png" alt="Fancy Hands" /></span>
+        </div>
+    </section>
+
+    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/pitch.jpg)">
+        <hgroup>
+            <h2>Let's get to</h2>
+            <h1>Pitches</h1>
+        </hgroup>
+    </section>
+
+    <div aria-role="navigation">
+        <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+        <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <p class="deck-status" aria-role="status">
+        <span class="deck-status-current"></span>
+        /
+        <span class="deck-status-total"></span>
+    </p>
+</div>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="/assets/js/deck/modernizr.js"></script>
+<script src="/assets/js/deck/core/deck.core.js"></script>
+<script src="/assets/js/deck/extensions/status/deck.status.js"></script>
+<script src="/assets/js/deck/extensions/navigation/deck.navigation.js"></script>
+<script type="text/javascript">
+    $(function() {
+        if(window.location.hash) {
+            window.location.hash = '';
+        }
+        $.deck('.slide');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>CodeDay {{ event.name }} Kickoff Notes</title>
+    <style type="text/css">
+        body {
+            font-family: monospace;
+            font-size: 20px;
+            line-height: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 2rem;
+        }
+
+        section.notes {
+            max-width: 35rem;
+            margin: 0 auto;
+        }
+
+        hr.click:before {
+            text-align: center;
+            width: 100%;
+            content: "CLICK";
+            display: block;
+            margin: 4rem 0;
+            font-weight: bold;
+            font-style: italic;
+        }
+        hr.click {
+            display: block;
+            height: 4rem;
+            color: black;
+            border: 0;
+        }
+
+        hr.sponsor {
+            display: block;
+            height: 4rem;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <section class="notes">
+        <h1>CodeDay {{ event.name }} Kickoff Notes</h1>
+
+        <p>Welcome to CodeDay! I'm <em>[YOUR NAME]</em>, and I'm here to help run the event today.</p>
+
+        <p>I'm really excited to have you all here today. If you need any help or have any questions during the event,
+            come find me, it's my job to help out throughout the event.</p>
+
+        <p>We've got a really exciting event today, and remember, you're coding along with students in
+            {{ loaded_batch.events|length }} cities nationwide!</p>
+
+        <hr class="click"/>
+
+        <p>At StudentRND, we believe that coding is one of the most fun things in the world, but that most students
+            don't see that because they don't have the chance to work on something they care about.</p>
+
+        <hr class="click"/>
+
+        <p>The thing is, as a student, there's often not enough time to work on something you care about.</p>
+
+        <hr class="click"/>
+
+        <p>You always have a homework assignment due tomorrow. Or a test next week. And you never get the time to do the
+            things that you want to do.</p>
+
+        <hr class="click"/>
+
+        <p>Well not today, because today is CodeDay.</p>
+
+        <p>CodeDay is a 24-hour programming marathon where you get to build cool apps, games, or just something that
+           you've always wanted to build. Something that you think is awesome.</p>
+
+        <hr class="click"/>
+
+        <p>While you're sitting here right now, we want everyone to start coming up with cool ideas they might want
+            to build.</p>
+
+        <p>For example, I might have an idea for a spaceship game where I have to land a manned probe on the surface
+            of the sun.</p>
+
+        <p>Or I might want to build an app where you press a button, and it reverses entropy.</p>
+
+        <hr class="click"/>
+
+        <p>We'll start out the event in a few minutes by having everyone come up and pitch these ideas.</p>
+
+        <p>You can pitch as many ideas as you want, and just because you're pitching an idea doesn't mean you have
+        to work on it.</p>
+
+        <p>Just list any cool ideas that come to mind.</p>
+
+        <hr class="click"/>
+
+        <p>After pitches, people will form teams around the ideas they think are coolest.</p>
+
+        <hr class="click"/>
+
+        <p>Then, you'll get to spend the rest of the 24 hours building that idea!</p>
+
+        <hr class="click"/>
+
+        <p>During the event, you should have a lot of fun. We'll get into evening, it'll be midnight, we'll have
+           loud music blaring, people will be dancing and drinking lots and lots and lots of soda.
+            (Just don't go overboard.)</p>
+
+        <hr class="click"/>
+
+        <p>In the morning, you'll present what you built.</p>
+
+        <p>At 9am, judges are going to go around, and then at 10am, you're going to give your presentation and
+           say:</p>
+
+        <p>"Hey, remember that idea I had at the start? To make that spaceship game that lands on the sun? Well
+            here it is, and look how fun it is to play."</p>
+
+        <p>Or:</p>
+
+        <p>"Hey, I was trying to build that app to reverse entropy, but then I found out that there's this law of
+           thermodynamics that prevents anyone from actually reversing entropy."</p>
+
+        <hr class="click"/>
+
+        <p>If you get stuck or even if you're totally new, that's okay! Most professional programmers get stuck
+           every day!</p>
+
+        <p>I'll be walking around helping teams throughout the event, and you can walk around and talk with other
+            students!</p>
+
+        <p>Plus, technology is constantly changing, and the most up-to-date information is available online.</p>
+
+        <hr class="click"/>
+
+        <p>We even have some workshops to help you out at the beginning!</p>
+
+        <hr class="click"/>
+
+        <p>At the end of the event, we'll be giving out awards to the best app, best game, and the top overall thing
+           made at CodeDay.</p>
+
+        <p>Now, before we get to pitches, we have a few sponsors we wanted to thank:</p>
+
+
+        {% if event.sponsors|length > 0 %}
+            <hr class="click"/>
+
+            {% for sponsor in event.sponsors %}
+                <p>{{ sponsor.name }}: {{ sponsor.description }}</p>
+
+                <hr class="sponsor"/>
+            {% endfor %}
+        {% endif %}
+
+        <hr class="click"/>
+
+        <p>Splunk: Splunk lets you make your apps and games more fun and addicting. We'll have a workshop
+           later today for people working on games at CodeDay to help make them the right amount of
+            challenging.</p>
+
+        <hr class="sponsor"/>
+
+        <p>Intellectual Ventures: IV believes in the value of students' ideas. Not only as economic opportunity,
+           but as a powerful tool for improving our world. They're here to help fuel the spirit of invention by
+           supporting StudentRND and other idea-generating organizations. And by mentoring the next generation
+           of Edisons and Teslas.
+
+        <hr class="sponsor"/>
+
+        <p>Learn more about Intellectual Ventures's commitment to invention at intellectualventures.com and
+           eureka.intven.com.</p>
+
+        <hr class="sponsor"/>
+
+        <p>Lexis Nexis: Lexis Nexis collects data about everything that happens in the world, and provides it
+           to companies everywhere.</p>
+
+        <hr class="sponsor"/>
+
+        <p>Lob: Lob is an API for printing. With Lob, you can make an app where a user takes a picture, and that
+           picture is printed and mailed to them. Everyone at CodeDay gets free Lob credits, so even if you don't
+           use it in your app, you can still get a cool customized t-shirt!</p>
+
+        <hr class="sponsor"/>
+
+        <p>Fancy Hands: Fancy Hands lets you make apps which get real people to do things. We'll have a workshop
+           later today which shows you how to get a real person to prank-call your friends.</p>
+
+        <hr class="click"/>
+
+        <p>Okay, now let's go on to pitches.</p>
+
+        <p>Everyone who has an idea for something cool they could make, come up to the front, and describe it
+           really briefly.</p>
+
+        <p>This should just be 30 seconds to a minute. Remember, you don't have to build what you pitch, you can
+           just pitch any cool ideas you have.</p>
+
+        <p>I'll get us started by pitching one of my ideas...</p>
+
+    </section>
+</body>
+</html>

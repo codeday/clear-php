@@ -14,10 +14,15 @@ class CheckinController extends \Controller {
     public function postIndex()
     {
         $this->checkAccess();
+        $event = $this->getEvent();
         $attendee_id = \Input::get('id');
         $action = \Input::get('action');
 
         $attendee = Models\Batch\Event\Registration::where('id', '=', $attendee_id)->firstOrFail();
+
+        if (!$event || $event->id !== $attendee->batches_event_id) {
+            \App::abort(404);
+        }
 
         if ($action == 'in') {
             $attendee->checked_in_at = \Carbon\Carbon::now();
@@ -39,6 +44,11 @@ class CheckinController extends \Controller {
     private function checkAccess()
     {
         $event = $this->getEvent();
+
+        if (!$event) {
+            return true;
+        }
+
         if (Models\User::me()->username != $event->manager_username
             && Models\User::me()->username != $event->evangelist_username
             && !$event->isUserAllowed(Models\User::me())
