@@ -18,6 +18,7 @@ class Events extends ContractualController {
             'is_earlybird_ending'
         ],
         'sponsors' => 'sponsors_info',
+        'schedule',
         'custom_css',
         'is_early_bird_pricing',
         'cost',

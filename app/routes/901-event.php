@@ -13,6 +13,7 @@
     \Route::controller('/registrations', 'RegistrationsController');
 
     \Route::controller('/sponsors', 'SponsorsController');
+    \Route::controller('/activities', 'ActivitiesController');
 
     \Route::get('/', 'IndexController@getIndex');
     \Route::get('/chartdata.csv', 'IndexController@getChartdata');

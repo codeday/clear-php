@@ -150,6 +150,148 @@ class Event extends \Eloquent {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\Sponsor', 'batches_event_id', 'id');
     }
 
+    public function activities()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\Activity', 'batches_event_id', 'id')->orderBy('time');
+    }
+
+    public function getScheduleAttribute()
+    {
+        $standard_schedule = [
+            (Object)[
+                'time' => -1,
+                'title' => 'Doors open',
+                'type' => 'event',
+                'description' => "Please don't show up earlier, you'll be waiting outside!"
+            ],
+            (Object)[
+                'time' => -0.5,
+                'title' => 'Lunch',
+                'type' => 'event',
+                'description' => "All food is included with your ticket!"
+            ],
+            (Object)[
+                'time' => 0,
+                'title' => 'Kickoff & Pitches',
+                'type' => 'event',
+                'description' => "Not sure what you want to work on? Get some ideas and form a team at the kickoff."
+            ],
+            (Object)[
+                'time' => 1,
+                'title' => 'Start Coding!',
+                'type' => 'event',
+                'description' => "After forming teams, it's time to get to work on your project! Our staff will be helping teams throughout the event."
+            ],
+            (Object)[
+                'time' => 2,
+                'title' => 'Beginner: Intro to coding',
+                'type' => 'workshop',
+                'url' => 'https://www.scirra.com/tutorials/37/beginners-guide-to-construct-2',
+                'description' => "Totally new to coding? No problem! Attend this workshop and we'll walk you through creating your first game."
+            ],
+            (Object)[
+                'time' => 3,
+                'title' => 'Splunk: Make your game better with data',
+                'type' => 'workshop',
+                'url' => 'https://studentrnd.org/build/making-better-games-with-splunk',
+                'description' => 'Learn how others play your game and use that knowledge to make it more fun with minimal work.'
+            ],
+            (Object)[
+                'time' => 4,
+                'title' => 'Fancy Hands: Build a prank-call service',
+                'type' => 'workshop',
+                'url' => 'https://studentrnd.org/build/prank-calling-friends-with-fancy-hands',
+                'description' => 'Learn how to use Fancy Hands, an API to real people'
+            ],
+            (Object)[
+                'time' => 7,
+                'title' => 'Dinner',
+                'type' => 'event',
+                'description' => "All food is included with your ticket!"
+            ],
+            (Object)[
+                'time' => 12,
+                'title' => 'Midnight Snack',
+                'type' => 'event',
+                'description' => "All food is included with your ticket!"
+            ],
+            (Object)[
+                'time' => 19,
+                'title' => 'Breakfast',
+                'type' => 'event',
+                'description' => "All food is included with your ticket!"
+            ],
+            (Object)[
+                'time' => 20,
+                'title' => 'Presentation sign-up',
+                'type' => 'event',
+                'description' => "The final few hours. Teams with something to show are encouraged to sign up to present at the end."
+            ],
+            (Object)[
+                'time' => 21,
+                'title' => 'Judges arrive',
+                'type' => 'event',
+                'description' => "Judges will go around to demo the projects before the final presentations."
+            ],
+            (Object)[
+                'time' => 22,
+                'title' => 'Presentations',
+                'type' => 'event',
+                'description' => "Everyone who created something during CodeDay is asked to give a brief presentation."
+            ],
+            (Object)[
+                'time' => 23.5,
+                'title' => 'Awards',
+                'type' => 'event',
+                'description' => "Awards given for Top Overall, Best App, Best Game, and more."
+            ],
+            (Object)[
+                'time' => 24,
+                'title' => 'Clean-up',
+                'type' => 'event',
+                'description' => "Thank the venue for hosting CodeDay by helping clean up!"
+            ]
+        ];
+
+        // Add timestamy/hour/day to generated array
+        for ($i = 0; $i < count($standard_schedule); $i++) {
+            $entry = $standard_schedule[$i];
+
+            $timestamp = $this->batch->starts_at->copy()->addHours(12)->addMinutes($entry->time * 60);
+            $day = $timestamp->format('l');
+            if (floor($this->time) != $this->time) {
+                $hour = $timestamp->format('g:ia');
+            } else {
+                $hour = $timestamp->format('ga');
+            }
+
+            $standard_schedule[$i]->timestamp = $timestamp;
+            $standard_schedule[$i]->hour = $hour;
+            $standard_schedule[$i]->day = $day;
+        }
+
+        // Build the unified schedule
+        $unified_schedule = array_merge($standard_schedule, iterator_to_array($this->activities));
+        usort($unified_schedule, function($a, $b) {
+            return ($a->time - $b->time) * 100;
+        });
+
+        // Make sure getters are gotten
+        for ($i = 0; $i < count($unified_schedule); $i++) {
+            $unified_schedule[$i]->timestamp = $unified_schedule[$i]->timestamp;
+            $unified_schedule[$i]->hour = $unified_schedule[$i]->hour;
+            $unified_schedule[$i]->day = $unified_schedule[$i]->day;
+        }
+
+        // Sort by date
+        $days = ['Saturday' => [], 'Sunday' => []];
+        foreach ($unified_schedule as $entry) {
+            $days[$entry->day][] = $entry;
+        }
+
+        return $days;
+    }
+
     public function getSponsorsInfoAttribute()
     {
         $sponsors_info = [];
