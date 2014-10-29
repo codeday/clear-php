@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body > div.wrap {
   width: 100%;
   margin: 0 auto;
@@ -84,7 +85,7 @@ body > header {
     float: left;
     padding-left: 1rem; }
     body > header nav ul li.active a {
-      color: #fb481c;
+      color: #FB481C;
       font-weight: 500;
       border-bottom: none; }
     body > header nav ul li a {
@@ -92,7 +93,7 @@ body > header {
       font-weight: 300;
       border-bottom: 1px dotted #efdede; }
       body > header nav ul li a:hover {
-        border-bottom-color: #fb481c; }
+        border-bottom-color: #FB481C; }
   body > header section.user {
     float: right;
     font-size: 0.75rem;
@@ -102,11 +103,11 @@ body > header {
       body > header section.user li.username {
         font-weight: 700; }
       body > header section.user li a:hover {
-        color: #fb481c; }
+        color: #FB481C; }
       body > header section.user li:not(:last-child) {
         padding-right: 0; }
         body > header section.user li:not(:last-child):after {
-          content: "\2022";
+          content: "•";
           color: #efdede;
           padding: 0 0.5rem; }
   body > header:after {
@@ -127,8 +128,8 @@ input[type="datetime-local"],
 textarea,
 select {
   border: none;
-  border-bottom: 1px solid #111111;
-  color: #111111;
+  border-bottom: 1px solid #111;
+  color: #111;
   font-size: 1.2rem;
   padding: 0rem 0 0.2rem 0;
   outline: none;
@@ -146,11 +147,11 @@ select {
   input[type="datetime-local"]:focus,
   textarea:focus,
   select:focus {
-    border-color: #fb481c;
-    color: #fb481c; }
+    border-color: #FB481C;
+    color: #FB481C; }
 
 textarea {
-  border-right: 1px solid #111111;
+  border-right: 1px solid #111;
   height: 10rem; }
 
 select {
@@ -162,8 +163,8 @@ select {
 
 a.action, form input[type="submit"], button {
   cursor: pointer;
-  border: 1px solid #111111;
-  color: #111111;
+  border: 1px solid #111;
+  color: #111;
   display: block;
   text-align: center;
   float: right;
@@ -173,7 +174,7 @@ a.action, form input[type="submit"], button {
   margin-bottom: 0.5rem;
   font-size: 1rem; }
   a.action:hover, form input[type="submit"]:hover, button:hover {
-    background-color: #111111;
+    background-color: #111;
     color: #f7efef; }
   a.action:after, form input[type="submit"]:after, button:after {
     content: "";
@@ -210,12 +211,12 @@ form div.field {
   clear: both;
   padding-bottom: 2rem; }
   form div.field.template {
-    color: #cccccc; }
+    color: #ccc; }
     form div.field.template select {
-      border-bottom-color: #cccccc;
-      color: #cccccc; }
+      border-bottom-color: #ccc;
+      color: #ccc; }
     form div.field.template .help {
-      color: #cccccc; }
+      color: #ccc; }
   form div.field:after {
     content: "";
     display: block;
@@ -238,7 +239,7 @@ form div.field {
     text-align: left;
     font-size: 0.75rem;
     font-weight: 300;
-    color: #111111; }
+    color: #111; }
 
 div.region-picker {
   width: 100%;
@@ -266,7 +267,7 @@ body.dashboard section.content > .countdown {
     font-size: 0.75rem;
     padding-top: 0.3rem; }
     body.dashboard section.content > .countdown .details .name:after {
-      content: "\2022";
+      content: "•";
       color: #efdede;
       padding: 0 0.3rem; }
 body.dashboard section.content > .my-events {
@@ -291,7 +292,7 @@ body.dashboard section.content > .my-events {
             font-weight: 300;
             font-size: 0.75rem; }
         body.dashboard section.content > .my-events ul li div.name {
-          border: 1px solid #111111;
+          border: 1px solid #111;
           background-color: #efdede;
           font-size: 2.25rem;
           font-weight: 300;
@@ -302,11 +303,11 @@ body.dashboard section.content > .my-events {
           margin-right: 4.66%;
           padding-top: 1rem; }
           body.dashboard section.content > .my-events ul li div.name.open {
-            background-color: #15e014; }
+            background-color: #15E014; }
           body.dashboard section.content > .my-events ul li div.name.venue {
-            background-color: #0343fa; }
+            background-color: #0343FA; }
           body.dashboard section.content > .my-events ul li div.name.closed {
-            background-color: #fb481c; }
+            background-color: #FB481C; }
       body.dashboard section.content > .my-events ul li:after {
         content: "";
         clear: both;
@@ -335,7 +336,7 @@ body.dashboard section.content > .other-events {
         body.dashboard section.content > .other-events section.list ul li a {
           text-decoration: none; }
         body.dashboard section.content > .other-events section.list ul li div.name {
-          border: 1px solid #111111;
+          border: 1px solid #111;
           background-color: #efdede;
           display: inline-block;
           font-size: 0.75rem;
@@ -345,11 +346,11 @@ body.dashboard section.content > .other-events {
           width: 2.5rem;
           margin-right: 0.2rem; }
           body.dashboard section.content > .other-events section.list ul li div.name.open {
-            background-color: #15e014; }
+            background-color: #15E014; }
           body.dashboard section.content > .other-events section.list ul li div.name.venue {
-            background-color: #0343fa; }
+            background-color: #0343FA; }
           body.dashboard section.content > .other-events section.list ul li div.name.closed {
-            background-color: #fb481c; }
+            background-color: #FB481C; }
         body.dashboard section.content > .other-events section.list ul li div {
           display: inline; }
           body.dashboard section.content > .other-events section.list ul li div.registrants:after {
@@ -401,7 +402,7 @@ body.settings ul.batches {
     margin: 0 0.5rem 0 0; }
     body.settings ul.batches li a {
       text-decoration: none;
-      color: #111111; }
+      color: #111; }
     body.settings ul.batches li.new a {
       display: block;
       width: 100%;
@@ -412,10 +413,10 @@ body.settings ul.batches {
       border-top-width: 2.15rem;
       padding: 0.5rem 0; }
     body.settings ul.batches li.loaded .month, body.settings ul.batches li.loaded .year {
-      background-color: #fb481c;
+      background-color: #FB481C;
       color: #f7efef; }
     body.settings ul.batches li.loaded .day {
-      border-color: #fb481c; }
+      border-color: #FB481C; }
     body.settings ul.batches li .month, body.settings ul.batches li .year {
       display: block;
       text-transform: uppercase;
@@ -451,14 +452,15 @@ body.settings ul.batches {
     width: 0;
     height: 0; }
 
-body.event form div.field #venue_city, body.event form div.field #venue_state, body.event form div.field #venue_postal, body.event form div.field #venue_country {
+body.event form div.field #venue_city, body.event form div.field #venue_state, body.event form div.field #venue_postal, body.event form div.field #venue_country,
+body.event form div.field #ship_city, body.event form div.field #ship_state, body.event form div.field #ship_postal, body.event form div.field #ship_country {
   width: 18%;
   margin-left: 0.75%; }
-body.event form div.field #venue_country {
+body.event form div.field #venue_country, body.event form div.field #ship_country {
   clear: right; }
-body.event form div.field #venue_city {
+body.event form div.field #venue_city, body.event form div.field #ship_city {
   width: 22.75%; }
-body.event form div.field #venue_state {
+body.event form div.field #venue_state, body.event form div.field #ship_state {
   width: 14%; }
 body.event .all.promotions {
   width: 100%; }
@@ -473,7 +475,7 @@ body.event .all.promotions {
   body.event .all.promotions .code {
     width: 25%; }
     body.event .all.promotions .code input {
-      border: 1px dotted #fb481c;
+      border: 1px dotted #FB481C;
       background-color: #ffeae4;
       text-align: center;
       border-radius: 5px;
@@ -481,8 +483,8 @@ body.event .all.promotions {
       -webkit-border-radius: 5px;
       padding: 4px; }
   body.event .all.promotions .scholarship .code input {
-    border-color: black;
-    background-color: #dddddd; }
+    border-color: #000;
+    background-color: #ddd; }
 body.event .current.registrations ul {
   padding: 0; }
   body.event .current.registrations ul li {
@@ -516,4 +518,6 @@ body {
   background-color: #f7efef; }
 
 a, a:hover, a:active, a:visited {
-  color: #111111; }
+  color: #111; }
+
+/*# sourceMappingURL=style.css.map */

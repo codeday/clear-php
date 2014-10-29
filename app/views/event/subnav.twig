@@ -1,6 +1,9 @@
 <ul>
     <li><a href="/event/{{ event.id }}">{{ event.full_name }}</a></li>
     <li><a href="/event/{{ event.id }}/venue">Venue</a></li>
+    {% if not event.is_shipped %}
+        <li><a href="/event/{{ event.id }}/shipping">Shipping</a></li>
+    {% endif %}
     <li><a href="/event/{{ event.id }}/registrations">Registrations</a></li>
     <li><a href="/event/{{ event.id }}/promotions">Promotions</a></li>
     <li><a href="/event/{{ event.id }}/emails">Emails</a></li>
