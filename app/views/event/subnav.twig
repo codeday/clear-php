@@ -10,4 +10,7 @@
     <li><a href="/event/{{ event.id }}/sponsors">Sponsors</a></li>
     <li><a href="/event/{{ event.id }}/activities">Special Activities</a></li>
     <li><a href="/event/{{ event.id }}/subusers">Subusers</a></li>
+    {% if me.is_admin %}
+        <li><a href="/event/{{ event.id }}/supplies">Supplies</a></li>
+    {% endif %}
 </ul>

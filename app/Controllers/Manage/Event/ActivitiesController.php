@@ -27,8 +27,10 @@ class ActivitiesController extends \Controller {
 
     public function postDelete()
     {
+        $event = \Route::input('event');
+
         $activity = Models\Batch\Event\Activity::find(\Input::get('id'));
-        if (!$activity) {
+        if (!$activity || $activity->batches_event_id != $event->id) {
             \App::abort(404);
         }
 

@@ -1,7 +1,7 @@
 <?php
 namespace CodeDay\Clear\Controllers\Manage\Settings;
 
-use \Codeday\Clear\Models;
+use \CodeDay\Clear\Models;
 
 class BatchesController extends \Controller {
 
@@ -118,6 +118,34 @@ class BatchesController extends \Controller {
                 ]
             ]);
         }
+    }
+
+    public function postAddSupplies()
+    {
+        $batch = \Route::input('batch');
+
+        $supply = new Models\Batch\Supply;
+        $supply->batch_id = $batch->id;
+        $supply->item = \Input::get('item');
+        $supply->type = \Input::get('type');
+        $supply->quantity = floatval(\Input::get('quantity'));
+        $supply->save();
+
+        return \Redirect::to('/settings/batches/'.$batch->id);
+    }
+
+    public function postDeleteSupplies()
+    {
+        $batch = \Route::input('batch');
+
+        $supply = Models\Batch\Supply::find(\Input::get('id'));
+        if (!$supply || $supply->batch_id !== $batch->id) {
+            \App::abort(404);
+        }
+
+        $supply->delete();
+
+        return \Redirect::to('/settings/batches/'.$batch->id);
     }
 
     public function getEdit()

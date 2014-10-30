@@ -140,6 +140,11 @@ class Event extends \Eloquent {
         return $this->hasMany('\CodeDay\Clear\Models\User\Grant', 'batches_event_id', 'id');
     }
 
+    public function supplies()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Batch\Supply', 'batches_event_id', 'id');
+    }
+
     public function promotions()
     {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\Promotion', 'batches_event_id', 'id');
@@ -292,10 +297,62 @@ class Event extends \Eloquent {
         return $days;
     }
 
+    public function getManifestGeneratedAttribute()
+    {
+        $items = [];
+
+        // Get total attendance information (for distributing inventory)
+        $total_events = 0;
+        $total_attendees = 0;
+        foreach ($this->batch->events as $event) {
+            if (!$event->ship_for) {
+                throw new \Exception('No ship for estimate for '.$event->name);
+            }
+
+            $total_events++;
+            $total_attendees += $event->ship_for;
+        }
+
+        // Add batch items
+        foreach ($this->batch->supplies as $supply) {
+            $a_quantity = 0;
+            if ($supply->type == 'perbox') {
+                $a_quantity = $supply->quantity;
+            } elseif ($supply->type == 'perparticipant') {
+                $a_quantity = round($supply->quantity * $this->ship_for);
+            } elseif ($supply->type == 'inventory') {
+                $a_quantity = floor(($this->ship_for/$total_attendees) * $supply->quantity);
+            }
+
+            $items[] = [
+                'item' => $supply->item,
+                'quantity' => $a_quantity
+            ];
+        }
+
+        // Add event items
+        foreach ($this->supplies as $supply) {
+            $a_quantity = 0;
+            if ($supply->type == 'perbox') {
+                $a_quantity = $supply->quantity;
+            } elseif ($supply->type == 'perparticipant') {
+                $a_quantity = round($supply->quantity * $this->ship_for);
+            }
+
+            $items[] = [
+                'item' => $supply->item,
+                'quantity' => $a_quantity
+            ];
+        }
+
+        return $items;
+    }
+
     public function getShipReadyAttribute()
     {
         return
             ($this->ship_address
+                && $this->ship_for
                 && $this->ship_l && $this->ship_w && $this->ship_h
                 && $this->shipment_number == null);
     }

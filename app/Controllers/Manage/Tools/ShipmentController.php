@@ -16,6 +16,7 @@ class ShipmentController extends \Controller {
         $widths = \Input::get('widths');
         $heights = \Input::get('heights');
         $weights = \Input::get('weights');
+        $ship_fors = \Input::get('ship_fors');
 
         foreach ($lengths as $event_id => $length) {
             $event = Models\Batch\Event::where('id', '=', $event_id)->firstOrFail();
@@ -27,11 +28,13 @@ class ShipmentController extends \Controller {
             $width = $widths[$event_id];
             $height = $heights[$event_id];
             $weight = $weights[$event_id];
+            $ship_for = $ship_fors[$event_id];
 
             $event->ship_l = $length ? $length : null;
             $event->ship_w = $width ? $width : null;
             $event->ship_h = $height ? $height : null;
             $event->ship_weight = $weight ? $weight : null;
+            $event->ship_for = $ship_for ? $ship_for : null;
 
             $event->save();
         }

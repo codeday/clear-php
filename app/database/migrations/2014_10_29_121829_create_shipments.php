@@ -12,11 +12,11 @@ class CreateShipments extends Migration {
      */
     public function up()
     {
-        \Schema::create('batches_shipments', function($table)
+        \Schema::create('batches_supplies', function($table)
         {
             $table->increments('id');
 
-            $table->string('batch_id');
+            $table->string('batch_id')->nullable();
             $table->foreign('batch_id')
                 ->references('id')->on('batches')
                 ->onDelete('restrict')->onUpdate('cascade');
@@ -28,7 +28,7 @@ class CreateShipments extends Migration {
 
             $table->string('item');
             $table->enum('type', ['perbox', 'perparticipant', 'inventory']);
-            $table->integer('quantity');
+            $table->decimal('quantity', 10, 2);
 
             $table->timestamps();
         });
@@ -60,7 +60,7 @@ class CreateShipments extends Migration {
      */
     public function down()
     {
-        \Schema::drop('batches_shipments');
+        \Schema::drop('batches_supplies');
 
         \Schema::table('batches_events', function($table)
         {

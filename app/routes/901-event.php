@@ -20,4 +20,8 @@
     \Route::get('/chartdata.csv', 'IndexController@getChartdata');
     \Route::post('/update-registration-status', 'IndexController@postUpdateRegistrationStatus');
     \Route::post('/notes', 'IndexController@postNotes');
+
+    \Route::group(['before' => 's5_admin'], function(){
+        \Route::controller('supplies', 'SuppliesController');
+    });
 });

@@ -51,4 +51,9 @@ class Batch extends \Eloquent {
 
         return false;
     }
+
+    public function supplies()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Batch\Supply', 'batch_id', 'id');
+    }
 } 

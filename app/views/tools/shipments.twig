@@ -25,6 +25,7 @@
             <thead>
                 <tr>
                     <th>Event</th>
+                    <th>Ship For</th>
                     <th>Length</th>
                     <th>Width</th>
                     <th>Height</th>
@@ -43,10 +44,11 @@
                             <tr>
                         {% endif %}
                             <td>{{ event.name }}</td>
-                            <td><input type="text" name="lengths[{{ event.id }}]" value="{{ event.ship_l }}"/></td>
-                            <td><input type="text" name="widths[{{ event.id }}]" value="{{ event.ship_w }}"/></td>
-                            <td><input type="text" name="heights[{{ event.id }}]" value="{{ event.ship_h }}"/></td>
-                            <td><input type="text" name="weights[{{ event.id }}]" value="{{ event.ship_weight }}"/></td>
+                            <td><input type="number" name="ship_fors[{{ event.id }}]" value="{{ event.ship_for }}" placeholder="{{ event.registrations.count }}(+{{ event.registrations_this_week|length }})/{{ event.registration_estimate }}"/></td>
+                            <td><input type="number" name="lengths[{{ event.id }}]" value="{{ event.ship_l }}"/></td>
+                            <td><input type="number" name="widths[{{ event.id }}]" value="{{ event.ship_w }}"/></td>
+                            <td><input type="number" name="heights[{{ event.id }}]" value="{{ event.ship_h }}"/></td>
+                            <td><input type="number" name="weights[{{ event.id }}]" value="{{ event.ship_weight }}"/></td>
                         </tr>
                     {% endif %}
                 {% endfor %}

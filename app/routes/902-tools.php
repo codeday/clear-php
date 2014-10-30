@@ -11,5 +11,6 @@
         \Route::controller('promotions', 'PromotionsController');
         \Route::controller('evangelists', 'EvangelistController');
         \Route::controller('shipments', 'ShipmentController');
+        \Route::controller('manifests', 'ManifestController');
     });
 });

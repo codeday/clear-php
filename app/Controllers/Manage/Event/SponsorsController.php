@@ -26,8 +26,10 @@ class SponsorsController extends \Controller {
 
     public function postDelete()
     {
+        $event = \Route::input('event');
+
         $sponsor = Models\Batch\Event\Sponsor::find(\Input::get('id'));
-        if (!$sponsor) {
+        if (!$sponsor || $sponsor->batches_event_id != $event->id) {
             \App::abort(404);
         }
 
