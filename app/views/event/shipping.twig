@@ -22,9 +22,9 @@
             <label for="ship_address_1">Ship Address</label>
             <input type="text" name="ship_address_1" id="ship_address_1" value="{{ event.ship_address_1 }}" placeholder="111 Main St."/>
             <input type="text" name="ship_address_2" id="ship_address_2" value="{{ event.ship_address_2 }}" placeholder="STE 100" />
-            <input type="text" name="ship_country" id="ship_country" value="{{ event.ship_country }}" placeholder="USA" />
+            <input type="text" name="ship_country" id="ship_country" value="{{ event.ship_country }}" placeholder="US" maxlength="2" />
             <input type="text" name="ship_postal" id="ship_postal" value="{{ event.ship_postal }}" placeholder="98109" />
-            <input type="text" name="ship_state" id="ship_state" value="{{ event.ship_state }}" placeholder="WA" />
+            <input type="text" name="ship_state" id="ship_state" value="{{ event.ship_state }}" placeholder="WA" maxlength="2" />
             <input type="text" name="ship_city" id="ship_city" value="{{ event.ship_city }}" placeholder="Seattle" />
             <span class="help">The address of the organization or person receiving the shipment, including suite or floor number (if required).</span>
         </div>

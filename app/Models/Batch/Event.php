@@ -295,10 +295,16 @@ class Event extends \Eloquent {
     public function getShipReadyAttribute()
     {
         return
+            ($this->ship_address
+                && $this->ship_l && $this->ship_w && $this->ship_h
+                && $this->shipment_number == null);
+    }
+
+    public function getShipAddressAttribute()
+    {
+        return
             ($this->ship_address_1 && $this->ship_city && $this->ship_state && $this->ship_postal
-            && ($this->ship_name || $this->ship_company)
-            && $this->ship_l && $this->ship_w && $this->ship_h
-            && $this->shipment_number == null);
+                && ($this->ship_name || $this->ship_company));
     }
 
     public function getSponsorsInfoAttribute()

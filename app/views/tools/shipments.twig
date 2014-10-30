@@ -7,6 +7,9 @@
         .ready {
             color: green;
         }
+        .address {
+            color: yellow;
+        }
         .ship-options input {
             width: 100%;
         }
@@ -34,6 +37,8 @@
                         {% if event.ship_ready %}
                             <tr class="ready">
                             {% set ship_ready_exists = true %}
+                        {% elseif event.ship_address %}
+                            <tr class="address">
                         {% else %}
                             <tr>
                         {% endif %}
