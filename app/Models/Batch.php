@@ -15,6 +15,19 @@ class Batch extends \Eloquent {
         return ['created_at', 'updated_at', 'starts_at'];
     }
 
+    public function getShipmentsAttribute()
+    {
+        $shipped_events = Batch\Event::whereNotNull('shipment_number')
+            ->orderBy('shipment_number', 'ASC')
+            ->groupBy('shipment_number')
+            ->get();
+
+
+        return array_map(function($e){
+            return $e->shipment_number;
+        }, iterator_to_array($shipped_events));
+    }
+
     protected static function boot()
     {
         parent::boot();

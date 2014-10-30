@@ -10,5 +10,6 @@
     \Route::group(['before' => 's5_admin'], function(){
         \Route::controller('promotions', 'PromotionsController');
         \Route::controller('evangelists', 'EvangelistController');
+        \Route::controller('shipments', 'ShipmentController');
     });
 });

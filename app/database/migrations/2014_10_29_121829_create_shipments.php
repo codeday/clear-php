@@ -43,7 +43,7 @@ class CreateShipments extends Migration {
             $table->string('ship_state')->nullable();
             $table->string('ship_postal')->nullable();
             $table->string('ship_country')->nullable();
-            $table->boolean('ship_is_resedential');
+            $table->boolean('ship_is_residential');
 
             $table->integer('ship_l')->nullable();
             $table->integer('ship_w')->nullable();
@@ -72,7 +72,7 @@ class CreateShipments extends Migration {
             $table->dropColumn('ship_state');
             $table->dropColumn('ship_postal');
             $table->dropColumn('ship_country');
-            $table->dropColumn('ship_is_resedential');
+            $table->dropColumn('ship_is_residential');
 
             $table->dropColumn('ship_l');
             $table->dropColumn('ship_w');

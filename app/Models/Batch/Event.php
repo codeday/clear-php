@@ -292,6 +292,15 @@ class Event extends \Eloquent {
         return $days;
     }
 
+    public function getShipReadyAttribute()
+    {
+        return
+            ($this->ship_address_1 && $this->ship_city && $this->ship_state && $this->ship_postal
+            && ($this->ship_name || $this->ship_company)
+            && $this->ship_l && $this->ship_w && $this->ship_h
+            && $this->shipment_number == null);
+    }
+
     public function getSponsorsInfoAttribute()
     {
         $sponsors_info = [];

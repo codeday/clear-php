@@ -27,7 +27,7 @@ class ShippingController extends \Controller {
         $event->ship_state = \Input::get('ship_state');
         $event->ship_postal = \Input::get('ship_postal');
         $event->ship_country = \Input::get('ship_country');
-        $event->ship_is_resedential = \Input::get('ship_is_resedential') ? true : false;
+        $event->ship_is_residential = \Input::get('ship_is_residential') ? true : false;
 
         $event->save();
         return \Redirect::to('/event/'.$event->id.'/shipping');
