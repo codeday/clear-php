@@ -10,12 +10,12 @@
     <form method="post">
         <div class="field">
             <label for="ship_name">Name</label>
-            <input type="text" name="ship_name" id="ship_name" value="{{ event.ship_name }}" placeholder="Tyler Menezes" />
+            <input type="text" name="ship_name" id="ship_name" value="{{ event.ship_name }}" placeholder="Tyler Menezes" maxlength="35" />
             <span class="help">The name of the person receiving the shipment, if a specific person is designated.</span>
         </div>
         <div class="field">
             <label for="ship_company">Company</label>
-            <input type="text" name="ship_company" id="ship_company" value="{{ event.ship_company }}" placeholder="Foocorp" />
+            <input type="text" name="ship_company" id="ship_company" value="{{ event.ship_company }}" placeholder="Foocorp" maxlength="35" />
             <span class="help">The name of the company receiving the shipment.</span>
         </div>
         <div class="field">
