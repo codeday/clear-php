@@ -66,7 +66,7 @@ class Register extends \Controller {
             $registrants[] = (object)[
                 'first_name' => $first_names[$i],
                 'last_name' => $last_names[$i],
-                'email' => $emails[$i]
+                'email' => trim($emails[$i])
             ];
         }
 
