@@ -93,6 +93,7 @@ class User extends \Eloquent {
                                 ->orWhere('batches_events.manager_username', '=', $this->username)
                                 ->orWhere('batches_events.evangelist_username', '=', $this->username);
                         })
+                        ->groupBy('batches_events.id')
                         ->get();
     }
 
