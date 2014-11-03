@@ -44,7 +44,7 @@ class ShipmentController extends \Controller {
 
     public function postShip()
     {
-        $current_shipment = Models\Batch\Event::whereNotNull('shipment_number')->orderBy('shipment_number')->first();
+        $current_shipment = Models\Batch\Event::whereNotNull('shipment_number')->orderBy('shipment_number', 'DESC')->first();
         $current_shipment_number = -1;
         if ($current_shipment) {
             $current_shipment_number = $current_shipment->shipment_number;
