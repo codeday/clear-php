@@ -354,6 +354,7 @@ class Event extends \Eloquent {
             ($this->ship_address
                 && $this->ship_for
                 && $this->ship_l && $this->ship_w && $this->ship_h
+                && $this->ship_weight
                 && $this->shipment_number == null);
     }
 
