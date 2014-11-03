@@ -1,5 +1,5 @@
 {% extends "template.twig" %}
-{% block title %}Checkin{% endblock %}
+{% block title %}Shipments{% endblock %}
 {% block section %}tools{% endblock %}
 {% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
 {% block content %}
@@ -62,7 +62,7 @@
         <p>This will generate a shipment with the following cities:</p>
         <ul>
             {% for event in loaded_batch.events %}
-                {% if event.ship_ready and not event.shipment_number is null %}
+                {% if event.ship_ready and event.shipment_number is null %}
                     <li>{{ event.name }}</li>
                 {% endif %}
             {% endfor %}
