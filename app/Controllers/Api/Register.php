@@ -224,7 +224,7 @@ class Register extends \Controller {
     {
         $event = \Route::input('event');
 
-        \Mail::send('emails/registration', [
+        \Mail::queue('emails/registration', [
             'first_name' => $registrant_info->first_name,
             'last_name' => $registrant_info->last_name,
             'total_cost' => $total_cost,

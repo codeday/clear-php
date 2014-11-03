@@ -21,7 +21,7 @@ class RegistrationsController extends \Controller {
         $registration->save();
 
         if (\Input::get('send_welcome')) {
-            \Mail::send('emails/registration', [
+            \Mail::queue('emails/registration', [
                     'first_name' => $registration->first_name,
                     'last_name' => $registration->last_name,
                     'total_cost' => 0,
@@ -94,7 +94,7 @@ class RegistrationsController extends \Controller {
 
         if (\Input::get('email')) {
             foreach ($to_cancel as $reg) {
-                \Mail::send('emails/reg_cancel', [
+                \Mail::queue('emails/reg_cancel', [
                     'first_name' => $reg->first_name,
                     'last_name' => $reg->last_name,
                     'refund' => \Input::get('refund') ? true : false
@@ -139,7 +139,7 @@ class RegistrationsController extends \Controller {
         $registration->save();
 
         if (\Input::get('email')) {
-            \Mail::send('emails/reg_refund', [
+            \Mail::queue('emails/reg_refund', [
                 'first_name' => $registration->first_name,
                 'last_name' => $registration->last_name,
                 'amount' => $amount

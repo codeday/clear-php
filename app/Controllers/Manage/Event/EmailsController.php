@@ -52,11 +52,13 @@ class EmailsController extends \Controller {
             $message_rendered = $twig->render('{{ content|nl2br }}', ['content' => $message_rendered]);
             $subject_rendered = $twig->render($subject, $context);
 
-            \Mail::send('emails/blank', ['content' => $message_rendered], function($envelope) use ($recipient, $subject_rendered, $from_raw) {
-                $envelope->from($from_raw->email, $from_raw->name);
-                $envelope->to($recipient->email, $recipient->name);
-                $envelope->subject($subject_rendered);
-            });
+            try {
+                \Mail::queue('emails/blank', ['content' => $message_rendered], function($envelope) use ($recipient, $subject_rendered, $from_raw) {
+                    $envelope->from($from_raw->email, $from_raw->name);
+                    $envelope->to(trim($recipient->email), $recipient->name);
+                    $envelope->subject($subject_rendered);
+                });
+            } catch (\Exception $ex) {}
         }
 
         return \Redirect::to('/event/'.$event->id.'/emails');
