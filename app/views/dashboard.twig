@@ -117,7 +117,7 @@
     <script type="text/javascript">
         (function(){
             var countdown_clock = {
-                die_at: {{ loaded_batch.starts_at.timestamp }} * 1000,
+                die_at: ({{ loaded_batch.starts_at.timestamp }} + (60 * 60 * 12)) * 1000,
                 has_started: false,
                 get_remaining_seconds: function () {
                 return Math.floor((this.die_at - (+new Date())) / 1000);
