@@ -21,11 +21,12 @@ class RegistrationsController extends \Controller {
         $registration->save();
 
         if (\Input::get('send_welcome')) {
-            \Mail::queue('emails/registration', [
+            \Mail::send('emails/registration', [
                     'first_name' => $registration->first_name,
                     'last_name' => $registration->last_name,
                     'total_cost' => 0,
-                    'unit_cost' => 0
+                    'unit_cost' => 0,
+                    'event' => $event
                 ], function($envelope) use ($registration, $event) {
                     $envelope->from('contact@studentrnd.org', 'StudentRND');
                     $envelope->to($registration->email, $registration->name);
@@ -59,6 +60,20 @@ class RegistrationsController extends \Controller {
         $registration->last_name = \Input::get('last_name');
         $registration->email = \Input::get('email');
         $registration->save();
+
+        if (\Input::get('resend')) {
+            \Mail::send('emails/registration', [
+                'first_name' => $registration->first_name,
+                'last_name' => $registration->last_name,
+                'total_cost' => $registration->amount_paid,
+                'unit_cost' => $registration->amount_paid,
+                'event' => $event
+            ], function($envelope) use ($registration, $event) {
+                $envelope->from('contact@studentrnd.org', 'StudentRND');
+                $envelope->to($registration->email, $registration->first_name.' '.$registration->last_name);
+                $envelope->subject('CodeDay '.$event->name);
+            });
+        }
 
         return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
     }
