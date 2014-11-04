@@ -33,7 +33,7 @@
         <div class="field">
             <label for="from">From</label>
             <select name="from" id="from">
-                <option value="studentrnd" selected>StudentRND &lt;contact@studentrnd.org&gt;</option>
+                <option value="studentrnd" selected>CodeDay {{ event.name }} &lt;{{ event.webname }}@codeday.org&gt;</option>
                 <option value="me">{{ me.name }} &lt;{{ me.username }}@studentrnd.org&gt;</option>
                 {% if me.id != event.manager.id %}
                     <option value="manager">{{ event.manager.name }} &lt;{{ event.manager.username }}@studentrnd.org&gt;</option>

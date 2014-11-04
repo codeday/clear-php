@@ -81,8 +81,8 @@ class EmailsController extends \Controller {
                 ];
             case "studentrnd":
                 return (object)[
-                    'name' => 'StudentRND',
-                    'email' => 'contact@studentrnd.org'
+                    'name' => 'CodeDay '.$event->name,
+                    'email' => $event->webname.'@codeday.org'
                 ];
             default:
                 \App::abort(403);
