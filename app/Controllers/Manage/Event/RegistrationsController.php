@@ -30,7 +30,7 @@ class RegistrationsController extends \Controller {
                 ], function($envelope) use ($registration, $event) {
                     $envelope->from('events@studentrnd.org', 'StudentRND Events');
                     $envelope->to($registration->email, $registration->name);
-                    $envelope->subject('Your Tickets for CodeDay '.$event->name.' on '.$event->starts_at->format('F jS'));
+                    $envelope->subject('Your Tickets for CodeDay '.$event->name);
                 });
         }
 
@@ -71,7 +71,7 @@ class RegistrationsController extends \Controller {
             ], function($envelope) use ($registration, $event) {
                 $envelope->from('events@studentrnd.org', 'StudentRND Events');
                 $envelope->to($registration->email, $registration->first_name.' '.$registration->last_name);
-                $envelope->subject('Your Tickets for CodeDay '.$event->name.' on '.$event->starts_at->format('F jS'));
+                $envelope->subject('Your Tickets for CodeDay '.$event->name);
             });
         }
 

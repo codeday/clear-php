@@ -232,7 +232,7 @@ class Register extends \Controller {
         ], function($envelope) use ($registrant_info, $event) {
             $envelope->from('events@studentrnd.org', 'StudentRND Events');
             $envelope->to($registrant_info->email, $registrant_info->first_name.' '.$registrant_info->last_name);
-            $envelope->subject('Your Tickets for CodeDay '.$event->name.' on '.$event->starts_at->format('F jS'));
+            $envelope->subject('Your Tickets for CodeDay '.$event->name);
         });
     }
 
