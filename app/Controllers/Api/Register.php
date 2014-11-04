@@ -224,13 +224,13 @@ class Register extends \Controller {
     {
         $event = \Route::input('event');
 
-        \Mail::send('emails/registration', [
+        \Mail::send(['emails/registration', 'emails/registration_text'], [
             'first_name' => $registrant_info->first_name,
             'last_name' => $registrant_info->last_name,
             'total_cost' => $total_cost,
             'unit_cost' => $unit_cost
         ], function($envelope) use ($registrant_info, $event) {
-            $envelope->from('events@studentrnd.org', 'StudentRND Events');
+            $envelope->from($event->webname.'@codeday.org', 'CodeDay '.$event->name);
             $envelope->to($registrant_info->email, $registrant_info->first_name.' '.$registrant_info->last_name);
             $envelope->subject('Your Tickets for CodeDay '.$event->name);
         });
