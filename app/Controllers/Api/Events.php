@@ -27,6 +27,7 @@ class Events extends ContractualController {
         'starts_at',
         'ends_at',
         'batch_name',
+        'emergency_phone',
         'waiver' => 'waiver_link',
         'manager' => 'manager_username',
         'evangelist' => 'evangelist_username'

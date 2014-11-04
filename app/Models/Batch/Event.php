@@ -348,6 +348,15 @@ class Event extends \Eloquent {
         return $items;
     }
 
+    public function getEmergencyPhoneAttribute()
+    {
+        if ($this->evangelist && $this->evangelist->phone) {
+            return $this->evangelist->phone;
+        } else {
+            return '12068538786';
+        }
+    }
+
     public function getShipReadyAttribute()
     {
         return
