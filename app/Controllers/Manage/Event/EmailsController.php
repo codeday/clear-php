@@ -53,7 +53,7 @@ class EmailsController extends \Controller {
             $subject_rendered = $twig->render($subject, $context);
 
             try {
-                \Mail::queue('emails/blank', ['content' => $message_rendered], function($envelope) use ($recipient, $subject_rendered, $from_raw) {
+                \Mail::send('emails/blank', ['content' => $message_rendered], function($envelope) use ($recipient, $subject_rendered, $from_raw) {
                     $envelope->from($from_raw->email, $from_raw->name);
                     $envelope->to(trim($recipient->email), $recipient->name);
                     $envelope->subject($subject_rendered);
