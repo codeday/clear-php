@@ -264,8 +264,13 @@
         <div>
             <h1>Workshops</h1>
             <ul class="first">
-                <li><strong>2:00:</strong> Beginner: Intro to Coding</li>
-                <li><strong>3:00:</strong> Splunk: Doing Fun Things With Data</li>
+                {% for day in event.schedule %}
+                    {% for activity in day %}
+                        {% if activity.type != 'event' %}
+                            <li><strong>{{ activity.hour }}:</strong> {{ activity.title }}</li>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
             </ul>
         </div>
     </section>
@@ -302,6 +307,7 @@
             <span><img src="/assets/img/sponsors/lexisnexis.jpg" alt="Lexis Nexis" /></span>
             <span><img src="/assets/img/sponsors/lob.png" alt="Lob" /></span>
             <span><img src="/assets/img/sponsors/fancyhands.png" alt="Fancy Hands" /></span>
+            <span><img src="/assets/img/sponsors/kettering.png" alt="Kettering" /></span>
         </div>
     </section>
 
