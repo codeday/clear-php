@@ -3,12 +3,18 @@
 {% block content %}
     <section class="countdown">
         <section class="active">
-            <span class="weeks" id="time-remaining-weeks">{{ ((loaded_batch.starts_at.diffInDays)/7)|round(0, 'floor') }} weeks</span>
-            <span class="days" id="time-remaining-days">{{ (loaded_batch.starts_at.diffInDays)%7 }} days</span>
-            <span class="hours" id="time-remaining-hours">{{ (loaded_batch.starts_at.diffInHours)%24 }} hours</span>
-            <span class="minutes" id="time-remaining-minutes">{{ (loaded_batch.starts_at.diffInMinutes)%60 }} minutes</span>
-            <span class="seconds" id="time-remaining-seconds">{{ (loaded_batch.starts_at.diffInSeconds)%60 }} seconds</span>
-            left.
+            {% if loaded_batch.starts_at.isFuture %}
+                <span class="weeks" id="time-remaining-weeks">{{ ((loaded_batch.starts_at.diffInDays)/7)|round(0, 'floor') }} weeks</span>
+                <span class="days" id="time-remaining-days">{{ (loaded_batch.starts_at.diffInDays)%7 }} days</span>
+                <span class="hours" id="time-remaining-hours">{{ (loaded_batch.starts_at.diffInHours)%24 }} hours</span>
+                <span class="minutes" id="time-remaining-minutes">{{ (loaded_batch.starts_at.diffInMinutes)%60 }} minutes</span>
+                <span class="seconds" id="time-remaining-seconds">{{ (loaded_batch.starts_at.diffInSeconds)%60 }} seconds</span>
+                left.
+            {% elseif loaded_batch.ends_at.isFuture %}
+                It's CodeDay!
+            {% else %}
+                CodeDay is over.
+            {% endif %}
         </section>
         <section class="details">
             <span class="name">CodeDay {{ loaded_batch.name }}</span>
@@ -37,6 +43,11 @@
                                 <div class="notify">
                                     <span class="number">{{ event.notify.count }}</span>
                                     <span class="label">Subscribers</span>
+                                </div>
+                            {% elseif not event.starts_at.isFuture %}
+                                <div class="notify">
+                                    <span class="number">{{ event.attendees_here.count }}</span>
+                                    <span class="label">Here</span>
                                 </div>
                             {% else %}
                                 <div class="registrants">
@@ -90,6 +101,11 @@
                                 <div class="notify">
                                     <span class="number">{{ event.notify.count }}</span>
                                     <span class="label">Sub</span>
+                                </div>
+                            {% elseif not event.starts_at.isFuture %}
+                                <div class="notify">
+                                    <span class="number">{{ event.attendees_here.count }}</span>
+                                    <span class="label">Here</span>
                                 </div>
                             {% else %}
                                 <div class="registrants">

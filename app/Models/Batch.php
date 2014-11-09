@@ -15,6 +15,11 @@ class Batch extends \Eloquent {
         return ['created_at', 'updated_at', 'starts_at'];
     }
 
+    public function getEndsAtAttribute()
+    {
+        return $this->starts_at->copy()->addDay();
+    }
+
     public function getShipmentsAttribute()
     {
         $shipped_events = Batch\Event::whereNotNull('shipment_number')

@@ -32,7 +32,7 @@ class Event extends \Eloquent {
 
     public function getEndsAtAttribute()
     {
-        return $this->batch->starts_at->addDay()->timestamp;
+        return $this->batch->ends_at->timestamp;
     }
 
     public function manager()
@@ -53,6 +53,13 @@ class Event extends \Eloquent {
     public function notify()
     {
         return $this->hasMany('\CodeDay\Clear\Models\Notify', 'batches_event_id', 'id');
+    }
+
+    public function getAttendeesHereAttribute()
+    {
+        return \CodeDay\Clear\Models\Batch\Event\Registration::whereNotNull('checked_in_at')
+            ->where('batches_event_id', '=', $this->id)
+            ->get();
     }
 
     public function isUserAllowed($user)
