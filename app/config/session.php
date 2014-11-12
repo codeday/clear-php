@@ -1,12 +1,15 @@
 <?php
 
+$config = json_decode(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'local.json'), true);
+
 return [
-    'driver' => 'memcached',
-    'lifetime' => 60*24*31*3,
+    'driver' => 'file',
+    'files' => storage_path().'/sessions',
+    'lifetime' => 2592000,
     'expire_on_close' => false,
-    'cookie' => 'codeday_session',
+    'cookie' => $config['session']['cookie'],
     'domain' => null,
     'path' => '/',
     'secure' => false,
-    'lottery' => [2, 100],
+    'lottery' => [2, 100]
 ];

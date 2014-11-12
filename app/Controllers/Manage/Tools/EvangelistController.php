@@ -8,13 +8,13 @@ class EvangelistController extends \Controller {
     public function getIndex()
     {
         return \View::make('tools/evangelists', [
-            'batch' => \CodeDay\Clear\Models\Batch::Loaded()
+            'batch' => \CodeDay\Clear\Models\Batch::Managed()
         ]);
     }
 
     public function postIndex()
     {
-        $batch = \CodeDay\Clear\Models\Batch::Loaded();
+        $batch = \CodeDay\Clear\Models\Batch::Managed();
         $regions = \Input::get('region');
 
         foreach ($regions as $region_id=>$settings) {

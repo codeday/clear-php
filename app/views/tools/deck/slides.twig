@@ -178,10 +178,10 @@
         </hgroup>
     </section>
 
-    {% if loaded_batch.video_id %}
+    {% if event.batch.video_id %}
         <section class="slide video">
             <h1>Global Video</h1>
-            <iframe src="//www.youtube.com/embed/{{ loaded_batch.video_id }}?autohide=1&disablekb=1&fs=0&modestbranding=1&rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
+            <iframe src="//www.youtube.com/embed/{{ event.batch.video_id }}?autohide=1&disablekb=1&fs=0&modestbranding=1&rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
             <p>(Click arrow to advance to next slide.)</p>
         </section>
     {% endif %}

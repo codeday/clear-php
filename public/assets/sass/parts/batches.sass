@@ -1,0 +1,68 @@
+ul.batches
+    padding: 0
+    li
+        list-style-type: none
+        width: 20%
+        max-width: 5rem
+        float: left
+        margin: 0 0.5rem 0 0
+
+        a
+            text-decoration: none
+            color: $foreground-color
+
+        &.new a
+            display: block
+            width: 100%
+            font-weight: 700
+            font-size: 2rem
+            text-align: center
+            border: 1px solid $foreground-color-lighter
+            border-top-width: 2.15rem
+            padding: 0.5rem 0
+
+        &.loaded
+            .month, .year
+                background-color: $accent-color
+                color: $background-color
+            .day
+                border-color: $accent-color
+
+        .month, .year
+            display: block
+            text-transform: uppercase
+            text-align: center
+            font-weight: 300
+            padding: 0.1rem 0
+            font-size: 0.75rem
+            width: 100%
+            background-color: $foreground-color-lighter
+
+        .day
+            display: block
+            width: 100%
+            font-weight: 700
+            font-size: 2rem
+            text-align: center
+            border: 1px solid $foreground-color-lighter
+            border-top: none
+            padding: 0.5rem 0
+
+        .events
+            display: block
+            width: 100%
+            text-align: center
+            font-size: 0.75rem
+            padding-top: 0.3rem
+            font-weight: 300
+
+            &:after
+                content: "events"
+                padding-left: 0.2rem
+
+    &:after
+        content: ""
+        clear: both
+        display: block
+        width: 0
+        height: 0

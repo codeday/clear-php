@@ -61,7 +61,7 @@
         <h3>New Shipment</h3>
         <p>This will generate a shipment with the following cities:</p>
         <ul>
-            {% for event in loaded_batch.events %}
+            {% for event in managed_batch.events %}
                 {% if event.ship_ready and event.shipment_number is null %}
                     <li>{{ event.name }}</li>
                 {% endif %}
@@ -72,10 +72,10 @@
         </form>
     {% endif %}
 
-    {% if loaded_batch.shipments %}
+    {% if managed_batch.shipments %}
         <h3>Shipment CSVs</h3>
         <ul>
-            {% for shipment_number in loaded_batch.shipments %}
+            {% for shipment_number in managed_batch.shipments %}
                 <li><a href="/tools/shipments/csv?number={{ shipment_number }}">{{ shipment_number }}</a></li>
             {% endfor %}
         </ul>

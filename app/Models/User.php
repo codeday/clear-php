@@ -85,8 +85,13 @@ class User extends \Eloquent {
 
     public function getCurrentManagedEventsAttribute()
     {
+        return $this->getManagedEvents(Batch::Managed());
+    }
+
+    public function getManagedEvents(Batch $batch)
+    {
         return Batch\Event::select('batches_events.*')
-                        ->where('batch_id', '=', Batch::Loaded()->id)
+                        ->where('batch_id', '=', $batch->id)
                         ->join('users_grants', 'users_grants.batches_event_id', '=', 'batches_events.id', 'left')
                         ->where(function($query) {
                             $query->where('users_grants.username', '=', $this->username)
@@ -95,6 +100,20 @@ class User extends \Eloquent {
                         })
                         ->groupBy('batches_events.id')
                         ->get();
+    }
+
+    public function getManagedBatchesAttribute()
+    {
+        return Batch::select('batches.*')
+            ->join('batches_events', 'batches_events.batch_id', '=', 'batches.id', 'left')
+            ->join('users_grants', 'users_grants.batches_event_id', '=', 'batches_events.id', 'left')
+            ->where(function($query) {
+                $query->where('users_grants.username', '=', $this->username)
+                    ->orWhere('batches_events.manager_username', '=', $this->username)
+                    ->orWhere('batches_events.evangelist_username', '=', $this->username);
+            })
+            ->groupBy('batches.id')
+            ->get();
     }
 
     private static $_s5 = null;

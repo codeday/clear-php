@@ -51,7 +51,7 @@ class ShipmentController extends \Controller {
         }
         $current_shipment_number++;
 
-        foreach (Models\Batch::Loaded()->events as $event) {
+        foreach (Models\Batch::Managed()->events as $event) {
             if ($event->ship_ready && $event->shipment_number === null) {
                 $event->shipment_number = $current_shipment_number;
                 $event->save();

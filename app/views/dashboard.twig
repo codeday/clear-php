@@ -3,22 +3,22 @@
 {% block content %}
     <section class="countdown">
         <section class="active">
-            {% if loaded_batch.starts_at.isFuture %}
-                <span class="weeks" id="time-remaining-weeks">{{ ((loaded_batch.starts_at.diffInDays)/7)|round(0, 'floor') }} weeks</span>
-                <span class="days" id="time-remaining-days">{{ (loaded_batch.starts_at.diffInDays)%7 }} days</span>
-                <span class="hours" id="time-remaining-hours">{{ (loaded_batch.starts_at.diffInHours)%24 }} hours</span>
-                <span class="minutes" id="time-remaining-minutes">{{ (loaded_batch.starts_at.diffInMinutes)%60 }} minutes</span>
-                <span class="seconds" id="time-remaining-seconds">{{ (loaded_batch.starts_at.diffInSeconds)%60 }} seconds</span>
+            {% if managed_batch.starts_at.isFuture %}
+                <span class="weeks" id="time-remaining-weeks">{{ ((managed_batch.starts_at.diffInDays)/7)|round(0, 'floor') }} weeks</span>
+                <span class="days" id="time-remaining-days">{{ (managed_batch.starts_at.diffInDays)%7 }} days</span>
+                <span class="hours" id="time-remaining-hours">{{ (managed_batch.starts_at.diffInHours)%24 }} hours</span>
+                <span class="minutes" id="time-remaining-minutes">{{ (managed_batch.starts_at.diffInMinutes)%60 }} minutes</span>
+                <span class="seconds" id="time-remaining-seconds">{{ (managed_batch.starts_at.diffInSeconds)%60 }} seconds</span>
                 left.
-            {% elseif loaded_batch.ends_at.isFuture %}
+            {% elseif managed_batch.ends_at.isFuture %}
                 It's CodeDay!
             {% else %}
                 CodeDay is over.
             {% endif %}
         </section>
         <section class="details">
-            <span class="name">CodeDay {{ loaded_batch.name }}</span>
-            <span class="date">{{ loaded_batch.starts_at|date('F j, Y') }}</span>
+            <span class="name">CodeDay {{ managed_batch.name }}</span>
+            <span class="date">{{ managed_batch.starts_at|date('F j, Y') }}</span>
         </section>
     </section>
     {% if me.current_managed_events|length > 0 %}
@@ -80,7 +80,7 @@
     <section class="other-events">
         <section class="list">
             <ul>
-                {% for event in loaded_batch.events %}
+                {% for event in managed_batch.events %}
                     <li id="hud-{{ event.id }}">
                         {% if me.is_admin %}
                             <a href="/event/{{ event.id }}">
@@ -133,7 +133,7 @@
     <script type="text/javascript">
         (function(){
             var countdown_clock = {
-                die_at: ({{ loaded_batch.starts_at.timestamp }} + (60 * 60 * 12)) * 1000,
+                die_at: ({{ managed_batch.starts_at.timestamp }} + (60 * 60 * 12)) * 1000,
                 has_started: false,
                 get_remaining_seconds: function () {
                 return Math.floor((this.die_at - (+new Date())) / 1000);
@@ -213,7 +213,7 @@
 
             var eventRegs = [
                 {% set isFirst = true %}
-                {% for event in loaded_batch.events %}
+                {% for event in managed_batch.events %}
                 {% if not isFirst %},{% endif %}
                     {
                         coords: new google.maps.LatLng({{ event.coordinates.lat }}, {{ event.coordinates.lng }}),
@@ -246,7 +246,7 @@
 
             var circles = {
                     {% set isFirst = true %}
-                    {% for region in loaded_batch.events %}
+                    {% for region in managed_batch.events %}
                     {% if not isFirst %},{% endif %}
                     "{{ region.webname|escape('js') }}": {
                         "name": "{{ region.name|escape('js') }}",

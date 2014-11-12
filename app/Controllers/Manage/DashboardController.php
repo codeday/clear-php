@@ -10,10 +10,20 @@ class DashboardController extends \Controller {
         return \View::make('dashboard');
     }
 
+    public function getChangeBatch()
+    {
+        if (\Input::get('id')) {
+            Models\Batch::find(\Input::get('id'))->manage();
+            return \Redirect::to('/');
+        } else {
+            return \View::make('change_batch');
+        }
+    }
+
     public function getUpdates()
     {
         if (Models\User::me()->is_admin) {
-            $events = Models\Batch::Loaded()->events;
+            $events = Models\Batch::Managed()->events;
         } else {
             $events = Models\User::me()->current_managed_events;
         }

@@ -9,7 +9,7 @@
     </header>
 
     {% if me.is_admin %}
-        {% set events = loaded_batch.events %}
+        {% set events = managed_batch.events %}
     {% else %}
         {% set events = me.current_managed_events %}
     {% endif %}

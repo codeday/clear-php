@@ -47,6 +47,29 @@ class Batch extends \Eloquent {
         return self::where('is_loaded', '=', true)->first();
     }
 
+    public static function Managed()
+    {
+        if (!\Session::get('managed_batch_id')) {
+            \Session::set('managed_batch_id', self::Loaded()->id);
+        }
+
+        $batch = self::find(\Session::get('managed_batch_id'));
+        if (!User::me()->is_admin
+            && count(User::me()->getManagedEvents($batch)) == 0
+            && count(User::me()->managed_batches) > 0) {
+            $batches = User::me()->managed_batches;
+            $most_recent_batch = $batches[count($batches) - 1];
+            \Session::set('managed_batch_id', $most_recent_batch->id);
+        }
+
+        return self::find(\Session::get('managed_batch_id'));
+    }
+
+    public function manage()
+    {
+        \Session::set('managed_batch_id', $this->id);
+    }
+
     public function has_region(Region $r) {
         foreach ($this->events as $event) {
             if ($event->region_id === $r->id) {

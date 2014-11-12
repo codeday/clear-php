@@ -7,11 +7,11 @@ class ManifestController extends \Controller {
 
     public function getIndex()
     {
-        if (Models\Batch\Event::where('batch_id', '=', Models\Batch::Loaded()->id)->whereNull('ship_for')->exists()) {
+        if (Models\Batch\Event::where('batch_id', '=', Models\Batch::Managed()->id)->whereNull('ship_for')->exists()) {
             return \View::make('tools/manifests_missing');
         } else {
             $totals = [];
-            foreach (Models\Batch::Loaded()->events as $event) {
+            foreach (Models\Batch::Managed()->events as $event) {
                 foreach ($event->manifest_generated as $supply) {
                     if (!isset($totals[$supply['item']])) {
                         $totals[$supply['item']] = [

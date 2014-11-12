@@ -35,6 +35,8 @@ foreach ($include_all_directories as $directory) {
     \View::share('all_batches', \CodeDay\Clear\Models\Batch::orderBy('starts_at', 'ASC')->get());
     \View::share('all_regions', \CodeDay\Clear\Models\Region::all());
 
+    \View::share('managed_batch', \CodeDay\Clear\Models\Batch::Managed());
+
 
     foreach (glob(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'routes', "*.php"])) as $filename) {
         include_once($filename);
