@@ -32,6 +32,7 @@ class DashboardController extends \Controller {
         foreach ($events as $event) {
             $event_update[$event->id] = [
                 'registrations' => $event->registrations->count(),
+                'here' => count($event->registrations->attendees_here),
                 'today' => count($event->registrations_today),
                 'this_week' => count($event->registrations_this_week),
                 'percent' => $event->registration_estimate ? round(($event->registrations->count()/$event->registration_estimate)*100) : 0,

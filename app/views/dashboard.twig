@@ -45,7 +45,7 @@
                                     <span class="label">Subscribers</span>
                                 </div>
                             {% elseif not event.starts_at.isFuture %}
-                                <div class="notify">
+                                <div class="here">
                                     <span class="number">{{ event.attendees_here.count }}</span>
                                     <span class="label">Here</span>
                                 </div>
@@ -103,7 +103,7 @@
                                     <span class="label">Sub</span>
                                 </div>
                             {% elseif not event.starts_at.isFuture %}
-                                <div class="notify">
+                                <div class="here">
                                     <span class="number">{{ event.attendees_here.count }}</span>
                                     <span class="label">Here</span>
                                 </div>
@@ -384,6 +384,7 @@
                     current_data.find('.percent .number').text(event.percent+'%');
                     current_data.find('.predicted .number').text(event.predicted);
                     current_data.find('.notify .number').text(event.notify);
+                    current_data.find('.here .number').text(event.here)
                     previous_events[id] = alert_val;
                 }
             }
