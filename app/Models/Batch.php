@@ -54,7 +54,7 @@ class Batch extends \Eloquent {
         }
 
         $batch = self::find(\Session::get('managed_batch_id'));
-        if (!User::me()->is_admin
+        if ((User::is_logged_in() && !User::me()->is_admin)
             && count(User::me()->getManagedEvents($batch)) == 0
             && count(User::me()->managed_batches) > 0) {
             $batches = User::me()->managed_batches;

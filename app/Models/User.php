@@ -42,6 +42,11 @@ class User extends \Eloquent {
         \Session::forget('s5_username');
     }
 
+    public static function is_logged_in()
+    {
+        return \Session::has('s5_username');
+    }
+
     public static function me()
     {
         if (!\Session::has('s5_username')) {
