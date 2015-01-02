@@ -75,7 +75,7 @@ class Registration {
         $registration->amount_paid = 0;
         $registration->save();
 
-        $all_in_order = iterator_to_array($registration->all_in_order);
+        $all_in_order = $registration->all_in_order;
         $registration->delete();
 
         if ($cancelRelated) {

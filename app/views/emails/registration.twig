@@ -7,14 +7,9 @@
 <table style="width:100%;max-width:800px;min-width:300px;border:none;border-collapse:collapse;margin: 0 auto;color: #565656;font-family: sans-serif;font-size: 16px;line-height: 24px;padding:2rem">
     <tbody>
         <tr>
-            <td style="padding: 0;">
-                <img style="width:100%;height: auto;margin-bottom: 1rem;" src="https://clear.codeday.org/assets/img/email_confirm_header_01.jpg" alt="See you at CodeDay!">
-            </td>
-        </tr>
-        <tr>
             <td>
                 <p>Hi {{ registration.first_name }},</p>
-                <p>Thanks for buying tickets for CodeDay {{ registration.event.name }}. Your registration is confirmed, and we're really excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.</p>
+                <p>Thanks for buying tickets for CodeDay {{ registration.event.name }}. Your registration is confirmed, and we're excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.</p>
                 <p>We'll follow up with more information when the event gets closer. Until then, if you have any questions about the event or your ticket, just reply to this email.</p>
             </td>
         </tr>
