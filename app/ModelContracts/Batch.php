@@ -33,7 +33,7 @@ class Batch extends ModelContract
                 'name'          => 'Ends At',
                 'description'   => 'The end date of the batch, in the format YYYY-MM-DD.',
                 'example'       => '2014-11-09',
-                'value'         => function ($model) { return $model->starts_at->format('Y-m-d'); }
+                'value'         => function ($model) { return $model->ends_at->format('Y-m-d'); }
             ],
 
             'is_loaded'=> [
