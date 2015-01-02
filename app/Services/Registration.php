@@ -60,7 +60,7 @@ class Registration {
         Services\Email::SendOnQueue(
             'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
             $reg->name, $reg->email,
-            'Your Tickets for CodeDay '.$reg->event->name,
+            'Your CodeDay '.$reg->event->name.' Tickets',
             \View::make('emails/registration_text', ['registration' => $reg]),
             \View::make('emails/registration', ['registration' => $reg])
         );

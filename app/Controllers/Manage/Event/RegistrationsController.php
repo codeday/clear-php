@@ -51,17 +51,7 @@ class RegistrationsController extends \Controller {
         $registration->save();
 
         if (\Input::get('resend')) {
-            \Mail::send(['emails/registration', 'emails/registration_text'], [
-                'first_name' => $registration->first_name,
-                'last_name' => $registration->last_name,
-                'total_cost' => $registration->amount_paid,
-                'unit_cost' => $registration->amount_paid,
-                'event' => $event
-            ], function($envelope) use ($registration, $event) {
-                $envelope->from($event->webname.'@codeday.org', 'CodeDay '.$event->name);
-                $envelope->to($registration->email, $registration->first_name.' '.$registration->last_name);
-                $envelope->subject('Your Tickets for CodeDay '.$event->name);
-            });
+            Services\Registration::SendTicketEmail($registration);
         }
 
         return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);

@@ -14,15 +14,47 @@
         <tr>
             <td>
                 <p>Hi {{ registration.first_name }},</p>
-                <p>Thanks for registering for CodeDay {{ registration.event.name }}. Your ticket is confirmed, and we're really excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.</p>
-                {% if registration.order_amount_paid and registration.order_amount_paid != 0
-                    and registration.order_amount_paid != registration.amount_paid %}
-                    <p>Your card was charged ${{ registration.order_amount_paid }} for this and other tickets.</p>
-                {% elseif registration.amount_paid and registration.amount_paid != 0 %}
-                    <p>Your card was charged ${{ registration.amount_paid }} for this ticket.</p>
-                {% endif %}
+                <p>Thanks for buying tickets for CodeDay {{ registration.event.name }}. Your registration is confirmed, and we're really excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.</p>
                 <p>We'll follow up with more information when the event gets closer. Until then, if you have any questions about the event or your ticket, just reply to this email.</p>
-                <p><strong>Please do not bring this email to CodeDay,</strong> we will check you in by name.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <hr style="background-color: #e9e9e9;width: 200px;height:5px;display: block;margin: 2rem auto;border: none;"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+                <h2>Receipt</h2>
+                <p>Order placed on {{ registration.created_at.timestamp|date('F j, Y') }}</p>
+                <table style="margin: 0 auto">
+                    <thead>
+                        <tr style="border-bottom: 1px dotted #e9e9e9;">
+                            <th>Ticket</th>
+                            <th>Name</th>
+                            <th>Item</th>
+                            <th>Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reg in registration.all_in_order %}
+                            <tr>
+                                <td style="padding-right: 1rem">#{{ reg.id }}</td>
+                                <td style="padding-right: 1rem">{{ reg.name }}</td>
+                                <td style="padding-right: 1rem">{{ event.full_name }} Ticket</td>
+                                <td>${{ reg.amount_paid|number_format(2) }}</td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td style="font-weight: bold; border-top: 1px solid #565656">${{ registration.order_amount_paid|number_format(2) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% if registration.order_amount_paid > 0 %}
+                    <p>This will appear on your statement as "STUDENTRND CODEDAY"</p>
+                {% endif %}
             </td>
         </tr>
         <tr>

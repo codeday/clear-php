@@ -6,7 +6,7 @@ Thanks for registering for CodeDay {{ registration.event.name }}; we're really e
 Your card was charged ${{ registration.order_amount_paid }} for this and other tickets.
 {% elseif registration.amount_paid and registration.amount_paid != 0 %}
 
-    Your card was charged ${{ registration.amount_paid }} for this ticket.
+Your card was charged ${{ registration.amount_paid }} for this ticket.
 {% endif %}
 
 We'll follow up with more information when the event gets closer. Until then, if you have any questions about the event or your ticket, just reply to this email.
