@@ -1,0 +1,31 @@
+body.docs
+    .model-details
+        padding: 0
+        li
+            list-style-type: none
+            padding-bottom: 2rem
+            padding-top: 1rem
+            border-bottom: 1px solid $foreground-color-lighter
+            &:last-child
+                border-bottom: none
+            h3
+                .id
+                    border: 1px solid $foreground-color-light
+                    background-color: $foreground-color-lighter
+                    padding: 0.25rem
+                    border-radius: 3px
+                    -moz-border-radius: 3px
+                    font-family: monospace
+            .example, .requires, .type
+                padding-top: 0.5rem
+                h4
+                    font-size: 1rem
+                    display: inline
+                span, a
+                    margin-left: 0.25rem
+                    border: 1px solid $foreground-color-light
+                    background-color: $foreground-color-lighter
+                    padding: 0.25rem
+                    border-radius: 3px
+                    -moz-border-radius: 3px
+                    font-family: monospace

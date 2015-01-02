@@ -1,0 +1,9 @@
+{% extends "template.twig" %}
+{% block title %}Log{% endblock %}
+{% block section %}debug{% endblock %}
+{% block subnav %}{% include "debug/subnav.twig" %}{% endblock %}
+{% block content %}
+    <section class="log">
+        {{ log|nl2br }}
+    </section>
+{% endblock %}

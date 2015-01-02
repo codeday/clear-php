@@ -23,7 +23,10 @@
                         "app/Controllers",
                         "app/Models",
                         "app/database/migrations",
-                        "app/database/seeds"
+                        "app/database/seeds",
+                        "app/ModelContracts",
+                        "app/Services",
+                        "app/TwigFilters"
                 ]
         },
         "scripts": {

@@ -3,12 +3,14 @@ $font: "Helvetica", sans-serif
 $background-color: #f7efef
 $foreground-color: #111
 $foreground-color-lighter: darken($background-color, 5)
+$foreground-color-light: darken($background-color, 15)
 $accent-color: #FB481C
 
 $max-width: 1024px
 
 @import "parts/content", "parts/footer", "parts/header", "parts/forms", "parts/region-picker", "parts/batches"
-@import "pages/dashboard", "pages/settings", "pages/event"
+@import "pages/dashboard", "pages/settings", "pages/event", "pages/tools", "pages/debug", "pages/docs"
+@import "widgets/compose-email"
 
 *
     box-sizing: border-box

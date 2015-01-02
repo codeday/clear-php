@@ -13,12 +13,13 @@
         </tr>
         <tr>
             <td>
-                <p>Hi {{ first_name }},</p>
-                <p>Thanks for registering for CodeDay {{ event.name }}. Your ticket is confirmed, and we're really excited to meet you at noon on {{ event.starts_at|date('F jS') }}.</p>
-                {% if total_cost and total_cost != 0 and total_cost != unit_cost %}
-                    <p>Your card was charged ${{ total_cost }} for this and other tickets.</p>
-                {% elseif total_cost and total_cost != 0 %}
-                    <p>Your card was charged ${{ total_cost }} for this ticket.</p>
+                <p>Hi {{ registration.first_name }},</p>
+                <p>Thanks for registering for CodeDay {{ registration.event.name }}. Your ticket is confirmed, and we're really excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.</p>
+                {% if registration.order_amount_paid and registration.order_amount_paid != 0
+                    and registration.order_amount_paid != registration.amount_paid %}
+                    <p>Your card was charged ${{ registration.order_amount_paid }} for this and other tickets.</p>
+                {% elseif registration.amount_paid and registration.amount_paid != 0 %}
+                    <p>Your card was charged ${{ registration.amount_paid }} for this ticket.</p>
                 {% endif %}
                 <p>We'll follow up with more information when the event gets closer. Until then, if you have any questions about the event or your ticket, just reply to this email.</p>
                 <p><strong>Please do not bring this email to CodeDay,</strong> we will check you in by name.</p>
@@ -32,15 +33,15 @@
         <tr>
             <td style="text-align: center;">
                 <p>
-                    <strong>CodeDay {{ event.name }}</strong><br />
-                    {{ event.starts_at|date('F j, Y') }}, noon-noon<br />
-                    {% if event.venue %}
-                        Hosted at {{ event.venue.name }}<br />
-                        {{ event.venue_address_1 }}<br />
-                        {% if event.venue_address_2 %}
-                            {{ event.venue_address_2 }}<br />
+                    <strong>CodeDay {{ registration.event.name }}</strong><br />
+                    {{ registration.event.starts_at|date('F j, Y') }}, noon-noon<br />
+                    {% if registration.event.venue %}
+                        Hosted at {{ registration.event.venue.name }}<br />
+                        {{ registration.event.venue_address_1 }}<br />
+                        {% if registration.event.venue_address_2 %}
+                            {{ registration.event.venue_address_2 }}<br />
                         {% endif %}
-                        {{ event.venue.city }} {{ event.venue.state }} {{ event.venue.postal }}
+                        {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
                     {% endif %}
                 </p>
             </td>

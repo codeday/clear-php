@@ -1,16 +1,32 @@
-<ul>
-    <li><a href="/event/{{ event.id }}">{{ event.full_name }}</a></li>
-    <li><a href="/event/{{ event.id }}/venue">Venue</a></li>
-    {% if not event.is_shipped %}
-        <li><a href="/event/{{ event.id }}/shipping">Shipping</a></li>
-    {% endif %}
-    <li><a href="/event/{{ event.id }}/registrations">Registrations</a></li>
-    <li><a href="/event/{{ event.id }}/promotions">Promotions</a></li>
-    <li><a href="/event/{{ event.id }}/emails">Emails</a></li>
-    <li><a href="/event/{{ event.id }}/sponsors">Sponsors</a></li>
-    <li><a href="/event/{{ event.id }}/activities">Special Activities</a></li>
-    <li><a href="/event/{{ event.id }}/subusers">Subusers</a></li>
-    {% if me.is_admin %}
-        <li><a href="/event/{{ event.id }}/supplies">Supplies</a></li>
-    {% endif %}
-</ul>
+<h2>{{ event.name }} {{ event.batch.name }}</h2>
+
+<section class="general">
+    <ul>
+        <li><a href="/event/{{ event.id }}">Overview</a></li>
+        <li><a href="/event/{{ event.id }}/registrations">Registrations</a></li>
+        <li><a href="/event/{{ event.id }}/emails">Send Email</a></li>
+    </ul>
+</section>
+
+<section class="website">
+    <h3>Website</h3>
+    <ul>
+        <li><a href="/event/{{ event.id }}/promotions">Promotion Codes</a></li>
+        <li><a href="/event/{{ event.id }}/venue">Venue Info</a></li>
+        <li><a href="/event/{{ event.id }}/sponsors">Sponsors</a></li>
+        <li><a href="/event/{{ event.id }}/activities">Schedule Activities</a></li>
+    </ul>
+</section>
+
+<section class="settings">
+    <h3>Settings</h3>
+    <ul>
+        <li><a href="/event/{{ event.id }}/subusers">Subusers</a></li>
+        {% if not event.is_shipped %}
+            <li><a href="/event/{{ event.id }}/shipping">Shipping</a></li>
+        {% endif %}
+        {% if me.is_admin %}
+            <li><a href="/event/{{ event.id }}/supplies">Supplies</a></li>
+        {% endif %}
+    </ul>
+</section>

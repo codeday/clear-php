@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Controllers\Api;
 
 use \CodeDay\Clear\Models;
+use \CodeDay\Clear\Services;
 
 class Register extends \Controller {
     public function getIndex() {}
@@ -127,15 +128,33 @@ class Register extends \Controller {
             ];
         }
 
-        // Create the charge
+        \DB::beginTransaction(); // In case something goes wrong, we'll want to roll-back the insert.
+
+        // Create the registrations in the database
         try {
-            $charge = null;
-            if ($total_cost != 0) {
-                $charge = $this->processCard($total_cost, $registrants);
-            }
-        } catch(\Stripe_CardError $e) {
+            $registrations = array_map(function($registrant) use ($event) {
+                return Services\Registration::CreateRegistrationRecord(
+                    $event,
+                    $registrant->first_name, $registrant->last_name,
+                    $registrant->email
+                );
+            }, $registrants);
+        } catch (\Exception $ex) { // Some sort of database error
+            \DB::rollBack();
+            return [
+                'status' => 500,
+                'error' => 'database_error',
+                'message' => 'There was an error processing your registration information. Your card was not charged.'
+            ];
+        }
+
+        // Charge the card
+        try {
+            Services\Registration::ChargeCardForRegistrations($registrations, $total_cost, \Input::get('card_token'));
+        } catch(\Stripe_CardError $e) { // Stripe declined
             $e_json = $e->getJsonBody();
             $error = $e_json['error'];
+            \DB::rollBack();
             return [
                 'status' => 500,
                 'error' => 'declined',
@@ -143,33 +162,12 @@ class Register extends \Controller {
             ];
         }
 
-        // Create registration rows:
-        // We'll try to create each registrant in the database. In the event that something
-        // goes wrong, we'll roll it all back.
-        \DB::beginTransaction();
-        foreach ($registrants as $registrant) {
+        \DB::commit(); // Looks good
+
+        // Send the confirmation emails
+        foreach ($registrations as $registration) {
             try {
-                $this->processRegistration($unit_cost, $registrant, $charge, $promotion);
-            } catch (\Exception $ex) {
-                \DB::rollBack();
-
-                if ($charge) {
-                    $charge->refunds->create();
-                }
-
-                return [
-                    'status' => 500,
-                    'error' => 'database_error',
-                    'message' => 'There was an error processing your registration information. The charge on your card was cancelled.'
-                ];
-            }
-        }
-        \DB::commit();
-
-        // Try to send confirmation emails
-        foreach ($registrants as $registrant) {
-            try {
-                $this->sendEmail($unit_cost, $total_cost, $registrant);
+                Services\Registration::SendTicketEmail($registration);
             } catch (\Exception $ex) {}
         }
 
@@ -177,63 +175,4 @@ class Register extends \Controller {
             'status' => 200
         ];
     }
-
-    private function processCard($total_cost, $registrants)
-    {
-        $event = \Route::input('event');
-        $card_token = \Input::get('card_token');
-        $for_descriptor = implode(', ', array_map(function($e) {
-                return $e->first_name.' '.$e->last_name;
-            }, $registrants));
-
-        \Stripe::setApiKey(\Config::get('stripe.secret'));
-        return \Stripe_Charge::create([
-            "amount" => $total_cost * 100, // in cents
-            "currency" => "usd",
-            "card"  => $card_token,
-            "description" => 'CodeDay '.$event->name.' Registration: '.$for_descriptor,
-            "statement_description" => "CODEDAY",
-            "metadata" => [
-                "registrations_count" => count($registrants),
-                "registrants" => $for_descriptor,
-                "region" => $event->name
-            ]
-        ]);
-    }
-
-    private function processRegistration($unit_cost, $registrant_info, $charge = null, $promotion = null)
-    {
-        $event = \Route::input('event');
-
-        $row = new Models\Batch\Event\Registration;
-        $row->batches_event_id = $event->id;
-        if ($charge) {
-            $row->stripe_id = $charge->id;
-        }
-        $row->amount_paid = $unit_cost;
-        if ($promotion) {
-            $row->batches_events_promotion_id = $promotion->id;
-        }
-        $row->first_name = $registrant_info->first_name;
-        $row->last_name = $registrant_info->last_name;
-        $row->email = $registrant_info->email;
-        $row->save();
-    }
-
-    private function sendEmail($unit_cost, $total_cost, $registrant_info)
-    {
-        $event = \Route::input('event');
-
-        \Mail::send(['emails/registration', 'emails/registration_text'], [
-            'first_name' => $registrant_info->first_name,
-            'last_name' => $registrant_info->last_name,
-            'total_cost' => $total_cost,
-            'unit_cost' => $unit_cost
-        ], function($envelope) use ($registrant_info, $event) {
-            $envelope->from($event->webname.'@codeday.org', 'CodeDay '.$event->name);
-            $envelope->to($registrant_info->email, $registrant_info->first_name.' '.$registrant_info->last_name);
-            $envelope->subject('Your Tickets for CodeDay '.$event->name);
-        });
-    }
-
 } 

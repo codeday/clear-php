@@ -30,6 +30,9 @@ body > div.wrap {
     float: left;
     width: 18%;
     margin-right: 2%; }
+    body > div.wrap > section.subnav h2 {
+      margin-top: 0;
+      text-align: center; }
     body > div.wrap > section.subnav ul {
       padding: 0; }
       body > div.wrap > section.subnav ul li {
@@ -116,6 +119,13 @@ body > header {
     display: block;
     width: 0;
     height: 0; }
+
+::-webkit-input-placeholder {
+  color: #ddbcbc; }
+
+::-moz-placeholder {
+  color: #ddbcbc;
+  opacity: 1; }
 
 input[type="text"],
 input[type="url"],
@@ -508,6 +518,132 @@ body.event .current.registrations ul {
       overflow: hidden;
       text-overflow: ellipsis;
       font-size: 0.7rem; }
+body.event .sent-emails {
+  padding: 0; }
+  body.event .sent-emails li {
+    border: 1px solid #ddbcbc;
+    border-top-width: 0;
+    list-style-type: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    background-color: #efdede; }
+    body.event .sent-emails li:first-child {
+      border-top-width: 1px; }
+    body.event .sent-emails li:after {
+      content: "";
+      display: block;
+      clear: both;
+      width: 0;
+      height: 0; }
+    body.event .sent-emails li span.to {
+      display: block;
+      width: 50%;
+      float: left; }
+    body.event .sent-emails li span.time {
+      display: block;
+      width: 50%;
+      float: right;
+      text-align: right; }
+    body.event .sent-emails li span.subject {
+      display: block;
+      width: 100%; }
+
+body.tools .events-selector:after {
+  content: "";
+  display: block;
+  clear: both;
+  width: 0;
+  height: 0; }
+body.tools .events-selector ul {
+  padding: 0;
+  width: 25%;
+  float: left; }
+  body.tools .events-selector ul li {
+    list-style-type: none; }
+
+body.debug .log {
+  border: 1px solid #ddbcbc;
+  overflow-y: scroll;
+  font-family: monospace;
+  white-space: nowrap; }
+body.debug .queue-failed {
+  padding: 0; }
+  body.debug .queue-failed li {
+    list-style-type: none;
+    border-bottom: 1px solid #ddbcbc;
+    padding: 1rem 0; }
+  body.debug .queue-failed form {
+    display: inline; }
+    body.debug .queue-failed form input {
+      display: inline;
+      width: auto;
+      padding: 0;
+      float: none; }
+  body.debug .queue-failed .payload {
+    overflow-y: scroll; }
+
+body.docs .model-details {
+  padding: 0; }
+  body.docs .model-details li {
+    list-style-type: none;
+    padding-bottom: 2rem;
+    padding-top: 1rem;
+    border-bottom: 1px solid #efdede; }
+    body.docs .model-details li:last-child {
+      border-bottom: none; }
+    body.docs .model-details li h3 .id {
+      border: 1px solid #ddbcbc;
+      background-color: #efdede;
+      padding: 0.25rem;
+      border-radius: 3px;
+      -moz-border-radius: 3px;
+      font-family: monospace; }
+    body.docs .model-details li .example, body.docs .model-details li .requires, body.docs .model-details li .type {
+      padding-top: 0.5rem; }
+      body.docs .model-details li .example h4, body.docs .model-details li .requires h4, body.docs .model-details li .type h4 {
+        font-size: 1rem;
+        display: inline; }
+      body.docs .model-details li .example span, body.docs .model-details li .example a, body.docs .model-details li .requires span, body.docs .model-details li .requires a, body.docs .model-details li .type span, body.docs .model-details li .type a {
+        margin-left: 0.25rem;
+        border: 1px solid #ddbcbc;
+        background-color: #efdede;
+        padding: 0.25rem;
+        border-radius: 3px;
+        -moz-border-radius: 3px;
+        font-family: monospace; }
+
+.compose-email {
+  border: 1px solid #ddbcbc; }
+  .compose-email .field {
+    border-bottom: 1px solid #efdede;
+    padding: 0.25rem; }
+    .compose-email .field label {
+      width: 10%;
+      color: #ddbcbc; }
+    .compose-email .field.subject label {
+      display: none; }
+    .compose-email .field.subject input {
+      width: 100%; }
+    .compose-email .field.message {
+      border-bottom: none; }
+      .compose-email .field.message label {
+        display: none; }
+      .compose-email .field.message textarea {
+        width: 100%;
+        height: 20rem; }
+    .compose-email .field input, .compose-email .field textarea, .compose-email .field select {
+      border: none;
+      width: 90%;
+      font-family: "Helvetica", sans-serif !important;
+      font-size: 1rem; }
+
+.send-email input[type="submit"] {
+  border: 1px solid #ddbcbc;
+  border-top: none; }
+.send-email select {
+  float: right;
+  margin-top: 0.25rem;
+  margin-right: 1rem; }
 
 * {
   box-sizing: border-box;

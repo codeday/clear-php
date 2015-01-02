@@ -1,11 +1,33 @@
-<ul>
-    <li><a href="/tools/attendee">Attendee Finder</a></li>
-    <li><a href="/tools/checkin">Checkin</a></li>
-    <li><a href="/tools/deck">Kickoff Slide Deck</a></li>
-    {% if me.is_admin %}
-        <li><a href="/tools/promotions">Batch Promotions</a></li>
-        <li><a href="/tools/evangelists">Evangelist Assignments</a></li>
-        <li><a href="/tools/shipments">Shipments</a></li>
-        <li><a href="/tools/manifests">Manifests</a></li>
-    {% endif %}
-</ul>
+<h2>Tools</h2>
+
+<section class="batch-tools">
+    <h3>Batch Tools</h3>
+    <ul>
+        <li><a href="/tools/attendee">Attendee Finder</a></li>
+        {% if me.is_admin %}
+            <li><a href="/tools/promotions">Batch Promotions</a></li>
+            <li><a href="/tools/emails">Batch Email</a></li>
+        {% endif %}
+    </ul>
+</section>
+
+<section class="evangelism">
+    <h3>Evangelism</h3>
+    <ul>
+        <li><a href="/tools/checkin">Checkin</a></li>
+        <li><a href="/tools/deck">Kickoff Slide Deck</a></li>
+        {% if me.is_admin %}
+            <li><a href="/tools/evangelists">Evangelist Assignments</a></li>
+        {% endif %}
+    </ul>
+</section>
+
+{% if me.is_admin %}
+    <section class="shipping">
+        <h3>Shipping</h3>
+        <ul>
+                <li><a href="/tools/shipments">Shipments</a></li>
+                <li><a href="/tools/manifests">Manifests</a></li>
+        </ul>
+    </section>
+{% endif %}

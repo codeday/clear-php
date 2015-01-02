@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Registration extends \Eloquent {
     protected $table = 'batches_events_registrations';
+    public $incrementing = false;
 
     use SoftDeletingTrait;
 
@@ -44,6 +45,18 @@ class Registration extends \Eloquent {
             ->get();
     }
 
+    public function getOrderAmountPaidAttribute()
+    {
+        $all_in_order = $this->all_in_order;
+        if (!is_array($all_in_order)) {
+            $all_in_order = iterator_to_array($all_in_order);
+        }
+
+        return array_reduce($all_in_order, function($a, $b) {
+            return (object)['amount_paid' => $a->amount_paid + $b->amount_paid];
+        }, (object)["amount_paid" => 0])->amount_paid;
+    }
+
     public function getDates()
     {
         return ['created_at', 'updated_at', 'checked_in_at'];
@@ -51,6 +64,15 @@ class Registration extends \Eloquent {
 
     public function promotion()
     {
-        return $this->hasOne('\CodeDay\Clear\Models\Batch\Event\Promotion', 'batches_events_promotion_id', 'id');
+        return $this->hasOne('\CodeDay\Clear\Models\Batch\Event\Promotion', 'id', 'batches_events_promotion_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->{$model->getKeyName()} = str_random(12);
+        });
     }
 }

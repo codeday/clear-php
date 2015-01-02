@@ -1,0 +1,31 @@
+{% extends "template.twig" %}
+{% block title %}Emails{% endblock %}
+{% block section %}tools{% endblock %}
+{% import "widgets/compose_email.twig" as composer %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Emails</h2>
+        <p>You can contact attendees, waitlisted registrants, and notify subscribers here.</p>
+    </header>
+
+    <form method="post" action="/tools/emails/send">
+        <section class="events-selector">
+            {% set timezones = ['Pacific', 'Mountain', 'Central', 'Eastern'] %}
+            {% for timezone in timezones %}
+                <ul>
+                    {% for event in loaded_batch.events %}
+                        {% if event.simple_timezone == timezone %}
+                            <li>
+                                <input type="checkbox" name="events[]" id="events[{{ event.id }}]" value="{{ event.id }}"/>
+                                <label for="events[{{ event.id }}]">{{ event.name }}</label>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </section>
+
+        {{ composer.compose(null, _context) }}
+    </form>
+{% endblock %}

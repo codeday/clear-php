@@ -1,0 +1,21 @@
+{% extends "template.twig" %}
+{% block title %}Log{% endblock %}
+{% block section %}debug{% endblock %}
+{% block subnav %}{% include "debug/subnav.twig" %}{% endblock %}
+{% block content %}
+    <ul class="queue-failed">
+        {% for job in jobs %}
+            <li>
+                <span>
+                    <form method="post" action="/debug/queue/removefailed">
+                        <input type="hidden" name="id" value="{{ job.id }}"/>
+                        <input type="submit" value="x"/>
+                    </form>
+                    #{{ job.id }} at {{ job.failed_at.timestamp|date('Y-m-j H:i:s') }}
+                    on {{ job.connection }}/{{ job.queue }}
+                </span>
+                <div class="payload">{{ job.payload|json_decode|var_dump }}</div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

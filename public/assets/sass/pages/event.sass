@@ -62,3 +62,33 @@ body.event
                     overflow: hidden
                     text-overflow: ellipsis
                     font-size: 0.7rem
+
+    .sent-emails
+        padding: 0
+        li
+            border: 1px solid $foreground-color-light
+            border-top-width: 0
+            list-style-type: none
+            cursor: pointer
+            padding: 0.5rem
+            background-color: $foreground-color-lighter
+            &:first-child
+                border-top-width: 1px
+            &:after
+                content: ""
+                display: block
+                clear: both
+                width: 0
+                height: 0
+            span.to
+                display: block
+                width: 50%
+                float: left
+            span.time
+                display: block
+                width: 50%
+                float: right
+                text-align: right
+            span.subject
+                display: block
+                width: 100%

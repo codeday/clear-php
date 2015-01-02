@@ -1,12 +1,12 @@
-Hi {{ first_name }},
+Hi {{ registration.first_name }},
 
-Thanks for registering for CodeDay {{ event.name }}; we're really excited to meet you at noon on {{ event.starts_at|date('F jS') }}.
-{% if total_cost and total_cost != 0 and total_cost != unit_cost %}
+Thanks for registering for CodeDay {{ registration.event.name }}; we're really excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.
+{% if registration.order_amount_paid and registration.order_amount_paid != 0 and registration.order_amount_paid != registration.amount_paid %}
 
-Your card was charged ${{ total_cost }} for this and other tickets.
-{% elseif total_cost and total_cost != 0 %}
+Your card was charged ${{ registration.order_amount_paid }} for this and other tickets.
+{% elseif registration.amount_paid and registration.amount_paid != 0 %}
 
-    Your card was charged ${{ total_cost }} for this ticket.
+    Your card was charged ${{ registration.amount_paid }} for this ticket.
 {% endif %}
 
 We'll follow up with more information when the event gets closer. Until then, if you have any questions about the event or your ticket, just reply to this email.
@@ -16,13 +16,13 @@ Please do not bring this email to CodeDay, we will check you in by name.
 
 *  *  *
 
-CodeDay {{ event.name }}
-{{ event.starts_at|date('F j, Y') }}, noon-noon
-{% if event.venue %}
-Hosted at {{ event.venue.name }}
-{{ event.venue_address_1 }}
-{% if event.venue_address_2 %}
-{{ event.venue_address_2 }}
+CodeDay {{ registration.event.name }}
+{{ registration.event.starts_at|date('F j, Y') }}, noon-noon
+{% if registration.event.venue %}
+Hosted at {{ registration.event.venue.name }}
+{{ registration.event.venue_address_1 }}
+{% if registration.event.venue_address_2 %}
+{{ registration.event.venue_address_2 }}
 {% endif %}
-{{ event.venue.city }} {{ event.venue.state }} {{ event.venue.postal }}
+{{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
 {% endif %}

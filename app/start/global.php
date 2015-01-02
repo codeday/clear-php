@@ -1,5 +1,8 @@
 <?php
 
+use \CodeDay\Clear\Models;
+use \CodeDay\Clear\Services;
+
 ClassLoader::addDirectories(array(
 
 	app_path().'/Commands',
@@ -21,6 +24,27 @@ App::down(function()
 	return Response::make("Be right back!", 503);
 });
 
+// XSS, CSRF, etc protection
+\App::after(function($request, $response)
+{
+    $csp = "default-src 'self'; script-src 'unsafe-eval' 'unsafe-inline' 'self' https://*.googleapis.com https://cdnjs.cloudflare.com"
+         . " https://*.gstatic.com; object-src 'self'; style-src 'self' 'unsafe-inline'"
+         . " https://*.googleapis.com https://*.gstatic.com; img-src *; media-src *; frame-src 'self';"
+         . " font-src 'self' https://*.googleapis.com https://*.gstatic.com; connect-src *";
+
+    if (\Request::server("HTTP_HOST") === 'clear.codeday.org') {
+        $response->headers->set('Strict-Transport-Security', '2,592,000');
+    }
+
+    $response->headers->set('X-Frame-Options', 'deny');
+    $response->headers->set('Frame-Options', 'deny');
+    $response->headers->set('X-XSS-Protection', '1; mode=block');
+    $response->headers->set('X-Content-Type-Options', 'nosniff');
+    $response->headers->set('Content-Security-Policy', $csp);
+    $response->headers->set('X-Content-Security-Policy', $csp);
+    $response->headers->set('X-WebKit-CSP', $csp);
+});
+
 
 $include_all_directories = ['events', 'filters'];
 foreach ($include_all_directories as $directory) {
@@ -29,15 +53,22 @@ foreach ($include_all_directories as $directory) {
     }
 }
 
+// Load Twig extensions
+foreach (glob(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'TwigFilters', '*.php'])) as $filename) {
+    $class = '\CodeDay\Clear\TwigFilters\\'.basename($filename, '.php');
+    \Twig::addExtension(new $class);
+}
+
+// Global view options
+\View::share('email_templates', Models\EmailTemplate::all());
+\View::share('email_list_types', Services\Email::GetToListTypes());
+\View::share('loaded_batch', Models\Batch::Loaded());
+\View::share('all_batches', Models\Batch::orderBy('starts_at', 'ASC')->get());
+\View::share('all_regions', Models\Region::all());
+\View::share('managed_batch', Models\Batch::Managed());
+
 
 \Route::group(['namespace' => '\CodeDay\Clear\Controllers'], function() {
-    \View::share('loaded_batch', \CodeDay\Clear\Models\Batch::Loaded());
-    \View::share('all_batches', \CodeDay\Clear\Models\Batch::orderBy('starts_at', 'ASC')->get());
-    \View::share('all_regions', \CodeDay\Clear\Models\Region::all());
-
-    \View::share('managed_batch', \CodeDay\Clear\Models\Batch::Managed());
-
-
     foreach (glob(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'routes', "*.php"])) as $filename) {
         include_once($filename);
     }

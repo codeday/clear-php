@@ -1,0 +1,21 @@
+body.debug
+    .log
+        border: 1px solid $foreground-color-light
+        overflow-y: scroll
+        font-family: monospace
+        white-space: nowrap
+    .queue-failed
+        padding: 0
+        li
+            list-style-type: none
+            border-bottom: 1px solid $foreground-color-light
+            padding: 1rem 0
+        form
+            display: inline
+            input
+                display: inline
+                width: auto
+                padding: 0
+                float: none
+        .payload
+            overflow-y: scroll

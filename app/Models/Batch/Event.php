@@ -27,12 +27,14 @@ class Event extends \Eloquent {
 
     public function getStartsAtAttribute()
     {
-        return $this->batch->starts_at->timestamp;
+        return Carbon::createFromTimestamp($this->batch->starts_at->timestamp, $this->region->timezone)
+                    ->addHours(12)
+                    ->timestamp;
     }
 
     public function getEndsAtAttribute()
     {
-        return $this->batch->ends_at->timestamp;
+        return $this->starts_at + (60 * 60 * 24);
     }
 
     public function manager()
@@ -92,11 +94,6 @@ class Event extends \Eloquent {
         return $this->batch->starts_at->subWeek();
     }
 
-    public function getStripePublicKeyAttribute()
-    {
-        return \Config::get('stripe.public');
-    }
-
     public function getRemainingRegistrationsAttribute()
     {
         return max(0, $this->max_registrations - $this->registrations->count());
@@ -145,6 +142,11 @@ class Event extends \Eloquent {
     public function grants()
     {
         return $this->hasMany('\CodeDay\Clear\Models\User\Grant', 'batches_event_id', 'id');
+    }
+
+    public function emailsSent()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\EmailSent', 'batches_event_id', 'id');
     }
 
     public function supplies()
@@ -446,8 +448,8 @@ class Event extends \Eloquent {
 
         return (Object)[
             'name' => $this->venue_name,
-            'address_1', $this->venue_address_1,
-            'address_2', $this->venue_address_2,
+            'address_1' => $this->venue_address_1,
+            'address_2' => $this->venue_address_2,
             'city' => $this->venue_city,
             'state' => $this->venue_state,
             'postal' => $this->venue_postal,

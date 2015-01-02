@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Controllers\Manage\Event;
 
 use \CodeDay\Clear\Models;
+use \CodeDay\Clear\Services;
 
 class RegistrationsController extends \Controller {
     public function getIndex()
@@ -13,25 +14,13 @@ class RegistrationsController extends \Controller {
     {
         $event = \Route::input('event');
 
-        $registration = new Models\Batch\Event\Registration;
-        $registration->first_name = \Input::get('first_name');
-        $registration->last_name = \Input::get('last_name');
-        $registration->email = \Input::get('email');
-        $registration->batches_event_id = $event->id;
-        $registration->save();
+        $registration = Services\Registration::CreateRegistrationRecord(
+            $event,
+            \Input::get('first_name'), \Input::get('last_name'),
+            \Input::get('email'));
 
         if (\Input::get('send_welcome')) {
-            \Mail::send(['emails/registration', 'emails/registration_text'], [
-                    'first_name' => $registration->first_name,
-                    'last_name' => $registration->last_name,
-                    'total_cost' => 0,
-                    'unit_cost' => 0,
-                    'event' => $event
-                ], function($envelope) use ($registration, $event) {
-                    $envelope->from($event->webname.'@codeday.org', 'CodeDay '.$event->name);
-                    $envelope->to($registration->email, $registration->name);
-                    $envelope->subject('Your Tickets for CodeDay '.$event->name);
-                });
+            Services\Registration::SendTicketEmail($registration);
         }
 
         return \Redirect::to('/event/'.$event->id.'/registrations');

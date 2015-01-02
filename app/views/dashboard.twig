@@ -44,7 +44,7 @@
                                     <span class="number">{{ event.notify.count }}</span>
                                     <span class="label">Subscribers</span>
                                 </div>
-                            {% elseif not event.starts_at.isFuture %}
+                            {% elseif not managed_batch.starts_at.isFuture %}
                                 <div class="here">
                                     <span class="number">{{ event.attendees_here.count }}</span>
                                     <span class="label">Here</span>
@@ -102,7 +102,7 @@
                                     <span class="number">{{ event.notify.count }}</span>
                                     <span class="label">Sub</span>
                                 </div>
-                            {% elseif not event.starts_at.isFuture %}
+                            {% elseif not managed_batch.starts_at.isFuture %}
                                 <div class="here">
                                     <span class="number">{{ event.attendees_here.count }}</span>
                                     <span class="label">Here</span>
@@ -197,7 +197,9 @@
                 });
             }
         };
-        countdown_clock.start();
+        if (document.getElementById('time-remaining-weeks')) {
+            countdown_clock.start();
+        }
         })();
     </script>
     <script type="text/javascript">

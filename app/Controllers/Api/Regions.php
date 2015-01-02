@@ -2,21 +2,9 @@
 namespace CodeDay\Clear\Controllers\Api;
 
 use \CodeDay\Clear\Models;
+use \CodeDay\Clear\ModelContracts;
 
-class Regions extends ContractualController {
-    protected $fields = [
-        'id',
-        'name',
-        'abbr',
-        'location' => [
-            'lat',
-            'lng'
-        ],
-        'timezone',
-        'events',
-        'current_event'
-    ];
-
+class Regions extends ApiController {
     public function getNearby()
     {
         $lat = \Input::get('lat');
@@ -50,6 +38,7 @@ class Regions extends ContractualController {
 
         if ($withCurrentEvent) {
             $regions = $regions->rightJoin('batches_events', 'batches_events.region_id', '=', 'regions.id')
+                ->whereRaw('batches_events.batch_id = "'.Models\Batch::Loaded()->id.'"')
                 ->whereNotNull('regions.id')
                 ->whereNull('batches_events.deleted_at');
         }
@@ -60,7 +49,7 @@ class Regions extends ContractualController {
             ->setBindings($bindings)
             ->get();
 
-        return $this->getContract($regions);
+        return json_encode(ModelContracts\Region::Collection($regions, $this->permissions));
     }
 
     public function getSearch()
@@ -93,11 +82,11 @@ class Regions extends ContractualController {
 
     public function getIndex()
     {
-        return $this->getContract(Models\Region::all());
+        return json_encode(ModelContracts\Region::Collection(Models\Region::all(), $this->permissions));
     }
 
     public function getRegion()
     {
-        return $this->getContract(\Route::input('region'));
+        return json_encode(ModelContracts\Region::Model(\Route::input('region'), $this->permissions));
     }
 } 

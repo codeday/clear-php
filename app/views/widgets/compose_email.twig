@@ -1,0 +1,109 @@
+{% macro compose(event = null, context) %}
+    {% set me = context.me %}
+    {% set email_list_types = context.email_list_types %}
+    {% set email_templates = context.email_templates %}
+    <section class="compose-email">
+        <div class="field from">
+            <label for="from">From</label>
+            <select name="from" id="from">
+                {% if event %}
+                    {% if event.manager %}
+                        <option value="manager">{{ event.manager.name }}
+                            &lt;{{ event.manager.username }}@studentrnd.org&gt;</option>
+                    {% endif %}
+                    {% if not event.manager or me.username != event.manager.username %}
+                        <option value="me">{{ me.name }} &lt;{{ me.username }}@studentrnd.org&gt;</option>
+                    {% endif %}
+                    <option value="codeday">CodeDay {{ event.name }} &lt;{{ event.webname }}@codeday.org&gt;</option>
+                {% else %}
+                    <option value="manager">Event Manager &lt;manager@studentrnd.org&gt;</option>
+                    <option value="me">{{ me.name }} &lt;{{ me.username }}@studentrnd.org&gt;</option>
+                    <option value="codeday">Event Alias &lt;event@codeday.org&gt;</option>
+                {% endif %}
+            </select>
+        </div>
+
+        <div class="field to">
+            <label for="to">To</label>
+            <select name="to" id="to">
+                {% for option in email_list_types %}
+                    <option value="{{ option.id }}">{{ option.name }}
+                        {% if event %}({{ option.lambda|call(event)|length }}){% endif %}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="field subject">
+            <label for="subject">Subject</label>
+            <input type="text" name="subject" id="subject" placeholder="Subject" />
+        </div>
+
+        <div class="field message">
+            <label for="message">Message</label>
+            <textarea name="message" id="message" required></textarea>
+        </div>
+    </section>
+    <section class="send-email">
+        <input type="submit" value="Send" />
+        <select class="template-picker">
+            <option value="">(load template)</option>
+            {% for template in email_templates %}
+                <option value="{{ template.id }}">{{ template.name }}</option>
+            {% endfor %}
+        </select>
+    </section>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var templates = {
+                {% for template in email_templates %}
+                "{{ template.id|escape('js') }}": {
+                    to: "{{ template.to|escape('js') }}",
+                    from: "{{ template.from|escape('js') }}",
+                    subject: "{{ template.subject|escape('js') }}",
+                    message: "{{ template.message|escape('js') }}"
+                },
+                {% endfor %}
+                "boo": {}
+            };
+
+            $('.template-picker').on('change', function(){
+                var selected = $(this).val();
+                if (selected == '') return;
+
+                if ($('#subject').val() !== '' || $('#subject').val() !== '') {
+                    if (!confirm('This will overwrite your current edits. Continue?')) {
+                        $('.template-picker option').filter(function(){
+                            return $(this).val() == '';
+                        }).prop('selected', true);
+                        return;
+                    }
+                }
+
+
+                    var template = templates[selected];
+
+                $('#to option').filter(function(){
+                    return $(this).val() == template.to;
+                }).prop('selected', true);
+
+                $('#from option').filter(function(){
+                    {% if event.manager.id == me.id %}
+                    if (template.from == 'manager') {
+                        return $(this).val() == 'me';
+                    }
+                    {% endif %}
+                    return $(this).val() == template.from;
+                }).prop('selected', true);
+
+                $('#subject').val(template.subject);
+                $('#message').val(template.message);
+
+
+                $('.template-picker option').filter(function(){
+                    return $(this).val() == '';
+                }).prop('selected', true);
+            })
+        });
+    </script>
+{% endmacro %}

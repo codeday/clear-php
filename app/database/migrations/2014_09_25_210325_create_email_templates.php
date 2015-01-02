@@ -16,8 +16,8 @@ class CreateEmailTemplates extends Migration {
             $table->increments('id');
 
             $table->string('name');
-            $table->enum('to', ['me', 'attendees', 'notify', 'notify-unreg']);
-            $table->enum('from', ['me', 'manager', 'studentrnd']);
+            $table->enum('to', ['me', 'attendees', 'nonreturning-attendees', 'notify', 'notify-unreg']);
+            $table->enum('from', ['me', 'manager', 'codeday']);
             $table->string('subject');
             $table->text('message');
 

@@ -1,0 +1,48 @@
+{% extends "template.twig" %}
+{% block title %}Model: {{ name }}{% endblock %}
+{% block section %}docs{% endblock %}
+{% block subnav %}{% include "docs/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>{{ name }}</h2>
+    </header>
+
+    <ul class="model-details">
+        {% for id, field in fields %}
+            <li>
+                <h3><span class="id">{{ id }}</span>&thinsp;&mdash;&thinsp;{#
+                    #}{{ field.name }}{% if field.rich %}*{% endif %}</h3>
+                <section class="description">{{ field.description }}</section>
+                {% if field.example %}
+                    <section class="example">
+                        <h4>e.g.</h4>
+                        <span>{{ field.example }}</span>
+                    </section>
+                {% endif %}
+                {% if field.requires %}
+                    <section class="requires">
+                        <h4>Requires:</h4>
+
+                        {% set i = 0 %}
+                        {% set last = (field.requires|length - 1) %}
+                        {% set second_to_last = (last - 1) %}
+                        {% set use_commas = (field.requires|length > 2) %}
+                        {% for requires in field.requires %}
+                            <span>{{ requires }}</span>{% if use_commas and i != last%},{% endif %}
+                            {% if i == second_to_last %}
+                                or
+                            {% endif %}
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    </section>
+                {% endif %}
+                {% if field.type %}
+                    <section class="type">
+                        <h4>Type:</h4>
+                        <a href="/docs/model/{{ field.type }}">{{ field.type }}</a>
+                    </section>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,38 @@
+.compose-email
+    border: 1px solid $foreground-color-light
+    .field
+        border-bottom: 1px solid $foreground-color-lighter
+        padding: 0.25rem
+
+        label
+            width: 10%
+            color: $foreground-color-light
+
+        &.subject
+            label
+                display: none
+            input
+                width: 100%
+
+        &.message
+            border-bottom: none
+            label
+                display: none
+            textarea
+                width: 100%
+                height: 20rem
+
+        input, textarea, select
+            border: none
+            width: 90%
+            font:
+                family: $font !important
+                size: 1rem
+.send-email
+    input[type="submit"]
+        border: 1px solid $foreground-color-light
+        border-top: none
+    select
+        float: right
+        margin-top: 0.25rem
+        margin-right: 1rem

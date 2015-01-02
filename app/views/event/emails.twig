@@ -1,105 +1,72 @@
 {% extends "template.twig" %}
 {% block title %}{{ event.full_name }}{% endblock %}
 {% block section %}event{% endblock %}
+{% import "widgets/compose_email.twig" as composer %}
 {% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
 {% block content %}
     <header>
         <h2>Emails</h2>
         <p>You can contact attendees, waitlisted registrants, and notify subscribers here.</p>
+        <p>Supports Twig syntax -- you can use
+            <a href="/docs/model/Registration" target="_blank">{{ '{{' }} registration }}</a>,
+            <a href="/docs/model/Event" target="_blank">{{ '{{' }} event }}</a>, and
+            <a href="/docs/model/User" target="_blank">{{ '{{' }} me }}</a> to personalize the email.</p>
     </header>
 
     <form method="post" action="/event/{{ event.id }}/emails/send">
-        <div class="field">
-            <label for="template">Template</label>
-            <select name="template" id="template">
-                <option value="" selected>(start with a template)</option>
-                {% for template in email_templates %}
-                    <option value="{{ template.id }}">{{ template.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="field">
-            <label for="to">To</label>
-            <select name="to" id="to">
-                <option value="me" selected>Me (testing)</option>
-                <option value="attendees">Attendees ({{ event.registrations.count }})</option>
-                <option value="notify">Notify subscribers ({{ event.notify.count }})</option>
-                <option value="notify-unreg">Notify subscribers who haven't registered ({{ event.unregistered_notify|length }})</option>
-            </select>
-            <span class="help">Who to send the email to. It's recommended you test this with your own email first.</span>
-        </div>
-
-        <div class="field">
-            <label for="from">From</label>
-            <select name="from" id="from">
-                <option value="studentrnd" selected>CodeDay {{ event.name }} &lt;{{ event.webname }}@codeday.org&gt;</option>
-                <option value="me">{{ me.name }} &lt;{{ me.username }}@studentrnd.org&gt;</option>
-                {% if me.id != event.manager.id %}
-                    <option value="manager">{{ event.manager.name }} &lt;{{ event.manager.username }}@studentrnd.org&gt;</option>
-                {% endif %}
-            </select>
-            <span class="help">From whom the email will come. If you want replies, select yourself.</span>
-        </div>
-
-        <div class="field">
-            <label for="subject">Subject</label>
-            <input type="text" name="subject" id="subject" placeholder="CodeDay is coming!" required />
-            <span class="help">The subject line of the message.</span>
-        </div>
-
-        <div class="field">
-            <label for="message">Message</label>
-            <textarea name="message" id="message" placeholder="Thanks for signing up for CodeDay!" required></textarea>
-            <span class="help">The message to send. If you're sending to attendees, you can use
-                               {{ '{{ first_name }}' }} and {{ '{{ last_name }}' }}.</span>
-        </div>
-
-        <input type="submit" value="Send" />
+        {{ composer.compose(event, _context) }}
     </form>
-{% endblock %}
-{% block scripts %}
+
+    <h3>Previously Sent Emails</h3>
+    <ul class="sent-emails">
+        {% for email in event.emails_sent|reverse %}
+            <li data-sentid="{{ email.id }}">
+                <span class="to">To: {{ email.to }}</span>
+                <span class="time">{{ email.created_at.diffForHumans }}</span>
+                <span class="subject">{{ email.subject }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+
     <script type="text/javascript">
+        var emails_sent = {
+            {% for email in event.emails_sent %}
+                "{{ email.id|escape('js') }}": {
+                    "to": "{{ email.to|escape('js') }}",
+                    "from": "{{ email.from|escape('js') }}",
+                    "subject": "{{ email.subject|escape('js') }}",
+                    "message": "{{ email.message|escape('js') }}"
+                },
+            {% endfor %}
+        };
+
         $(document).ready(function(){
-            var templates = {
-                {% for template in email_templates %}
-                    "{{ template.id|escape('js') }}": {
-                        to: "{{ template.to|escape('js') }}",
-                        from: "{{ template.from|escape('js') }}",
-                        subject: "{{ template.subject|escape('js') }}",
-                        message: "{{ template.message|escape('js') }}"
-                    },
-                {% endfor %}
-                "boo": {}
-            };
+            $('.sent-emails li').on('click', function(){
+                var $this = $(this);
+                var email = emails_sent[$this.attr('data-sentid')];
 
-            $('#template').on('change', function(){
-                var selected = $(this).val();
-                if (selected == '') return;
-
-                var template = templates[selected];
+                if ($('#subject').val() !== '' || $('#subject').val() !== '') {
+                    if (!confirm('This will overwrite your current edits. Continue?')) {
+                        return;
+                    }
+                }
 
                 $('#to option').filter(function(){
-                    return $(this).val() == template.to;
+                    return $(this).val() == email.to;
                 }).prop('selected', true);
 
                 $('#from option').filter(function(){
                     {% if event.manager.id == me.id %}
-                    if (template.from == 'manager') {
+                    if (email.from == 'manager') {
                         return $(this).val() == 'me';
                     }
                     {% endif %}
-                    return $(this).val() == template.from;
+                    return $(this).val() == email.from;
                 }).prop('selected', true);
 
-                $('#subject').val(template.subject);
-                $('#message').val(template.message);
-
-
-                $(this).find('option').filter(function(){
-                    return $(this).val() == '';
-                }).prop('selected', true);
-            })
+                $('#subject').val(email.subject);
+                $('#message').val(email.message);
+            });
         });
     </script>
 {% endblock %}
