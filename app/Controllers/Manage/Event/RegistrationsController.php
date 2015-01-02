@@ -67,43 +67,14 @@ class RegistrationsController extends \Controller {
 
         $to_cancel = \Input::get('related') ? $registration->all_in_order : [$registration];
 
-        // Process refund if applicable
-        if (\Input::get('refund') && $registration->stripe_id) {
-            \Stripe::setApiKey(\Config::get('stripe.secret'));
-            $charge = \Stripe_Charge::retrieve($registration->stripe_id);
-
-            if (\Input::get('related') || count($registration->all_in_order) == 1) {
-                $charge->refunds->create();
-            } else {
-                $refund_amount = 0.0;
-                foreach ($to_cancel as $reg) {
-                    $refund_amount += $reg->amount_paid;
-                }
-
-                $charge->refunds->create([
-                    'amount' => $refund_amount * 100
-                ]);
-            }
-        }
-
         if (\Input::get('email')) {
             foreach ($to_cancel as $reg) {
-                \Mail::queue('emails/reg_cancel', [
-                    'first_name' => $reg->first_name,
-                    'last_name' => $reg->last_name,
-                    'refund' => \Input::get('refund') ? true : false
-                ], function($envelope) use ($reg, $event) {
-                    $envelope->from('contact@studentrnd.org', 'StudentRND');
-                    $envelope->to($reg->email, $reg->name);
-                    $envelope->subject('Ticket Cancelled: CodeDay '.$event->name);
-                });
+                Services\Registration::SendCancelEmail($reg, boolval(\Input::get('refund')));
             }
         }
 
-        // Delete the tickets
-        foreach ($to_cancel as $reg) {
-            $reg->delete();
-        }
+        Services\Registration::CancelRegistration($registration,
+            boolval(\Input::get('refund')), boolval(\Input::get('related')));
 
         return \Redirect::to('/event/'.$event->id.'/registrations');
     }
@@ -123,25 +94,10 @@ class RegistrationsController extends \Controller {
             return "Amount is invalid.";
         }
 
-        \Stripe::setApiKey(\Config::get('stripe.secret'));
-        $charge = \Stripe_Charge::retrieve($registration->stripe_id);
-        $charge->refunds->create([
-            'amount' => $amount * 100
-        ]);
-
-        $registration->amount_paid -= $amount;
-        $registration->save();
+        Services\Registration::PartiallyRefundRegistration($registration, $amount);
 
         if (\Input::get('email')) {
-            \Mail::queue('emails/reg_refund', [
-                'first_name' => $registration->first_name,
-                'last_name' => $registration->last_name,
-                'amount' => $amount
-            ], function($envelope) use ($registration, $event) {
-                $envelope->from('contact@studentrnd.org', 'StudentRND');
-                $envelope->to($registration->email, $registration->name);
-                $envelope->subject('Refund: CodeDay '.$event->name);
-            });
+            Services\Registration::SendPartialRefundEmail($registration, $amount);
         }
 
         return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
