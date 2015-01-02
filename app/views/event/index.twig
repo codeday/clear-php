@@ -10,7 +10,9 @@
     {% if event.allow_registrations_calculated %}
         <div id="registrations-over-time" style="width:100%"></div>
         <p>(Line = attendees, bar = change this day)</p>
+        <p>Revenue: ${{ event.revenue|number_format(2) }}</p>
     {% endif %}
+
 
     <h3>Notes</h3>
     <form action="/event/{{ event.id }}/notes" method="post">

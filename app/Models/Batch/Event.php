@@ -83,6 +83,21 @@ class Event extends \Eloquent {
         }
     }
 
+    public function getRevenueAttribute()
+    {
+        $orders = \CodeDay\Clear\Models\Batch\Event\Registration
+            ::where('batches_event_id', '=', $this->id)
+            ->groupBy('stripe_id')
+            ->get();
+
+        $revenue = 0;
+        foreach ($orders as $order) {
+            $revenue += $order->order_amount_received;
+        }
+
+        return $revenue;
+    }
+
     public function getIsEarlyBirdPricingAttribute()
     {
         return $this->early_bird_ends_at->isFuture()

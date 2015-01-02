@@ -57,6 +57,27 @@ class Registration extends \Eloquent {
         }, (object)["amount_paid" => 0])->amount_paid;
     }
 
+    public function getOrderAmountReceivedAttribute()
+    {
+        if (!$this->stripe_id || $this->order_amount_paid == 0) {
+            return 0;
+        }
+
+        $stripe_fee = ($this->order_amount_paid * 0.027) + 0.30;
+        return $this->order_amount_paid - $stripe_fee;
+    }
+
+    public function getAmountReceivedAttribute()
+    {
+        $paid_in_order = [];
+        foreach ($this->all_in_order as $reg) {
+            if ($reg->amount_paid > 0) {
+                $paid_in_order[] = $reg;
+            }
+        }
+        return $this->order_amount_received/count($paid_in_order);
+    }
+
     public function getDates()
     {
         return ['created_at', 'updated_at', 'checked_in_at'];

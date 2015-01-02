@@ -64,7 +64,8 @@ class AddStripeAmountTracking extends Migration {
         \Schema::table('batches_events_registrations', function($table)
         {
             $table->dropColumn('amount_received');
-            $table->dropColumn('amount_refunded')->default(0);
+            $table->dropColumn('amount_refunded');
+            $table->dropColumn('is_earlybird_pricing');
         });
 	}
 
