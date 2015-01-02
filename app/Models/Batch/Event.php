@@ -390,7 +390,7 @@ class Event extends \Eloquent {
         foreach ($this->sponsors as $sponsor) {
             $sponsors_info[] = (object)[
                 'name' => $sponsor->name,
-                'logo' => 'https://clear.codeday.org/api/i/sponsor/'.$sponsor->id.'_256/'.$sponsor->updated_at->timestamp.'.jpg',
+                'logo' => 'https://clear.codeday.org/api/i/sponsor/'.$sponsor->id.'_512/'.$sponsor->updated_at->timestamp.'.jpg',
                 'url' => $sponsor->url
             ];
         }
