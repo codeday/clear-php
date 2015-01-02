@@ -25,7 +25,7 @@ class Registration {
         $forDescriptor = implode(', ', array_map(function($reg) {
             return $reg->name;
         }, $registrations));
-        $forDescriptor = 'CodeDay '.$event->region->name. 'Registration:'.$forDescriptor;
+        $forDescriptor = 'CodeDay '.$event->region->name. ' Registration:'.$forDescriptor;
 
         // Make the charge
         \Stripe::setApiKey(\Config::get('stripe.secret'));
