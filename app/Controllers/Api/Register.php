@@ -149,17 +149,19 @@ class Register extends \Controller {
         }
 
         // Charge the card
-        try {
-            Services\Registration::ChargeCardForRegistrations($registrations, $total_cost, \Input::get('card_token'));
-        } catch(\Stripe_CardError $e) { // Stripe declined
-            $e_json = $e->getJsonBody();
-            $error = $e_json['error'];
-            \DB::rollBack();
-            return [
-                'status' => 500,
-                'error' => 'declined',
-                'message' => $error['message']
-            ];
+        if ($total_cost > 0) {
+            try {
+                Services\Registration::ChargeCardForRegistrations($registrations, $total_cost, \Input::get('card_token'));
+            } catch(\Stripe_CardError $e) { // Stripe declined
+                $e_json = $e->getJsonBody();
+                $error = $e_json['error'];
+                \DB::rollBack();
+                return [
+                    'status' => 500,
+                    'error' => 'declined',
+                    'message' => $error['message']
+                ];
+            }
         }
 
         \DB::commit(); // Looks good
