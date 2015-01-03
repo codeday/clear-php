@@ -32,4 +32,21 @@ class PromotionsController extends \Controller {
 
         return \Redirect::to('/event/'.$event->id.'/promotions');
     }
+
+    public function postDelete()
+    {
+        $event = \Route::input('event');
+        $code = Models\Batch\Event\Promotion::where('id', '=', \Input::get('id'))->firstOrFail();
+
+        if ($code->batches_event_id !== $event->id) {
+            \App::abort(401);
+        }
+
+        if (count($code->registrations) > 0) {
+            return "Cannot remove code with existing registrations.";
+        }
+
+        $code->delete();
+        return \Redirect::to('/event/'.$event->id.'/promotions');
+    }
 } 

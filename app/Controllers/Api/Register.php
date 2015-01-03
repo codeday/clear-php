@@ -170,6 +170,10 @@ class Register extends \Controller {
         foreach ($registrations as $registration) {
             try {
                 Services\Registration::SendTicketEmail($registration);
+                if ($promotion) {
+                    $registration->batches_events_promotion_id = $promotion->id;
+                    $registration->save();
+                }
             } catch (\Exception $ex) {}
         }
 

@@ -17,8 +17,9 @@
                     <th>&nbsp;</th>
                     <th>Discount</th>
                     <th>Uses</th>
-                    <th>Expires At</th>
+                    <th>Expires</th>
                     <th>Notes</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +40,14 @@
                             <td class="notes">
                                 {{ promotion.notes }}
                             </td>
+                            <td>
+                                {% if promotion.registrations.count == 0 %}
+                                    <form method="post" class="small" action="/event/{{ event.id }}/promotions/delete">
+                                        <input type="hidden" name="id" value="{{ promotion.id }}"/>
+                                        <input type="submit" value="X" />
+                                    </form>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endif %}
                 {% endfor %}
@@ -48,6 +57,14 @@
                         <tr class="scholarship">
                             <td class="code"><input type="text" value="{{ promotion.code }}" readonly /></td>
                             <td colspan="4">({% if promotion.registrations.count == 0 %}Unu{% else %}U{% endif %}sed Scholarship)</td>
+                            <td>
+                                {% if promotion.registrations.count == 0 %}
+                                    <form method="post" class="small" action="/event/{{ event.id }}/promotions/delete">
+                                        <input type="hidden" name="id" value="{{ promotion.id }}"/>
+                                        <input type="submit" value="X" />
+                                    </form>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endif %}
                 {% endfor %}
