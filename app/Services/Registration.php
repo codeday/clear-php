@@ -49,7 +49,6 @@ class Registration {
         foreach ($registrations as $reg) {
             $reg->stripe_id = $charge->id;
             $reg->amount_paid = $totalCost / count($registrations);
-            $reg->amount_received = $amountReceived / count($registrations);
             $reg->is_earlybird_pricing = $reg->event->is_earlybird_pricing;
             $reg->save();
         }
