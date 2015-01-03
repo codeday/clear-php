@@ -157,8 +157,8 @@ class Email {
                     $twice_attendees = array_uintersect(iterator_to_array($event->registrations),
                         iterator_to_array($previous_event->registrations), $compare_registration);
 
-                    $nonreturning_attendees = array_udiff($twice_attendees,
-                        iterator_to_array($previous_event->registrations), $compare_registration);
+                    $nonreturning_attendees = array_udiff( iterator_to_array($previous_event->registrations),
+                        $twice_attendees, $compare_registration);
 
                     return array_map(function($user){
                         return (object)[
