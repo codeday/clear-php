@@ -5,7 +5,10 @@
 {% block content %}
     <header>
         <h2>Checkin</h2>
-        <p>This tool will allow you to check in attendees at the door.</p>
+        <p>You can use this to check in attendees at the door.</p>
+        <p>Type first name, last name, or email to filter the attendee list. Click the button next to an attendee to
+           toggle checkin status.</p>
+        <p>If only one attendee is showing, you can also press enter directly from the search box.</p>
     </header>
 
     {% if not event %}
@@ -42,7 +45,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Registered At</th>
+                    <th>Ticket</th>
                     <th>Check In?</th>
                 </tr>
             </thead>
@@ -51,7 +54,7 @@
                     <tr {% if registration.checked_in_at %}class="checked-in"{% endif %}>
                         <td class="name">{{ registration.name }}</td>
                         <td class="email">{{ registration.email }}</td>
-                        <td>{{ registration.created_at|date('M j, Y') }}</td>
+                        <td class="id">{{ registration.id }}</td>
                         <td>
                             <form class="checkin" method="post">
                                 <input type="hidden" name="id" value="{{ registration.id }}" />
@@ -76,15 +79,23 @@
             $('#registrants tr').each(function(i, elem) {
                 var name = "" + $(elem).children('.name').text();
                 var email = "" + $(elem).children('.email').text();
+                var id = "" + $(elem).children('.id').text();
 
                 if (name.toUpperCase().indexOf(search.toUpperCase()) >= 0
-                    || email.toUpperCase().indexOf(search.toUpperCase()) >= 0
+                        || email.toUpperCase().indexOf(search.toUpperCase()) >= 0
+                        || id.toUpperCase().indexOf(search.toUpperCase()) >= 0
                     || search == "") {
                     $(this).css('display', 'table-row');
                 } else {
                     $(this).css('display', 'none');
                 }
             });
+
+            if (e.which == 13) {
+                if ($('#registrants tr:visible').length === 1) {
+                    $('#registrants tr:visible input[type="submit"]').click();
+                }
+            }
 
             return false;
         });
@@ -114,7 +125,7 @@
                         _this.children('input[name="action"]').val('in');
                         _this.children('input[type="submit"]').val('Checkin');
                     }
-                    $('#search').val('').trigger('keyup');
+                    $('#search').val('').trigger('keyup').focus();
                 },
                 error: function(error) {
                     swal({

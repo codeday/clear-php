@@ -20,6 +20,8 @@ class SubusersController extends \Controller {
             ->firstOrFail()
             ->delete();
 
+        \Session::flash('status_message', \Input::get('username').' removed');
+
         return \Redirect::to('/event/'.$event->id.'/subusers');
     }
 
@@ -29,7 +31,8 @@ class SubusersController extends \Controller {
         $user = Models\User::fromS5Username(\Input::get('username'));
 
         if ($user->username == $event->manager_username) {
-            return "Cannot add the event manager as a subuser of the event.";
+            \Session::flash('error', 'Cannot add the event manager as a subuser of the event');
+            return \Redirect::to('/event/'.$event->id.'/subusers');
         }
 
         if ($user->username) {
@@ -40,7 +43,8 @@ class SubusersController extends \Controller {
 
             return \Redirect::to('/event/'.$event->id.'/subusers');
         } else {
-            return "No such user.";
+            \Session::flash('error', 'User not found');
+            return \Redirect::to('/event/'.$event->id.'/subusers');
         }
     }
 } 

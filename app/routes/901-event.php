@@ -19,6 +19,7 @@
     \Route::get('/', 'IndexController@getIndex');
     \Route::get('/chartdata.csv', 'IndexController@getChartdata');
     \Route::post('/update-registration-status', 'IndexController@postUpdateRegistrationStatus');
+    \Route::post('/update-waitlist-status', 'IndexController@postUpdateWaitlistStatus');
     \Route::post('/notes', 'IndexController@postNotes');
 
     \Route::group(['before' => 's5_admin'], function(){

@@ -11,9 +11,18 @@ class AttendeeController extends \Controller {
 
         $attendees = null;
         if ($search) {
-            $attendees = Models\Batch\Event\Registration::where('first_name', 'LIKE', '%'.$search.'%')
-                ->orWhere('last_name', 'LIKE', '%'.$search.'%')
-                ->orWhere('email', 'LIKE', '%'.$search.'%')
+            $searchFields = ['first_name', 'last_name', 'CONCAT(first_name, " ", last_name)', 'email', 'id'];
+            $searchQueries = array_map(function($a) {
+                return 'UPPER('.$a.') LIKE ?';
+            }, $searchFields);
+
+            $searchVariables = array_map(function($a) use ($search) {
+                return '%'.strtoupper($search).'%';
+            }, $searchFields);
+
+            $where = implode(' OR ', $searchQueries);
+
+            $attendees = Models\Batch\Event\Registration::whereRaw($where, $searchVariables)
                 ->get();
         }
 

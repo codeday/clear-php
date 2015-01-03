@@ -326,6 +326,26 @@ ul.batches {
     width: 0;
     height: 0; }
 
+body > .info {
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  overflow: hidden; }
+  body > .info a {
+    color: #fff; }
+  body > .info.status {
+    background-color: #15E014;
+    border-bottom-color: #80f480;
+    color: #0c820c; }
+  body > .info.old-batch, body > .info.error {
+    background-color: #FB481C;
+    border-bottom-color: #fdad99;
+    color: #ae2503; }
+
 body.dashboard section.content > .countdown {
   padding: 0 0 2rem;
   border-bottom: 1px solid #efdede; }
@@ -463,6 +483,61 @@ body.settings section.details {
     width: 0;
     height: 0; }
 
+body.event .content > .status {
+  border: 1px solid #efdede;
+  padding: 1rem 0; }
+  body.event .content > .status:after {
+    content: "";
+    display: block;
+    clear: both;
+    width: 0;
+    height: 0; }
+  body.event .content > .status .hud {
+    width: 30%;
+    float: left; }
+    body.event .content > .status .hud ul {
+      padding: 0;
+      margin: 0; }
+      body.event .content > .status .hud ul li {
+        list-style-type: none;
+        padding: 0.2rem 0; }
+        body.event .content > .status .hud ul li .label {
+          display: inline-block;
+          width: 7rem;
+          padding-right: 1rem;
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          text-align: right; }
+        body.event .content > .status .hud ul li .value {
+          font-size: 0.9rem; }
+        body.event .content > .status .hud ul li .status.success {
+          color: #15E014; }
+        body.event .content > .status .hud ul li .status.failure {
+          color: #FB481C; }
+  body.event .content > .status .toggles {
+    width: 70%;
+    float: right;
+    margin-top: 1.8rem;
+    text-align: center; }
+    body.event .content > .status .toggles form {
+      display: inline-block;
+      margin-right: 2rem; }
+      body.event .content > .status .toggles form .label.on {
+        color: #15E014; }
+body.event form.notes .field {
+  padding-bottom: 0; }
+  body.event form.notes .field label {
+    display: none; }
+  body.event form.notes .field textarea, body.event form.notes .field .help {
+    width: 100%;
+    margin: 0; }
+  body.event form.notes .field textarea {
+    border: 1px solid #efdede; }
+body.event form.notes input[type="submit"] {
+  margin-top: -0.9rem;
+  border-top: 0;
+  background-color: transparent;
+  border-color: #efdede; }
 body.event form div.field #venue_city, body.event form div.field #venue_state, body.event form div.field #venue_postal, body.event form div.field #venue_country,
 body.event form div.field #ship_city, body.event form div.field #ship_state, body.event form div.field #ship_postal, body.event form div.field #ship_country {
   width: 18%;
@@ -645,6 +720,108 @@ body.docs .model-details {
   margin-top: 0.25rem;
   margin-right: 1rem; }
 
+.switch {
+  position: relative;
+  width: 130px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; }
+  .switch .label {
+    width: 130px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    display: block;
+    padding-top: 0.4rem;
+    color: #ddbcbc; }
+  .switch input[type="checkbox"] {
+    display: none; }
+    .switch input[type="checkbox"]:disabled + label {
+      cursor: not-allowed; }
+      .switch input[type="checkbox"]:disabled + label .switch {
+        text-indent: 0;
+        background-color: transparent;
+        border: none; }
+    .switch input[type="checkbox"]:checked + label {
+      border-color: #80f480; }
+      .switch input[type="checkbox"]:checked + label .inner {
+        margin-left: 0; }
+      .switch input[type="checkbox"]:checked + label .switch {
+        right: 0px;
+        border-color: #80f480;
+        color: #80f480; }
+  .switch label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #ddbcbc;
+    border-radius: 3px;
+    position: relative; }
+  .switch.onoff .inner:before {
+    content: "ON"; }
+  .switch.onoff .inner:after {
+    content: "OFF"; }
+  .switch.enableddisabled .inner:before {
+    content: "ENABLED"; }
+  .switch.enableddisabled .inner:after {
+    content: "DISABLED"; }
+  .switch.openclosed .inner:before {
+    content: "OPEN"; }
+  .switch.openclosed .inner:after {
+    content: "CLOSED"; }
+  .switch .inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s;
+    -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s;
+    transition: margin 0.3s ease-in 0s; }
+    .switch .inner:before, .switch .inner:after {
+      display: block;
+      float: left;
+      width: 50%;
+      height: 45px;
+      padding: 0;
+      line-height: 45px;
+      font-size: 14px;
+      color: white;
+      font-family: Trebuchet, Arial, sans-serif;
+      font-weight: bold;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box; }
+    .switch .inner:before {
+      padding-left: 10px;
+      background-color: #15E014;
+      color: #0c820c;
+      text-align: left; }
+    .switch .inner:after {
+      padding-right: 10px;
+      background-color: #efdede;
+      color: #ddbcbc;
+      text-align: right; }
+  .switch .switch {
+    display: block;
+    width: 24px;
+    margin: 10.5px;
+    background: #fff;
+    border: 2px solid #ddbcbc;
+    color: #ddbcbc;
+    border-radius: 3px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 81px;
+    text-indent: -10rem;
+    overflow: hidden;
+    font-size: 26px;
+    line-height: 24px;
+    -moz-transition: all 0.3s ease-in 0s;
+    -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s;
+    transition: all 0.3s ease-in 0s; }
+
 * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -652,7 +829,8 @@ body.docs .model-details {
   font-family: "Helvetica", sans-serif; }
 
 body {
-  background-color: #f7efef; }
+  background-color: #f7efef;
+  margin: 0; }
 
 a, a:hover, a:active, a:visited {
   color: #111; }

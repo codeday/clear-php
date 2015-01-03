@@ -21,6 +21,8 @@ class VenueController extends \Controller {
         $event->waiver_link = \Input::get('waiver_link');
         $event->max_registrations = \Input::get('max_registrations');
 
+        \Session::flash('status_message', 'Venue updated');
+
         $event->save();
         return \Redirect::to('/event/'.$event->id.'/venue');
     }

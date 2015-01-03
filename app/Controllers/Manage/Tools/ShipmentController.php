@@ -39,6 +39,8 @@ class ShipmentController extends \Controller {
             $event->save();
         }
 
+        \Session::flash('status_message', 'Shipments saved');
+
         return \Redirect::to('/tools/shipments');
     }
 
@@ -57,6 +59,8 @@ class ShipmentController extends \Controller {
                 $event->save();
             }
         }
+
+        \Session::flash('status_message', 'Shipment created');
 
         return \Redirect::to('/tools/shipments');
     }

@@ -49,6 +49,8 @@ class BatchesController extends \Controller {
         $batch->is_loaded = 0;
         $batch->save();
 
+        \Session::flash('status_message', 'Batch added');
+
         return \Redirect::to('/settings/batches/'.$batch->id);
     }
 
@@ -77,6 +79,8 @@ class BatchesController extends \Controller {
             $event->registration_estimate = $settings['registration_estimate'];
             $event->save();
         }
+
+        \Session::flash('status_message', 'Events updated');
 
         return \Redirect::to('/settings/batches/'.$batch->id);
     }
@@ -131,6 +135,8 @@ class BatchesController extends \Controller {
         $supply->quantity = floatval(\Input::get('quantity'));
         $supply->save();
 
+        \Session::flash('status_message', 'Supply added');
+
         return \Redirect::to('/settings/batches/'.$batch->id);
     }
 
@@ -142,6 +148,8 @@ class BatchesController extends \Controller {
         if (!$supply || $supply->batch_id !== $batch->id) {
             \App::abort(404);
         }
+
+        \Session::flash('status_message', 'Supply removed');
 
         $supply->delete();
 
@@ -162,6 +170,8 @@ class BatchesController extends \Controller {
         $batch->allow_registrations = \Input::get('allow_registrations') ? true : false;
         $batch->save();
 
+        \Session::flash('status_message', 'Batch updated');
+
         return \Redirect::to('/settings/batches/'.$batch->id);
     }
 
@@ -175,8 +185,11 @@ class BatchesController extends \Controller {
     {
         $batch = \Route::input('batch');
         if ($batch->is_loaded) {
-            \App::abort(404);
+            \Session::flash('error', 'Cannot delete active batch');
+            return \Redirect::to('/settings/batches');
         }
+
+        \Session::flash('status_message', 'Batch deleted');
 
         $batch->delete();
         return \Redirect::to('/settings/batches');
@@ -199,6 +212,8 @@ class BatchesController extends \Controller {
             }
             $b->save();
         }
+
+        \Session::flash('status_message', 'Batch loaded');
 
         return \Redirect::to('/settings/batches');
     }

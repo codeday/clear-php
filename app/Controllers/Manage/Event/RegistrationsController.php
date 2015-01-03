@@ -23,6 +23,8 @@ class RegistrationsController extends \Controller {
             Services\Registration::SendTicketEmail($registration);
         }
 
+        \Session::flash('status_message', $registration->name.' was registered');
+
         return \Redirect::to('/event/'.$event->id.'/registrations');
     }
 
@@ -54,6 +56,8 @@ class RegistrationsController extends \Controller {
             Services\Registration::SendTicketEmail($registration);
         }
 
+        \Session::flash('status_message', $registration->name.' updated');
+
         return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
     }
 
@@ -73,6 +77,8 @@ class RegistrationsController extends \Controller {
             }
         }
 
+        \Session::flash('status_message', $registration->name.'\'s registration was cancelled');
+
         Services\Registration::CancelRegistration($registration,
             boolval(\Input::get('refund')), boolval(\Input::get('related')));
 
@@ -91,7 +97,8 @@ class RegistrationsController extends \Controller {
         $amount = floatval(\Input::get('amount'));
 
         if ($amount > $registration->amount_paid || $amount <= 0) {
-            return "Amount is invalid.";
+            \Session::flash('error', 'Not a valid refund amount');
+            return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
         }
 
         Services\Registration::PartiallyRefundRegistration($registration, $amount);
@@ -99,6 +106,8 @@ class RegistrationsController extends \Controller {
         if (\Input::get('email')) {
             Services\Registration::SendPartialRefundEmail($registration, $amount);
         }
+
+        \Session::flash('status_message', $registration->name.' was refunded $'.number_format($amount, 2));
 
         return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
     }

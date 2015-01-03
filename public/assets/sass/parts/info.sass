@@ -1,0 +1,22 @@
+body > .info
+    width: 100%
+    text-align: center
+    padding: 0.5rem
+    border-bottom-style: solid
+    border-bottom-width: 2px
+    text-transform: uppercase
+    font-size: 0.8rem
+    overflow: hidden
+
+    a
+        color: #fff
+
+    &.status
+        background-color: $color-green
+        border-bottom-color: lighten($color-green, 25)
+        color: darken($color-green, 20)
+
+    &.old-batch, &.error
+        background-color: $color-red
+        border-bottom-color: lighten($color-red, 25)
+        color: darken($color-red, 20)

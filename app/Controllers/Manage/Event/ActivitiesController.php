@@ -22,6 +22,8 @@ class ActivitiesController extends \Controller {
         $activity->description = \Input::get('description') ? \Input::get('description') : null;
         $activity->save();
 
+        \Session::flash('status_message', 'Activity added');
+
         return \Redirect::to('/event/'.$event->id.'/activities');
     }
 
@@ -33,6 +35,8 @@ class ActivitiesController extends \Controller {
         if (!$activity || $activity->batches_event_id != $event->id) {
             \App::abort(404);
         }
+
+        \Session::flash('status_message', 'Activity removed');
 
         $activity->delete();
 

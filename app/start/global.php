@@ -67,6 +67,17 @@ foreach (glob(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'TwigFilters', '*.
 \View::share('all_regions', Models\Region::all());
 \View::share('managed_batch', Models\Batch::Managed());
 
+if (\Session::has('status_message')) {
+    \View::share('status_message', \Session::get('status_message'));
+}
+
+if (\Session::has('error')) {
+    \View::share('error', \Session::get('error'));
+}
+
+if (Models\Batch::Loaded()->id !== Models\Batch::Managed()->id) {
+    \View::share('old_batch', true);
+}
 
 \Route::group(['namespace' => '\CodeDay\Clear\Controllers'], function() {
     foreach (glob(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'routes', "*.php"])) as $filename) {

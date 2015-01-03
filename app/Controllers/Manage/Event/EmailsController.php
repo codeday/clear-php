@@ -87,6 +87,8 @@ class EmailsController extends \Controller {
         $email_sent->batches_event_id = $event->id;
         $email_sent->save();
 
+        \Session::flash('status_message', 'Email enqueued');
+
         return \Redirect::to('/event/'.$event->id.'/emails');
     }
 

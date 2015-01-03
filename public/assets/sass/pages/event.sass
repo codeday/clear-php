@@ -1,4 +1,63 @@
 body.event
+    .content > .status
+        border: 1px solid $foreground-color-lighter
+        padding: 1rem 0
+        &:after
+            content: ""
+            display: block
+            clear: both
+            width: 0
+            height: 0
+        .hud
+            width: 30%
+            float: left
+            ul
+                padding: 0
+                margin: 0
+                li
+                    list-style-type: none
+                    padding: 0.2rem 0
+                    .label
+                        display: inline-block
+                        width: 7rem
+                        padding-right: 1rem
+                        font-size: 0.8rem
+                        text-transform: uppercase
+                        text-align: right
+                    .value
+                        font-size: 0.9rem
+                    .status
+                        &.success
+                            color: $color-green
+                        &.failure
+                            color: $color-red
+        .toggles
+            width: 70%
+            float: right
+            margin-top: 1.8rem
+            text-align: center
+            form
+                display: inline-block
+                margin-right: 2rem
+                .label.on
+                    color: $color-green
+
+    form.notes
+        .field
+            padding-bottom: 0
+            label
+                display: none
+            textarea, .help
+                width: 100%
+                margin: 0
+            textarea
+                border: 1px solid $foreground-color-lighter
+        input[type="submit"]
+            margin-top: -0.9rem
+            border-top: 0
+            background-color: transparent
+            border-color: $foreground-color-lighter
+
     form div.field
         #venue_city, #venue_state, #venue_postal, #venue_country,
         #ship_city, #ship_state, #ship_postal, #ship_country

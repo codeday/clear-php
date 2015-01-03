@@ -1,16 +1,20 @@
 $font: "Helvetica", sans-serif
 
+$color-red: #FB481C
+$color-green: #15E014
+$color-blue: #0343FA
+
 $background-color: #f7efef
 $foreground-color: #111
 $foreground-color-lighter: darken($background-color, 5)
 $foreground-color-light: darken($background-color, 15)
-$accent-color: #FB481C
+$accent-color: $color-red
 
 $max-width: 1024px
 
-@import "parts/content", "parts/footer", "parts/header", "parts/forms", "parts/region-picker", "parts/batches"
+@import "parts/content", "parts/footer", "parts/header", "parts/forms", "parts/region-picker", "parts/batches", "parts/info"
 @import "pages/dashboard", "pages/settings", "pages/event", "pages/tools", "pages/debug", "pages/docs"
-@import "widgets/compose-email"
+@import "widgets/compose-email", "widgets/switch"
 
 *
     box-sizing: border-box
@@ -20,6 +24,7 @@ $max-width: 1024px
 
 body
     background-color: $background-color
+    margin: 0
 
 a, a:hover, a:active, a:visited
     color: $foreground-color

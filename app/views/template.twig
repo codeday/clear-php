@@ -86,6 +86,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body class="{{ block('section') }}">
+    {% if status_message %}
+        <div class="info status">{{ status_message }}</div>
+    {% elseif error %}
+        <div class="info error">{{ error }}</div>
+    {% elseif old_batch %}
+        <div class="info old-batch">Warning: you are editing an old batch. <a href="/change-batch">Switch?</a></div>
+    {% endif %}
     <header>
         <h1>
             <span class="event">CodeDay</span>
@@ -130,5 +137,14 @@
     <script type="text/javascript" src="/assets/js/sweet-alert.min.js"></script>
     <script type="text/javascript" src="/assets/js/app.js"></script>
     {{ block('scripts') }}
+    {% if status_message or error %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                setTimeout(function(){
+                    $('body > .info').animate({'height': 'toggle', 'opacity': 'toggle'});
+                }, 5000);
+            });
+        </script>
+    {% endif %}
 </body>
 </html>

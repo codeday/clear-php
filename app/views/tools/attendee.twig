@@ -18,6 +18,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Event</th>
@@ -27,6 +28,7 @@
             <tbody>
                 {% for attendee in attendees %}
                     <tr>
+                        <td>{{ attendee.id }}</td>
                         <td>
                             {% if attendee.deleted_at != null %}
                                 <span style="text-decoration: line-through">{{ attendee.name }}</span>

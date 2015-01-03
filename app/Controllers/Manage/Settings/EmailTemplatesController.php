@@ -20,11 +20,14 @@ class EmailTemplatesController extends \Controller {
         $template->message = \Input::get('message');
         $template->save();
 
+        \Session::flash('status_message', 'Template added');
+
         return \Redirect::to('/settings/email-templates');
     }
 
     public function postDelete()
     {
+        \Session::flash('status_message', 'Template removed');
         \Route::input('email_template')->delete();
         return \Redirect::to('/settings/email-templates');
     }

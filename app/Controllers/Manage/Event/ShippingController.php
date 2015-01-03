@@ -29,6 +29,8 @@ class ShippingController extends \Controller {
         $event->ship_country = \Input::get('ship_country');
         $event->ship_is_residential = \Input::get('ship_is_residential') ? true : false;
 
+        \Session::flash('status_message', 'Shipping information updated');
+
         $event->save();
         return \Redirect::to('/event/'.$event->id.'/shipping');
     }

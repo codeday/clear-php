@@ -93,7 +93,22 @@ class Registration extends \Eloquent {
         parent::boot();
 
         static::creating(function ($model) {
-            $model->{$model->getKeyName()} = str_random(12);
+            $id = null;
+            do {
+                $id = self::generateUnambiguousRandomString(15);
+            } while (self::where('id', '=', $id)->exists());
+
+            $model->{$model->getKeyName()} = $id;
         });
+    }
+
+    private static function generateUnambiguousRandomString($length = 10) {
+        $characters = '234679abcdefghkmnpqruvwxy';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

@@ -37,6 +37,8 @@ class EvangelistController extends \Controller {
             $event->save();
         }
 
+        \Session::flash('status_message', 'Evangelists saved');
+
         return \Redirect::to('/tools/evangelists');
     }
 } 

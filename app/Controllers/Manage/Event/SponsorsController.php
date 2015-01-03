@@ -21,6 +21,8 @@ class SponsorsController extends \Controller {
         $sponsor->description = \Input::get('description');
         $sponsor->save();
 
+        \Session::flash('status_message', 'Sponsor added');
+
         return \Redirect::to('/event/'.$event->id.'/sponsors');
     }
 
@@ -32,6 +34,8 @@ class SponsorsController extends \Controller {
         if (!$sponsor || $sponsor->batches_event_id != $event->id) {
             \App::abort(404);
         }
+
+        \Session::flash('status_message', 'Sponsor removed');
 
         $sponsor->delete();
 

@@ -30,6 +30,8 @@ class PromotionsController extends \Controller {
         $promotion->allowed_uses = $allowed_uses;
         $promotion->save();
 
+        \Session::flash('status_message', 'Promotion '.$code.' added');
+
         return \Redirect::to('/event/'.$event->id.'/promotions');
     }
 
@@ -43,9 +45,11 @@ class PromotionsController extends \Controller {
         }
 
         if (count($code->registrations) > 0) {
-            return "Cannot remove code with existing registrations.";
+            \Session::flash('error', 'Cannot remove a promotion with existing registrations');
+            return \Redirect::to('/event/'.$event->id.'/promotions');
         }
 
+        \Session::flash('status_message', 'Promotion removed');
         $code->delete();
         return \Redirect::to('/event/'.$event->id.'/promotions');
     }

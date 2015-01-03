@@ -65,6 +65,8 @@ class EmailsController extends \Controller {
             $email_sent->save();
         }
 
+        \Session::flash('status_message', 'Email enqueued');
+
         return \Redirect::to('/tools/emails');
     }
 

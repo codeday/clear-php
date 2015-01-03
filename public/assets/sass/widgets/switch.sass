@@ -1,0 +1,117 @@
+.switch
+    position: relative
+    width: 130px
+    -webkit-user-select: none
+    -moz-user-select: none
+    -ms-user-select: none
+
+    .label
+        width: 130px
+        text-align: center
+        text-transform: uppercase
+        font-size: 0.8rem
+        display: block
+        padding-top: 0.4rem
+        color: $foreground-color-light
+
+    input[type="checkbox"]
+        display: none
+        &:disabled
+            & + label
+                cursor: not-allowed
+                .switch
+                    text-indent: 0
+                    background-color: transparent
+                    border: none
+        &:checked
+            & + label
+                border-color: lighten($color-green, 25)
+                .inner
+                    margin-left: 0
+                .switch
+                    right: 0px
+                    border-color: lighten($color-green, 25)
+                    color: lighten($color-green, 25)
+
+    label
+        display: block
+        overflow: hidden
+        cursor: pointer
+        border: 2px solid $foreground-color-light
+        border-radius: 3px
+        position: relative
+
+    &.onoff .inner
+        &:before
+            content: "ON"
+        &:after
+            content: "OFF"
+
+    &.enableddisabled .inner
+        &:before
+            content: "ENABLED"
+        &:after
+            content: "DISABLED"
+
+    &.openclosed .inner
+        &:before
+            content: "OPEN"
+        &:after
+            content: "CLOSED"
+
+    .inner
+        display: block
+        width: 200%
+        margin-left: -100%
+        -moz-transition: margin 0.3s ease-in 0s
+        -webkit-transition: margin 0.3s ease-in 0s
+        -o-transition: margin 0.3s ease-in 0s
+        transition: margin 0.3s ease-in 0s
+
+        &:before, &:after
+            display: block
+            float: left
+            width: 50%
+            height: 45px
+            padding: 0
+            line-height: 45px
+            font-size: 14px
+            color: white
+            font-family: Trebuchet, Arial, sans-serif
+            font-weight: bold
+            -moz-box-sizing: border-box
+            -webkit-box-sizing: border-box
+            box-sizing: border-box
+
+        &:before
+            padding-left: 10px
+            background-color: $color-green
+            color: darken($color-green, 20)
+            text-align: left
+
+        &:after
+            padding-right: 10px
+            background-color: $foreground-color-lighter
+            color: $foreground-color-light
+            text-align: right
+
+    .switch
+        display: block
+        width: 24px
+        margin: 10.5px
+        background: #fff
+        border: 2px solid $foreground-color-light
+        color: $foreground-color-light
+        border-radius: 3px
+        position: absolute
+        top: 0
+        bottom: 0
+        right: 81px
+        text-indent: -10rem
+        overflow: hidden
+        font-size: 26px
+        line-height: 24px
+        -moz-transition: all 0.3s ease-in 0s
+        -webkit-transition: all 0.3s ease-in 0s
+        -o-transition: all 0.3s ease-in 0s
+        transition: all 0.3s ease-in 0s

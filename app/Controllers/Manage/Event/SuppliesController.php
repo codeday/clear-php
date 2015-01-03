@@ -20,6 +20,8 @@ class SuppliesController extends \Controller {
         $supply->quantity = floatval(\Input::get('quantity'));
         $supply->save();
 
+        \Session::flash('status_message', 'Supply added');
+
         return \Redirect::to('/event/'.$event->id.'/supplies');
     }
 
@@ -31,6 +33,8 @@ class SuppliesController extends \Controller {
         if (!$supply || $supply->batches_event_id != $event->id) {
             \App::abort(404);
         }
+
+        \Session::flash('status_message', 'Supply removed');
 
         $supply->delete();
 

@@ -15,9 +15,29 @@ class IndexController extends \Controller {
 
         if ($event->venue) {
             $event->allow_registrations = \Input::get('allow_registrations');
+            \Session::flash('status_message', 'Event '.($event->allow_registrations ? 'enabled' : 'disabled'));
         } else {
             $event->allow_registrations = false;
+            if (\Input::get('allow_registrations')) {
+                \Session::flash('error', 'Could not enable event with no venue.');
+            }
         }
+
+        $event->save();
+        return \Redirect::to('/event/'.$event->id);
+    }
+
+    public function postUpdateWaitlistStatus()
+    {
+        $event = \Route::input('event');
+
+        if ($event->venue) {
+            $event->allow_waitlist_signups = \Input::get('allow_waitlist_signups');
+            \Session::flash('status_message', 'Waitlist '.($event->allow_waitlist_signups ? 'opened' : 'closed'));
+        } else {
+            \Session::flash('error', 'Could not save waitlist status for disabled event.');
+        }
+
 
         $event->save();
         return \Redirect::to('/event/'.$event->id);

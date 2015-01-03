@@ -31,6 +31,8 @@ class PromotionsController extends \Controller {
             $promotion->save();
         }
 
+        \Session::flash('status_message', 'Promotion created');
+
         return \Redirect::to('/tools/promotions');
     }
 
