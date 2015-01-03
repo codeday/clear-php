@@ -12,6 +12,8 @@
             <a href="/docs/model/Registration" target="_blank">{{ '{{' }} registration }}</a>,
             <a href="/docs/model/Event" target="_blank">{{ '{{' }} event }}</a>, and
             <a href="/docs/model/User" target="_blank">{{ '{{' }} me }}</a> to personalize the email.</p>
+        <p>(If sending an email to the notification list, you can <strong>not</strong> use {{ '{{' }} registration }}.
+            Only emails are collected for notification list subscribers.)</p>
     </header>
 
     <form method="post" action="/event/{{ event.id }}/emails/send">

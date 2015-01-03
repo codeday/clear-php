@@ -104,7 +104,7 @@ class Email {
     public static function GetToListTypes()
     {
         $compare_registration = function($a, $b) {
-            return $a->email === $b->email;
+            return ($a->email === $b->email) ? 0 : 1;
         };
 
         return [
