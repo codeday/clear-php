@@ -110,8 +110,7 @@ class Registration {
             'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
             $reg->name, $reg->email,
             'Your CodeDay '.$reg->event->name.' Tickets',
-            \View::make('emails/registration_text', ['registration' => $reg]),
-            \View::make('emails/registration', ['registration' => $reg])
+            \View::make('emails/registration_text', ['registration' => $reg])
         );
     }
 

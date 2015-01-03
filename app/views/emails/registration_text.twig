@@ -12,17 +12,3 @@ Your card was charged ${{ registration.amount_paid }} for this ticket.
 We'll follow up with more information when the event gets closer. Until then, if you have any questions about the event or your ticket, just reply to this email.
 
 Please do not bring this email to CodeDay, we will check you in by name.
-
-
-*  *  *
-
-CodeDay {{ registration.event.name }}
-{{ registration.event.starts_at|date('F j, Y') }}, noon-noon
-{% if registration.event.venue %}
-Hosted at {{ registration.event.venue.name }}
-{{ registration.event.venue_address_1 }}
-{% if registration.event.venue_address_2 %}
-{{ registration.event.venue_address_2 }}
-{% endif %}
-{{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
-{% endif %}
