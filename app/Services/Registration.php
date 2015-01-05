@@ -100,7 +100,7 @@ class Registration {
         }
 
         $registration->amount_paid -= $refundAmount;
-        $registration->amount_refunded += $registration->refundAmount;
+        $registration->amount_refunded += $refundAmount;
         $registration->save();
     }
 
