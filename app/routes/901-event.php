@@ -24,5 +24,6 @@
 
     \Route::group(['before' => 's5_admin'], function(){
         \Route::controller('supplies', 'SuppliesController');
+        \Route::controller('special', 'SpecialController');
     });
 });

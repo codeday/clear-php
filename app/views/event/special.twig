@@ -1,0 +1,26 @@
+{% extends "template.twig" %}
+{% block title %}{{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Special Settings</h2>
+        <p>These settings are only available to admins, and satisfy special conditions.</p>
+    </header>
+    <form method="post">
+        <div class="field">
+            <label for="custom_css">Custom CSS</label>
+            <textarea name="custom_css" id="custom_css">{{ event.custom_css }}</textarea>
+            <span class="help">Custom CSS to be included on the event page.</span>
+        </div>
+
+        <div class="field">
+            <label for="hide_default_workshops">Hide Default Workshops?</label>
+            <input type="checkbox" name="hide_default_workshops" id="hide_default_workshops" value="1" {% if event.hide_default_workshops %}checked{% endif %} />
+            <span class="help">If checked, batch workshops will not show up in the event schedule, and must be added
+                manually in the activities section. Used for events with a special schedule.</span>
+        </div>
+
+        <input type="submit" value="Save" />
+    </form>
+{% endblock %}

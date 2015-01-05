@@ -212,27 +212,6 @@ class Event extends \Eloquent {
                 'description' => "After forming teams, it's time to get to work on your project! Our staff will be helping teams throughout the event."
             ],
             (Object)[
-                'time' => 2,
-                'title' => 'Beginner: Intro to coding',
-                'type' => 'workshop',
-                'url' => 'https://www.scirra.com/tutorials/37/beginners-guide-to-construct-2',
-                'description' => "Totally new to coding? No problem! Attend this workshop and we'll walk you through creating your first game."
-            ],
-            (Object)[
-                'time' => 3,
-                'title' => 'Fancy Hands: Build a prank-call service',
-                'type' => 'workshop',
-                'url' => 'https://studentrnd.org/build/prank-calling-friends-with-fancy-hands',
-                'description' => 'Learn how to use Fancy Hands, an API to real people'
-            ],
-            (Object)[
-                'time' => 5,
-                'title' => 'Splunk: Make your game better with data',
-                'type' => 'workshop',
-                'url' => 'https://studentrnd.org/build/making-better-games-with-splunk',
-                'description' => 'Learn how others play your game and use that knowledge to make it more fun with minimal work.'
-            ],
-            (Object)[
                 'time' => 7,
                 'title' => 'Dinner',
                 'type' => 'event',
@@ -281,6 +260,34 @@ class Event extends \Eloquent {
                 'description' => "Thank the venue for hosting CodeDay by helping clean up!"
             ]
         ];
+
+        $workshops = [
+            (Object)[
+                'time' => 2,
+                'title' => 'Beginner: Intro to coding',
+                'type' => 'workshop',
+                'url' => 'https://www.scirra.com/tutorials/37/beginners-guide-to-construct-2',
+                'description' => "Totally new to coding? No problem! Attend this workshop and we'll walk you through creating your first game."
+            ],
+            (Object)[
+                'time' => 3,
+                'title' => 'Fancy Hands: Build a prank-call service',
+                'type' => 'workshop',
+                'url' => 'https://studentrnd.org/build/prank-calling-friends-with-fancy-hands',
+                'description' => 'Learn how to use Fancy Hands, an API to real people'
+            ],
+            (Object)[
+                'time' => 5,
+                'title' => 'Splunk: Make your game better with data',
+                'type' => 'workshop',
+                'url' => 'https://studentrnd.org/build/making-better-games-with-splunk',
+                'description' => 'Learn how others play your game and use that knowledge to make it more fun with minimal work.'
+            ]
+        ];
+
+        if (!$this->hide_default_workshops) {
+            $standard_schedule = array_merge($standard_schedule, $workshops);
+        }
 
         // Add timestamy/hour/day to generated array
         for ($i = 0; $i < count($standard_schedule); $i++) {
