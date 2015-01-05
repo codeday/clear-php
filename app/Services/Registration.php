@@ -93,7 +93,7 @@ class Registration {
             $charge->refunds->create();
         } elseif ($registration->amount_paid > $refundAmount) {
             $charge->refunds->create([
-                'amount' => $registration->amount_paid * 100
+                'amount' => $refundAmount * 100
             ]);
         } else {
             throw new \Exception("Cannot refund more than the original ticket price.");
