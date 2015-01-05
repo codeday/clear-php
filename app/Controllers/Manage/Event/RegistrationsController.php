@@ -21,6 +21,7 @@ class RegistrationsController extends \Controller {
 
         if (\Input::get('send_welcome')) {
             Services\Registration::SendTicketEmail($registration);
+            Services\Registration::EnqueueSurveyEmail($registration);
         }
 
         \Session::flash('status_message', $registration->name.' was registered');

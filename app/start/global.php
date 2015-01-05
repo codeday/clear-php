@@ -24,6 +24,13 @@ App::down(function()
 	return Response::make("Be right back!", 503);
 });
 
+// Set up Bugsnag
+if (\Config::get('app.debug')) {
+    \Bugsnag::setReleaseStage('development');
+} else {
+    \Bugsnag::setReleaseStage('release');
+}
+
 // XSS, CSRF, etc protection
 \App::after(function($request, $response)
 {

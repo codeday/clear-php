@@ -37,7 +37,8 @@ return [
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
-        'TwigBridge\ServiceProvider'
+        'TwigBridge\ServiceProvider',
+        'Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider'
     ],
     'aliases' => [
         'App'             => 'Illuminate\Support\Facades\App',
@@ -77,6 +78,7 @@ return [
         'URL'             => 'Illuminate\Support\Facades\URL',
         'Validator'       => 'Illuminate\Support\Facades\Validator',
         'View'            => 'Illuminate\Support\Facades\View',
-        'Twig'            => 'TwigBridge\Facade\Twig'
+        'Twig'            => 'TwigBridge\Facade\Twig',
+        'Bugsnag'         => 'Bugsnag\BugsnagLaravel\BugsnagFacade'
     ]
 ];

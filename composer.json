@@ -15,7 +15,8 @@
                 "rcrowe/twigbridge": "0.6.*@dev",
                 "studentrnd/s5api": "dev-master",
                 "stripe/stripe-php": "dev-master",
-                "pda/pheanstalk": "2.0.*"
+                "pda/pheanstalk": "2.0.*",
+                "bugsnag/bugsnag-laravel": "1.*"
         },
         "autoload": {
                 "classmap": [

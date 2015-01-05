@@ -1,6 +1,7 @@
 <?php
 namespace CodeDay\Clear\Services;
 
+use \Carbon\Carbon;
 use \CodeDay\Clear\Models;
 use \CodeDay\Clear\Services;
 
@@ -111,6 +112,35 @@ class Registration {
             $reg->name, $reg->email,
             'Your CodeDay '.$reg->event->name.' Tickets',
             \View::make('emails/registration_text', ['registration' => $reg])
+        );
+    }
+
+    public static function EnqueueSurveyEmail(Models\Batch\Event\Registration $reg)
+    {
+        $officeHoursStart = 9;
+        $officeHoursEnd = 17;
+        $officeDays = [Carbon::MONDAY, Carbon::TUESDAY, Carbon::WEDNESDAY, Carbon::THURSDAY, Carbon::FRIDAY];
+
+        $sendAt = Carbon::now()->addMinutes(rand(2, 3))->addSeconds(rand(0,60));
+
+        if ($sendAt->hour < $officeHoursStart) {
+            $sendAt->hour = $officeHoursStart;
+        } else if ($sendAt->hour > $officeHoursEnd) {
+            $sendAt->addDay()->hour = $officeHoursStart;
+        }
+
+        while (!in_array($sendAt->dayOfWeek, $officeDays)) {
+            $sendAt->addDay();
+        }
+
+        $delay = $sendAt->timestamp - Carbon::now()->timestamp;
+
+        Services\Email::LaterOnQueue(
+            $delay,
+            'Tyler Menezes', 'menezest@codeday.org',
+            $reg->name, $reg->email,
+            'CodeDay',
+            \View::make('emails/postreg_survey', ['registration' => $reg])
         );
     }
 

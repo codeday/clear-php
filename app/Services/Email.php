@@ -44,6 +44,33 @@ class Email {
         );
     }
 
+    public static function LaterOnQueue($delaySeconds, $fromName, $fromEmail, $toName, $toEmail, $subject,
+                                       $contentText, $contentHtml = null)
+    {
+        // Render views if they were passed in
+        if (is_object($contentText) && get_class($contentText) === 'Illuminate\View\View') {
+            $contentText = $contentText->render();
+        }
+        if (is_object($contentHtml) && get_class($contentHtml) === 'Illuminate\View\View') {
+            $contentHtml = $contentHtml->render();
+        }
+
+        // If there's no HTML part, render the text part as HTML
+        if ($contentHtml === null) {
+            $contentHtml = nl2br($contentText);
+        }
+
+        // Enqueue the email
+        \Mail::later($delaySeconds, ['emails/blank_html', 'emails/blank_text'],
+            ['content_text' => $contentText, 'content_html' => $contentHtml],
+            function($envelope) use ($fromEmail, $fromName, $toEmail, $toName, $subject) {
+                $envelope->from(trim($fromEmail), $fromName);
+                $envelope->to(trim($toEmail), $toName);
+                $envelope->subject($subject);
+            }
+        );
+    }
+
     public static function SendToEvent($fromName, $fromEmail, $event, $listType, $subject,
                                        $contentText, $contentHtml = null,
                                        $additionalContext = [])
