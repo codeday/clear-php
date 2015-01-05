@@ -121,7 +121,7 @@ class Registration {
         $officeHoursEnd = 17;
         $officeDays = [Carbon::MONDAY, Carbon::TUESDAY, Carbon::WEDNESDAY, Carbon::THURSDAY, Carbon::FRIDAY];
 
-        $sendAt = Carbon::now()->addMinutes(rand(2, 3))->addSeconds(rand(0,60));
+        $sendAt = Carbon::now()->addMinutes(rand(10, 120))->addSeconds(rand(0,60));
 
         if ($sendAt->hour < $officeHoursStart) {
             $sendAt->hour = $officeHoursStart;
