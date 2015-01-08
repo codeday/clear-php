@@ -138,7 +138,7 @@ class RegistrationsController extends \Controller {
         $registration->batches_event_id = $toEvent->id;
         $registration->save();
 
-        \Session::flash('status_message', $registration->name.' was transferred to '.$registration->toEvent->region->name);
+        \Session::flash('status_message', $registration->name.' was transferred to '.$toEvent->region->name);
 
         if (Models\User::me()->username != $toEvent->manager_username
             && !$toEvent->isUserAllowed(Models\User::me())
