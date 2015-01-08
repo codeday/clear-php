@@ -126,6 +126,19 @@ class RegistrationsController extends \Controller {
             ->where('batch_id', '=', $event->batch->id)
             ->firstOrFail();
 
+        if (\Input::get('email')) {
+            Services\Email::SendOnQueue(
+                'CodeDay', 'support@codeday.org',
+                $registration->name, $registration->email,
+                'Ticket Transferred: CodeDay '.$event->name.' to '.$toEvent->name,
+                \View::make('emails/reg_transfer', [
+                    'registration' => $registration,
+                    'from_event' => $event,
+                    'to_event' => $toEvent
+                ])
+            );
+        }
+
         if (($toEvent->remaining_registrations < 0)
             && !(Models\User::me()->username != $toEvent->manager_username
                 && !$toEvent->isUserAllowed(Models\User::me())
