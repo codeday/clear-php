@@ -92,4 +92,30 @@
             </form>
         </section>
     {% endif %}
+
+    <section class="transfer">
+        <h3>Transfer</h3>
+        <p>This will transfer the registration to another event. (You cannot transfer to sold-out events unless you
+           manage them.)</p>
+        <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/transfer" method="post" class="dangerous">
+            <div class="field">
+                <label for="email">Send Email?</label>
+                <input type="checkbox" name="email" id="email" value="1" checked />
+                <span class="help">If checked, sends an email to the attendee informing them of the transfer.</span>
+            </div>
+            <div class="field">
+                <label for="id">To</label>
+                <select name="id" id="id">
+                    {% for event in loaded_batch.events %}
+                        {% if event.remaining_registrations > 0 or
+                        (event.manager_username = me.username or event.isUserAllowed(me) or me.is_admin) %}
+                            <option value="{{ event.id }}">{{ event.region.name }}
+                            {% if event.remaining_registrations <= 0 %}(sold out){% endif %}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="submit" value="Transfer Attendee"/>
+        </form>
+    </section>
 {% endblock %}

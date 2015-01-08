@@ -11,6 +11,7 @@
     \Route::post('/registrations/attendee/{registration}', 'RegistrationsController@postAttendee');
     \Route::post('/registrations/attendee/{registration}/cancel', 'RegistrationsController@postCancel');
     \Route::post('/registrations/attendee/{registration}/refund', 'RegistrationsController@postRefund');
+    \Route::post('/registrations/attendee/{registration}/transfer', 'RegistrationsController@postTransfer');
     \Route::controller('/registrations', 'RegistrationsController');
 
     \Route::controller('/sponsors', 'SponsorsController');

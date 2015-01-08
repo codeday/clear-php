@@ -112,4 +112,40 @@ class RegistrationsController extends \Controller {
 
         return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
     }
+
+    public function postTransfer()
+    {
+        $event = \Route::input('event');
+        $registration = \Route::input('registration');
+        if ($registration->batches_event_id != $event->id) {
+            \App::abort(404);
+        }
+
+        $toEvent = Models\Batch\Event
+            ::where('id', '=', \Input::get('id'))
+            ->where('batch_id', '=', $event->batch->id)
+            ->firstOrFail();
+
+        if (($toEvent->remaining_registrations < 0)
+            && !(Models\User::me()->username != $toEvent->manager_username
+                && !$toEvent->isUserAllowed(Models\User::me())
+                && !Models\User::me()->is_admin)) {
+
+            \Session::flash('error', 'You cannot transfer to a sold-out event which you do not manage');
+            return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
+        }
+
+        $registration->batches_event_id = $toEvent->id;
+        $registration->save();
+
+        \Session::flash('status_message', $registration->name.' was transferred to '.$registration->toEvent->region->name);
+
+        if (Models\User::me()->username != $toEvent->manager_username
+            && !$toEvent->isUserAllowed(Models\User::me())
+            && !Models\User::me()->is_admin) {
+            return \Redirect::to('/event/'.$event->id.'/registrations');
+        } else {
+            return \Redirect::to('/event/'.$toEvent->id.'/registrations/attendee/'.$registration->id);
+        }
+    }
 } 

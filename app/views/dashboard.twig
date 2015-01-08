@@ -29,8 +29,10 @@
                         <a href="/event/{{ event.id }}">
                             <div class="
                                 name
-                                {% if event.allow_registrations_calculated %}
+                                {% if event.allow_registrations_calculated and event.remaining_registrations > 0 %}
                                     open
+                                {% elseif event.allow_registrations_calculated %}
+                                    sold-out
                                 {% elseif event.venue %}
                                     venue
                                 {% else %}
@@ -87,8 +89,10 @@
                         {% endif %}
                             <div class="
                             name
-                            {% if event.allow_registrations_calculated %}
+                            {% if event.allow_registrations_calculated and event.remaining_registrations > 0 %}
                                 open
+                            {% elseif event.allow_registrations_calculated %}
+                                sold-out
                             {% elseif event.venue %}
                                 venue
                             {% else %}

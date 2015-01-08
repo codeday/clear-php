@@ -435,6 +435,9 @@ body.dashboard section.content > .other-events {
           text-transform: uppercase;
           width: 2.5rem;
           margin-right: 0.2rem; }
+          body.dashboard section.content > .other-events section.list ul li div.name.sold-out {
+            background-color: #000;
+            color: #fff; }
           body.dashboard section.content > .other-events section.list ul li div.name.open {
             background-color: #15E014; }
           body.dashboard section.content > .other-events section.list ul li div.name.venue {

@@ -149,7 +149,7 @@ class Registration {
         Services\Email::SendOnQueue(
             'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
             $reg->name, $reg->email,
-            'Ticket Cancelled: CodeDay '.$reg->event->name,
+            'Ticket Refunded: CodeDay '.$reg->event->name,
             \View::make('emails/reg_refund', [
                 'registration' => $reg,
                 'amount' => $refundAmount
