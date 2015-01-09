@@ -21,4 +21,19 @@ class SpecialController extends \Controller {
 
         return \Redirect::to('/event/'.$event->id.'/special');
     }
+
+    public function postOverflow()
+    {
+        $currentEvent = \Route::input('event');
+        $event = new Models\Batch\Event;
+        $event->region_id = $currentEvent->region_id;
+        $event->batch_id = $currentEvent->batch_id;
+        $event->name_override = $currentEvent->name.' Overflow';
+        $event->webname_override = $currentEvent->webname.'-overflow';
+        $event->abbr_override = substr($currentEvent->abbr, 0, 2).'*';
+        $event->overflow_for_id = $currentEvent->id;
+        $event->save();
+
+        return \Redirect::to('/event/'.$event->id);
+    }
 } 

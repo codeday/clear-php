@@ -98,7 +98,7 @@ class Region extends ModelContract
                 'value'         => function($model, $permissions, $sparse) {
                     return new Event($model->current_event, $permissions, true);
                 }
-            ]
+            ],
         ];
     }
 } 

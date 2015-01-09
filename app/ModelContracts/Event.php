@@ -188,6 +188,15 @@ class Event extends ModelContract
                 'type' => 'Batch',
                 'rich' => true,
                 'value' => function ($model, $permissions) {return new Batch($model->batch, $permissions, true); }
+            ],
+
+            'overflow_event' => [
+                'name'          => 'Overflow Event',
+                'description'   => 'The event to redirect to when this event is sold-out.',
+                'type'          => 'Event',
+                'value'         => function($model, $permissions, $sparse) {
+                    return new Event($model->overflow_event, $permissions, true);
+                }
             ]
         ];
     }

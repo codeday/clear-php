@@ -5,7 +5,10 @@
     if ($region) {
         return $region;
     } else {
-        return \CodeDay\Clear\Models\Batch\Event::where('webname_override', '=', $val)->firstOrFail()->region;
+        $event = \CodeDay\Clear\Models\Batch\Event::where('webname_override', '=', $val)->firstOrFail();
+        $region = $event->region;
+        $region->_event_override = $event;
+        return $region;
     }
 });
 

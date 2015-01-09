@@ -7,6 +7,7 @@ class Region extends \Eloquent {
     use Eloquent\SoftDeletingTrait;
 
     public $_webname; // hack
+    public $_event_override;
     protected $table = 'regions';
 
     public function events()
@@ -49,8 +50,12 @@ class Region extends \Eloquent {
 
     public function getCurrentEventAttribute()
     {
-        return Batch\Event::where('region_id', '=', $this->id)
-            ->where('batch_id', '=', Batch::Loaded()->id)
-            ->first();
+        if ($this->_event_override) {
+            return $this->_event_override;
+        } else {
+            return Batch\Event::where('region_id', '=', $this->id)
+                ->where('batch_id', '=', Batch::Loaded()->id)
+                ->first();
+        }
     }
 }

@@ -37,6 +37,26 @@ class Event extends \Eloquent {
         return $this->starts_at + (60 * 60 * 24);
     }
 
+    public function overflow_for()
+    {
+        return $this->belongsTo('\CodeDay\Clear\Models\Batch\Event', 'overflow_for_id', 'id');
+    }
+
+    public function overflow_events()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Batch\Event', 'overflow_for_id', 'id');
+    }
+
+    /**
+     * Gets the next available overflow event
+     *
+     * @return Event
+     */
+    public function getOverflowEventAttribute()
+    {
+        return $this->overflow_events()->first();
+    }
+
     public function manager()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\User', 'manager_username', 'username');
@@ -268,13 +288,6 @@ class Event extends \Eloquent {
                 'type' => 'workshop',
                 'url' => 'https://www.scirra.com/tutorials/37/beginners-guide-to-construct-2',
                 'description' => "Totally new to coding? No problem! Attend this workshop and we'll walk you through creating your first game."
-            ],
-            (Object)[
-                'time' => 3,
-                'title' => 'Fancy Hands: Build a prank-call service',
-                'type' => 'workshop',
-                'url' => 'https://studentrnd.org/build/prank-calling-friends-with-fancy-hands',
-                'description' => 'Learn how to use Fancy Hands, an API to real people'
             ],
             (Object)[
                 'time' => 5,

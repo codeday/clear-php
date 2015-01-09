@@ -40,7 +40,8 @@ class Regions extends ApiController {
             $regions = $regions->rightJoin('batches_events', 'batches_events.region_id', '=', 'regions.id')
                 ->whereRaw('batches_events.batch_id = "'.Models\Batch::Loaded()->id.'"')
                 ->whereNotNull('regions.id')
-                ->whereNull('batches_events.deleted_at');
+                ->whereNull('batches_events.deleted_at')
+                ->whereNull('batches_events.overflow_for_id');
         }
 
         $regions = $regions->groupBy('regions.id');
@@ -82,6 +83,7 @@ class Regions extends ApiController {
                 ->whereRaw('batches_events.batch_id = "'.Models\Batch::Loaded()->id.'"')
                 ->whereNotNull('regions.id')
                 ->whereNull('batches_events.deleted_at')
+                ->whereNull('batches_events.overflow_for_id')
                 ->whereRaw('UPPER(regions.name) LIKE ? OR UPPER(batches_events.name_override) LIKE ?', [
                     '%'.strtoupper($search_term).'%',
                     '%'.strtoupper($search_term).'%'
