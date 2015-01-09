@@ -28,14 +28,14 @@ class Event extends ModelContract
                 'name'          => 'Region Name',
                 'description'   => 'The name of the region of the event.',
                 'example'       => 'Seattle',
-                'value'         => function($model) { return $model->region->name; }
+                'value'         => function($model) { return $model->name; }
             ],
 
             'webname' => [
                 'name'          => 'Webname Name',
                 'description'   => 'The webname for the event.',
                 'example'       => 'seattle',
-                'value'         => function($model) { return $model->region->webname; }
+                'value'         => function($model) { return $model->webname; }
             ],
 
             /* Time-Related Properties */

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent;
 class Region extends \Eloquent {
     use Eloquent\SoftDeletingTrait;
 
+    public $_webname; // hack
     protected $table = 'regions';
 
     public function events()
@@ -39,7 +40,11 @@ class Region extends \Eloquent {
 
     public function getWebnameAttribute()
     {
-        return $this->id;
+        if ($this->_webname) {
+            return $this->_webname;
+        } else {
+            return $this->id;
+        }
     }
 
     public function getCurrentEventAttribute()

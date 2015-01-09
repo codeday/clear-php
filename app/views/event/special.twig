@@ -21,6 +21,24 @@
                 manually in the activities section. Used for events with a special schedule.</span>
         </div>
 
+        <div class="field">
+            <label for="name_override">Override Name</label>
+            <input type="text" id="name_override" name="name_override" value="{{ event.name_override }}" />
+            <span class="help">Changes the name shown on the site, while still keeping the same region.</span>
+        </div>
+
+        <div class="field">
+            <label for="abbr_override">Abbr Override</label>
+            <input type="text" id="abbr_override" name="abbr_override" value="{{ event.abbr_override }}" />
+            <span class="help">Changes the abbr shown on the site, while still keeping the same region.</span>
+        </div>
+
+        <div class="field">
+            <label for="webname_override">Webname Override</label>
+            <input type="text" id="webname_override" name="webname_override" value="{{ event.webname_override }}" />
+            <span class="help">Changes the webname used on the site, while still keeping the same region.</span>
+        </div>
+
         <input type="submit" value="Save" />
     </form>
 {% endblock %}

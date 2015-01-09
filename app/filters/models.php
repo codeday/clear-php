@@ -1,7 +1,12 @@
 <?php
 
 \Route::bind('region', function($val) {
-    return \CodeDay\Clear\Models\Region::where('id', '=', $val)->firstOrFail();
+    $region = \CodeDay\Clear\Models\Region::where('id', '=', $val)->first();
+    if ($region) {
+        return $region;
+    } else {
+        return \CodeDay\Clear\Models\Batch\Event::where('webname_override', '=', $val)->firstOrFail()->region;
+    }
 });
 
 \Route::bind('event', function($val) {

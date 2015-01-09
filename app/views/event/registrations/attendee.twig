@@ -108,7 +108,7 @@
                 <select name="id" id="id">
                     {% for event in loaded_batch.events %}
                         {% if event.remaining_registrations > 0 or (event.manager_username == me.username or event.isUserAllowed(me) or me.is_admin) %}
-                            <option value="{{ event.id }}">{{ event.region.name }}
+                            <option value="{{ event.id }}">{{ event.name }}
                             {% if event.remaining_registrations <= 0 %}(sold out){% endif %}</option>
                         {% endif %}
                     {% endfor %}

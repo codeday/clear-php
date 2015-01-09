@@ -22,7 +22,7 @@ abstract class ModelContract implements \Serializable, \IteratorAggregate, \Json
         return new static($model, $permissions, $sparse);
     }
 
-    public static function Collection(\Illuminate\Database\Eloquent\Collection $collection, $permissions = [], $contract_name = null)
+    public static function Collection($collection, $permissions = [], $contract_name = null)
     {
         $models = [];
         foreach ($collection as $model) {

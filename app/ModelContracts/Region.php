@@ -32,7 +32,7 @@ class Region extends ModelContract
                     . ' contain only [a-zA-Z0-9-]. Does not uniquely identify the event, only the region.',
                 'example'       => 'sf',
                 'value'         => function($model) {
-                    return $model->id;
+                    return $model->webname;
                 }
             ],
 

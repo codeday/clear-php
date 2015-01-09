@@ -17,7 +17,7 @@ class Event extends \Eloquent {
 
     public function getFullNameAttribute()
     {
-        return 'CodeDay '.$this->region->name.' '.$this->batch->name;
+        return 'CodeDay '.$this->name.' '.$this->batch->name;
     }
 
     public function getBatchNameAttribute()
@@ -503,12 +503,20 @@ class Event extends \Eloquent {
 
     public function getNameAttribute()
     {
-        return $this->region->name;
+        if ($this->name_override) {
+            return $this->name_override;
+        } else {
+            return $this->region->name;
+        }
     }
 
     public function getAbbrAttribute()
     {
-        return $this->region->abbr;
+        if ($this->abbr_override) {
+            return $this->abbr_override;
+        } else {
+            return $this->region->abbr;
+        }
     }
 
     public function getCoordinatesAttribute()
@@ -518,7 +526,11 @@ class Event extends \Eloquent {
 
     public function getWebnameAttribute()
     {
-        return $this->region->webname;
+        if ($this->webname_override) {
+            return $this->webname_override;
+        } else {
+            return $this->region->webname;
+        }
     }
 
     public function getSimpleTimezoneAttribute()
