@@ -29,8 +29,10 @@
                             <td class="code"><input type="text" value="{{ promotion.code }}" readonly /></td>
                             <td>{{ promotion.percent_discount }}%</td>
                             <td>
-                                {{ promotion.registrations.count }}{#
-                                #}{% if promotion.allowed_uses %}/{{ promotion.allowed_uses }}{% endif %}
+                                <a href="/event/{{ event.id }}/promotions/uses?code={{ promotion.id }}">
+                                    {{ promotion.registrations.count }}{#
+                                    #}{% if promotion.allowed_uses %}/{{ promotion.allowed_uses }}{% endif %}
+                                </a>
                             </td>
                             <td>
                                 {% if promotion.expires_at %}

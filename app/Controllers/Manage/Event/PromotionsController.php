@@ -6,7 +6,23 @@ use \CodeDay\Clear\Models;
 class PromotionsController extends \Controller {
     public function getIndex()
     {
-        return \View::make('event/promotions');
+        return \View::make('event/promotions/index');
+    }
+
+    public function getUses()
+    {
+        $event = \Route::input('event');
+        $code = Models\Batch\Event\Promotion::where('id', '=', \Input::get('code'))->firstOrFail();
+
+        if ($code->batches_event_id !== $event->id) {
+            \App::abort(404);
+        }
+
+        if ($code->percent_discount == 100 && $code->allowed_uses == 1 && $code->expires_at == null) {
+            \App::abort(404);
+        }
+
+        return \View::make('event/promotions/uses', ['promotion' => $code]);
     }
 
     public function postNew()

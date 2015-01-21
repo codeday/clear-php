@@ -1,0 +1,34 @@
+{% extends "template.twig" %}
+{% block title %}{{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Promotion "{{ promotion.code }}" Uses</h2>
+    </header>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Registered</th>
+                <th>Checked In</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registration in promotion.registrations %}
+                <tr>
+                    <td><a href="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}">{{ registration.name }}</a></td>
+                    <td>{{ registration.email }}</td>
+                    <td>{{ registration.created_at.timestamp|date('M j, Y') }}</td>
+                    <td>
+                        {% if registration.checked_in_at %}
+                            {{ registration.checked_in_at.timestamp|date('M j, Y') }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
