@@ -20,7 +20,7 @@
             {% for event in managed_batch.events %}
                 <tr id="region-details-{{ event.webname }}">
                     <td>{{ event.name }}</td>
-                    <td><input type="text" name="region[{{ event.webname }}][evangelist_username]" value="{{ event.evangelist_username }}"/></td>
+                    <td><input type="text" name="id[{{ event.id }}][evangelist_username]" value="{{ event.evangelist_username }}"/></td>
                 </tr>
             {% endfor %}
             </tbody>

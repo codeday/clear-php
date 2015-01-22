@@ -15,12 +15,12 @@ class EvangelistController extends \Controller {
     public function postIndex()
     {
         $batch = \CodeDay\Clear\Models\Batch::Managed();
-        $regions = \Input::get('region');
+        $ids = \Input::get('id');
 
-        foreach ($regions as $region_id=>$settings) {
-            $event = \CodeDay\Clear\Models\Batch\Event::where('region_id', '=', $region_id)
+        foreach ($ids as $id=>$settings) {
+            $event = \CodeDay\Clear\Models\Batch\Event::where('id', '=', $id)
                 ->where('batch_id', '=', $batch->id)
-                ->first();
+                ->firstOrFail();
 
             if ($settings['evangelist_username']) {
                 $user = Models\User::fromS5Username($settings['evangelist_username']);
