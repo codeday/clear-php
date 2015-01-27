@@ -11,5 +11,6 @@ return [
     'domain' => null,
     'path' => '/',
     'secure' => false,
+    'http_only' => true,
     'lottery' => [2, 100]
 ];
