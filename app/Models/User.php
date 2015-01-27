@@ -1,15 +1,24 @@
 <?php
 namespace CodeDay\Clear\Models;
 
+use \Carbon\Carbon;
+
 class User extends \Eloquent {
     protected $table = 'users';
     protected $primaryKey = 'username';
     public $incrementing = false;
+    public $wasFirstLogin = false;
 
     public function getNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
     }
+
+    public function getDates()
+    {
+        return ['created_at', 'updated_at', 'logged_in_at'];
+    }
+
 
     public function check_group($group)
     {
@@ -52,9 +61,18 @@ class User extends \Eloquent {
         if (!\Session::has('s5_username')) {
             self::api()->RequireLogin(['extended']);
             \Session::set('s5_username', self::api()->User->me()->username);
+
+            $me = self::fromS5Username(\Session::get('s5_username'));
+            if (!$me->logged_in_at) {
+                $me->wasFirstLogin = true;
+            }
+            $me->logged_in_at = Carbon::now();
+            $me->save();
+        } else {
+            $me = self::fromS5Username(\Session::get('s5_username'));
         }
 
-        return self::fromS5Username(\Session::get('s5_username'));
+        return $me;
     }
 
     public static function fromS5Username($username)

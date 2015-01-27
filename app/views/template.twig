@@ -146,5 +146,14 @@
             });
         </script>
     {% endif %}
+
+    <link rel="stylesheet" href="/assets/css/shepherd-theme-arrows.css" />
+    <script src="/assets/js/shepherd.min.js"></script>
+    {% if me.wasFirstLogin %}
+        <script type="text/javascript">
+            localStorage['current-tour-page'] = 'dashboard';
+        </script>
+    {% endif %}
+    <script src="/assets/js/tour.js"></script>
 </body>
 </html>
