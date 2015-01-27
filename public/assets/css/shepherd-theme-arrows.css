@@ -3,6 +3,7 @@ body.shepherd-active > footer,
 body.shepherd-active .countdown,
 body.shepherd-active .other-events, body.shepherd-active .my-events li a span, body.shepherd-active .my-events li a div,
 body.shepherd-active .subnav h2, body.shepherd-active .subnav h3, body.shepherd-active .subnav ul li,
+body.shepherd-active #registrations-over-time,
 body.shepherd-active .status, body.shepherd-active .notes,
 body.shepherd-active.tools .content {
     opacity: 0.2;
