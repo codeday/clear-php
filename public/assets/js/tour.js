@@ -5,12 +5,24 @@
             var eventsCount = $('.my-events li').length;
 
             tour.addStep(
+                'intro',
+                {
+                    title: 'Welcome to Clear!',
+                    text: "Clear is the tool we use to manage CodeDay events. Since this is the first time you've" +
+                        " logged in, we'll take a second to get you familiar.<br /><br />If you skip this tour, you" +
+                        " can restart it later by clicking \"tour\" on the footer.",
+                    scrollTo: false,
+                    showCancelLink: true
+                }
+            );
+
+            tour.addStep(
                 'my-events',
                 {
                     title: 'Your Event' + (eventsCount > 1 ? 's' : ''),
                     text: "Here you can see an overview of the " + (eventsCount > 1 ? 'events' : 'event') +
-                            " you're involved with. This is live-updating; as people register you'll see a flash" +
-                            " and get a 'ding', so many people leave this page open in the background.",
+                            " you're involved with.<br /><br />This is live-updating; as people register you'll" +
+                            " see a flash and get a 'ding', so many people leave this page open in the background.",
                     attachTo: {
                         element: $('.my-events li:first-child .name')[0],
                         on: 'right'
@@ -33,7 +45,7 @@
                     showCancelLink: true,
                     buttons: [
                         {
-                            text: 'Open ' + $('.my-events li:first-child .name').text(),
+                            text: 'Open ' + $('.my-events li:first-child .name').attr('title'),
                             action: function() {
                                 localStorage['current-tour-page'] = 'event';
                                 $('.my-events li:first-child .name').click()
@@ -50,8 +62,8 @@
                 {
                     title: 'Overview',
                     text: "By default, you'll land in the Overview page. Here, you can see some basic details about" +
-                        " the event, like the number of registrants and the event revenue. You can also toggle some" +
-                        " major event settings.",
+                        " the event, like the number of registrants and the event revenue.<br /><br />You can also" +
+                        " toggle some major event settings.",
                     attachTo: {
                         element: $('.status')[0],
                         on: $('#registrations-over-time').length > 0 ? 'top' : 'bottom'
@@ -80,8 +92,8 @@
                 'event-sidebar-registrations',
                 {
                     title: 'Other Pages',
-                    text: "Most event tools and settings are on other pages. For example, in registrations you can" +
-                        " refund attendees, transfer their tickets, or manually add a new attendee.",
+                    text: "Most event tools and settings are on other pages.<br /><br />For example, in registrations" +
+                        " you can refund attendees, transfer their tickets, or manually add a new attendee.",
                     attachTo: {
                         element: $('.subnav .general li:nth-child(3n - 1)')[0],
                         on: 'right'
@@ -121,9 +133,9 @@
                 'tools-attendee-finder',
                 {
                     title: 'Attendee Finder',
-                    text: "There are a few useful tools here. In the attendee finder, you can search for attendees" +
-                        " across all events. If an attendee says xhe registered but xhe's not on your list, you can" +
-                        " check if xhe registered for another account here.",
+                    text: "There are a few useful tools here.<br /><br />In the attendee finder, you can search for" +
+                        " attendees across all events. If an attendee says xhe registered but xhe's not on your list," +
+                        " you can check if xhe registered for another account here.",
                     attachTo: {
                         element: $('.subnav .batch-tools li:nth-child(3n - 2)')[0],
                         on: 'right'
@@ -168,10 +180,6 @@
                 {
                     text: "That's about all you need to know! Feel free to poke around, and email us if you have any" +
                         " questions.",
-                    attachTo: {
-                        element: $('header nav li a[href="/"]')[0],
-                        on: 'right'
-                    },
                     scrollTo: false,
                     showCancelLink: true,
 
@@ -195,6 +203,15 @@
                 classes: 'shepherd-theme-arrows',
                 scrollTo: true
             }
+        });
+
+        $('#tour-start').on('click', function(){
+            localStorage['current-tour-page'] = 'dashboard';
+            window.location = '/';
+        });
+
+        tour.on('cancel', function(){
+            delete localStorage['current-tour-page'];
         });
 
         var currentPage = $('body').attr('class');
