@@ -56,8 +56,8 @@
                     {% for event in batch.events %}
                         <tr id="region-details-{{ event.webname }}">
                             <td>{{ event.name }}</td>
-                            <td><input type="text" name="region[{{ event.webname }}][registration_estimate]" value="{{ event.registration_estimate }}"/></td>
-                            <td><input type="text" name="region[{{ event.webname }}][manager_username]" value="{{ event.manager_username }}"/></td>
+                            <td><input type="text" name="id[{{ event.id }}][registration_estimate]" value="{{ event.registration_estimate }}"/></td>
+                            <td><input type="text" name="id[{{ event.id }}][manager_username]" value="{{ event.manager_username }}"/></td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -205,11 +205,12 @@
                                 c.color = '#ff0000';
                                 circle.setOptions({ fillColor: '#ff0000'});
                                 c.in_batch = true;
+                                console.log(data.data);
                                 $('table.region-details tbody').append(
                                         $('<tr>' +
                                                 '<td>'+data.data.name+'</td>' +
-                                                '<td><input type="text" name="region['+ c.webname+'][registration_estimate]" value="'+(data.data.registration_estimate || '')+'"/></td>' +
-                                                '<td><input type="text" name="region['+ c.webname+'][manager_username]" value="'+(data.data.manager_username || '')+'"/></td>' +
+                                                '<td><input type="text" name="id['+ data.data.id+'][registration_estimate]" value="'+(data.data.registration_estimate || '')+'"/></td>' +
+                                                '<td><input type="text" name="id['+ data.data.id+'][manager_username]" value="'+(data.data.manager_username || '')+'"/></td>' +
                                           '</tr>')
                                 );
                             }

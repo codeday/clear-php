@@ -57,10 +57,10 @@ class BatchesController extends \Controller {
     public function postUpdateRegionSettings()
     {
         $batch = \Route::input('batch');
-        $regions = \Input::get('region');
+        $ids = \Input::get('id');
 
-        foreach ($regions as $region_id=>$settings) {
-            $event = \CodeDay\Clear\Models\Batch\Event::where('region_id', '=', $region_id)
+        foreach ($ids as $id=>$settings) {
+            $event = \CodeDay\Clear\Models\Batch\Event::where('id', '=', $id)
                 ->where('batch_id', '=', $batch->id)
                 ->first();
 
@@ -110,6 +110,7 @@ class BatchesController extends \Controller {
                 $event = new Models\Batch\Event;
                 $event->batch_id = $batch->id;
                 $event->region_id = $region->id;
+                $event->registration_estimate = 100;
                 $event->save();
             }
 
@@ -117,6 +118,7 @@ class BatchesController extends \Controller {
                 'result' => 200,
                 'data' => [
                     'name' => $event->name,
+                    'id' => $event->id,
                     'manager_username' => $event->manager_username,
                     'registration_estimate' => $event->registration_estimate
                 ]
