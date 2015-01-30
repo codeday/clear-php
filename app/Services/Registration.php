@@ -15,6 +15,8 @@ class Registration {
         $reg->email = $email;
         $reg->save();
 
+        \Event::fire('registration.register', [$reg]);
+
         return $reg;
     }
 
