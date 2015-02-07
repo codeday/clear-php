@@ -126,7 +126,7 @@ class Event extends \Eloquent {
 
     public function getEarlyBirdEndsAtAttribute()
     {
-        return $this->batch->starts_at->subWeek();
+        return $this->batch->starts_at->subWeek()->addDays(2);
     }
 
     public function getRemainingRegistrationsAttribute()
