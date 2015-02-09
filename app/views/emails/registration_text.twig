@@ -10,5 +10,9 @@ Your card was charged ${{ registration.amount_paid }} for this ticket.
 {% endif %}
 
 We'll follow up with more information when the event gets closer. Until then, if you have any questions about the event or your ticket, just reply to this email.
+{% if registration.event.waiver %}
+
+One last note: Please make sure to bring the completed waiver to the event: {{ registration.event.waiver }}
+{% endif %}
 
 Please do not bring this email to CodeDay, we will check you in by name.
