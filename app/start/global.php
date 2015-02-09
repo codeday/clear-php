@@ -35,7 +35,7 @@ if (\Config::get('app.debug')) {
 \App::after(function($request, $response)
 {
     $csp = "default-src 'self'; script-src 'unsafe-eval' 'unsafe-inline' 'self' https://*.googleapis.com https://cdnjs.cloudflare.com"
-         . " https://*.gstatic.com; object-src 'self'; style-src 'self' 'unsafe-inline'"
+         . " http://code.jquery.com https://code.jquery.com https://*.gstatic.com; object-src 'self'; style-src 'self' 'unsafe-inline'"
          . " https://*.googleapis.com https://*.gstatic.com; img-src *; media-src *; frame-src 'self';"
          . " font-src 'self' https://*.googleapis.com https://*.gstatic.com; connect-src *";
 
