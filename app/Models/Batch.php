@@ -12,7 +12,7 @@ class Batch extends \Eloquent {
 
     public function getDates()
     {
-        return ['created_at', 'updated_at', 'starts_at'];
+        return ['created_at', 'updated_at', 'starts_at', 'reminder_email_sent_at', 'preevent_email_sent_at'];
     }
 
     public function getEndsAtAttribute()

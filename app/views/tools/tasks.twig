@@ -1,0 +1,12 @@
+{% extends "template.twig" %}
+{% block title %}Tasks{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <form action="/tools/tasks/sendreminder" method="post">
+        <input type="submit" value="Send Reminder Email" {% if managed_batch.reminder_email_sent_at %}disabled{% endif %}/>
+    </form>
+    <form action="/tools/tasks/sendpreevent" method="post">
+        <input type="submit" value="Send Pre-Event Email" {% if managed_batch.preevent_email_sent_at %}disabled{% endif %}/>
+    </form>
+{% endblock %}

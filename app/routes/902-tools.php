@@ -10,6 +10,7 @@
     \Route::group(['before' => 's5_admin'], function(){
         \Route::controller('promotions', 'PromotionsController');
         \Route::controller('emails', 'EmailsController');
+        \Route::controller('tasks', 'TasksController');
         \Route::controller('evangelists', 'EvangelistController');
         \Route::controller('shipments', 'ShipmentController');
         \Route::controller('manifests', 'ManifestController');

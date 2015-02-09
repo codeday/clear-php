@@ -1,0 +1,23 @@
+{% extends "template.twig" %}
+{% block title %}{{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Pre-event Email Settings</h2>
+        <p>You can use this to customize the email attendees are sent to give them information about the event.</p>
+        <p>The pre-event email is usually sent 2-3 days before the event. Once the email is sent, these settings will
+           be unavailable.</p>
+        <p>You can see a sample pre-event email
+            <a href="/event/{{ event.id }}/preevent/sample" target="_blank">here.</a></p>
+    </header>
+    <form method="post">
+        <div class="field">
+            <label for="preevent_additional">Additional Content</label>
+            <textarea name="preevent_additional" id="preevent_additional">{{ event.preevent_additional }}</textarea>
+            <span class="help">Custom text to be added to the bottom of the pre-event email.</span>
+        </div>
+
+        <input type="submit" value="Save" />
+    </form>
+{% endblock %}

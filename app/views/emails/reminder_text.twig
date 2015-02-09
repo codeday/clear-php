@@ -1,0 +1,18 @@
+{% autoescape false %}
+Hi {{ registration.first_name }},
+
+We just wanted to take a moment and remind you that you registered for a ticket for CodeDay {{ registration.event.name }}, this Saturday at Noon.
+{% if registration.event.venue %}
+
+This event is hosted at {{ registration.event.venue.name }}
+{{ registration.event.venue_address_1 }}
+{% if registration.event.venue_address_2 %}
+{{ registration.event.venue_address_2 }}
+{% endif %}
+{{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
+{% endif %}
+
+We'll send a detailed list of what you should know in a few days. In the meantime, if you have any questions, feel free to reply to this email.
+
+Please do not bring this email to CodeDay, we will check you in by name.
+{% endautoescape %}

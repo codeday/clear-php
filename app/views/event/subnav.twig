@@ -25,6 +25,9 @@
         {% if not event.is_shipped %}
             <li><a href="/event/{{ event.id }}/shipping">Shipping</a></li>
         {% endif %}
+        {% if not event.batch.preevent_email_sent_at %}
+            <li><a href="/event/{{ event.id }}/preevent">Pre-Event Email</a></li>
+        {% endif %}
         {% if me.is_admin %}
             <li><a href="/event/{{ event.id }}/supplies">Supplies</a></li>
             <li><a href="/event/{{ event.id }}/special">Special</a></li>

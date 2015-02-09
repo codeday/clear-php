@@ -115,6 +115,23 @@ class Registration {
             'Your CodeDay '.$reg->event->name.' Tickets',
             \View::make('emails/registration_text', ['registration' => $reg])
         );
+
+        // Schedule the pre-event email to be sent to this attendee if it's already been sent to everyone else
+        if ($reg->event->batch->preevent_email_sent_at !== null) {
+            $sendAt = Carbon::now()->addMinutes(rand(1, 2))->addSeconds(rand(0,60));
+            $delay = $sendAt->timestamp - Carbon::now()->timestamp;
+            $timeToEvent = $reg->event->starts_at - Carbon::now()->timestamp;
+            if ($timeToEvent < $delay) {
+                $delay = 1;
+            }
+            Services\Email::LaterOnQueue(
+                $delay,
+                'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
+                $reg->name, $reg->email,
+                'CodeDay is Shortly Upon Us',
+                \View::make('emails/preevent_text', ['registration' => $reg])
+            );
+        }
     }
 
     public static function EnqueueSurveyEmail(Models\Batch\Event\Registration $reg)

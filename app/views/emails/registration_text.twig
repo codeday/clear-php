@@ -1,3 +1,4 @@
+{% autoescape false %}
 Hi {{ registration.first_name }},
 
 Thanks for registering for CodeDay {{ registration.event.name }}; we're really excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.
@@ -16,3 +17,4 @@ One last note: Please make sure to bring the completed waiver to the event: {{ r
 {% endif %}
 
 Please do not bring this email to CodeDay, we will check you in by name.
+{% endautoescape %}
