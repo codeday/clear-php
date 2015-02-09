@@ -118,7 +118,7 @@ class Registration {
 
         // Schedule the pre-event email to be sent to this attendee if it's already been sent to everyone else
         if ($reg->event->batch->preevent_email_sent_at !== null) {
-            $sendAt = Carbon::now()->addMinutes(rand(1, 2))->addSeconds(rand(0,60));
+            $sendAt = Carbon::now()->addMinutes(rand(10, 30))->addSeconds(rand(0,60));
             $delay = $sendAt->timestamp - Carbon::now()->timestamp;
             $timeToEvent = $reg->event->starts_at - Carbon::now()->timestamp;
             if ($timeToEvent < $delay) {
