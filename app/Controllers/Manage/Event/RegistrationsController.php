@@ -7,7 +7,40 @@ use \CodeDay\Clear\Services;
 class RegistrationsController extends \Controller {
     public function getIndex()
     {
-        return \View::make('event/registrations/index');
+        return \View::make('event/registrations/index', ['signature' => $this->getListSignature()]);
+    }
+
+    public function getCsv()
+    {
+        $event = \Route::input('event');
+        if (\Input::get('signature') != $this->getListSignature()) {
+            \App::abort(403);
+        }
+
+        $content = implode("\n",
+            array_map(function($reg) {
+                return implode(',', [$reg->last_name, $reg->first_name, $reg->email,
+                    ($reg->promotion ? $reg->promotion->code : ''), $reg->amount_paid, $reg->created_at]);
+            }, array_merge(
+                [(object)[
+                    'last_name' => 'lastname',
+                    'first_name' => 'firstname',
+                    'email' => 'email',
+                    'promotion' => (object)['code' => 'promocode'],
+                    'amount_paid' => 'paid',
+                    'created_at' => 'created']],
+                iterator_to_array($event->registrations)
+            ))
+        );
+        return (new \Illuminate\Http\Response($content, 200))
+            ->header('Content-type', 'text/csv')
+            ->header('Content-disposition', 'attachment;filename='.$event->webname.'-attendees-'.time().'.csv');
+    }
+
+    private function getListSignature()
+    {
+        $event = \Route::input('event');
+        return hash_hmac('sha256', \Config::get('app.key'), $event->id);
     }
 
     public function postAdd()
