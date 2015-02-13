@@ -1,6 +1,8 @@
 <?php
 namespace CodeDay\Clear\Controllers\Manage\Event;
 
+use \CodeDay\Clear\Models;
+
 class VenueController extends \Controller {
     public function getIndex()
     {
@@ -10,6 +12,11 @@ class VenueController extends \Controller {
     public function postIndex()
     {
         $event = \Route::input('event');
+
+        if (\Input::get('max_registrations') > 120 && $event->max_registrations <= 120 && !Models\User::me()->is_admin) {
+            \Session::flash('error', 'Capacity cannot be greater than 120. (Contact an admin to override this.)');
+            return \Redirect::to('/event/'.$event->id.'/venue');
+        }
 
         $event->venue_name = \Input::get('venue_name');
         $event->venue_address_1 = \Input::get('venue_address_1');
