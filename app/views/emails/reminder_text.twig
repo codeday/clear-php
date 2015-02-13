@@ -1,7 +1,7 @@
 {% autoescape false %}
 Hi {{ registration.first_name }},
 
-We just wanted to take a moment and remind you that you registered for a ticket for CodeDay {{ registration.event.name }}, this Saturday at Noon.
+We just wanted to take a moment and remind you that you registered for a ticket for CodeDay {{ registration.event.name }}, this Saturday at noon.
 {% if registration.event.venue %}
 
 This event is hosted at {{ registration.event.venue.name }}
@@ -12,7 +12,32 @@ This event is hosted at {{ registration.event.venue.name }}
 {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
 {% endif %}
 
-We'll send a detailed list of what you should know in a few days. In the meantime, if you have any questions, feel free to reply to this email.
 
-Please do not bring this email to CodeDay, we will check you in by name.
+**Special thanks to our sponsors** 
+
+We also wanted to take a moment to thank our sponsors. You'll hear more about these awesome organizations this weekend,
+but we wanted to give a special shoutout to Splunk (http://splunk.com), Intellectual Ventures (http://intellectualventures.com), 
+and LexisNexis Risk Solutions (http://lexisnexis.com) for sponsoring 
+CodeDay nationally. 
+
+In addition, your event is sponsored locally by [sponsor_1] (sponsor_1_website), [sponsor_2] (sponsor_2_website]).
+
+Without these sponsors, CodeDay wouldn't be possible. 
+
+**Perks for Advanced CodeDay Attendees**
+
+[if_amazon]
+
+Amazon is giving all advanced students at {{ registration.event.name }} $100 in free Amazon Web Services credit. 
+
+You can learn more at: https://aws.amazon.com/activate/event/springcs15/, and look out for an email with more information about this 
+CodeDay attendee perk sometime this weekend.
+
+(If you don't know what this means, don't worry about it for now.)
+
+See you tomorrow, and please let us know if you have any questions. 
+
+(Please do not bring this email to CodeDay, we will check you in by name.)
+
 {% endautoescape %}
+
