@@ -17,7 +17,11 @@
     \Route::post('/registrations/attendee/{registration}/transfer', 'RegistrationsController@postTransfer');
     \Route::controller('/registrations', 'RegistrationsController');
 
+    \Route::get('/sponsors/{sponsor}/edit', 'SponsorsController@getEdit');
+    \Route::post('/sponsors/{sponsor}/edit', 'SponsorsController@postEdit');
+    \Route::post('/sponsors/{sponsor}/delete', 'SponsorsController@postDelete');
     \Route::controller('/sponsors', 'SponsorsController');
+
     \Route::controller('/activities', 'ActivitiesController');
 
     \Route::get('/', 'IndexController@getIndex');

@@ -1,0 +1,60 @@
+{% extends "template.twig" %}
+{% block title %}{{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    {% if sponsor %}
+        <header>
+            <h2>Edit {{ sponsor.name }}</h2>
+            <p>{{ sponsor.blurb }}</p>
+        </header>
+    {% else %}
+        <header>
+            <h2>Create Sponsor</h2>
+            <p>Create a new sponsor for use on the website.</p>
+        </header>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        <div class="field">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" value="{{ sponsor.name }}" required />
+            <span class="help">The name of the sponsoring company.</span>
+        </div>
+        <div class="field">
+            <label for="logo">Logo</label>
+            <input type="file" name="logo" id="logo" {% if not sponsor %}required{% endif %} />
+            <span class="help">The company's logo, for use on the website{% if sponsor %}, if changed{% endif %}.</span>
+        </div>
+        <div class="field">
+            <label for="url">URL</label>
+            <input type="url" name="url" id="url" value="{{ sponsor.url }}" />
+            <span class="help">The URL of the company's website, for use on the website.</span>
+        </div>
+        <div class="field">
+            <label for="blurb">Blurb</label>
+            <input type="text" name="blurb" id="blurb" maxlength="140" value="{{ sponsor.blurb }}" required />
+            <span class="help">A tweet-sized description of what the sponsor does. Used in event emails.</span>
+        </div>
+        <div class="field">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" required>{{ sponsor.description }}</textarea>
+            <span class="help">Full description of what the company does. Read by the Evangelist in the opening
+                speech.</span>
+        </div>
+        <div class="field">
+            <label for="perk">Perk Description</label>
+            <textarea name="perk" id="perk">{{ sponsor.perk }}</textarea>
+            <span class="help">The perk offered to attendees, if any, with redemption instructions. Used in event
+                emails.</span>
+        </div>
+
+        <input type="submit" value="{% if sponsor %}Save{% else %}Create{% endif %}" />
+    </form>
+
+    {% if sponsor %}
+        <h3>Delete Sponsor?</h3>
+        <form action="/event/{{ event.id }}/sponsors/{{ sponsor.id }}/delete" method="post" class="dangerous">
+            <input type="submit" value="Delete" />
+        </form>
+    {% endif %}
+{% endblock %}

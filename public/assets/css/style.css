@@ -574,6 +574,45 @@ body.event .all.promotions {
   body.event .all.promotions .scholarship .code input {
     border-color: #000;
     background-color: #ddd; }
+body.event .sponsors {
+  padding: 0; }
+  body.event .sponsors li {
+    list-style-type: none; }
+    body.event .sponsors li.add {
+      text-align: center; }
+    body.event .sponsors li a {
+      display: block;
+      padding: 1rem;
+      border: 1px solid #ddbcbc;
+      text-decoration: none;
+      border-radius: 4px;
+      box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1rem; }
+      body.event .sponsors li a header {
+        display: block;
+        height: 3rem;
+        margin-bottom: 1rem; }
+        body.event .sponsors li a header section.logo {
+          width: 20%;
+          height: 100%;
+          display: inline-block;
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: 100% 50%; }
+        body.event .sponsors li a header section.info {
+          width: 79%;
+          display: inline-block; }
+          body.event .sponsors li a header section.info h3 {
+            font-size: 2rem;
+            margin: 0; }
+          body.event .sponsors li a header section.info span.url {
+            font-size: 0.75rem; }
+      body.event .sponsors li a > section {
+        clear: both;
+        padding: 1rem 0;
+        border-top: 1px solid #efdede; }
+        body.event .sponsors li a > section.blurb {
+          font-size: 1.7rem; }
 body.event .current.registrations ul {
   padding: 0; }
   body.event .current.registrations ul li {

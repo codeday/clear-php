@@ -26,6 +26,10 @@
     return \CodeDay\Clear\Models\Batch\Event\Registration::where('id', '=', $val)->firstOrFail();
 });
 
+\Route::bind('sponsor', function($val) {
+    return \CodeDay\Clear\Models\Batch\Event\Sponsor::where('id', '=', $val)->firstOrFail();
+});
+
 \Route::bind('email_template', function($val) {
     return \CodeDay\Clear\Models\EmailTemplate::where('id', '=', $val)->firstOrFail();
 });
