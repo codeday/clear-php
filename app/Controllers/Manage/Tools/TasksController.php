@@ -23,18 +23,21 @@ class TasksController extends \Controller {
         $batch->save();
 
         foreach (Models\Batch::Managed()->events as $event) {
-
-            Services\Email::SendToEvent(
-                'CodeDay '.$event->name, $event->webname.'@codeday.org',
-                $event, 'attendees',
-                'CodeDay is Shortly Upon Us',
-                \View::make('emails/preevent_text'),
-                null,
-                [
-                    'me' => Models\User::me(),
-                    'event' => ModelContracts\Event::Model($event)
-                ]
-            );
+            if ($event->allow_registrations_calculated) {
+                try {
+                    Services\Email::SendToEvent(
+                        'CodeDay ' . $event->name, $event->webname . '@codeday.org',
+                        $event, 'attendees',
+                        'CodeDay is Shortly Upon Us',
+                        \View::make('emails/preevent_text'),
+                        null,
+                        [
+                            'me' => Models\User::me(),
+                            'event' => ModelContracts\Event::Model($event)
+                        ]
+                    );
+                } catch (\Exception $ex) {}
+            }
         }
 
         \Session::flash('status_message', 'Email enqueued');
@@ -52,18 +55,21 @@ class TasksController extends \Controller {
         $batch->save();
 
         foreach (Models\Batch::Managed()->events as $event) {
-
-            Services\Email::SendToEvent(
-                'CodeDay '.$event->name, $event->webname.'@codeday.org',
-                $event, 'attendees',
-                'Reminder: Your Registration for CodeDay',
-                \View::make('emails/reminder_text'),
-                null,
-                [
-                    'me' => Models\User::me(),
-                    'event' => ModelContracts\Event::Model($event)
-                ]
-            );
+            if ($event->allow_registrations_calculated) {
+                try {
+                    Services\Email::SendToEvent(
+                        'CodeDay '.$event->name, $event->webname.'@codeday.org',
+                        $event, 'attendees',
+                        'Reminder: Your Registration for CodeDay',
+                        \View::make('emails/reminder_text'),
+                        null,
+                        [
+                            'me' => Models\User::me(),
+                            'event' => ModelContracts\Event::Model($event)
+                        ]
+                    );
+                } catch (\Exception $ex) {}
+            }
         }
 
         \Session::flash('status_message', 'Email enqueued');

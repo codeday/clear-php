@@ -76,13 +76,15 @@ class Email {
                                        $additionalContext = [])
     {
         foreach (self::getToListFromType($event, $listType) as $to) {
-            self::SendOnQueue(
-                $fromName, $fromEmail,
-                $to->name, $to->email,
-                self::renderTemplateWithContext($subject, array_merge((array)$to, $additionalContext)),
-                self::renderTemplateWithContext($contentText, array_merge((array)$to, $additionalContext)),
-                self::renderTemplateWithContext($contentHtml, array_merge((array)$to, $additionalContext))
-            );
+            try {
+                self::SendOnQueue(
+                    $fromName, $fromEmail,
+                    $to->name, $to->email,
+                    self::renderTemplateWithContext($subject, array_merge((array)$to, $additionalContext)),
+                    self::renderTemplateWithContext($contentText, array_merge((array)$to, $additionalContext)),
+                    self::renderTemplateWithContext($contentHtml, array_merge((array)$to, $additionalContext))
+                );
+            } catch (\Exception $ex) {}
         }
     }
 
