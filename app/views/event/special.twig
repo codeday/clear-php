@@ -22,6 +22,12 @@
         </div>
 
         <div class="field">
+            <label for="notice">Notice</label>
+            <input type="text" id="notice" name="notice" value="{{ event.notice }}" />
+            <span class="help">Displayed on a banner at the top of the site.</span>
+        </div>
+
+        <div class="field">
             <label for="name_override">Override Name</label>
             <input type="text" id="name_override" name="name_override" value="{{ event.name_override }}" />
             <span class="help">Changes the name shown on the site, while still keeping the same region.</span>

@@ -171,6 +171,13 @@ class Event extends ModelContract
                 'value'         => function ($model) { return $model->cost; }
             ],
 
+            'notice' => [
+                'name'          => 'Notice',
+                'description'   => 'If an important notice exists for the event, the notice. Otherwise null.',
+                'example'       => 'This event is postponed due to snow.',
+                'value'         => function ($model) { return $model->notice; }
+            ],
+
             /* Ownership Relations */
             'region' => [
                 'name' => 'Region',
