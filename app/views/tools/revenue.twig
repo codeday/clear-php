@@ -1,0 +1,33 @@
+{% extends "template.twig" %}
+{% block title %}Evangelist Assignments{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Revenue</h2>
+        <p>This tool shows per-event revenue.</p>
+    </header>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Ticket Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set ticket_rev = 0 %}
+            {% for event in managed_batch.events %}
+                <tr>
+                    <td>{{ event.name }}</td>
+                    <td>${{ event.revenue|number_format(2) }}</td>
+                </tr>
+            {% set ticket_rev = total_rev + event.revenue  %}
+            {% endfor %}
+            <tr>
+                <td>Total</td>
+                <td>${{ ticket_rev|number_format(2) }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
