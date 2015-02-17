@@ -14,7 +14,7 @@
             {% set timezones = ['Pacific', 'Mountain', 'Central', 'Eastern'] %}
             {% for timezone in timezones %}
                 <ul>
-                    {% for event in loaded_batch.events %}
+                    {% for event in managed_batch.events %}
                         {% if event.simple_timezone == timezone %}
                             <li>
                                 <input type="checkbox" name="events[]" id="events[{{ event.id }}]" value="{{ event.id }}"/>
