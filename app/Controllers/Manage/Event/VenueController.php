@@ -18,15 +18,20 @@ class VenueController extends \Controller {
             return \Redirect::to('/event/'.$event->id.'/venue');
         }
 
-        $event->venue_name = \Input::get('venue_name');
-        $event->venue_address_1 = \Input::get('venue_address_1');
-        $event->venue_address_2 = \Input::get('venue_address_2');
-        $event->venue_city = \Input::get('venue_city');
-        $event->venue_state = \Input::get('venue_state');
-        $event->venue_postal = \Input::get('venue_postal');
-        $event->venue_country= \Input::get('venue_country');
-        $event->waiver_link = \Input::get('waiver_link');
-        $event->max_registrations = \Input::get('max_registrations');
+        $event->venue_name = \Input::get('venue_name') ? \Input::get('venue_name') : null;
+        $event->venue_address_1 = \Input::get('venue_address_1') ? \Input::get('venue_address_1') : null;
+        $event->venue_address_2 = \Input::get('venue_address_2') ? \Input::get('venue_address_2') : null;
+        $event->venue_city = \Input::get('venue_city') ? \Input::get('venue_city') : null;
+        $event->venue_state = \Input::get('venue_state') ? \Input::get('venue_state') : null;
+        $event->venue_postal = \Input::get('venue_postal') ? \Input::get('venue_postal') : null;
+        $event->venue_country= \Input::get('venue_country') ? \Input::get('venue_country') : null;
+        $event->waiver_link = \Input::get('waiver_link') ? \Input::get('waiver_link') : null;
+        $event->max_registrations = \Input::get('max_registrations') ? \Input::get('max_registrations') : null;
+
+        $event->venue_contact_first_name = \Input::get('venue_contact_first_name') ? \Input::get('venue_contact_first_name') : null;
+        $event->venue_contact_last_name = \Input::get('venue_contact_last_name') ? \Input::get('venue_contact_last_name') : null;
+        $event->venue_contact_email = \Input::get('venue_contact_email') ? \Input::get('venue_contact_email') : null;
+        $event->venue_contact_phone = \Input::get('venue_contact_phone') ? \Input::get('venue_contact_phone') : null;
 
         \Session::flash('status_message', 'Venue updated');
 

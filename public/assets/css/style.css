@@ -544,13 +544,33 @@ body.event form.notes input[type="submit"] {
 body.event form div.field #venue_city, body.event form div.field #venue_state, body.event form div.field #venue_postal, body.event form div.field #venue_country,
 body.event form div.field #ship_city, body.event form div.field #ship_state, body.event form div.field #ship_postal, body.event form div.field #ship_country {
   width: 18%;
-  margin-left: 0.75%; }
+  margin-left: 0.75%;
+  margin-bottom: 0.25rem; }
 body.event form div.field #venue_country, body.event form div.field #ship_country {
   clear: right; }
+body.event form div.field #venue_postal, body.event form div.field #ship_postal {
+  width: 22%; }
 body.event form div.field #venue_city, body.event form div.field #ship_city {
-  width: 22.75%; }
-body.event form div.field #venue_state, body.event form div.field #ship_state {
-  width: 14%; }
+  width: 36.75%; }
+body.event form div.field #venue_state, body.event form div.field #ship_state, body.event form div.field #venue_country, body.event form div.field #ship_country {
+  width: 7%; }
+body.event .venue .location {
+  width: 60%;
+  float: left; }
+body.event .venue .contact {
+  width: 35%;
+  float: left;
+  margin-left: 4%; }
+  body.event .venue .contact input {
+    width: 100%;
+    margin-bottom: 0.25rem; }
+  body.event .venue .contact #venue_contact_first_name, body.event .venue .contact #venue_contact_last_name {
+    width: 48.5%;
+    display: inline-block; }
+  body.event .venue .contact #venue_contact_last_name {
+    margin-left: 1.125%; }
+body.event .venue input[type="submit"] {
+  clear: both; }
 body.event .all.promotions {
   width: 100%; }
   body.event .all.promotions thead tr th {

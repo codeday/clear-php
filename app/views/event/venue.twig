@@ -10,34 +10,44 @@
         <p>Name, Address (Line 1), City, State, and Postal Code are required to publish
            the site.</p>
     </header>
-    <form method="post">
-        <div class="field">
-            <label for="venue_name">Venue Name</label>
-            <input type="text" name="venue_name" id="venue_name" value="{{ event.venue.name }}" placeholder="Puppet Labs" tabindex="1" />
-            <span class="help">The name of the organization hosting the event.</span>
-        </div>
-        <div class="field">
-            <label for="venue_address_1">Venue Address</label>
-            <input type="text" name="venue_address_1" id="venue_address_1" value="{{ event.venue_address_1 }}" placeholder="111 Main St." tabindex="2"/>
-            <input type="text" name="venue_address_2" id="venue_address_2" value="{{ event.venue_address_2 }}" placeholder="STE 100" tabindex="3" />
-            <input type="text" name="venue_country" id="venue_country" value="{{ event.venue.country }}" placeholder="US" maxlength="2" tabindex="7" />
-            <input type="text" name="venue_postal" id="venue_postal" value="{{ event.venue.postal }}" placeholder="98109" tabindex="6" />
-            <input type="text" name="venue_state" id="venue_state" value="{{ event.venue.state }}" placeholder="WA" tabindex="5" />
-            <input type="text" name="venue_city" id="venue_city" value="{{ event.venue.city }}" placeholder="Seattle" tabindex="4" />
-            <span class="help">The address of the venue, including suite or floor number (if required).</span>
-        </div>
-        <div class="field">
-            <label for="waiver_link">Waiver Link</label>
-            <input type="url" name="waiver_link" id="waiver_link" placeholder="https://www.dropbox.com/s/4y1qkxzp15gb879/waiver.pdf" tabindex="8" value="{{ event.waiver_link }}" />
-            <span class="help">If the venue requires students to sign a waiver, include a link to the file here. (Host on Dropbox if necessary.)</span>
-        </div>
-        <div class="field">
-            <label for="max_registrations">Max Registrations</label>
-            <input type="number" name="max_registrations" id="max_registrations" value="{{ event.max_registrations }}" placeholder="100" tabindex="9" />
-            <span class="help">The number of participants the venue supports.</span>
-        </div>
+    <form method="post" class="venue">
+        <section class="location">
+            <h3>Location Information</h3>
+            <div class="field">
+                <label for="venue_name">Name</label>
+                <input type="text" name="venue_name" id="venue_name" value="{{ event.venue.name }}" placeholder="Puppet Labs" tabindex="1" />
+                <span class="help">The name of the organization hosting the event.</span>
+            </div>
+            <div class="field">
+                <label for="venue_address_1">Address</label>
+                <input type="text" name="venue_address_1" id="venue_address_1" value="{{ event.venue_address_1 }}" placeholder="111 Main St." tabindex="2"/>
+                <input type="text" name="venue_address_2" id="venue_address_2" value="{{ event.venue_address_2 }}" placeholder="STE 100" tabindex="3" />
+                <input type="text" name="venue_country" id="venue_country" value="{{ event.venue.country }}" placeholder="US" maxlength="2" tabindex="7" />
+                <input type="text" name="venue_postal" id="venue_postal" value="{{ event.venue.postal }}" placeholder="98109" tabindex="6" />
+                <input type="text" name="venue_state" id="venue_state" value="{{ event.venue.state }}" placeholder="WA" tabindex="5" />
+                <input type="text" name="venue_city" id="venue_city" value="{{ event.venue.city }}" placeholder="Seattle" tabindex="4" />
+                <span class="help">The address of the venue, including suite or floor number (if required).</span>
+            </div>
+            <div class="field">
+                <label for="waiver_link">Waiver Link</label>
+                <input type="url" name="waiver_link" id="waiver_link" placeholder="https://www.dropbox.com/s/4y1qkxzp15gb879/waiver.pdf" tabindex="8" value="{{ event.waiver_link }}" />
+                <span class="help">If the venue requires students to sign a waiver, include a link to the file here. (Host on Dropbox if necessary.)</span>
+            </div>
+            <div class="field">
+                <label for="max_registrations">Capacity</label>
+                <input type="number" name="max_registrations" id="max_registrations" value="{{ event.max_registrations }}" placeholder="100" tabindex="9" />
+                <span class="help">The number of participants the venue supports.</span>
+            </div>
+        </section>
+        <section class="contact">
+            <h3>Contact Information</h3>
+            <input type="text" name="venue_contact_first_name" id="venue_contact_first_name" placeholder="Amy" value="{{ event.venue_contact_first_name }}" tabindex="10" />
+            <input type="text" name="venue_contact_last_name" id="venue_contact_last_name" placeholder="Smith" value="{{ event.venue_contact_last_name }}" tabindex="11" />
+            <input type="text" name="venue_contact_email" id="venue_contact_email" placeholder="contact@myvenue.com" value="{{ event.venue_contact_email }}" tabindex="12" />
+            <input type="text" name="venue_contact_phone" id="venue_contact_phone" placeholder="5552342344" value="{{ event.venue_contact_phone }}" tabindex="13" />
+        </section>
 
-        <input type="submit" value="Save" tabindex="10" />
+        <input type="submit" value="Save" tabindex="14" />
     </form>
 {% endblock %}
 {% block scripts %}

@@ -63,12 +63,35 @@ body.event
         #ship_city, #ship_state, #ship_postal, #ship_country
             width: 18%
             margin-left: 0.75%
+            margin-bottom: 0.25rem
         #venue_country, #ship_country
             clear: right
+        #venue_postal, #ship_postal
+            width: 22%
         #venue_city, #ship_city
-            width: 22.75%
-        #venue_state, #ship_state
-            width: 14%
+            width: 36.75%
+        #venue_state, #ship_state, #venue_country, #ship_country
+            width: 7%
+
+    .venue
+        .location
+            width: 60%
+            float: left
+        .contact
+            width: 35%
+            float: left
+            margin-left: 4%
+            input
+                width: 100%
+                margin-bottom: 0.25rem
+            #venue_contact_first_name, #venue_contact_last_name
+                width: 48.5%
+                display: inline-block
+            #venue_contact_last_name
+                margin-left: 1.125%
+        input[type="submit"]
+            clear: both
+
 
     .all.promotions
         width: 100%
