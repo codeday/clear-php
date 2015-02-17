@@ -22,7 +22,7 @@
                     <td>{{ event.name }}</td>
                     <td>${{ event.revenue|number_format(2) }}</td>
                 </tr>
-            {% set ticket_rev = total_rev + event.revenue  %}
+            {% set ticket_rev = ticket_rev + event.revenue  %}
             {% endfor %}
             <tr>
                 <td>Total</td>
