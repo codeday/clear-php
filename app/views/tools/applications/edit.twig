@@ -1,0 +1,54 @@
+{% extends "template.twig" %}
+{% block title %}{{ application.name }}{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Editing {{ application.name }}</h2>
+    </header>
+
+    <form method="post">
+        <div class="field">
+            <label for="public">Public</label>
+            <input type="text" name="public" id="public" value="{{ application.public }}" readonly />
+            <span class="help">The application's public key, for use in requests.</span>
+        </div>
+        <div class="field">
+            <label for="private">Private</label>
+            <input type="text" name="private" id="private" value="{{ application.private }}" readonly />
+            <span class="help">The application's private key, for use in requests.</span>
+        </div>
+        <div class="field">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" value="{{ application.name }}" placeholder="Entro.py" required />
+            <span class="help">The application's name.</span>
+        </div>
+        <div class="field">
+            <label for="name">Description</label>
+            <textarea name="description" id="description" placeholder="Python package for reversing entropy on Clear" required>{{ application.description }}</textarea>
+            <span class="help">A description of what the application does.</span>
+        </div>
+
+        {% if me.is_admin or application.permission_admin %}
+            <div class="field">
+                <label for="permission_admin">Admin Permission</label>
+                <input type="checkbox" name="permission_admin" id="permission_admin" value="1"
+                        {% if application.permission_admin %}checked{% endif %}
+                        {% if not me.is_admin %}readonly{% endif %} />
+                <span class="help">Allows the application to access admin-level functions. {% if not me.is_admin %}Ask an admin to toggle if necessary.{% endif %}</span>
+            </div>
+        {% endif %}
+
+        {% if me.is_admin or application.permission_internal %}
+            <div class="field">
+                <label for="permission_internal">Internal Permission</label>
+                <input type="checkbox" name="permission_internal" id="permission_internal" value="1"
+                        {% if application.permission_internal %}checked{% endif %}
+                        {% if not me.is_admin %}readonly{% endif %} />
+                <span class="help">Allows the application to read non-public data. {% if not me.is_admin %}Ask an admin to toggle if necessary.{% endif %}</span>
+            </div>
+        {% endif %}
+
+        <input type="submit" value="Save" />
+    </form>
+{% endblock %}

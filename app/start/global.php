@@ -72,6 +72,7 @@ foreach (glob(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'TwigFilters', '*.
 \View::share('loaded_batch', Models\Batch::Loaded());
 \View::share('all_batches', Models\Batch::orderBy('starts_at', 'ASC')->get());
 \View::share('all_regions', Models\Region::all());
+\View::share('all_applications', Models\Application::all());
 \View::share('managed_batch', Models\Batch::Managed());
 
 if (\Session::has('status_message')) {

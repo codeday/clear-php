@@ -106,6 +106,11 @@ class User extends \Eloquent {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Event', 'manager_username', 'username');
     }
 
+    public function applications()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Application', 'admin_username', 'username');
+    }
+
     public function getCurrentManagedEventsAttribute()
     {
         return $this->getManagedEvents(Batch::Managed());

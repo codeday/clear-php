@@ -1,0 +1,48 @@
+{% extends "template.twig" %}
+{% block title %}Applications{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Applications</h2>
+    </header>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Public</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if me.is_admin %}
+                {% set applications = all_applications %}
+            {% else %}
+                {% set applications = me.applications %}
+            {% endif %}
+            {% for application in applications %}
+                <tr>
+                    <td>
+                        <a href="/tools/applications/{{ application.public }}">{{ application.name }}</a>
+                    </td>
+                    <td>{{ application.public }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form method="post" action="/tools/applications/new">
+        <div class="field">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" value="{{ application.name }}" placeholder="Entro.py" required />
+            <span class="help">The application's name.</span>
+        </div>
+        <div class="field">
+            <label for="name">Description</label>
+            <textarea name="description" id="description" placeholder="Python daemon for reversing entropy on Clear" required>{{ application.description }}</textarea>
+            <span class="help">A description of what the application does.</span>
+        </div>
+
+        <input type="submit" value="Create" />
+    </form>
+{% endblock %}

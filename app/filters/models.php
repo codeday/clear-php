@@ -30,6 +30,11 @@
     return \CodeDay\Clear\Models\Batch\Event\Sponsor::where('id', '=', $val)->firstOrFail();
 });
 
+\Route::pattern('application', '[0-9A-Za-z]+');
+\Route::bind('application', function($val) {
+    return \CodeDay\Clear\Models\Application::where('public', '=', $val)->firstOrFail();
+});
+
 \Route::bind('email_template', function($val) {
     return \CodeDay\Clear\Models\EmailTemplate::where('id', '=', $val)->firstOrFail();
 });

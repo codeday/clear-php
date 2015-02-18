@@ -7,6 +7,11 @@
     \Route::controller('/checkin', 'CheckinController');
     \Route::controller('/deck', 'DeckController');
 
+    \Route::post('/applications/new', 'ApplicationsController@postNew');
+    \Route::get('/applications/{application}', 'ApplicationsController@getEdit');
+    \Route::post('/applications/{application}', 'ApplicationsController@postEdit');
+    \Route::controller('/applications', 'ApplicationsController');
+
     \Route::group(['before' => 's5_admin'], function(){
         \Route::controller('promotions', 'PromotionsController');
         \Route::controller('emails', 'EmailsController');
