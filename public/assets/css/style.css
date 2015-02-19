@@ -183,10 +183,14 @@ body > header {
   border-color: #EDEDED #E1E1E1 #D4D4D4;
   color: #111;
   font-weight: bold;
-  padding: 7px 12px !important; }
+  padding: 7px 12px !important;
+  outline: 0; }
   .wrap a.action:hover, .wrap form input[type="submit"]:hover, .wrap button:hover {
     color: #111;
     background: linear-gradient(#FCFCFC, #E0E5E8) repeat scroll 0% 0% transparent; }
+  .wrap a.action:active, .wrap form input[type="submit"]:active, .wrap button:active {
+    color: #111;
+    background: linear-gradient(#E0E5E8, #FCFCFC) repeat scroll 0% 0% transparent !important; }
   .wrap a.action:after, .wrap form input[type="submit"]:after, .wrap button:after {
     content: "";
     clear: right;
