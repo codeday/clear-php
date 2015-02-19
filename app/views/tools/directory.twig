@@ -21,7 +21,7 @@
         <tbody>
             {% for event in managed_batch.events %}
                 {% if event.manager %}
-                    <tr>
+                    <tr class="event">
                         <th>{{ event.name }}</th>
                         <td>{{ event.manager.name }}</td>
                         <td>Event Manager</td>

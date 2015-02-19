@@ -695,6 +695,13 @@ body.tools .events-selector ul {
   float: left; }
   body.tools .events-selector ul li {
     list-style-type: none; }
+body.tools .directory {
+  border-collapse: collapse; }
+  body.tools .directory td, body.tools .directory th {
+    padding-right: 0.75rem;
+    padding-bottom: 0.25rem; }
+  body.tools .directory .event td, body.tools .directory .event th {
+    padding-top: 1rem; }
 body.tools .tasks tr {
   height: 2.5rem; }
   body.tools .tasks tr td.step {
@@ -920,7 +927,7 @@ body.docs .model-details {
     -o-transition: all 0.3s ease-in 0s;
     transition: all 0.3s ease-in 0s; }
 
-.wrap, header, footer {
+.wrap *, header *, footer * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
