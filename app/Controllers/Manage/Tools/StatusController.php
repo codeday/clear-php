@@ -1,7 +1,7 @@
 <?php
 namespace CodeDay\Clear\Controllers\Manage\Tools;
 
-use \Codeday\Clear\Models;
+use \CodeDay\Clear\Models;
 
 class StatusController extends \Controller {
 

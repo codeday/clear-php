@@ -1,0 +1,69 @@
+{% extends "template.twig" %}
+{% block title %}Supplies{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Supplies</h2>
+        <p>Supplies are items which will be included on the shipping manifest. This adds a supply for all events in this batch.</p>
+    </header>
+    {% if managed_batch.supplies|length > 0 %}
+        <h3>Manage Supplies</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for supply in managed_batch.supplies %}
+                <tr>
+                    <td>{{ supply.item }}</td>
+                    <td>
+                        {{ supply.quantity }}
+                        {% if supply.type == 'perparticipant' %}
+                            per participant
+                        {% elseif supply.type == 'perbox' %}
+                            per event
+                        {% elseif supply.type == 'inventory' %}
+                            across all events
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form action="/tools/supplies/delete" method="post" class="small">
+                            <input type="hidden" name="id" value="{{ supply.id }}" />
+                            <input type="submit" value="Delete" />
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <h3>Create Supply</h3>
+    <form method="post" action="/tools/supplies/add">
+        <div class="field">
+            <label for="item">Item</label>
+            <input type="text" name="item" id="item" required />
+            <span class="help">The name/description of the supply for the manifest.</span>
+        </div>
+        <div class="field">
+            <label for="type">Type</label>
+            <select name="type" id="type">
+                <option value="perbox" selected>Per Box</option>
+                <option value="perparticipant">Per Participant</option>
+                <option value="inventory">In Inventory</option>
+            </select>
+            <span class="help">The allocation of the supply.</span>
+        </div>
+        <div class="field">
+            <label for="quantity">Quantity</label>
+            <input type="text" name="quantity" id="quantity" required />
+            <span class="help">The quantity per box/participant/in inventory, depending on "type".</span>
+        </div>
+
+        <input type="submit" value="Create" />
+    </form>
+{% endblock %}

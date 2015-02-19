@@ -42,100 +42,13 @@
     <section class="picker">
         <div class="region-picker"></div>
     </section>
-    <section class="details">
-        <form action="/settings/batches/{{ batch.id }}/updateregionsettings" method="post">
-            <table class="region-details">
-                <thead>
-                    <tr>
-                        <td>City</td>
-                        <td>Reg Est</td>
-                        <td>Manager</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for event in batch.events %}
-                        <tr id="region-details-{{ event.webname }}">
-                            <td>{{ event.name }}</td>
-                            <td><input type="text" name="id[{{ event.id }}][registration_estimate]" value="{{ event.registration_estimate }}"/></td>
-                            <td><input type="text" name="id[{{ event.id }}][manager_username]" value="{{ event.manager_username }}"/></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <input type="submit" value="Save Regions" />
-        </form>
-    </section>
-
-    <header>
-        <h2>Supplies</h2>
-        <p>Supplies are items which will be included on the shipping manifest. This adds a supply for all events in this batch.</p>
-    </header>
-    {% if batch.supplies|length > 0 %}
-        <h3>Manage Supplies</h3>
-        <table>
-            <thead>
-            <tr>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for supply in batch.supplies %}
-                <tr>
-                    <td>{{ supply.item }}</td>
-                    <td>
-                        {{ supply.quantity }}
-                        {% if supply.type == 'perparticipant' %}
-                            per participant
-                        {% elseif supply.type == 'perbox' %}
-                            per event
-                        {% elseif supply.type == 'inventory' %}
-                            across all events
-                        {% endif %}
-                    </td>
-                    <td>
-                        <form action="/settings/batches/{{ batch.id }}/deletesupplies" method="post" class="small">
-                            <input type="hidden" name="id" value="{{ supply.id }}" />
-                            <input type="submit" value="Delete" />
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
-    <h3>Create Supply</h3>
-    <form method="post" action="/settings/batches/{{ batch.id }}/addsupplies">
-        <div class="field">
-            <label for="item">Item</label>
-            <input type="text" name="item" id="item" required />
-            <span class="help">The name/description of the supply for the manifest.</span>
-        </div>
-        <div class="field">
-            <label for="type">Type</label>
-            <select name="type" id="type">
-                <option value="perbox" selected>Per Box</option>
-                <option value="perparticipant">Per Participant</option>
-                <option value="inventory">In Inventory</option>
-            </select>
-            <span class="help">The allocation of the supply.</span>
-        </div>
-        <div class="field">
-            <label for="quantity">Quantity</label>
-            <input type="text" name="quantity" id="quantity" required />
-            <span class="help">The quantity per box/participant/in inventory, depending on "type".</span>
-        </div>
-
-        <input type="submit" value="Create" />
-    </form>
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript">
         function initialize() {
             var mapElem = $('div.region-picker')[0];
             var map = new google.maps.Map(mapElem, window.defaultMapOptions);
-            map.setZoom(3);
+            map.setZoom(4);
 
             var overlay = new google.maps.OverlayView();
             overlay.draw = function() {};
@@ -200,19 +113,10 @@
                                 c.color = '#000000';
                                 circle.setOptions({ fillColor: '#000000' });
                                 c.in_batch = false;
-                                $('#region-details-'+ c.webname).remove();
                             } else {
                                 c.color = '#ff0000';
                                 circle.setOptions({ fillColor: '#ff0000'});
                                 c.in_batch = true;
-                                console.log(data.data);
-                                $('table.region-details tbody').append(
-                                        $('<tr>' +
-                                                '<td>'+data.data.name+'</td>' +
-                                                '<td><input type="text" name="id['+ data.data.id+'][registration_estimate]" value="'+(data.data.registration_estimate || '')+'"/></td>' +
-                                                '<td><input type="text" name="id['+ data.data.id+'][manager_username]" value="'+(data.data.manager_username || '')+'"/></td>' +
-                                          '</tr>')
-                                );
                             }
                         },
                         failure: function(message) {

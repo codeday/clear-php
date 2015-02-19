@@ -29,8 +29,9 @@ class SpecialController extends \Controller {
         $event = new Models\Batch\Event;
         $event->region_id = $currentEvent->region_id;
         $event->batch_id = $currentEvent->batch_id;
-        $event->name_override = $currentEvent->name.' Overflow';
-        $event->webname_override = $currentEvent->webname.'-overflow';
+        $event->registration_estimate = 100;
+        $event->name_override = $currentEvent->name.' 2';
+        $event->webname_override = $currentEvent->webname.'-2';
         $event->abbr_override = substr($currentEvent->abbr, 0, 2).'*';
         $event->overflow_for_id = $currentEvent->id;
         $event->save();

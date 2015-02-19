@@ -54,37 +54,6 @@ class BatchesController extends \Controller {
         return \Redirect::to('/settings/batches/'.$batch->id);
     }
 
-    public function postUpdateRegionSettings()
-    {
-        $batch = \Route::input('batch');
-        $ids = \Input::get('id');
-
-        foreach ($ids as $id=>$settings) {
-            $event = \CodeDay\Clear\Models\Batch\Event::where('id', '=', $id)
-                ->where('batch_id', '=', $batch->id)
-                ->first();
-
-            if ($settings['manager_username']) {
-                $user = Models\User::fromS5Username($settings['manager_username']);
-
-                if ($user->username) {
-                    $event->manager_username = $user->username;
-                } else {
-                    $event->manager_username = null;
-                }
-            } else {
-                $event->manager_username = null;
-            }
-
-            $event->registration_estimate = $settings['registration_estimate'];
-            $event->save();
-        }
-
-        \Session::flash('status_message', 'Events updated');
-
-        return \Redirect::to('/settings/batches/'.$batch->id);
-    }
-
     public function postUpdateRegion()
     {
         $batch = \Route::input('batch');
@@ -124,38 +93,6 @@ class BatchesController extends \Controller {
                 ]
             ]);
         }
-    }
-
-    public function postAddSupplies()
-    {
-        $batch = \Route::input('batch');
-
-        $supply = new Models\Batch\Supply;
-        $supply->batch_id = $batch->id;
-        $supply->item = \Input::get('item');
-        $supply->type = \Input::get('type');
-        $supply->quantity = floatval(\Input::get('quantity'));
-        $supply->save();
-
-        \Session::flash('status_message', 'Supply added');
-
-        return \Redirect::to('/settings/batches/'.$batch->id);
-    }
-
-    public function postDeleteSupplies()
-    {
-        $batch = \Route::input('batch');
-
-        $supply = Models\Batch\Supply::find(\Input::get('id'));
-        if (!$supply || $supply->batch_id !== $batch->id) {
-            \App::abort(404);
-        }
-
-        \Session::flash('status_message', 'Supply removed');
-
-        $supply->delete();
-
-        return \Redirect::to('/settings/batches/'.$batch->id);
     }
 
     public function getEdit()

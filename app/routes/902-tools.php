@@ -14,9 +14,11 @@
     \Route::controller('/applications', 'ApplicationsController');
 
     \Route::group(['before' => 's5_admin'], function(){
-        \Route::controller('/status', 'StatusController');
+        \Route::controller('status', 'StatusController');
         \Route::controller('promotions', 'PromotionsController');
         \Route::controller('emails', 'EmailsController');
+        \Route::controller('managers', 'ManagersController');
+        \Route::controller('supplies', 'SuppliesController');
         \Route::controller('tasks', 'TasksController');
         \Route::controller('revenue', 'RevenueController');
         \Route::controller('evangelists', 'EvangelistController');

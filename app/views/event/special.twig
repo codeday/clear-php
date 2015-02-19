@@ -49,12 +49,12 @@
     </form>
 
     <header>
-        <h2>Overflow Event</h2>
-        <p>You can create a new event to handle overflow from attendees at a new venue.</p>
+        <h2>Related Event</h2>
+        <p>You can create a new event to handle multiple nearby events, such as for big regions.</p>
     </header>
     {% if event.overflow_events|length < 1 %}
         <form action="/event/{{ event.id }}/special/overflow" method="post">
-            <input type="submit" value="Create Overflow Event"/>
+            <input type="submit" value="Create Related Event"/>
         </form>
     {% endif %}
 {% endblock %}

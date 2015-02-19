@@ -467,27 +467,6 @@ body.dashboard section.content > .other-events {
           width: 0;
           height: 0; }
 
-body.settings section.picker {
-  float: left;
-  width: 40%; }
-  body.settings section.picker div.region-picker {
-    height: 220px; }
-body.settings section.details {
-  float: right;
-  width: 55%; }
-  body.settings section.details .region-details tr td, body.settings section.details .region-details tr th {
-    width: 32%; }
-    body.settings section.details .region-details tr td input, body.settings section.details .region-details tr th input {
-      width: 100%; }
-  body.settings section.details .region-details tr td:first-child, body.settings section.details .region-details tr th:first-child {
-    width: 36%; }
-  body.settings section.details:after {
-    clear: both;
-    content: "";
-    display: block;
-    width: 0;
-    height: 0; }
-
 body.event .content > .status {
   border: 1px solid #efdede;
   padding: 1rem 0; }
