@@ -927,7 +927,7 @@ body.docs .model-details {
     -o-transition: all 0.3s ease-in 0s;
     transition: all 0.3s ease-in 0s; }
 
-.wrap *, header *, footer *, .info, .info * {
+.wrap, .wrap *, header, header *, footer, footer *, .info, .info * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
