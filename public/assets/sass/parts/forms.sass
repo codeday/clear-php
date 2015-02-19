@@ -59,9 +59,15 @@
         color: $foreground-color
         font-weight: bold
         padding: 7px 12px !important
+        outline: 0
         &:hover
             color: $foreground-color
             background: linear-gradient(#FCFCFC, #E0E5E8) repeat scroll 0% 0% transparent
+
+        &:active
+            color: $foreground-color
+            // !important here, it gets overriden by :hidden for some reason
+            background: linear-gradient(#E0E5E8, #FCFCFC) repeat scroll 0% 0% transparent !important
 
         &:after
             content: ""
@@ -138,7 +144,6 @@
             div.file
                 label
                     font-size: 0.75rem
-
 
             .help
                 width: 75%
