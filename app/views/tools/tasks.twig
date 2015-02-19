@@ -3,10 +3,37 @@
 {% block section %}tools{% endblock %}
 {% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
 {% block content %}
-    <form action="/tools/tasks/sendreminder" method="post">
-        <input type="submit" value="Send Reminder Email" {% if managed_batch.reminder_email_sent_at %}disabled{% endif %}/>
-    </form>
-    <form action="/tools/tasks/sendpreevent" method="post">
-        <input type="submit" value="Send Pre-Event Email" {% if managed_batch.preevent_email_sent_at %}disabled{% endif %}/>
-    </form>
+    <header>
+        <h2>Tasks</h2>
+        <p>Tasks are manual admin actions which need to be taken before the event.</p>
+    </header>
+
+    <table class="tasks">
+        <tbody>
+            <tr>
+                <td class="step {% if managed_batch.preevent_email_sent_at %}done{% endif %}"><span><span></span></span></td>
+                <td>
+                    {% if managed_batch.preevent_email_sent_at %}
+                        Pre-Event Email: Sent
+                    {% else %}
+                        <form action="/tools/tasks/sendpreevent" class="inline dangerous" method="post">
+                            <input type="submit" value="Send Pre-Event Email" />
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td class="step {% if managed_batch.reminder_email_sent_at %}done{% endif %}"><span><span></span></span></td>
+                <td>
+                    {% if managed_batch.reminder_email_sent_at %}
+                        Reminder Email: Sent
+                    {% else %}
+                        <form action="/tools/tasks/sendreminder" class="inline dangerous" method="post">
+                            <input type="submit" value="Send Reminder Email"/>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 {% endblock %}

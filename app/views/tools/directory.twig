@@ -1,0 +1,53 @@
+{% extends "template.twig" %}
+{% block title %}Directory{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Directory</h2>
+        <p>Who's who in {{ managed_batch.name }}.</p>
+    </header>
+
+    <table class="directory">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in managed_batch.events %}
+                {% if event.manager %}
+                    <tr>
+                        <th>{{ event.name }}</th>
+                        <td>{{ event.manager.name }}</td>
+                        <td>Event Manager</td>
+                        <td><a href="mailto:{{ event.manager.email }}">{{ event.manager.email }}</a></td>
+                        <td><a href="tel:{{ event.manager.phone }}">{{ event.manager.phone }}</a></td>
+                    </tr>
+                    {% if event.evangelist %}
+                        <tr>
+                            <th>&nbsp;</th>
+                            <td>{{ event.evangelist.name }}</td>
+                            <td>Lead Evangelist</td>
+                            <td><a href="mailto:{{ event.evangelist.email }}">{{ event.evangelist.email }}</a></td>
+                            <td><a href="tel:{{ event.evangelist.phone }}">{{ event.evangelist.phone }}</a></td>
+                        </tr>
+                    {% endif %}
+                    {% for grant in event.grants %}
+                        <tr>
+                            <th>&nbsp;</th>
+                            <td>{{ grant.user.name }}</td>
+                            <td>Volunteer</td>
+                            <td><a href="mailto:{{ grant.user.email }}">{{ grant.user.email }}</a></td>
+                            <td><a href="tel:{{ grant.user.phone }}">{{ grant.user.phone }}</a></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

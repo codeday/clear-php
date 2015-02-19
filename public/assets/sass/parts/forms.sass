@@ -1,143 +1,150 @@
-::-webkit-input-placeholder
-    color: $foreground-color-light
-::-moz-placeholder
-    color: $foreground-color-light
-    opacity: 1
+.wrap
+    ::-webkit-input-placeholder
+        color: $foreground-color-light
+    ::-moz-placeholder
+        color: $foreground-color-light
+        opacity: 1
 
-input[type="text"],
-input[type="url"],
-input[type="number"],
-input[type="email"],
-input[type="phone"],
-input[type="date"],
-input[type="datetime"],
-input[type="datetime-local"],
-textarea,
-select
-    border: none
-    border-bottom: 1px solid $foreground-color
-    color: $foreground-color
-    font-size: 1.2rem
-    padding: 0rem 0 0.2rem 0
-    outline: none
-    font-feature-settings: "tnum"
-    -webkit-font-feature-settings: "tnum"
-    font-family: monospace
-    background-color: $background-color
+    input[type="text"],
+    input[type="url"],
+    input[type="number"],
+    input[type="email"],
+    input[type="phone"],
+    input[type="date"],
+    input[type="datetime"],
+    input[type="datetime-local"],
+    textarea,
+    .group,
+    select
+        border: none
+        border-bottom: 1px solid $foreground-color
+        color: $foreground-color
+        font-size: 1.2rem
+        padding: 0rem 0 0.2rem 0
+        outline: none
+        font-feature-settings: "tnum"
+        -webkit-font-feature-settings: "tnum"
+        font-family: monospace
+        background-color: $background-color
 
-    &:focus
-        border-color: $accent-color
-        color: $accent-color
+        &:focus
+            border-color: $accent-color
+            color: $accent-color
 
-textarea
-    border-right: 1px solid $foreground-color
-    height: 10rem
+    textarea
+        border-right: 1px solid $foreground-color
+        height: 10rem
 
-select
-    -moz-border-radius: 0
-    -webkit-border-radius: 0
-    border-radius: 0
-    background-color: transparent
-    -webkit-appearance: none
+    select
+        -moz-border-radius: 0
+        -webkit-border-radius: 0
+        border-radius: 0
+        background-color: transparent
+        -webkit-appearance: none
 
-a.action, form input[type="submit"], button
-    cursor: pointer
-    border: 1px solid $foreground-color
-    color: $foreground-color
-    display: block
-    text-align: center
-    float: right
-    width: 10rem
-    background-color: $background-color
-    padding: 0.5rem 1rem
-    margin-bottom: 0.5rem
-    font-size: 1rem
-
-    &:hover
-        background-color: $foreground-color
-        color: $background-color
-    &:after
-        content: ""
-        clear: right
+    a.action, form input[type="submit"], button
+        cursor: pointer
         display: block
-        width: 0
-        height: 0
-
-form.small
-    display: inline-block
-    input[type="submit"]
-        display: inline-block
-        float: none
-        width: auto
-        height: auto
-        padding: 0.1rem
-
-table.edit
-    width: 100%
-    td, th
         text-align: center
-        &:first-child
-            text-align: right
-        input, select, button
-            text-align: left
-    input[type="submit"], button
-        display: inline-block
-        padding: 0.2rem
-        font-size: 0.75rem
-        margin: 0
-        width: auto
+        float: right
+        min-width: 10rem
+        font-size: 1rem
 
-form
-    div.field
-        clear: both
-        padding-bottom: 2rem
-
-        &.template
-            color: #ccc
-            select
-                border-bottom-color: #ccc
-                color: #ccc
-            .help
-                color: #ccc
+        background: linear-gradient(#FFF, #EAEDEF) repeat scroll 0% 0% #FAFAFA
+        border-left: 1px solid #E1E1E1
+        border-right: 1px solid #E1E1E1
+        border-width: 1px
+        border-style: solid
+        border-color: #EDEDED #E1E1E1 #D4D4D4
+        color: $foreground-color
+        font-weight: bold
+        padding: 7px 12px !important
+        &:hover
+            color: $foreground-color
+            background: linear-gradient(#FCFCFC, #E0E5E8) repeat scroll 0% 0% transparent
 
         &:after
             content: ""
+            clear: right
             display: block
-            clear: both
             width: 0
             height: 0
 
-        & > label
-            width: 25%
-            float: left
-            padding-top: 3px
+    form.small
+        display: inline-block
+        input[type="submit"]
+            display: inline-block
+            float: none
+            width: auto
+            height: auto
+            padding: 0.1rem
 
-        & > input[type="text"],
-        & > input[type="url"],
-        & > input[type="number"],
-        & > input[type="email"],
-        & > input[type="phone"],
-        & > input[type="date"],
-        & > input[type="datetime"],
-        & > input[type="datetime-local"],
-        & > input[type="file"],
-        & > select,
-        & > div.combined,
-        & > div.file,
-        & > textarea
-            width: 75%
-            float: right
-
-        div.file
-            label
-                font-size: 0.75rem
-
-
-        .help
-            width: 75%
-            display: block
-            float: right
-            text-align: left
+    table.edit
+        width: 100%
+        td, th
+            text-align: center
+            &:first-child
+                text-align: right
+            input, select, button
+                text-align: left
+        input[type="submit"], button
+            display: inline-block
+            padding: 0.2rem
             font-size: 0.75rem
-            font-weight: 300
-            color: $foreground-color
+            margin: 0
+            width: auto
+
+    form
+        div.field
+            clear: both
+            padding-bottom: 2rem
+
+            &.template
+                color: #ccc
+                select
+                    border-bottom-color: #ccc
+                    color: #ccc
+                .help
+                    color: #ccc
+
+            &:after
+                content: ""
+                display: block
+                clear: both
+                width: 0
+                height: 0
+
+            & > label
+                width: 25%
+                float: left
+                padding-top: 3px
+
+            & > input[type="text"],
+            & > input[type="url"],
+            & > input[type="number"],
+            & > input[type="email"],
+            & > input[type="phone"],
+            & > input[type="date"],
+            & > input[type="datetime"],
+            & > input[type="datetime-local"],
+            & > input[type="file"],
+            & > select,
+            & > div.combined,
+            & > div.file,
+            & > textarea
+                width: 75%
+                float: right
+
+            div.file
+                label
+                    font-size: 0.75rem
+
+
+            .help
+                width: 75%
+                display: block
+                float: right
+                text-align: left
+                font-size: 0.75rem
+                font-weight: 300
+                color: $foreground-color

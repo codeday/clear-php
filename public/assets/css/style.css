@@ -120,23 +120,22 @@ body > header {
     width: 0;
     height: 0; }
 
-::-webkit-input-placeholder {
+.wrap ::-webkit-input-placeholder {
   color: #ddbcbc; }
-
-::-moz-placeholder {
+.wrap ::-moz-placeholder {
   color: #ddbcbc;
   opacity: 1; }
-
-input[type="text"],
-input[type="url"],
-input[type="number"],
-input[type="email"],
-input[type="phone"],
-input[type="date"],
-input[type="datetime"],
-input[type="datetime-local"],
-textarea,
-select {
+.wrap input[type="text"],
+.wrap input[type="url"],
+.wrap input[type="number"],
+.wrap input[type="email"],
+.wrap input[type="phone"],
+.wrap input[type="date"],
+.wrap input[type="datetime"],
+.wrap input[type="datetime-local"],
+.wrap textarea,
+.wrap .group,
+.wrap select {
   border: none;
   border-bottom: 1px solid #111;
   color: #111;
@@ -147,102 +146,101 @@ select {
   -webkit-font-feature-settings: "tnum";
   font-family: monospace;
   background-color: #f7efef; }
-  input[type="text"]:focus,
-  input[type="url"]:focus,
-  input[type="number"]:focus,
-  input[type="email"]:focus,
-  input[type="phone"]:focus,
-  input[type="date"]:focus,
-  input[type="datetime"]:focus,
-  input[type="datetime-local"]:focus,
-  textarea:focus,
-  select:focus {
+  .wrap input[type="text"]:focus,
+  .wrap input[type="url"]:focus,
+  .wrap input[type="number"]:focus,
+  .wrap input[type="email"]:focus,
+  .wrap input[type="phone"]:focus,
+  .wrap input[type="date"]:focus,
+  .wrap input[type="datetime"]:focus,
+  .wrap input[type="datetime-local"]:focus,
+  .wrap textarea:focus,
+  .wrap .group:focus,
+  .wrap select:focus {
     border-color: #FB481C;
     color: #FB481C; }
-
-textarea {
+.wrap textarea {
   border-right: 1px solid #111;
   height: 10rem; }
-
-select {
+.wrap select {
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
   border-radius: 0;
   background-color: transparent;
   -webkit-appearance: none; }
-
-a.action, form input[type="submit"], button {
+.wrap a.action, .wrap form input[type="submit"], .wrap button {
   cursor: pointer;
-  border: 1px solid #111;
-  color: #111;
   display: block;
   text-align: center;
   float: right;
-  width: 10rem;
-  background-color: #f7efef;
-  padding: 0.5rem 1rem;
-  margin-bottom: 0.5rem;
-  font-size: 1rem; }
-  a.action:hover, form input[type="submit"]:hover, button:hover {
-    background-color: #111;
-    color: #f7efef; }
-  a.action:after, form input[type="submit"]:after, button:after {
+  min-width: 10rem;
+  font-size: 1rem;
+  background: linear-gradient(#FFF, #EAEDEF) repeat scroll 0% 0% #FAFAFA;
+  border-left: 1px solid #E1E1E1;
+  border-right: 1px solid #E1E1E1;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #EDEDED #E1E1E1 #D4D4D4;
+  color: #111;
+  font-weight: bold;
+  padding: 7px 12px !important; }
+  .wrap a.action:hover, .wrap form input[type="submit"]:hover, .wrap button:hover {
+    color: #111;
+    background: linear-gradient(#FCFCFC, #E0E5E8) repeat scroll 0% 0% transparent; }
+  .wrap a.action:after, .wrap form input[type="submit"]:after, .wrap button:after {
     content: "";
     clear: right;
     display: block;
     width: 0;
     height: 0; }
-
-form.small {
+.wrap form.small {
   display: inline-block; }
-  form.small input[type="submit"] {
+  .wrap form.small input[type="submit"] {
     display: inline-block;
     float: none;
     width: auto;
     height: auto;
     padding: 0.1rem; }
-
-table.edit {
+.wrap table.edit {
   width: 100%; }
-  table.edit td, table.edit th {
+  .wrap table.edit td, .wrap table.edit th {
     text-align: center; }
-    table.edit td:first-child, table.edit th:first-child {
+    .wrap table.edit td:first-child, .wrap table.edit th:first-child {
       text-align: right; }
-    table.edit td input, table.edit td select, table.edit td button, table.edit th input, table.edit th select, table.edit th button {
+    .wrap table.edit td input, .wrap table.edit td select, .wrap table.edit td button, .wrap table.edit th input, .wrap table.edit th select, .wrap table.edit th button {
       text-align: left; }
-  table.edit input[type="submit"], table.edit button {
+  .wrap table.edit input[type="submit"], .wrap table.edit button {
     display: inline-block;
     padding: 0.2rem;
     font-size: 0.75rem;
     margin: 0;
     width: auto; }
-
-form div.field {
+.wrap form div.field {
   clear: both;
   padding-bottom: 2rem; }
-  form div.field.template {
+  .wrap form div.field.template {
     color: #ccc; }
-    form div.field.template select {
+    .wrap form div.field.template select {
       border-bottom-color: #ccc;
       color: #ccc; }
-    form div.field.template .help {
+    .wrap form div.field.template .help {
       color: #ccc; }
-  form div.field:after {
+  .wrap form div.field:after {
     content: "";
     display: block;
     clear: both;
     width: 0;
     height: 0; }
-  form div.field > label {
+  .wrap form div.field > label {
     width: 25%;
     float: left;
     padding-top: 3px; }
-  form div.field > input[type="text"], form div.field > input[type="url"], form div.field > input[type="number"], form div.field > input[type="email"], form div.field > input[type="phone"], form div.field > input[type="date"], form div.field > input[type="datetime"], form div.field > input[type="datetime-local"], form div.field > input[type="file"], form div.field > select, form div.field > div.combined, form div.field > div.file, form div.field > textarea {
+  .wrap form div.field > input[type="text"], .wrap form div.field > input[type="url"], .wrap form div.field > input[type="number"], .wrap form div.field > input[type="email"], .wrap form div.field > input[type="phone"], .wrap form div.field > input[type="date"], .wrap form div.field > input[type="datetime"], .wrap form div.field > input[type="datetime-local"], .wrap form div.field > input[type="file"], .wrap form div.field > select, .wrap form div.field > div.combined, .wrap form div.field > div.file, .wrap form div.field > textarea {
     width: 75%;
     float: right; }
-  form div.field div.file label {
+  .wrap form div.field div.file label {
     font-size: 0.75rem; }
-  form div.field .help {
+  .wrap form div.field .help {
     width: 75%;
     display: block;
     float: right;
@@ -697,6 +695,44 @@ body.tools .events-selector ul {
   float: left; }
   body.tools .events-selector ul li {
     list-style-type: none; }
+body.tools .tasks tr {
+  height: 2.5rem; }
+  body.tools .tasks tr td.step {
+    padding-right: 1rem; }
+    body.tools .tasks tr td.step.done span span {
+      background-color: #15E014; }
+    body.tools .tasks tr td.step > span {
+      display: block;
+      border: 1px solid #ddbcbc;
+      padding: 1px;
+      margin-bottom: 0.125rem; }
+      body.tools .tasks tr td.step > span > span {
+        display: block;
+        background-color: #FB481C;
+        width: 0.5rem;
+        height: 0.5rem; }
+body.tools .status {
+  border-collapse: collapse; }
+  body.tools .status thead th {
+    font-size: 0.75rem;
+    font-family: monospace; }
+  body.tools .status tbody tr:nth-child(2n+1) {
+    background-color: #efdede; }
+  body.tools .status tbody tr td {
+    border-left: 1px solid #ddbcbc;
+    padding: 0.5rem; }
+    body.tools .status tbody tr td.okay span span {
+      background-color: #15E014; }
+    body.tools .status tbody tr td > span {
+      display: inline-block;
+      border: 1px solid #ddbcbc;
+      padding: 1px;
+      margin-bottom: 0.125rem; }
+      body.tools .status tbody tr td > span > span {
+        display: block;
+        background-color: #FB481C;
+        width: 0.5rem;
+        height: 0.5rem; }
 
 body.debug .log {
   border: 1px solid #ddbcbc;
@@ -884,7 +920,7 @@ body.docs .model-details {
     -o-transition: all 0.3s ease-in 0s;
     transition: all 0.3s ease-in 0s; }
 
-* {
+.wrap, header, footer {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-font-smoothing: antialiased;

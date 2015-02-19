@@ -5,6 +5,7 @@
     \Route::get('', function(){ return \Redirect::to('/tools/attendee'); });
     \Route::controller('/attendee', 'AttendeeController');
     \Route::controller('/checkin', 'CheckinController');
+    \Route::controller('/directory', 'DirectoryController');
     \Route::controller('/deck', 'DeckController');
 
     \Route::post('/applications/new', 'ApplicationsController@postNew');
@@ -13,6 +14,7 @@
     \Route::controller('/applications', 'ApplicationsController');
 
     \Route::group(['before' => 's5_admin'], function(){
+        \Route::controller('/status', 'StatusController');
         \Route::controller('promotions', 'PromotionsController');
         \Route::controller('emails', 'EmailsController');
         \Route::controller('tasks', 'TasksController');
