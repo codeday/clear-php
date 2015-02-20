@@ -18,8 +18,10 @@ class Email {
      * @param null $contentHtml
      */
     public static function SendOnQueue($fromName, $fromEmail, $toName, $toEmail, $subject,
-                                        $contentText, $contentHtml = null)
+                                        $contentText, $contentHtml = null, $isMarketing = false)
     {
+        if (self::isRecipientBlacklisted($toEmail, $isMarketing)) return;
+
         // Render views if they were passed in
         if (is_object($contentText) && get_class($contentText) === 'Illuminate\View\View') {
             $contentText = $contentText->render();
@@ -28,14 +30,23 @@ class Email {
             $contentHtml = $contentHtml->render();
         }
 
-        // If there's no HTML part, render the text part as HTML
-        if ($contentHtml === null) {
-            $contentHtml = nl2br($contentText);
+        $views = [];
+        $content = [
+            'to' => $toEmail,
+            'is_marketing' => $isMarketing
+        ];
+        if ($contentText) {
+            $views['text'] = 'emails/blank_text';
+            $content['content_text'] = $contentText;
+        }
+        if ($contentHtml) {
+            $views['html'] = 'emails/blank_html';
+            $content['content_html'] = $contentHtml;
         }
 
         // Enqueue the email
-        \Mail::queue(['emails/blank_html', 'emails/blank_text'],
-            ['content_text' => $contentText, 'content_html' => $contentHtml],
+        \Mail::queue($views,
+            $content,
             function($envelope) use ($fromEmail, $fromName, $toEmail, $toName, $subject) {
                 $envelope->from(trim($fromEmail), $fromName);
                 $envelope->to(trim($toEmail), $toName);
@@ -45,8 +56,10 @@ class Email {
     }
 
     public static function LaterOnQueue($delaySeconds, $fromName, $fromEmail, $toName, $toEmail, $subject,
-                                       $contentText, $contentHtml = null)
+                                       $contentText, $contentHtml = null, $isMarketing = false)
     {
+        if (self::isRecipientBlacklisted($toEmail, $isMarketing)) return;
+
         // Render views if they were passed in
         if (is_object($contentText) && get_class($contentText) === 'Illuminate\View\View') {
             $contentText = $contentText->render();
@@ -55,14 +68,23 @@ class Email {
             $contentHtml = $contentHtml->render();
         }
 
-        // If there's no HTML part, render the text part as HTML
-        if ($contentHtml === null) {
-            $contentHtml = nl2br($contentText);
+        $views = [];
+        $content = [
+            'to' => $toEmail,
+            'is_marketing' => $isMarketing
+        ];
+        if ($contentText) {
+            $views['text'] = 'emails/blank_text';
+            $content['content_text'] = $contentText;
+        }
+        if ($contentHtml) {
+            $views['html'] = 'emails/blank_html';
+            $content['content_html'] = $contentHtml;
         }
 
         // Enqueue the email
-        \Mail::later($delaySeconds, ['emails/blank_html', 'emails/blank_text'],
-            ['content_text' => $contentText, 'content_html' => $contentHtml],
+        \Mail::later($delaySeconds, $views,
+            $content,
             function($envelope) use ($fromEmail, $fromName, $toEmail, $toName, $subject) {
                 $envelope->from(trim($fromEmail), $fromName);
                 $envelope->to(trim($toEmail), $toName);
@@ -73,7 +95,7 @@ class Email {
 
     public static function SendToEvent($fromName, $fromEmail, $event, $listType, $subject,
                                        $contentText, $contentHtml = null,
-                                       $additionalContext = [])
+                                       $additionalContext = [], $isMarketing = false)
     {
         foreach (self::getToListFromType($event, $listType) as $to) {
             try {
@@ -82,7 +104,8 @@ class Email {
                     $to->name, $to->email,
                     self::renderTemplateWithContext($subject, array_merge((array)$to, $additionalContext)),
                     self::renderTemplateWithContext($contentText, array_merge((array)$to, $additionalContext)),
-                    self::renderTemplateWithContext($contentHtml, array_merge((array)$to, $additionalContext))
+                    self::renderTemplateWithContext($contentHtml, array_merge((array)$to, $additionalContext)),
+                    $isMarketing
                 );
             } catch (\Exception $ex) {}
         }
@@ -235,6 +258,14 @@ class Email {
 
         $lambda = self::GetToListTypes()[$toListType]['lambda'];
         return $lambda($event);
+    }
+
+    private static function isRecipientBlacklisted($email, $isMarketing)
+    {
+        $unsub = Models\Unsubscribe::where('email', '=', $email)->first();
+
+        if (!$unsub) return false;
+        else return $unsub->type === 'all' || $isMarketing;
     }
 
 

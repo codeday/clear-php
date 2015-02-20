@@ -44,6 +44,10 @@
         </div>
     </section>
     <section class="send-email">
+        <div class="marketing">
+            <input type="checkbox" name="is_marketing" id="is_marketing" />
+            <label for="is_marketing">Is Marketing</label>
+        </div>
         <input type="submit" value="Send" />
         <select class="template-picker">
             <option value="">(load template)</option>
@@ -61,7 +65,8 @@
                     to: "{{ template.to|escape('js') }}",
                     from: "{{ template.from|escape('js') }}",
                     subject: "{{ template.subject|escape('js') }}",
-                    message: "{{ template.message|escape('js') }}"
+                    message: "{{ template.message|escape('js') }}",
+                    is_marketing: {% if template.is_marketing %}true{% else %}false{% endif %}
                 },
                 {% endfor %}
                 "boo": {}
@@ -98,6 +103,7 @@
 
                 $('#subject').val(template.subject);
                 $('#message').val(template.message);
+                $('#is_marketing').prop('checked', template.is_marketing);
 
 
                 $('.template-picker option').filter(function(){

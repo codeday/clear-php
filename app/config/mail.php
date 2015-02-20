@@ -4,10 +4,10 @@ $config = json_decode(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'local.json'
 
 return [
     'driver' => 'smtp',
-    'host' => 'smtp.mailgun.org',
+    'host' => 'smtp.mandrillapp.com',
     'port' => 587,
     'from' => ['name' => null, 'address' => null],
-    'username' => $config['mailgun']['smtp']['username'],
-    'password' => $config['mailgun']['smtp']['password'],
-    'pretend' => $config['mailgun']['pretend']
+    'username' => $config['mandrill']['smtp']['username'],
+    'password' => $config['mandrill']['smtp']['password'],
+    'pretend' => $config['mandrill']['pretend']
 ];

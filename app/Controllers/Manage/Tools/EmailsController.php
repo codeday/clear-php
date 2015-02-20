@@ -20,6 +20,7 @@ class EmailsController extends \Controller {
         $message = \Input::get('message');
         $events = \Input::get('events');
         $tracking_promo_code = strtoupper(str_random(5));
+        $isMarketing = \Input::get('is_marketing') ? true : false;
 
         foreach ($events as $event_id) {
             $event = Models\Batch\Event::where('id', '=', $event_id)->first();
@@ -45,15 +46,16 @@ class EmailsController extends \Controller {
                 $from_raw->name, $from_raw->email,
                 $event, $to,
                 $subject,
-                $message,
                 null,
+                \Markdown($message),
                 [
                     'me' => Models\User::me(),
                     'event' => ModelContracts\Event::Model($event),
                     'tracking_promo_code' => $tracking_promo_code,
                     'link' => 'https://codeday.org/'.$event->region_id,
                     'register_link' => 'https://codeday.org/'.$event->region_id.'/register'
-                ]
+                ],
+                $isMarketing
             );
 
             $email_sent = new Models\EmailSent;
@@ -62,6 +64,7 @@ class EmailsController extends \Controller {
             $email_sent->subject = $subject;
             $email_sent->message = $message;
             $email_sent->batches_event_id = $event->id;
+            $email_sent->is_marketing = $isMarketing;
             $email_sent->save();
         }
 

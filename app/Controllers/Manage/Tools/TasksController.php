@@ -30,7 +30,7 @@ class TasksController extends \Controller {
                         $event, 'attendees',
                         'CodeDay is Shortly Upon Us',
                         \View::make('emails/preevent_text'),
-                        null,
+                        \View::make('emails/preevent_html'),
                         [
                             'me' => Models\User::me(),
                             'event' => ModelContracts\Event::Model($event)
@@ -62,7 +62,7 @@ class TasksController extends \Controller {
                         $event, 'attendees',
                         'Reminder: Your Registration for CodeDay',
                         \View::make('emails/reminder_text'),
-                        null,
+                        \View::make('emails/reminder_html'),
                         [
                             'me' => Models\User::me(),
                             'event' => ModelContracts\Event::Model($event)

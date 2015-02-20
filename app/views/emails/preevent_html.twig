@@ -1,0 +1,99 @@
+{% extends "emails/template_transactional.twig" %}
+{% block header %}
+    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
+{% endblock %}
+{% block body %}
+    <p>Is it really that time?</p>
+    <p>Yes, yes it is. Dearest attendees, it is almost time for CodeDay. Grab your friends, grab your laptops, and grab
+        a ride, because it all starts this Saturday at noon.</p>
+    <p>This email will tell you everything you need to know about CodeDay. If you have any other questions, you can
+        reply to this email.</p>
+
+    <h2>What to Bring</h2>
+    <p>You don't need much, but you do need these things:</p>
+    <ul>
+        {% if registration.event.waiver_link %}
+            <li>The <a href="{{ registration.event.waiver_link }}">completed waiver</a></li>
+        {% endif %}
+        <li>Laptop (or desktop with wifi card)</li>
+        <li>Any software you need. If you're a beginner using Windows, we recommend you download the free edition of Construct 2.</li>
+        <li>Sleeping bag if you plan on sleeping</li>
+        <li>Ideas (optional, but strongly recommended)</li>
+    </ul>
+
+    {% if registration.event.waiver_link %}
+        <h2>Waiver</h2>
+
+        <p>This was in the last section, but it's worth mentioning again. You must bring
+           <a href="{{ registration.event.waiver_link }}">a copy of the completed waiver.</a> Please print it out now.</p>
+    {% endif %}
+
+    <h2>What to Use</h2>
+    <ul>
+        <li>Beginner teams: We strongly recommend making a game in Construct 2. There are lots of beginner- friendly
+            tutorials online. Plus, we'll be hosting workshops to help you get started.</li>
+        <li>Advanced teams: Use whatever you want. There aren't any limits on the technology or what you can build.
+            Just remember, if you use something really odd, there's very little chance anyone on-hand will be able to
+            help you.</li>
+    </ul>
+
+    <h2>Where to Go</h2>
+    <table width="100%">
+        <tr>
+            <td align="center">
+                <p>
+                    <strong>CodeDay {{ registration.event.name }}</strong><br />
+                    {{ registration.event.starts_at|date('F j, Y') }}, noon-noon<br />
+                    {% if registration.event.venue %}
+                        Hosted at {{ registration.event.venue.name }}<br />
+                        {{ registration.event.venue_address_1 }}<br />
+                        {% if registration.event.venue_address_2 %}
+                            {{ registration.event.venue_address_2 }}<br />
+                        {% endif %}
+                        {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
+                    {% endif %}
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <h2>Check-in</h2>
+    <p>Check-in starts at 11am. Please arrive before the start of CodeDay at noon. You do not need your tickets, we'll
+       check you in by name. </p>
+    <p>If you gave your tickets to someone else, please reply to this email posthaste so we can get him or her a proper
+       badge.</p>
+
+    <h2>Conduct</h2>
+    <p>CodeDay is a place to learn something new and build something fun. All participants are expected to follow these
+       three principles:</p>
+    <ol>
+        <li>Act in a way that displays yourself as a positive role model.</li>
+        <li>Be humble, even when you're successful.</li>
+        <li>Be friendly and welcoming. Respect, encourage, and support other students.</li>
+    </ol>
+    <p>More specifically, you will be expected to:</p>
+    <ul>
+        <li>Be welcoming to new people joining your team.</li>
+        <li>Help clean up after yourself and others.</li>
+        <li>Ensure the safety of yourself and other participants.</li>
+        <li>Not carry guns, knives, or other weapons.</li>
+        <li>Abstain from using or being under the influence of alcohol, marijuana, illicit substances, and recreational
+            drugs.</li>
+        <li>Not insult or harass other students.</li>
+        <li>Abstain from using offensive language referring to people's gender, sexual orientation, religion, race,
+            ethnicity, or age.</li>
+        <li>Abstain from using sexual language or imagery.</li>
+    </ul>
+
+    {% if registration.event.preevent_additional %}
+        <h2>More Details</h2>
+        <p>{{ registration.event.preevent_additional|nl2br }}</p>
+    {% endif %}
+
+    <hr />
+
+    <p>We're looking forward to seeing you all this weekend. Don't hesitate to email if you have any questions.</p>
+
+    <p>Cheers,<br />
+    The CodeDay Organizers</p>
+{% endblock %}

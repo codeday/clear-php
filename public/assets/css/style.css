@@ -775,38 +775,47 @@ body.docs .model-details {
         -moz-border-radius: 3px;
         font-family: monospace; }
 
-.compose-email {
+.wrap .compose-email {
   border: 1px solid #ddbcbc; }
-  .compose-email .field {
+  .wrap .compose-email .field {
     border-bottom: 1px solid #efdede;
     padding: 0.25rem; }
-    .compose-email .field label {
+    .wrap .compose-email .field label {
       width: 10%;
       color: #ddbcbc; }
-    .compose-email .field.subject label {
+    .wrap .compose-email .field.subject label {
       display: none; }
-    .compose-email .field.subject input {
+    .wrap .compose-email .field.subject input {
       width: 100%; }
-    .compose-email .field.message {
+    .wrap .compose-email .field.message {
       border-bottom: none; }
-      .compose-email .field.message label {
+      .wrap .compose-email .field.message label {
         display: none; }
-      .compose-email .field.message textarea {
+      .wrap .compose-email .field.message textarea {
         width: 100%;
         height: 20rem; }
-    .compose-email .field input, .compose-email .field textarea, .compose-email .field select {
+    .wrap .compose-email .field input, .wrap .compose-email .field textarea, .wrap .compose-email .field select {
       border: none;
       width: 90%;
       font-family: "Helvetica", sans-serif !important;
       font-size: 1rem; }
 
-.send-email input[type="submit"] {
-  border: 1px solid #ddbcbc;
-  border-top: none; }
-.send-email select {
-  float: right;
-  margin-top: 0.25rem;
-  margin-right: 1rem; }
+.send-email {
+  padding-bottom: 1.5rem; }
+  .send-email:after {
+    content: "";
+    clear: both;
+    display: block; }
+  .send-email .marketing {
+    margin-top: 0.75rem;
+    float: left; }
+  .send-email input[type="submit"] {
+    border: 1px solid #ddbcbc;
+    border-top: none; }
+  .send-email select {
+    float: right;
+    margin-top: 0.25rem;
+    margin-right: 1rem; }
 
 .switch {
   position: relative;

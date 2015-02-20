@@ -1,0 +1,68 @@
+{% extends "emails/template_transactional.twig" %}
+{% block header %}
+  <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
+{% endblock %}
+{% block body %}
+  <p>Hi {{ registration.first_name }},</p>
+
+  <p>We wanted to remind you one last time that you registered for a ticket for CodeDay {{ registration.event.name }}, this Saturday at noon:</p>
+  <table width="100%">
+    <tr>
+      <td align="center">
+        <p>
+          <strong>CodeDay {{ registration.event.name }}</strong><br />
+          {{ registration.event.starts_at|date('F j, Y') }}, noon-noon<br />
+          {% if registration.event.venue %}
+            Hosted at {{ registration.event.venue.name }}<br />
+            {{ registration.event.venue_address_1 }}<br />
+            {% if registration.event.venue_address_2 %}
+              {{ registration.event.venue_address_2 }}<br />
+            {% endif %}
+            {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
+          {% endif %}
+        </p>
+      </td>
+    </tr>
+  </table>
+
+  <h2>Special Thanks to Our Sponsors</h2>
+
+  <p>We also wanted to take a moment to thank our sponsors. You'll hear more about these awesome organizations this
+    weekend, but we wanted to give a special shoutout to <a href="http://splunk.com">Splunk</a>,
+    <a href="http://intellectualventures.com">Intellectual Ventures </a>, and <a href="http://lexisnexis.com">LexisNexis
+    Risk Solutions</a> for sponsoring CodeDay nationally.</p>
+
+  {% if registration.event.sponsors %}
+    <p>In addition, your event is sponsored locally by:</p>
+    <ul>
+      {% for sponsor in registration.event.sponsors %}
+        <li>{% if sponsor.url %}<a href="{{ sponsor.url }}">{{ sponsor.name }}</a>{% else %}{{ sponsor.name }}{% endif %}{% if sponsor.blurb %}: {{ sponsor.blurb }}{% endif %}</li>
+      {% endfor %}
+    </ul>
+
+  {% endif %}
+
+  <p>Without these sponsors, CodeDay wouldn't be possible.</p>
+
+
+  {% set perk = false %}
+  {% for sponsor in registration.event.sponsors %}{% if sponsor.perk %}{% set perk = true %}{% endif %}{% endfor %}
+  {% if perk %}
+    <h2>Perks for CodeDay Attendees</h2>
+
+    {% for sponsor in registration.event.sponsors %}
+      {% if sponsor.perk %}
+        <p>{{ sponsor.perk|nl2br }}</p>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  <h2>Emergency Contact Information</h2>
+
+  <p>If your parents need to contact our team for any reason, please tell them to call (888) CODE-230. This number will
+    allow them to easily and quickly reach local CodeDay staff members.</p>
+
+  <hr />
+
+  <p>See you soon, and please let us know if you have any questions.</p>
+{% endblock %}

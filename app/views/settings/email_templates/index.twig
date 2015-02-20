@@ -59,6 +59,12 @@
             <span class="help">The message to send. Supports limited template tags.</span>
         </div>
 
+        <div class="field">
+            <label for="is_marketing">Is Marketing</label>
+            <input type="checkbox" name="is_marketing" id="is_marketing" value="1"/>
+            <span class="help">If true, will add an unsubscribe link to the email.</span>
+        </div>
+
         <input type="submit" value="Add" />
     </form>
 {% endblock %}

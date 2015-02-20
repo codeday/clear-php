@@ -1,16 +1,16 @@
 {% autoescape false %}
 Hi {{ registration.first_name }},
 
-Thanks for registering for CodeDay {{ registration.event.name }}; we're really excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.
+Thanks for registering for CodeDay {{ registration.event.name }}. Your tickets are confirmed, and we are excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}
 {% if registration.order_amount_paid and registration.order_amount_paid != 0 and registration.order_amount_paid != registration.amount_paid %}
 
-Your card was charged ${{ registration.order_amount_paid }} for this and other tickets.
+You were charged {{ registration.order_amount_paid }} for this and other tickets.
 {% elseif registration.amount_paid and registration.amount_paid != 0 %}
 
-Your card was charged ${{ registration.amount_paid }} for this ticket.
+You were charged {{ registration.amount_paid }} for this ticket.
 {% endif %}
 
-We'll follow up with more information when the event gets closer. Until then, if you have any questions about the event or your ticket, just reply to this email.
+If you have any questions about the event or your ticket, just reply to this email.
 {% if registration.event.waiver_link %}
 
 One last note: Please make sure to bring the completed waiver to the event: {{ registration.event.waiver_link }}

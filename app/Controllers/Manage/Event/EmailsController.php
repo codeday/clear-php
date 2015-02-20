@@ -6,6 +6,7 @@ use \CodeDay\Clear\Services;
 use \CodeDay\Clear\ModelContracts;
 
 class EmailsController extends \Controller {
+
     public function getIndex()
     {
         return \View::make('event/emails');
@@ -46,6 +47,7 @@ class EmailsController extends \Controller {
         $from = \Input::get('from');
         $subject = \Input::get('subject');
         $message = \Input::get('message');
+        $isMarketing = \Input::get('is_marketing') ? true : false;
 
         $from_raw = $this->getFrom($from);
 
@@ -68,15 +70,16 @@ class EmailsController extends \Controller {
             $from_raw->name, $from_raw->email,
             $event, $to,
             $subject,
-            $message,
             null,
+            \Markdown($message),
             [
                 'me' => Models\User::me(),
                 'event' => ModelContracts\Event::Model($event),
                 'tracking_promo_code' => $tracking_promo_code,
                 'link' => 'https://codeday.org/'.$event->region_id,
                 'register_link' => 'https://codeday.org/'.$event->region_id.'/register'
-            ]
+            ],
+            $isMarketing
         );
 
         $email_sent = new Models\EmailSent;
@@ -85,6 +88,7 @@ class EmailsController extends \Controller {
         $email_sent->subject = $subject;
         $email_sent->message = $message;
         $email_sent->batches_event_id = $event->id;
+        $email_sent->is_marketing = $isMarketing;
         $email_sent->save();
 
         \Session::flash('status_message', 'Email enqueued');

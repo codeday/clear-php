@@ -113,7 +113,8 @@ class Registration {
             'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
             $reg->name, $reg->email,
             'Your CodeDay '.$reg->event->name.' Tickets',
-            \View::make('emails/registration_text', ['registration' => $reg])
+            \View::make('emails/registration_text', ['registration' => $reg]),
+            \View::make('emails/registration_html', ['registration' => $reg])
         );
 
         // Schedule the pre-event email to be sent to this attendee if it's already been sent to everyone else
@@ -129,7 +130,8 @@ class Registration {
                 'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
                 $reg->name, $reg->email,
                 'CodeDay is Shortly Upon Us',
-                \View::make('emails/preevent_text', ['registration' => $reg])
+                \View::make('emails/preevent_text', ['registration' => $reg]),
+                \View::make('emails/preevent_html', ['registration' => $reg])
             );
         }
     }
@@ -159,7 +161,9 @@ class Registration {
             'Tyler Menezes', 'menezest@codeday.org',
             $reg->name, $reg->email,
             'CodeDay',
-            \View::make('emails/postreg_survey', ['registration' => $reg])
+            \View::make('emails/postreg_survey', ['registration' => $reg]),
+            null,
+            true
         );
     }
 

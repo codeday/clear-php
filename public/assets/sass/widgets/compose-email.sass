@@ -1,4 +1,4 @@
-.compose-email
+.wrap .compose-email
     border: 1px solid $foreground-color-light
     .field
         border-bottom: 1px solid $foreground-color-lighter
@@ -29,6 +29,14 @@
                 family: $font !important
                 size: 1rem
 .send-email
+    padding-bottom: 1.5rem
+    &:after
+        content: ""
+        clear: both
+        display: block
+    .marketing
+        margin-top: 0.75rem
+        float: left
     input[type="submit"]
         border: 1px solid $foreground-color-light
         border-top: none

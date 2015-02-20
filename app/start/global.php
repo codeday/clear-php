@@ -52,6 +52,8 @@ if (\Config::get('app.debug')) {
     $response->headers->set('X-WebKit-CSP', $csp);
 });
 
+// Include markdown processor manually
+include_once(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'Markdown', "markdown.php"]));
 
 $include_all_directories = ['events', 'filters'];
 foreach ($include_all_directories as $directory) {

@@ -1,0 +1,61 @@
+{% extends "emails/template_transactional.twig" %}
+{% block header %}
+    <img src="https://clear.codeday.org/assets/img/email_confirm_header_01.jpg" alt="Your CodeDay Registration is Confirmed"/>
+{% endblock %}
+{% block body %}
+    <p>Hi {{ registration.first_name }},</p>
+    <p>Thanks for registering for CodeDay {{ registration.event.name }}. Your tickets are confirmed, and we are
+        excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.</p>
+    <p>If you have any questions about the event or your ticket, just reply to this email.</p>
+    {% if registration.event.waiver_link %}
+    <p>One last note: Please make sure to bring <a href="{{ registration.event.waiver_link }}">the completed waiver</a>
+        to the event.</p>
+    {% endif %}
+
+    <hr/>
+
+    <table width="100%">
+        <tr>
+            <td align="center">
+                <h2>Receipt</h2>
+                <p>Order placed on {{ registration.created_at.timestamp|date('F j, Y') }}</p>
+                <table style="margin: 0 auto">
+                    <tr align="left">
+                        <th>Item</th>
+                        <th>Attendee</th>
+                        <th>Cost</th>
+                    </tr>
+                    {% for reg in registration.all_in_order %}
+                        <tr>
+                            <td style="padding-right: 1rem">CodeDay {{ reg.event.name }} Ticket</td>
+                            <td style="padding-right: 1rem">{{ reg.name }}</td>
+                            <td>{{ reg.amount_paid|number_format(2) }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="font-weight: bold; border-top: 1px solid #565656">{{ registration.order_amount_paid|number_format(2) }}</td>
+                    </tr>
+                </table>
+
+                <p>Please do not bring this email to CodeDay, we will check you in by name.</p>
+
+                <hr/>
+
+                <p>
+                    <strong>CodeDay {{ registration.event.name }}</strong><br />
+                    {{ registration.event.starts_at|date('F j, Y') }}, noon-noon<br />
+                    {% if registration.event.venue %}
+                        Hosted at {{ registration.event.venue.name }}<br />
+                        {{ registration.event.venue_address_1 }}<br />
+                        {% if registration.event.venue_address_2 %}
+                            {{ registration.event.venue_address_2 }}<br />
+                        {% endif %}
+                        {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
+                    {% endif %}
+                </p>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

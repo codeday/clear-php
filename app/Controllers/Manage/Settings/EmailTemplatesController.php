@@ -18,6 +18,7 @@ class EmailTemplatesController extends \Controller {
         $template->from = \Input::get('from');
         $template->subject = \Input::get('subject');
         $template->message = \Input::get('message');
+        $template->is_marketing = \Input::get('is_marketing');
         $template->save();
 
         \Session::flash('status_message', 'Template added');

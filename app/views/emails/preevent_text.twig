@@ -1,7 +1,7 @@
 {% autoescape false %}
 Is it really that time?
 
-Yes, yes it is. Dearest attendees, it is almost time for CodeDay! Grab your friends, grab your laptops, and grab a ride, because it all starts this Saturday at noon!
+Yes, yes it is. Dearest attendees, it is almost time for CodeDay. Grab your friends, grab your laptops, and grab a ride, because it all starts this Saturday at noon.
 
 This email will tell you everything you need to know about CodeDay. If you have any other questions, you can reply to this email.
 
@@ -14,26 +14,25 @@ You don't need much, but you do need these things:
 - The completed waiver: {{ registration.event.waiver_link }}
 {% endif %}
 - Laptop (or desktop with wifi card)
-- Any software you need! If you're a beginner using Windows, we recommend you download the free edition of Construct 2.
+- Any software you need. If you're a beginner using Windows, we recommend you download the free edition of Construct 2.
 - Sleeping bag if you plan on sleeping
-- Ideas (optional, but you should think about it anyway)
+- Ideas (optional, but strongly recommended)
 {% if registration.event.waiver_link %}
 
 
 **Waiver**
 
-This was in the last section, but it's worth mentioning again. You must bring a copy of the completed waiver! Please
+This was in the last section, but it's worth mentioning again. You must bring a copy of the completed waiver. Please
 print this out now: {{ registration.event.waiver_link }}
 {% endif %}
 
 
 **What to Use**
 
-- Beginner teams! We strongly recommend making a game in Construct 2. There are lots of beginner- friendly tutorials online. Plus, we'll be hosting workshops to help you get started.
-- Advanced teams! Use whatever you want! There aren't any limits on the technology or what you can build. Just remember, if you use something really odd, there's very little chance anyone on-hand will be able to help you.
+- Beginner teams: We strongly recommend making a game in Construct 2. There are lots of beginner- friendly tutorials online. Plus, we'll be hosting workshops to help you get started.
+- Advanced teams: Use whatever you want. There aren't any limits on the technology or what you can build. Just remember, if you use something really odd, there's very little chance anyone on-hand will be able to help you.
 
 
-{% if registration.event.venue %}
 **Where to Go**
 
 Hosted at {{ registration.event.venue.name }}
@@ -43,31 +42,30 @@ Hosted at {{ registration.event.venue.name }}
 {% endif %}
 {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
 
-You do not need a ticket, we will check you in at the door by name.
 
-
-{% endif %}
 **Check-in**
 
-Check-in starts at 11am. You do not need your tickets, we'll check you in by name.
-{% if registration.event.waiver_link %}
-
-Please make sure you bring a completed copy of the waiver: {{ registration.event.waiver_link }}
-{% endif %}
+Check-in starts at 11am. Please arrive before the start of the event at noon. You do not need your tickets, we'll check you in by name.
 
 If you gave your tickets to someone else, please reply to this email posthaste so we can get him or her a proper badge.
 
 
-**Opening Ceremony**
+**Conduct**
+CodeDay is a place to learn something new and build something fun. All participants are expected to follow these three principles:
 
-The opening ceremony starts at 12 noon on the dot. Be there, you seriously won't want to miss it!
+1. Act in a way that displays yourself as a positive role model.
+2. Be humble, even when you're successful.
+3. Be friendly and welcoming. Respect, encourage, and support other students.
 
-At the ceremony, everyone with an idea for a project will get a chance to go up to the front of the room and pitch it. Then you'll have some time to mingle, form a team around the ideas you like most, and then you can start coding!
-
-
-**Workshops**
-
-The final list of workshops is on the CodeDay website! Quite often, people skip the workshops entirely. This is a bad idea. The workshops are almost always extremely useful! Check them out if you see one that interests you.
+More specifically, you will be expected to:
+- Be welcoming to new people joining your team.
+- Help clean up after yourself and others.
+- Ensure the safety of yourself and other participants.
+- Not carry guns, knives, or other weapons.
+- Abstain from using or being under the influence of alcohol, marijuana, illicit substances, and recreational drugs.
+- Not insult or harass other students.
+- Abstain from using offensive language referring to people's gender, sexual orientation, religion, race, ethnicity, or age.
+- Abstain from using sexual language or imagery.
 {% if registration.event.preevent_additional %}
 
 
@@ -75,7 +73,7 @@ The final list of workshops is on the CodeDay website! Quite often, people skip 
 {% endif %}
 
 
-We're looking forward to seeing you all this weekend! Don't hesitate to email if you have any questions!
+We're looking forward to seeing you all this weekend. Don't hesitate to email if you have any questions.
 
 Cheers,
 The CodeDay Organizers

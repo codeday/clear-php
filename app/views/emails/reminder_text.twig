@@ -1,7 +1,7 @@
 {% autoescape false %}
 Hi {{ registration.first_name }},
 
-We just wanted to take a moment and remind you that you registered for a ticket for CodeDay {{ registration.event.name }}, this Saturday at noon.
+We wanted to remind you one last time that you registered for a ticket for CodeDay {{ registration.event.name }}, this Saturday at noon.
 {% if registration.event.venue %}
 
 This event is hosted at {{ registration.event.venue.name }}
@@ -13,7 +13,7 @@ This event is hosted at {{ registration.event.venue.name }}
 {% endif %}
 
 
-**Special thanks to our sponsors** 
+**Special Thanks to Our Sponsors**
 
 We also wanted to take a moment to thank our sponsors. You'll hear more about these awesome organizations this weekend, but we wanted to give a special shoutout to Splunk (http://splunk.com), Intellectual Ventures (http://intellectualventures.com), and LexisNexis Risk Solutions (http://lexisnexis.com) for sponsoring CodeDay nationally.
 

@@ -38,7 +38,8 @@
                     "to": "{{ email.to|escape('js') }}",
                     "from": "{{ email.from|escape('js') }}",
                     "subject": "{{ email.subject|escape('js') }}",
-                    "message": "{{ email.message|escape('js') }}"
+                    "message": "{{ email.message|escape('js') }}",
+                    "is_marketing": {% if email.is_marketing %}true{% else %}false{% endif %}
                 },
             {% endfor %}
         };
@@ -69,6 +70,7 @@
 
                 $('#subject').val(email.subject);
                 $('#message').val(email.message);
+                $('#is_marketing').prop('checked', email.is_marketing);
             });
         });
     </script>

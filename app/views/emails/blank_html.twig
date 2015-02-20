@@ -1,1 +1,10 @@
 {{ content_html|raw }}
+
+{% if is_marketing %}
+<div class="unsubscribe" style="text-align: center;font-size: 12px;font-family:helvetica, arial, sans-serif">
+    <p>You received this email because you registered for CodeDay. You can
+        <a href="https://clear.codeday.org/e/unsubscribe?e={{ to|url_encode }}">unsubscribe from emails like this.</a>
+    </p>
+    <p>Our mailing address is 505 Broadway E #141, Seattle, WA 98102</p>
+</div>
+{% endif %}
