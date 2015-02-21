@@ -1,0 +1,111 @@
+{% extends "template.twig" %}
+{% block title %}Shipments{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Shipments</h2>
+        <p>This tool allows you to easily generate supply shipment labels. <strong>You must have a DYMO LabelWriter 4XL
+           to use this page.</strong></p>
+    </header>
+
+    {% set ready = [] %}
+    {% set printed = [] %}
+    {% for event in managed_batch.events %}
+        {% if event.shipment_tracking %}
+            {% set printed = printed|merge([event]) %}
+        {% elseif event.ship_address_1 %}
+            {% set ready = ready|merge([event]) %}
+        {% endif %}
+    {% endfor %}
+    <form action="/tools/shipments/ship" method="post" class="details" id="print">
+        <div class="field">
+            <label for="event">Event</label>
+            <select name="event" id="event">
+                {% if ready|length > 0 %}
+                    <optgroup label="Ready">
+                        {% for event in ready %}
+                            <option value="{{ event.id }}" class="ready">{{ event.name }}</option>
+                        {% endfor %}
+                    </optgroup>
+                {% endif %}
+                {% if printed|length > 0 %}
+                    <optgroup label="Printed">
+                        {% for event in printed %}
+                            <option value="{{ event.id }}" class="printed">{{ event.name }}</option>
+                        {% endfor %}
+                    </optgroup>
+                {% endif %}
+            </select>
+        </div>
+        <div class="field">
+            <label for="l">Length</label>
+            <input type="text" name="l" id="l" />
+        </div>
+        <div class="field">
+            <label for="w">Width</label>
+            <input type="text" name="w" id="w" />
+        </div>
+        <div class="field">
+            <label for="h">Height</label>
+            <input type="text" name="h" id="h" />
+        </div>
+        <div class="field">
+            <label for="weight">Weight</label>
+            <input type="text" name="weight" id="weight" />
+        </div>
+        <input type="submit" value="Ship it!"/>
+    </form>
+
+    <p><a href="/tools/shipments/for">Set Ship For Amounts</a></p>
+
+    <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="application/javascript">
+        $(document).ready(function(){
+            var showHideFields = function()
+            {
+                var id = $('#event').val();
+                var elem = $('option[value="'+id+'"]');
+
+                $('#l, #w, #h, #weight').val('');
+
+                if (elem.hasClass('printed')) {
+                    $('#l, #w, #h, #weight').parent().css('display', 'none');
+                    $('#print').attr('action', '/tools/shipments/reprint');
+                    $('#print input[type="submit"]').val('Reprint');
+                } else {
+                    $('#l, #w, #h, #weight').parent().css('display', 'block');
+                    $('#print').attr('action', '/tools/shipments/ship');
+                    $('#print input[type="submit"]').val('Ship it!');
+                }
+            };
+            showHideFields();
+
+            $('#event').on('change', showHideFields);
+        });
+    </script>
+
+
+        <script type="application/javascript" src="/assets/js/dymo.js"></script>
+        <script type="application/javascript">
+            (function(){
+                var printers = dymo.label.framework.getPrinters();
+                if (printers.length === 0) {
+                    alert('You must have a DYMO LabelWriter 4XL connected to use this page.');
+                    return;
+                }
+
+                {% if to_print %}
+                    $.get("/assets/label/ups.label", function(labelXml)
+                    {
+                        var label = dymo.label.framework.openLabelXml(labelXml);
+
+                        $.get("/tools/shipments/label?event={{ to_print }}&base64=1", function(ups) {
+                            label.setObjectText('GRAPHIC', ups);
+                            label.print('DYMO LabelWriter 4XL');
+                        }, "text");
+                    }, "text");
+                })();
+                {% endif %}
+        </script>
+{% endblock %}

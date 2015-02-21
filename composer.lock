@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a38e0d97ca9118c8b548be45f792f7c5",
+    "hash": "4bb0f6c1fd6e70b7b2b81be48efca7da",
     "packages": [
         {
             "name": "bugsnag/bugsnag",
-            "version": "v2.5.1",
+            "version": "v2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-php.git",
-                "reference": "332a94be2212e6dcf5d2ba09d9eaf1ccb75eddf7"
+                "reference": "cd734eeda4738f62b439550e27dc4507be93227a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/332a94be2212e6dcf5d2ba09d9eaf1ccb75eddf7",
-                "reference": "332a94be2212e6dcf5d2ba09d9eaf1ccb75eddf7",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/cd734eeda4738f62b439550e27dc4507be93227a",
+                "reference": "cd734eeda4738f62b439550e27dc4507be93227a",
                 "shasum": ""
             },
             "require": {
@@ -52,20 +52,20 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2014-12-19 23:57:40"
+            "time": "2015-02-20 02:21:00"
         },
         {
             "name": "bugsnag/bugsnag-laravel",
-            "version": "v1.4.0",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-laravel.git",
-                "reference": "6bf261a0471f5848d6a79433fa0f8adb3410d45c"
+                "reference": "2f4bbc3868edbe54b9a2d53790e2c8035305b067"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/6bf261a0471f5848d6a79433fa0f8adb3410d45c",
-                "reference": "6bf261a0471f5848d6a79433fa0f8adb3410d45c",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/2f4bbc3868edbe54b9a2d53790e2c8035305b067",
+                "reference": "2f4bbc3868edbe54b9a2d53790e2c8035305b067",
                 "shasum": ""
             },
             "require": {
@@ -99,7 +99,7 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2015-02-07 01:21:48"
+            "time": "2015-02-20 02:13:17"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -1130,12 +1130,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "773d2d4ed711ab1b19fe2e4a83a8277393d8cc89"
+                "reference": "cf2c3a1c2e3540f42c9c8c33b08f142f7f2d5550"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/773d2d4ed711ab1b19fe2e4a83a8277393d8cc89",
-                "reference": "773d2d4ed711ab1b19fe2e4a83a8277393d8cc89",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/cf2c3a1c2e3540f42c9c8c33b08f142f7f2d5550",
+                "reference": "cf2c3a1c2e3540f42c9c8c33b08f142f7f2d5550",
                 "shasum": ""
             },
             "require": {
@@ -1177,7 +1177,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2015-02-16 20:36:17"
+            "time": "2015-02-20 22:14:04"
         },
         {
             "name": "studentrnd/s5api",
@@ -1218,6 +1218,66 @@
                 "studentrnd"
             ],
             "time": "2014-03-31 10:54:09"
+        },
+        {
+            "name": "studentrnd/ups-api",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StudentRND/php-ups-api.git",
+                "reference": "a00b6d9575be43ced67294323c26f40116efb660"
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ups\\": "src/Ups"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Ups\\Tests\\": [
+                        "tests/Ups/Tests",
+                        "tests/Ups/Tests/_includes"
+                    ]
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriel Bull",
+                    "email": "me@gabrielbull.com"
+                },
+                {
+                    "name": "Sebastien Vergnes",
+                    "email": "sebastien@vergnes.eu"
+                },
+                {
+                    "name": "Michael Williams",
+                    "email": "michael.williams@limelyte.com"
+                }
+            ],
+            "description": "UPS API PHP Wrapper",
+            "homepage": "https://github.com/studentrnd/php-ups-api",
+            "keywords": [
+                "api",
+                "quantum view",
+                "rate",
+                "rating",
+                "shipping",
+                "time in transit",
+                "tracking",
+                "ups",
+                "wrapper"
+            ],
+            "time": "2015-02-21 08:15:49"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2121,7 +2181,8 @@
     "stability-flags": {
         "rcrowe/twigbridge": 20,
         "studentrnd/s5api": 20,
-        "stripe/stripe-php": 20
+        "stripe/stripe-php": 20,
+        "studentrnd/ups-api": 20
     },
     "prefer-stable": false,
     "platform": {

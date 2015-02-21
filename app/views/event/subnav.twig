@@ -22,7 +22,9 @@
     <h3>Settings</h3>
     <ul>
         <li><a href="/event/{{ event.id }}/subusers">Subusers</a></li>
-        {% if not event.is_shipped %}
+        {% if event.shipment_tracking %}
+            <li><a href="http://wwwapps.ups.com/WebTracking/track?track=yes&trackNums={{ event.shipment_tracking|url_encode }}&loc=en_us" target="_blank">Shipping</a></li>
+        {% else %}
             <li><a href="/event/{{ event.id }}/shipping">Shipping</a></li>
         {% endif %}
         {% if not event.batch.preevent_email_sent_at %}

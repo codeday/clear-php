@@ -20,16 +20,12 @@
     </header>
     {% set ship_ready_exists = false %}
 
-    <form action="/tools/shipments/update" method="post">
+    <form method="post">
         <table class="ship-options">
             <thead>
                 <tr>
                     <th>Event</th>
                     <th>Ship For</th>
-                    <th>Length</th>
-                    <th>Width</th>
-                    <th>Height</th>
-                    <th>Weight</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,10 +41,6 @@
                         {% endif %}
                             <td>{{ event.name }}</td>
                             <td><input type="number" name="ship_fors[{{ event.id }}]" value="{{ event.ship_for }}" placeholder="{{ event.registrations.count }}(+{{ event.registrations_this_week|length }})/{{ event.registration_estimate }}"/></td>
-                            <td><input type="number" name="lengths[{{ event.id }}]" value="{{ event.ship_l }}"/></td>
-                            <td><input type="number" name="widths[{{ event.id }}]" value="{{ event.ship_w }}"/></td>
-                            <td><input type="number" name="heights[{{ event.id }}]" value="{{ event.ship_h }}"/></td>
-                            <td><input type="number" name="weights[{{ event.id }}]" value="{{ event.ship_weight }}"/></td>
                         </tr>
                     {% endif %}
                 {% endfor %}
@@ -56,28 +48,4 @@
         </table>
         <input type="submit" value="Save"/>
     </form>
-
-    {% if ship_ready_exists %}
-        <h3>New Shipment</h3>
-        <p>This will generate a shipment with the following cities:</p>
-        <ul>
-            {% for event in managed_batch.events %}
-                {% if event.ship_ready and event.shipment_number is null %}
-                    <li>{{ event.name }}</li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-        <form action="/tools/shipments/ship" method="post">
-            <input type="submit" value="Create Shipment"/>
-        </form>
-    {% endif %}
-
-    {% if managed_batch.shipments %}
-        <h3>Shipment CSVs</h3>
-        <ul>
-            {% for shipment_number in managed_batch.shipments %}
-                <li><a href="/tools/shipments/csv?number={{ shipment_number }}">{{ shipment_number }}</a></li>
-            {% endfor %}
-        </ul>
-    {% endif %}
 {% endblock %}
