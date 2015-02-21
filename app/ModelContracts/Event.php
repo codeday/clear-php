@@ -161,7 +161,7 @@ class Event extends ModelContract
                 'requires'      => ['internal'],
                 'rich'          => true,
                 'example'       => '* { display: none; }',
-                'value'         => function ($model) { return $model->cost; }
+                'value'         => function ($model) { return $model->custom_css; }
             ],
 
             'cost' => [
