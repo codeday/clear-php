@@ -12,7 +12,7 @@ class SubscriptionsController extends \Controller {
   public function postDelete()
   {
     $event = \Route::input('event');
-    $subscription = Models\Batch\Event\Notify::where('id', '=', \Input::get('id'))->firstOrFail();
+    $subscription = Models\Notify::where('id', '=', \Input::get('id'))->firstOrFail();
 
     if ($subscription->batches_event_id !== $event->id) {
         \App::abort(401);
