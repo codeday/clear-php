@@ -139,13 +139,14 @@ body > header {
   border: none;
   border-bottom: 1px solid #111;
   color: #111;
-  font-size: 1.2rem;
+  font-size: 1rem;
   padding: 0rem 0 0.2rem 0;
   outline: none;
   font-feature-settings: "tnum";
   -webkit-font-feature-settings: "tnum";
   font-family: monospace;
-  background-color: #f7efef; }
+  background-color: #f7efef;
+  line-height: 1.3; }
   .wrap input[type="text"]:focus,
   .wrap input[type="url"]:focus,
   .wrap input[type="number"]:focus,
@@ -158,7 +159,7 @@ body > header {
   .wrap .group:focus,
   .wrap select:focus {
     border-color: #FB481C;
-    color: #FB481C; }
+    color: #000; }
 .wrap textarea {
   border-right: 1px solid #111;
   height: 10rem; }
