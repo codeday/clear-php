@@ -13,13 +13,20 @@
     <tr>
       <th>ID</th>
       <th>Email</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     {% for sub in event.notify %}
     <tr>
       <td>{{ sub.id }}</td>
-      <td><a href="mailto:{{ sub.email }}">{{ sub.email }}
+      <td><a href="mailto:{{ sub.email }}">{{ sub.email }}</a></td>
+      <td>
+        <form method="post" class="small" action="/event/{{ event.id }}/subscriptions/delete">
+          <input type="hidden" name="id" value="{{ sub.id }}"/>
+          <input type="submit" value="Delete" />
+        </form>
+      </td>
     {% endfor %}
   </tbody>
 </table>

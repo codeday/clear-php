@@ -63,7 +63,7 @@
                                 {% if promotion.registrations.count == 0 %}
                                     <form method="post" class="small" action="/event/{{ event.id }}/promotions/delete">
                                         <input type="hidden" name="id" value="{{ promotion.id }}"/>
-                                        <input type="submit" value="X" />
+                                        <input type="submit" value="Delete" />
                                     </form>
                                 {% endif %}
                             </td>
