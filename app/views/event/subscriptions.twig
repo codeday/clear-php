@@ -5,7 +5,11 @@
 {% block content %}
 <header>
   <h2>Subscriptions</h2>
-  <p>See who's subscribed to the email list.</p>
+  <p>
+    View and manage who's subscribed to the pre-registration email list.<br>
+    There are currently {{ event.notify.count }} people subscribed
+    to the list.
+  </p>
 </header>
 
 <table class="directory">
@@ -27,6 +31,7 @@
           <input type="submit" value="Delete" />
         </form>
       </td>
+    </tr>
     {% endfor %}
   </tbody>
 </table>
