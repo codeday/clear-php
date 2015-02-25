@@ -9,6 +9,7 @@
     \Route::controller('/emails', 'EmailsController');
     \Route::controller('/subusers', 'SubusersController');
     \Route::controller('/preevent', 'PreeventController');
+    \Route::controller('/subscriptions', 'SubscriptionsController');
 
     \Route::get('/registrations/attendee/{registration}', 'RegistrationsController@getAttendee');
     \Route::post('/registrations/attendee/{registration}', 'RegistrationsController@postAttendee');

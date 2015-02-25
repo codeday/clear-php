@@ -1,0 +1,26 @@
+{% extends "template.twig" %}
+{% block title %}{{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+<header>
+  <h2>Subscriptions</h2>
+  <p>See who's subscribed to the email list.</p>
+</header>
+
+<table class="directory">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for sub in event.notify %}
+    <tr>
+      <td>{{ sub.id }}</td>
+      <td><a href="mailto:{{ sub.email }}">{{ sub.email }}
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
