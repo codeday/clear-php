@@ -12,6 +12,20 @@ class EmailsController extends \Controller {
         return \View::make('event/emails');
     }
 
+    public function postDelete()
+    {
+        if (Models\User::me()->is_admin) {
+          $event = \Route::input('event');
+          $event->emailsSent()->delete();
+
+          \Session::flash('status_message', 'Recent emails truncated');
+
+          return \Redirect::to('/event/'.$event->id.'/emails');
+        }else{
+          \App::abort(403);
+        }
+    }
+
     public function postPreview()
     {
         $event = \Route::input('event');

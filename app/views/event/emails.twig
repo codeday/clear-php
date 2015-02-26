@@ -20,6 +20,11 @@
         {{ composer.compose(event, _context) }}
     </form>
 
+    {% if me.is_admin %}
+    <form method="post" class="small" action="/event/{{ event.id }}/emails/delete">
+        <input type="submit" value="Truncate Recent Emails" />
+    </form>
+    {% endif %}
     <h3>Previously Sent Emails</h3>
     <ul class="sent-emails">
         {% for email in event.emails_sent|reverse %}
