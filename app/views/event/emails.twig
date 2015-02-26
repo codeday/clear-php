@@ -21,7 +21,7 @@
     </form>
 
     {% if me.is_admin %}
-    <form method="post" class="small" action="/event/{{ event.id }}/emails/delete">
+    <form method="post" class="small" action="/event/{{ event.id }}/emails/delete" class="dangerous">
         <input type="submit" value="Truncate Recent Emails" />
     </form>
     {% endif %}
