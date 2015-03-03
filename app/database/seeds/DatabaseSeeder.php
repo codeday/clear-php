@@ -42,12 +42,11 @@ class DatabaseSeeder extends Seeder {
                 $region->timezone = $timezone;
                 $region->lat = $lat;
                 $region->lng = $lng;
-
                 $region->save();
 
                 // Add an event in this region
                 $event = new Models\Batch\Event;
-                $event->region_id = $region->id;
+                $event->region_id = $webname;
                 $event->batch_id = $batch->id;
                 $event->manager_username = null;
                 $event->registration_estimate = 100;
