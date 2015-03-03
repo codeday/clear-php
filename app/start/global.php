@@ -36,7 +36,7 @@ foreach ($include_all_directories as $directory) {
 
 $builtin_commands = ['asset:publish', 'dump-autoload', 'changes', 'clear-compiled', 'command:make',
         'config:publish', 'down', 'key:generate', 'migrate:publish', 'optimize', 'routes', 'serve',
-        'tail', 'tinker', 'up', 'view:publish', 'migrate', 'migrate:make'];
+        'tail', 'tinker', 'up', 'view:publish', 'migrate', 'migrate:make', 'db:seed'];
 if (!\App::runningInConsole() ||
     !in_array((new \Symfony\Component\Console\Input\ArgvInput())->getFirstArgument(), $builtin_commands)) {
     require_once(__DIR__.DIRECTORY_SEPARATOR.'app.php');
