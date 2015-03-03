@@ -51,6 +51,7 @@ class DatabaseSeeder extends Seeder {
                 $event->batch_id = $batch->id;
                 $event->manager_username = null;
                 $event->registration_estimate = 100;
+                $event->save();
             }
         }
 
