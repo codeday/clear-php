@@ -3,6 +3,9 @@
 use \CodeDay\Clear\Models;
 use \CodeDay\Clear\Services;
 
+// Time tracking
+$time_tracking_start = microtime(true);
+
 // Set up Bugsnag
 if (\Config::get('app.debug')) {
     \Bugsnag::setReleaseStage('development');
@@ -27,6 +30,20 @@ include_once(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'Markdown', "markdo
 \View::share('all_regions', Models\Region::all());
 \View::share('all_applications', Models\Application::all());
 \View::share('managed_batch', Models\Batch::Managed());
+
+// Add version information to the view
+\View::share('git', [
+    'commit' => Services\GitRepository::getVersion(),
+    'commit_short' => Services\GitRepository::getVersionShort(),
+    'author' => Services\GitRepository::getAuthor(),
+    'authored_at' => Services\GitRepository::getAuthoredTime()
+]);
+
+// Add timing information to the view
+\View::share('script_millis', function() use($time_tracking_start)
+{
+    return round((microtime(true)-$time_tracking_start)*1000);
+});
 
 if (\Session::has('status_message')) {
     \View::share('status_message', \Session::get('status_message'));
