@@ -24,20 +24,22 @@
 $include_all_directories = ['events', 'filters'];
 foreach ($include_all_directories as $directory) {
     foreach (glob(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), $directory, "*.php"])) as $filename) {
-        include_once($filename);
+        include($filename); // We use include instead of include_once anywhere that doesn't define a class because if we
+                            // don't, Laravel breaks when we try to run tests.
     }
 }
 
 \Route::group(['namespace' => '\CodeDay\Clear\Controllers'], function() {
     foreach (glob(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'routes', "*.php"])) as $filename) {
-        include_once($filename);
+        include($filename);
     }
 });
 
 $builtin_commands = ['asset:publish', 'dump-autoload', 'changes', 'clear-compiled', 'command:make',
         'config:publish', 'down', 'key:generate', 'migrate:publish', 'optimize', 'routes', 'serve',
-        'tail', 'tinker', 'up', 'view:publish', 'migrate', 'migrate:make', 'db:seed'];
+        'tail', 'tinker', 'up', 'view:publish', 'migrate', 'migrate:make', 'migrate:rollback',
+        'migrate:refresh', 'migrate:reset', 'test', 'db:seed'];
 if (!\App::runningInConsole() ||
     !in_array((new \Symfony\Component\Console\Input\ArgvInput())->getFirstArgument(), $builtin_commands)) {
-    require_once(__DIR__.DIRECTORY_SEPARATOR.'app.php');
+    require(__DIR__.DIRECTORY_SEPARATOR.'app.php');
 }

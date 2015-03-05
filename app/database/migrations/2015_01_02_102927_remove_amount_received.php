@@ -30,7 +30,7 @@ class RemoveAmountReceived extends Migration {
             $table->decimal('amount_received', 5, 2);
         });
 
-        foreach (Models\Batch\Event\Registration::all() as $registration) {
+        foreach (\CodeDay\Clear\Models\Batch\Event\Registration::all() as $registration) {
             // Skip registrations for deleted events
             if ($registration->event === null) {
                 continue;

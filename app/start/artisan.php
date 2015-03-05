@@ -12,3 +12,4 @@
 */
 
 \Artisan::add(new \CodeDay\Clear\Commands\ClearBeanstalkdQueueCommand);
+\Artisan::add(new \CodeDay\Clear\Commands\TestCommand);

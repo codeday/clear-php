@@ -49,11 +49,13 @@ class Batch extends \Eloquent {
 
     public static function Managed()
     {
-        if (!\Session::get('managed_batch_id')) {
+        if (!\Session::get('managed_batch_id') ||
+            !self::where('id', '=', \Session::get('managed_batch_id'))->exists()) {
             \Session::set('managed_batch_id', self::Loaded()->id);
         }
 
         $batch = self::find(\Session::get('managed_batch_id'));
+
         if ((User::is_logged_in() && !User::me()->is_admin)
             && count(User::me()->getManagedEvents($batch)) == 0
             && count(User::me()->managed_batches) > 0) {
