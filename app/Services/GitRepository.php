@@ -7,22 +7,38 @@ class GitRepository {
 
     public static function getAuthoredTime()
     {
-        return Carbon::createFromTimestamp(static::getBlobMetadata(self::getVersion())->header['author']->time);
+        try {
+            return Carbon::createFromTimestamp(static::getBlobMetadata(self::getVersion())->header['author']->time);
+        } catch (\Exception $ex) {
+            return null;
+        }
     }
 
     public static function getAuthor()
     {
-        return static::getBlobMetadata(self::getVersion())->header['author']->name;
+        try {
+            return static::getBlobMetadata(self::getVersion())->header['author']->name;
+        } catch (\Exception $ex) {
+            return null;
+        }
     }
 
     public static function getVersion()
     {
-        return static::getGitCommit('HEAD');
+        try {
+            return static::getGitCommit('HEAD');
+        } catch (\Exception $ex) {
+            return null;
+        }
     }
 
     public static function getVersionShort()
     {
-        return substr(self::getVersion(), -10);
+        try {
+            return substr(self::getVersion(), -10);
+        } catch (\Exception $ex) {
+            return null;
+        }
     }
 
     public static function getBlobMetadata($commit)
