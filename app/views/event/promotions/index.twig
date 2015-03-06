@@ -63,12 +63,12 @@
                         <tr class="scholarship">
                             <td class="code"><input type="text" value="{{ promotion.code }}" readonly /></td>
                             <td colspan="4">({% if promotion.registrations.count == 0 %}Unu{% else %}U{% endif %}sed Scholarship)</td>
+                            <td></td>
                             <td>
                                 {% if promotion.created_by_user %}
                                     <a href="https://s5.studentrnd.org/user/{{ promotion.created_by_user }}">{{ promotion.created_by_user }}</a></td>
                                 {% endif %}
                             </td>
-                            <td></td>
                             <td>
                                 {% if promotion.registrations.count == 0 %}
                                     <form method="post" class="small" action="/event/{{ event.id }}/promotions/delete">
