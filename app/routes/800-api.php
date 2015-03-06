@@ -9,6 +9,10 @@
     \Route::controller('events', 'Events');
     \Route::get('event/{event}', 'Events@getEvent');
 
+    \Route::controller('registrations', 'Registrations');
+    \Route::get('registration/{registration}', 'Registrations@getRegistration');
+    \Route::get('registration/s5_invite/{invite_code}', 'Registrations@getRegistrationByS5InviteCode');
+
     \Route::get('/i/{class}/{id}_{imagesize}.jpg', 'ImageController@redirectPhoto');
     \Route::get('/i/{class}/{id}_{imagesize}/{timestamp}.jpg', 'ImageController@showPhoto');
 

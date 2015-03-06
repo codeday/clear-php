@@ -13,6 +13,7 @@ class Registration {
         $reg->first_name = $firstName;
         $reg->last_name = $lastName;
         $reg->email = $email;
+        $reg->s5_invite_code = substr(str_pad(base_convert(md5(mt_rand().microtime(true)), 16, 36), 25, '0'), 0, 8);
         $reg->save();
 
         \Event::fire('registration.register', [$reg]);
@@ -192,4 +193,4 @@ class Registration {
             ])
         );
     }
-} 
+}

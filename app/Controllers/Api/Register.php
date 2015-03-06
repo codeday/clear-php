@@ -14,7 +14,6 @@ class Register extends \Controller {
             ->where('batches_event_id', '=', $event->id)
             ->firstOrFail();
 
-
         $response = \Response::make();
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Access-Control-Allow-Methods', '*');
@@ -184,4 +183,4 @@ class Register extends \Controller {
             'status' => 200
         ];
     }
-} 
+}
