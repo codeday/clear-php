@@ -14,12 +14,6 @@
                 <label for="last_name">Last Name</label>
                 <input type="text" name="last_name" id="last_name" value="{{ registration.last_name }}" required />
             </div>
-            {% if registration.s5_invite_code %}
-                <div class="field">
-                    <label for="s5_invite_code">s5 Invite Code</label>
-                    <input type="text" disabled name="s5_invite_code" id="s5_invite_code" value="{{ registration.s5_invite_code }}" />
-                </div>
-            {% endif %}
             <div class="field">
                 <label for="email">Email</label>
                 <input type="text" name="email" id="email" value="{{ registration.email }}" required />
