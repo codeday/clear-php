@@ -11,15 +11,23 @@
 
 \Log::useFiles(storage_path().'/logs/laravel.log');
 
-\App::error(function(Exception $exception, $code)
-{
-	\Log::error($exception);
-});
-
 \App::down(function()
 {
 	return \Response::make("Be right back!", 503);
 });
+
+if(\Config::get('app.debug')){
+	\App::error(function(Exception $exception, $code)
+	{
+		\Log::error($exception);
+	});
+}else{
+	\App::error(function(Exception $exception, $code)
+	{
+		\Log::error($exception);
+		return Response::view('errors.'.$code, array(), $code);
+	});
+}
 
 $include_all_directories = ['events', 'filters'];
 foreach ($include_all_directories as $directory) {

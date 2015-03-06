@@ -12,6 +12,9 @@
     \Route::controller('registrations', 'Registrations');
     \Route::get('registration/{registration}', 'Registrations@getRegistration');
 
+    \Route::controller('promotions', 'Promotions');
+    \Route::post('promotions/new', 'PromotionsController@postNew');
+
     \Route::get('/i/{class}/{id}_{imagesize}.jpg', 'ImageController@redirectPhoto');
     \Route::get('/i/{class}/{id}_{imagesize}/{timestamp}.jpg', 'ImageController@showPhoto');
 
