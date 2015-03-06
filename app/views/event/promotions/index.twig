@@ -50,7 +50,7 @@
                                 {% if promotion.registrations.count == 0 %}
                                     <form method="post" class="small" action="/event/{{ event.id }}/promotions/delete">
                                         <input type="hidden" name="id" value="{{ promotion.id }}"/>
-                                        <input type="submit" value="X" />
+                                        <input type="submit" value="Delete" />
                                     </form>
                                 {% endif %}
                             </td>
@@ -64,6 +64,12 @@
                             <td class="code"><input type="text" value="{{ promotion.code }}" readonly /></td>
                             <td colspan="4">({% if promotion.registrations.count == 0 %}Unu{% else %}U{% endif %}sed Scholarship)</td>
                             <td>
+                                {% if promotion.created_by_user %}
+                                    <a href="https://s5.studentrnd.org/user/{{ promotion.created_by_user }}">{{ promotion.created_by_user }}</a></td>
+                                {% endif %}
+                            </td>
+                            <td></td>
+                            <td>
                                 {% if promotion.registrations.count == 0 %}
                                     <form method="post" class="small" action="/event/{{ event.id }}/promotions/delete">
                                         <input type="hidden" name="id" value="{{ promotion.id }}"/>
@@ -71,9 +77,6 @@
                                     </form>
                                 {% endif %}
                             </td>
-                            {% if promotion.created_by_user %}
-                              <td><a href="https://s5.studentrnd.org/user/{{ promotion.created_by_user }}">{{ promotion.created_by_user }}</a></td>
-                            {% endif %}
                         </tr>
                     {% endif %}
                 {% endfor %}
