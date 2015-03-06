@@ -18,6 +18,7 @@
                     <th>Discount</th>
                     <th>Uses</th>
                     <th>Expires</th>
+                    <th>Creator</th>
                     <th>Notes</th>
                     <th></th>
                 </tr>
@@ -38,6 +39,9 @@
                                 {% if promotion.expires_at %}
                                     {{ promotion.expires_at.timestamp|date('F j') }}
                                 {% endif %}
+                            </td>
+                            <td>
+                              <a href="https://s5.studentrnd.org/user/{{ promotion.created_by_user }}">{{ promotion.created_by_user }}</a>
                             </td>
                             <td class="notes">
                                 {{ promotion.notes }}
@@ -67,6 +71,9 @@
                                     </form>
                                 {% endif %}
                             </td>
+                            {% if promotion.created_by_user %}
+                              <td><a href="https://s5.studentrnd.org/user/{{ promotion.created_by_user }}">{{ promotion.created_by_user }}</a></td>
+                            {% endif %}
                         </tr>
                     {% endif %}
                 {% endfor %}

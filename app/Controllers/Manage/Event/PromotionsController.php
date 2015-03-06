@@ -44,6 +44,7 @@ class PromotionsController extends \Controller {
         $promotion->percent_discount = \Input::get('percent_discount');
         $promotion->expires_at = $expires_at;
         $promotion->allowed_uses = $allowed_uses;
+        $promotion->created_by_user = Models\User::me()->username;
         $promotion->save();
 
         \Session::flash('status_message', 'Promotion '.$code.' added');
@@ -69,4 +70,4 @@ class PromotionsController extends \Controller {
         $code->delete();
         return \Redirect::to('/event/'.$event->id.'/promotions');
     }
-} 
+}
