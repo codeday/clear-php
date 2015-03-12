@@ -1,0 +1,47 @@
+{% extends 'email-pages/template' %}
+{% block title %}Parent Info{% endblock %}
+{% block content %}
+  <h1>Parent Info for {{ registration.name }}</h1>
+  {% if success %}
+      <p class="success">Parent info updated.</p>
+  {% endif %}
+  <form method="post">
+      <div class="field">
+          <label for="parent_name">Parent Name:</label>
+          <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
+      </div>
+
+      <div class="field">
+          <label for="parent_email">Parent Email:</label>
+          <input type="email" name="parent_email" id="parent_email" value="{{ registration.parent_email }}" />
+      </div>
+
+      <div class="field">
+          <label for="parent_phone">Parent Primary Phone:</label>
+          <input type="phone" name="parent_phone" id="parent_phone" value="{{ registration.parent_phone }}" />
+      </div>
+
+      <div class="field">
+          <label for="parent_secondary_phone">Parent Secondary Phone:</label>
+          <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
+      </div>
+
+      <input type="submit" value="Save"/>
+  </form>
+{% endblock %}
+{% block scripts %}
+  <script type="application/javascript">
+      $(document).ready(function(){
+          var checkAll = function(){
+              var selected = $('input[type="radio"][name="type"]:checked').val();
+              if (selected == 'all') {
+                  $('.warning').show(500);
+              } else {
+                  $('.warning').hide(500);
+              }
+          };
+          $('input[type="radio"][name="type"]').on('change', checkAll);
+          checkAll();
+      });
+  </script>
+{% endblock %}

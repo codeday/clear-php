@@ -10,14 +10,37 @@
                 <label for="first_name">First Name</label>
                 <input type="text" name="first_name" id="first_name" value="{{ registration.first_name }}" required />
             </div>
+
             <div class="field">
                 <label for="last_name">Last Name</label>
                 <input type="text" name="last_name" id="last_name" value="{{ registration.last_name }}" required />
             </div>
+
             <div class="field">
                 <label for="email">Email</label>
                 <input type="text" name="email" id="email" value="{{ registration.email }}" required />
             </div>
+
+            <div class="field">
+                <label for="parent_name">Parent Name</label>
+                <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
+            </div>
+
+            <div class="field">
+                <label for="parent_email">Parent Email</label>
+                <input type="email" name="parent_email" id="parent_email" value="{{ registration.parent_email }}" />
+            </div>
+
+            <div class="field">
+                <label for="parent_phone">Parent Primary Phone</label>
+                <input type="phone" name="parent_phone" id="parent_phone" value="{{ registration.parent_phone }}" />
+            </div>
+
+            <div class="field">
+                <label for="parent_secondary_phone">Parent Secondary Phone</label>
+                <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
+            </div>
+
             <div class="field">
                 <label for="resend">Resend Email</label>
                 <input type="checkbox" name="resend" id="resend" value="1" />

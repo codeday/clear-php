@@ -83,6 +83,10 @@ class RegistrationsController extends \Controller {
 
         $registration->first_name = \Input::get('first_name');
         $registration->last_name = \Input::get('last_name');
+        $registration->parent_name = \Input::get('parent_name');
+        $registration->parent_email = \Input::get('parent_email');
+        $registration->parent_phone = \Input::get('parent_phone');
+        $registration->parent_secondary_phone = \Input::get('parent_secondary_phone');
         $registration->email = \Input::get('email');
         $registration->save();
 
@@ -194,4 +198,4 @@ class RegistrationsController extends \Controller {
             return \Redirect::to('/event/'.$toEvent->id.'/registrations/attendee/'.$registration->id);
         }
     }
-} 
+}

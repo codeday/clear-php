@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en_US">
+<head>
+    <title>{{ block('title') }} // CodeDay</title>
+    <style type="text/css">
+        .wrap {
+            width: 100%;
+            max-width: 500px;
+            margin: 1rem auto;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        .field {
+            margin-bottom: 1rem;
+        }
+
+        .field span {
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        p.success {
+            color: #5b5;
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            display: block;
+            text-align: center;
+            font-size: 1rem;
+
+            background: linear-gradient(#FFF, #EAEDEF) repeat scroll 0% 0% #FAFAFA;
+            border-left: 1px solid #E1E1E1;
+            border-right: 1px solid #E1E1E1;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #EDEDED #E1E1E1 #D4D4D4;
+            font-weight: bold;
+            padding: 7px 12px !important;
+            outline: 0;
+        }
+
+        input[type="submit"]:active {
+            background: linear-gradient(#E0E5E8, #FCFCFC) repeat scroll 0% 0% transparent !important;
+        }
+
+        input[type="submit"]:hover {
+            background: linear-gradient(#FCFCFC, #E0E5E8) repeat scroll 0% 0% transparent;
+        }
+
+        .warning {
+            margin: 1rem 0;
+            padding: 1rem;
+            border: 1px solid #f55;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        {{ block('content') }}
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    {{ block('scripts') }}
+</body>
+</html>

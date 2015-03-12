@@ -1,109 +1,51 @@
-<!doctype html>
-<html lang="en_US">
-<head>
-    <title>Unsubscribe from CodeDay Emails</title>
-    <style type="text/css">
-        .wrap {
-            width: 100%;
-            max-width: 500px;
-            margin: 1rem auto;
-            font-family: Helvetica, Arial, sans-serif;
-        }
+{% extends 'email-pages/template' %}
+{% block title %}Email Preferences{% endblock %}
+{% block content %}
+  <h1>CodeDay Email Preferences</h1>
+  {% if success %}
+      <p class="success">Your preferences were updated.</p>
+  {% endif %}
+  <form method="post">
+      <div class="field">
+          <input type="radio" name="type" id="type_none" value="none" {% if type == 'none' %}checked{% endif %} />
+          <label for="type_none"><span>All Emails:</span> I want to receive all emails.</label>
+      </div>
+      <div class="field">
+          <input type="radio" name="type" id="type_marketing" value="marketing" {% if type == 'marketing' %}checked{% endif %} />
+          <label for="type_marketing"><span>Important Emails:</span> I still want to receive my purchased tickets.</label>
+      </div>
+      <div class="field">
+          <input type="radio" name="type" id="type_all" value="all" {% if type == 'all' %}checked{% endif %} />
+          <label for="type_all"><span>No Emails At All:</span> I don't want to receive tickets and other important information.</label>
+      </div>
 
-        .field {
-            margin-bottom: 1rem;
-        }
+      <div class="warning" style="display: none;">
+          <p>You will not receive important emails like:</p>
+          <ul>
+              <li>Emails with purchased tickets</li>
+              <li>Emails if the event is cancelled or the location changes</li>
+              <li>Info on what to bring to the event</li>
+              <li>Any other urgent emails</li>
+          </ul>
+          <p>If you only want to receive important emails, select "No Marketing".</p>
+      </div>
 
-        .field span {
-            font-weight: bold;
-            font-style: italic;
-        }
-
-        p.success {
-            color: #5b5;
-            text-align: center;
-        }
-
-        input[type="submit"] {
-            display: block;
-            text-align: center;
-            font-size: 1rem;
-
-            background: linear-gradient(#FFF, #EAEDEF) repeat scroll 0% 0% #FAFAFA;
-            border-left: 1px solid #E1E1E1;
-            border-right: 1px solid #E1E1E1;
-            border-width: 1px;
-            border-style: solid;
-            border-color: #EDEDED #E1E1E1 #D4D4D4;
-            font-weight: bold;
-            padding: 7px 12px !important;
-            outline: 0;
-        }
-
-        input[type="submit"]:active {
-            background: linear-gradient(#E0E5E8, #FCFCFC) repeat scroll 0% 0% transparent !important;
-        }
-
-        input[type="submit"]:hover {
-            background: linear-gradient(#FCFCFC, #E0E5E8) repeat scroll 0% 0% transparent;
-        }
-
-        .warning {
-            margin: 1rem 0;
-            padding: 1rem;
-            border: 1px solid #f55;
-        }
-    </style>
-</head>
-<body>
-    <div class="wrap">
-        <h1>CodeDay Email Preferences</h1>
-        {% if success %}
-            <p class="success">Your preferences were updated.</p>
-        {% endif %}
-        <form method="post">
-            <div class="field">
-                <input type="radio" name="type" id="type_none" value="none" {% if type == 'none' %}checked{% endif %} />
-                <label for="type_none"><span>All Emails:</span> I want to receive all emails.</label>
-            </div>
-            <div class="field">
-                <input type="radio" name="type" id="type_marketing" value="marketing" {% if type == 'marketing' %}checked{% endif %} />
-                <label for="type_marketing"><span>Important Emails:</span> I still want to receive my purchased tickets.</label>
-            </div>
-            <div class="field">
-                <input type="radio" name="type" id="type_all" value="all" {% if type == 'all' %}checked{% endif %} />
-                <label for="type_all"><span>No Emails At All:</span> I don't want to receive tickets and other important information.</label>
-            </div>
-
-            <div class="warning" style="display: none;">
-                <p>You will not receive important emails like:</p>
-                <ul>
-                    <li>Emails with purchased tickets</li>
-                    <li>Emails if the event is cancelled or the location changes</li>
-                    <li>Info on what to bring to the event</li>
-                    <li>Any other urgent emails</li>
-                </ul>
-                <p>If you only want to receive important emails, select "No Marketing".</p>
-            </div>
-
-            <input type="submit" value="Save"/>
-        </form>
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script type="application/javascript">
-        $(document).ready(function(){
-            var checkAll = function(){
-                var selected = $('input[type="radio"][name="type"]:checked').val();
-                if (selected == 'all') {
-                    $('.warning').show(500);
-                } else {
-                    $('.warning').hide(500);
-                }
-            };
-            $('input[type="radio"][name="type"]').on('change', checkAll);
-            checkAll();
-        });
-    </script>
-</body>
-</html>
+      <input type="submit" value="Save"/>
+  </form>
+{% endblock %}
+{% block scripts %}
+  <script type="application/javascript">
+      $(document).ready(function(){
+          var checkAll = function(){
+              var selected = $('input[type="radio"][name="type"]:checked').val();
+              if (selected == 'all') {
+                  $('.warning').show(500);
+              } else {
+                  $('.warning').hide(500);
+              }
+          };
+          $('input[type="radio"][name="type"]').on('change', checkAll);
+          checkAll();
+      });
+  </script>
+{% endblock %}
