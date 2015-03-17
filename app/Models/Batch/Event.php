@@ -57,6 +57,17 @@ class Event extends \Eloquent {
         return $this->overflow_events()->first();
     }
 
+    public function prediction()
+    {
+        $events = $this->region->events;
+        $past_attendees = 0;
+        foreach($events as $event){
+            $past_attendees += $event->registrations->count();
+        }
+        $prediction = $past_attendees / $this->region->events()->count();
+        return $past_attendees;
+    }
+
     public function manager()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\User', 'manager_username', 'username');
