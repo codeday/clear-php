@@ -59,13 +59,26 @@ class Event extends \Eloquent {
 
     public function prediction()
     {
-        $events = $this->region->events;
-        $past_attendees = 0;
-        foreach($events as $event){
-            $past_attendees += $event->registrations->count();
+        // Tom's algorithm.
+        $national_events = $this->batch->events;
+        $national_attendance = 0;
+        foreach($national_events as $event){
+            if($event->allow_registrations){
+                $national_attendance += $event->registrations->count();
+            }
         }
-        $prediction = $past_attendees / $this->region->events()->count();
-        return $past_attendees;
+        $national_average = $national_attendance / $national_events->count();
+
+        $regional_events = $this->batch->events;
+        $regional_attendance = 0;
+        foreach($regional_events as $event){
+            if($event->allow_registrations && $event->region == $this->region){
+                $regional_attendance += $event->registrations->count();
+            }
+        }
+        $regional_average = $regional_attendance / $regional_events->count();
+
+        return round(($national_average + (2 * ($regional_attendance + (3 * $national_attendance))) / 6));
     }
 
     public function manager()
