@@ -14,6 +14,8 @@
 
     \Route::controller('promotions', 'Promotions');
     \Route::post('promotions/new', 'PromotionsController@postNew');
+    \Route::post('promotions/delete', 'PromotionsController@postDelete');
+    \Route::get('promotion/{promotion}', 'Promotions@getPromotion');
 
     \Route::get('/i/{class}/{id}_{imagesize}.jpg', 'ImageController@redirectPhoto');
     \Route::get('/i/{class}/{id}_{imagesize}/{timestamp}.jpg', 'ImageController@showPhoto');

@@ -8,15 +8,16 @@ class Promotions extends ApiController {
 
   public function getPromotion()
   {
-    return "";
     $application = Models\Application::where('public', '=', \Input::get('token'))->firstOrFail();
     if($application->private == \Input::get('secret') && $application->permission_admin){
-      $promotion = Models\Batch\Event\Promotion::where('id', '=', \Input::get('id'))->firstOrFail();
+      $promotion = Models\Batch\Event\Promotion::where('id', '=', \Route::input('promotion'))->firstOrFail();
 
       // TODO Create model contract for promotions.
       // This should work for now since we are assuming
       // that the app has admin permissions.
-      return json_encode($promotion);
+      $json = $promotion;
+      $json["uses"] = $promotion->registrations->count();
+      return json_encode($json);
     }else{
       \App::abort(401, "Bad secret or no admin permissions");
     }
@@ -24,7 +25,6 @@ class Promotions extends ApiController {
 
   public function postNew()
   {
-    return "";
     $application = Models\Application::where('public', '=', \Input::get('token'))->firstOrFail();
     if($application->private == \Input::get('secret') && $application->permission_admin){
       $promotion = new Models\Batch\Event\Promotion;
@@ -41,6 +41,18 @@ class Promotions extends ApiController {
       // This should work for now since we are assuming
       // that the app has admin permissions.
       return json_encode($promotion);
+    }else{
+      \App::abort(401, "Bad secret or no admin permissions");
+    }
+  }
+
+  public function postDelete()
+  {
+    $application = Models\Application::where('public', '=', \Input::get('token'))->firstOrFail();
+    if($application->private == \Input::get('secret') && $application->permission_admin){
+      $promotion = Models\Batch\Event\Promotion::where('id', '=', \Input::get('id'))->firstOrFail();
+      $promotion->delete();
+      return json_encode(["success" => true]);
     }else{
       \App::abort(401, "Bad secret or no admin permissions");
     }
