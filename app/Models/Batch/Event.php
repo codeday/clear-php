@@ -37,24 +37,40 @@ class Event extends \Eloquent {
         return $this->starts_at + (60 * 60 * 24);
     }
 
-    public function overflow_for()
+    public function overflowFor()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\Batch\Event', 'overflow_for_id', 'id');
     }
 
-    public function overflow_events()
+    public function overflowEvents()
     {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Event', 'overflow_for_id', 'id');
+    }
+
+    public function getRelatedEventsAttribute()
+    {
+        if ($this->overflow_for_id !== null) {
+            $parent_related = iterator_to_array($this->overflow_for->related_events);
+            $id = $this->id;
+            $parent_related = array_filter($parent_related, function($event) use ($id) {
+                return $id !== $event->id;
+            });
+
+            return array_merge([$this->overflow_for], $parent_related);
+        } else {
+            return $this->overflow_events;
+        }
     }
 
     /**
      * Gets the next available overflow event
      *
+     * @deprecated
      * @return Event
      */
     public function getOverflowEventAttribute()
     {
-        return $this->overflow_events()->first();
+        return $this->overflow_events->first();
     }
 
     public function prediction()

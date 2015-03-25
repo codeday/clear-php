@@ -199,10 +199,23 @@ class Event extends ModelContract
 
             'overflow_event' => [
                 'name'          => 'Overflow Event',
-                'description'   => 'The event to redirect to when this event is sold-out.',
+                'description'   => 'The event to redirect to when this event is sold-out. DEPRECATED in favor of'
+                                   . ' related_events.',
                 'type'          => 'Event',
                 'value'         => function($model, $permissions, $sparse) {
                     return new Event($model->overflow_event, $permissions, true);
+                }
+            ],
+
+            'related_events' => [
+                'name'          => 'Related Events',
+                'description'   => 'An array of events taking place in the same region.',
+                'type'          => 'Event',
+                'rich'          => true,
+                'value'         => function($model, $permissions, $sparse) {
+                    foreach ($model->related_events as $event) {
+                        yield new Event($event, $permissions, true);
+                    }
                 }
             ]
         ];

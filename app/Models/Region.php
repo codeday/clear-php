@@ -55,6 +55,7 @@ class Region extends \Eloquent {
         } else {
             return Batch\Event::where('region_id', '=', $this->id)
                 ->where('batch_id', '=', Batch::Loaded()->id)
+                ->whereNull('overflow_for_id')
                 ->first();
         }
     }

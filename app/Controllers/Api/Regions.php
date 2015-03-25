@@ -81,15 +81,16 @@ class Regions extends ApiController {
                 ::select('regions.*')
                 ->rightJoin('batches_events', 'batches_events.region_id', '=', 'regions.id')
                 ->whereRaw('batches_events.batch_id = "'.Models\Batch::Loaded()->id.'"')
+                ->whereNull('batches_events.overflow_for_id')
                 ->whereNotNull('regions.id')
                 ->whereNull('batches_events.deleted_at')
-                ->whereNull('batches_events.overflow_for_id')
                 ->whereRaw('UPPER(regions.name) LIKE ? OR UPPER(batches_events.name_override) LIKE ?', [
                     '%'.strtoupper($search_term).'%',
                     '%'.strtoupper($search_term).'%'
                 ]);
 
             $regions = iterator_to_array($regionsQuery->get());
+
             // Update any overridden properties on regions
             foreach ($regions as $region) {
                 if ($region->current_event->name_override) {
