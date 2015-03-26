@@ -31,8 +31,8 @@ class Registration {
         $forDescriptor = 'CodeDay '.$event->name. ' Registration:'.$forDescriptor;
 
         // Make the charge
-        \Stripe::setApiKey(\Config::get('stripe.secret'));
-        $charge = \Stripe_Charge::create([
+        \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
+        $charge = \Stripe\Charge::create([
             'currency' => 'usd',
             'statement_description' => 'CODEDAY',
 
@@ -61,8 +61,8 @@ class Registration {
                                               $andRefund = true, $cancelRelated = false)
     {
         if ($andRefund && $registration->stripe_id) {
-            \Stripe::setApiKey(\Config::get('stripe.secret'));
-            $charge = \Stripe_Charge::retrieve($registration->stripe_id);
+            \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
+            $charge = \Stripe\Charge::retrieve($registration->stripe_id);
 
             if ($cancelRelated || count($registration->all_in_order) == 1) {
                 $charge->refunds->create();
@@ -89,8 +89,8 @@ class Registration {
 
     public static function PartiallyRefundRegistration(Models\Batch\Event\Registration $registration, $refundAmount)
     {
-        \Stripe::setApiKey(\Config::get('stripe.secret'));
-        $charge = \Stripe_Charge::retrieve($registration->stripe_id);
+        \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
+        $charge = \Stripe\Charge::retrieve($registration->stripe_id);
 
         if ($registration->amount_paid == $refundAmount) {
             $charge->refunds->create();
