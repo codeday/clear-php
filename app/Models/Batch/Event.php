@@ -96,7 +96,7 @@ class Event extends \Eloquent {
 
         $final_prediction = round(($national_average + (2 * ($regional_attendance + (3 * $national_attendance))) / 6));
 
-        return $final_prediction >= $this->max_registrations ? $this->max_registrations : $final_prediction;
+        return $final_prediction >= $this->max_registrations ? $this->max_registrations . "+" : $final_prediction;
     }
 
     public function manager()
