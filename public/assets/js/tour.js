@@ -33,6 +33,21 @@
             );
 
             tour.addStep(
+              'event-predictions',
+              {
+                title: 'Predictions',
+                text: "With Clear, you can see how many registrations we predict for your event. "+
+                      "If the prediction is over your venue's limit, you'll see a \"+\" after it.",
+                attachTo: {
+                  element: $('.my-events li:first-child .predicted')[0],
+                  on: 'left'
+                },
+                scrollTo: false,
+                showCancelLink: true
+              }
+            );
+
+            tour.addStep(
                 'event-settings',
                 {
                     title: 'Your Event' + (eventsCount > 1 ? 's' : ''),

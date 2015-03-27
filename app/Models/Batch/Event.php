@@ -94,8 +94,11 @@ class Event extends \Eloquent {
         }
         $regional_average = $regional_attendance / $regional_events->count();
 
-        $final_prediction = round(($national_average + (2 * ($regional_attendance + (3 * $national_attendance))) / 6));
+        return round(($national_average + (2 * ($regional_attendance + (3 * $national_attendance))) / 6));
+    }
 
+    public function pretty_prediction(){
+        $final_prediction = $this->prediction();
         return $final_prediction >= $this->max_registrations ? $this->max_registrations . "+" : $final_prediction;
     }
 
