@@ -17,6 +17,7 @@
     \Route::controller('/applications', 'ApplicationsController');
 
     \Route::group(['before' => 's5_admin'], function(){
+        \Route::controller('giftcards', 'GiftCardsController');
         \Route::controller('status', 'StatusController');
         \Route::controller('promotions', 'PromotionsController');
         \Route::controller('emails', 'EmailsController');

@@ -12,19 +12,34 @@ class Register extends \Controller {
         $event = \Route::input('event');
         $promotion = Models\Batch\Event\Promotion::where('code', '=', strtoupper(\Input::get('code')))
             ->where('batches_event_id', '=', $event->id)
-            ->firstOrFail();
+            ->first();
+
+        $giftCard = Models\GiftCard::where('code', '=', strtoupper(\Input::get('code')))
+            ->first();
+
+        if ($promotion) {
+            $json = [
+                'discount' => floatval($promotion->percent_discount),
+                'cost' => $promotion->event->cost * (1 - ($promotion->percent_discount / 100.0)),
+                'remaining_uses' => $promotion->remaining_uses,
+                'expired' => $promotion->expires_at ? $promotion->expires_at->isPast() : false
+            ];
+        } elseif ($giftCard) {
+            $json = [
+                'discount' => 100,
+                'cost' => 0,
+                'remaining_uses' => $giftCard->is_used ? 0 : 1,
+                'expired' => false
+            ];
+        } else {
+            \App::abort(404);
+        }
 
         $response = \Response::make();
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Access-Control-Allow-Methods', '*');
         $response->headers->set('Content-type', 'text/javascript');
-        $response->setContent(json_encode([
-                'discount' => floatval($promotion->percent_discount),
-                'cost' => $promotion->event->cost * (1 - ($promotion->percent_discount / 100.0)),
-                'remaining_uses' => $promotion->remaining_uses,
-                'expired' => $promotion->expires_at ? $promotion->expires_at->isPast() : false
-            ]
-        ));
+        $response->setContent(json_encode($json));
         return $response;
     }
 
@@ -54,6 +69,8 @@ class Register extends \Controller {
         $promotion = Models\Batch\Event\Promotion::where('code', '=', strtoupper(\Input::get('code')))
             ->where('batches_event_id', '=', $event->id)
             ->first();
+        $giftCard = Models\GiftCard::where('code', '=', strtoupper(\Input::get('code')))
+            ->first();
 
         $quoted_price = floatval(\Input::get('quoted_price'));
 
@@ -74,6 +91,8 @@ class Register extends \Controller {
         $unit_cost = $event->cost;
         if ($promotion) {
             $unit_cost *= (1 - ($promotion->percent_discount / 100.0));
+        } elseif ($giftCard) {
+            $unit_cost = 0;
         }
 
         $total_cost = $unit_cost * count($registrants);
@@ -108,6 +127,20 @@ class Register extends \Controller {
                     'status' => 500,
                     'error' => 'promotion_overused',
                     'message' => 'You requested more tickets than that promotional code allows.'
+                ];
+            }
+        } elseif ($giftCard) {
+            if ($giftCard->is_used) {
+                return [
+                    'status' => 500,
+                    'error' => 'giftcard_used',
+                    'message' => 'That gift card has already been used.'
+                ];
+            } elseif (count($registrants) > 1) {
+                return [
+                    'status' => 500,
+                    'error' => 'giftcard_overused',
+                    'message' => 'That gift card can only be used for one ticket.'
                 ];
             }
         }
@@ -171,6 +204,9 @@ class Register extends \Controller {
                 if ($promotion) {
                     $registration->batches_events_promotion_id = $promotion->id;
                     $registration->save();
+                } elseif ($giftCard) {
+                    $giftCard->batches_events_registration_id = $registration->id;
+                    $giftCard->save();
                 }
             } catch (\Exception $ex) {}
             try {

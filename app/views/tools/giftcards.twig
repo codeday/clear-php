@@ -1,0 +1,19 @@
+{% extends "template.twig" %}
+{% block title %}Evangelist Assignments{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Giftcards</h2>
+        <p>This tool lets you issue new giftcards.</p>
+    </header>
+
+    <form method="post">
+        <div class="field">
+            <label for="codes">Codes</label>
+            <textarea name="codes" id="codes"></textarea>
+            <span class="help">List of codes to issue, one per line.</span>
+        </div>
+        <input type="submit" value="Issue" />
+    </form>
+{% endblock %}
