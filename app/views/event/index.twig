@@ -81,6 +81,14 @@
             <span class="help">(For your internal use.)</span>
         </div>
         <input type="submit" value="Save"/>
+
+        <h3>Public Notes</h3>
+        <div class="field">
+            <label for="public_notes">Public Notes</label>
+            <textarea name="public_notes">{{ event.public_notes }}</textarea>
+            <span class="help">(This field will be available to other RMs.)</span>
+        </div>
+        <input type="submit" value="Save"/>
     </form>
 {% endblock %}
 {% block scripts %}

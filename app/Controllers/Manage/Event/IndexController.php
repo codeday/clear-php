@@ -48,6 +48,7 @@ class IndexController extends \Controller {
         $event = \Route::input('event');
 
         $event->notes = \Input::get('notes');
+        $event->public_notes = \Input::get('public_notes');
         $event->save();
 
         return \Redirect::to('/event/'.$event->id);
@@ -77,4 +78,4 @@ class IndexController extends \Controller {
 
         return implode("\n", $data);
     }
-} 
+}
