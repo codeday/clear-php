@@ -40,21 +40,23 @@
                 width: 100%;
             }
         </style>
-        <table id="registrants">
+        <table id="registrants" class="checkin">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Ticket</th>
+                    <th>Type</th>
                     <th>Check In?</th>
                 </tr>
             </thead>
             <tbody>
                 {% for registration in event.registrations %}
-                    <tr {% if registration.checked_in_at %}class="checked-in"{% endif %}>
+                    <tr class="type-{{ registration.type }} {% if registration.checked_in_at %}checked-in{% endif %}">
                         <td class="name">{{ registration.name }}</td>
                         <td class="email">{{ registration.email }}</td>
                         <td class="id">{{ registration.id }}</td>
+                        <td class="type">{{ registration.type }}</td>
                         <td>
                             <form class="checkin" method="post">
                                 <input type="hidden" name="id" value="{{ registration.id }}" />
@@ -106,6 +108,12 @@
             var _this = $(this);
             var id = $(this).children('input[name="id"]').val();
             var action = $(this).children('input[name="action"]').val();
+
+            if (_this.parents('tr').hasClass('type-teacher') && action == 'in' && !confirm(
+                    "Please check that the teacher has a valid, school-issued photo ID."
+                )) {
+                return;
+            }
 
             $.ajax({
                 type: 'POST',

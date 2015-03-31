@@ -626,7 +626,17 @@ body.event .current.registrations ul {
     text-align: center; }
     body.event .current.registrations ul li img {
       width: 100%;
-      height: auto; }
+      height: auto;
+      border-bottom-width: 5px;
+      border-bottom-style: solid; }
+    body.event .current.registrations ul li.type-student img {
+      border-bottom-width: 0; }
+    body.event .current.registrations ul li.type-teacher img {
+      border-color: #0343FA; }
+    body.event .current.registrations ul li.type-volunteer img {
+      border-color: #15E014; }
+    body.event .current.registrations ul li.type-sponsor img {
+      border-color: #FB481C; }
     body.event .current.registrations ul li a {
       text-decoration: none;
       border: 0; }
@@ -637,6 +647,15 @@ body.event .current.registrations ul {
       overflow: hidden;
       text-overflow: ellipsis;
       font-size: 0.7rem; }
+body.event .registration.info .attendee {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top; }
+body.event .registration.info .parent {
+  width: 45%;
+  padding-left: 5%;
+  display: inline-block;
+  vertical-align: top; }
 body.event .sent-emails {
   padding: 0; }
   body.event .sent-emails li {
@@ -702,6 +721,15 @@ body.tools .tasks tr {
         background-color: #FB481C;
         width: 0.5rem;
         height: 0.5rem; }
+body.tools .checkin .type-teacher {
+  color: #0343FA;
+  font-weight: bold; }
+body.tools .checkin .type-volunteer {
+  color: #15E014;
+  font-weight: bold; }
+body.tools .checkin .type-sponsor {
+  color: #FB481C;
+  font-weight: bold; }
 body.tools .status {
   border-collapse: collapse; }
   body.tools .status thead th {

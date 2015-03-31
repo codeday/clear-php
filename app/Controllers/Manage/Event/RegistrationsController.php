@@ -52,6 +52,9 @@ class RegistrationsController extends \Controller {
             \Input::get('first_name'), \Input::get('last_name'),
             \Input::get('email'));
 
+        $registration->type = \Input::get('type');
+        $registration->save();
+
         if (\Input::get('send_welcome')) {
             Services\Registration::SendTicketEmail($registration);
             Services\Registration::EnqueueSurveyEmail($registration);
@@ -83,6 +86,7 @@ class RegistrationsController extends \Controller {
 
         $registration->first_name = \Input::get('first_name');
         $registration->last_name = \Input::get('last_name');
+        $registration->type = \Input::get('type');
         $registration->parent_name = \Input::get('parent_name');
         $registration->parent_email = \Input::get('parent_email');
         $registration->parent_phone = \Input::get('parent_phone');

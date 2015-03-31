@@ -18,6 +18,7 @@
                     <th>Discount</th>
                     <th>Uses</th>
                     <th>Expires</th>
+                    <th>Type</th>
                     <th>Creator</th>
                     <th>Notes</th>
                     <th></th>
@@ -40,6 +41,7 @@
                                     {{ promotion.expires_at.timestamp|date('F j') }}
                                 {% endif %}
                             </td>
+                            <td>{{ promotion.type }}</td>
                             <td>
                               <a href="https://s5.studentrnd.org/user/{{ promotion.created_by_user }}">{{ promotion.created_by_user }}</a>
                             </td>
@@ -83,13 +85,15 @@
     <h3>Create New Promotion</h3>
     <form method="post" action="/event/{{ event.id }}/promotions/new">
         <div class="field">
-            <label for="type">Type</label>
-            <select name="type" id="type">
+            <label for="purpose">Purpose</label>
+            <select name="purpose" id="purpose">
                 <option value="none" selected>Select One</option>
-                <option value="tracking">Tracking</option>
-                <option value="scholarship">Scholarship</option>
-                <option value="custom">Custom</option>
+                <option value="tracking">Tracking the source of registrations (20% off)</option>
+                <option value="scholarship">Providing a single scholarship to a student</option>
+                <option value="access">Giving access to a sponsor, volunteer, or teacher</option>
+                <option value="custom">Create your own</option>
             </select>
+            <span class="help">Select a template code, or create your own.</span>
         </div>
 
         <div class="field" style="display: none">
@@ -122,6 +126,17 @@
             <span class="help">The number of times this code is allowed to be used, if any limit is to be imposed.</span>
         </div>
 
+        <div class="field" style="display: none">
+            <label for="type">Ticket Type</label>
+            <select name="type" id="type" required>
+                <option value="student" selected>Student</option>
+                <option value="teacher">Teacher</option>
+                <option value="volunteer">Volunteer</option>
+                <option value="sponsor">Sponsor</option>
+            </select>
+            <span class="help">The type of ticket registrants will be given. For your reference only.</span>
+        </div>
+
         <input type="submit" value="Create" />
     </form>
 {% endblock %}
@@ -136,47 +151,72 @@
                 tracking: {
                     expires_at: null,
                     allowed_uses: null,
-                    percent_discount: 20
+                    percent_discount: 20,
+                    type: "student"
                 },
                 scholarship: {
                     code: null,
                     notes: "Ticket scholarship",
                     percent_discount: 100,
                     expires_at: null,
-                    allowed_uses: 1
+                    allowed_uses: 1,
+                    type: "student"
                 },
                 none: {
                     code: null,
                     notes: null,
                     percent_discount: null,
                     expires_at: null,
+                    allowed_uses: null,
+                    type: null
+                },
+                access: {
+                    notes: null,
+                    percent_discount: 100,
+                    expires_at: null,
                     allowed_uses: null
                 },
                 custom: {}
             };
-            var all_fields = ['code', 'notes', 'percent_discount', 'expires_at', 'allowed_uses'];
+            var all_fields = ['code', 'notes', 'percent_discount', 'expires_at', 'allowed_uses', 'type'];
 
-            $('#type').on('change', function(){
+            $('#purpose').on('change', function(){
                 var selected_type = $(this).val();
                 var options = types[selected_type];
-
-                console.log(selected_type);
-                console.log(options);
 
                 for (var i in all_fields) {
                     var key = all_fields[i];
                     var val = options[key];
-                    console.log(key, val);
                     var input = $('#'+key);
                     var field = input.parent();
 
-                    if (typeof(val) === 'undefined') {
-                        input.val('');
-                        field.css('display', 'block');
+                    if (input.attr('id') === 'type') {
+                        if (typeof(val) === 'undefined') {
+                            input.val('');
+                            field.css('display', 'block');
+                        } else {
+                            input.val(val);
+                            field.css('display', 'none');
+                        }
+
+                        if (typeof(val) === 'undefined' || val === null) {
+                            val = 'student';
+                        }
+
+                        $('#type option').prop('selected', false);
+                        $('#type option').filter(function(){
+                            return $(this).val() == val;
+                        }).prop('selected', true);
                     } else {
-                        input.val(val);
-                        field.css('display', 'none');
+                        if (typeof(val) === 'undefined') {
+                            input.val('');
+                            field.css('display', 'block');
+                        } else {
+                            input.val(val);
+                            field.css('display', 'none');
+                        }
                     }
+
                 }
             });
         });

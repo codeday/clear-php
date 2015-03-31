@@ -22,14 +22,16 @@ class Register extends \Controller {
                 'discount' => floatval($promotion->percent_discount),
                 'cost' => $promotion->event->cost * (1 - ($promotion->percent_discount / 100.0)),
                 'remaining_uses' => $promotion->remaining_uses,
-                'expired' => $promotion->expires_at ? $promotion->expires_at->isPast() : false
+                'expired' => $promotion->expires_at ? $promotion->expires_at->isPast() : false,
+                'type' => $promotion->type
             ];
         } elseif ($giftCard) {
             $json = [
                 'discount' => 100,
                 'cost' => 0,
                 'remaining_uses' => $giftCard->is_used ? 0 : 1,
-                'expired' => false
+                'expired' => false,
+                'type' => 'student'
             ];
         } else {
             \App::abort(404);
@@ -203,6 +205,7 @@ class Register extends \Controller {
             try {
                 if ($promotion) {
                     $registration->batches_events_promotion_id = $promotion->id;
+                    $registration->type = $promotion->type;
                     $registration->save();
                 } elseif ($giftCard) {
                     $giftCard->batches_events_registration_id = $registration->id;
