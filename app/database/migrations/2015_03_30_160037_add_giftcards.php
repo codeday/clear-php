@@ -29,7 +29,7 @@ class AddGiftcards extends Migration {
      */
     public function down()
     {
-        \Schema::drop('giftcards');
+        \Schema::dropColumn('giftcards');
     }
 
 }
