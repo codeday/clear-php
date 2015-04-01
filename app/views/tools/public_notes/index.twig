@@ -5,7 +5,8 @@
 {% block content %}
     <header>
         <h2>Public Notes</h2>
-        <p>See public notes other RMs/evangelists have written down for their events.</p>
+        <p>See public notes other RMs/evangelists have written down for their events.<br><br>
+        You are currently looking at the events for CodeDay {{ managed_batch.name }}. <a href="/change-batch">Change Batch?</a></p>
     </header>
 
     <table>
@@ -19,7 +20,7 @@
             {% for event in managed_batch.events %}
                 <tr>
                     <td>{% if event.public_notes %}&#10003;{% else %}&#10007;{% endif %}</td>
-                    <td><a href="/tools/public_notes/{{ event.id }}">{{ event.name }}</a></td>
+                    <td><a href="/tools/public-notes/{{ event.id }}">{{ event.name }}</a></td>
                 </tr>
             {% endfor %}
         </tbody>
