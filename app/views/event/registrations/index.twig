@@ -28,6 +28,15 @@
                 <input type="text" name="email" id="email" required />
             </div>
             <div class="field">
+                <label for="type">Type</label>
+                <select name="type" id="type" required>
+                    <option value="student" selected>Student</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="volunteer">Volunteer</option>
+                    <option value="sponsor">Sponsor</option>
+                </select>
+            </div>
+            <div class="field">
                 <label for="send_welcome">Send Welcome Email?</label>
                 <input type="checkbox" name="send_welcome" id="send_welcome" value="1" />
             </div>
@@ -40,7 +49,7 @@
             <h3>Current Attendees</h3>
             <ul>
                 {% for attendee in event.registrations %}
-                    <li>
+                    <li class="type-{{ attendee.type }}">
                         <a href="/event/{{ event.id }}/registrations/attendee/{{ attendee.id }}">
                             <img src="http://www.gravatar.com/avatar/{{ attendee.email_md5 }}?s=200&d=mm" alt="{{ attendee.name }}"/>
                             <span class="name">

@@ -27,7 +27,7 @@ class AddPublicNotesToEvents extends Migration {
 	{
 		\Schema::table('batches_events', function($table)
 		{
-			$table->text('public_notes');
+			$table->dropColumn('public_notes');
 		});
 	}
 

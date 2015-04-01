@@ -173,6 +173,20 @@ body.event
                 img
                     width: 100%
                     height: auto
+                    border-bottom-width: 5px
+                    border-bottom-style: solid
+
+                &.type-student img
+                    border-bottom-width: 0
+
+                &.type-teacher img
+                    border-color: $color-blue
+
+                &.type-volunteer img
+                    border-color: $color-green
+
+                &.type-sponsor img
+                    border-color: $color-red
 
                 a
                     text-decoration: none
@@ -185,6 +199,17 @@ body.event
                     overflow: hidden
                     text-overflow: ellipsis
                     font-size: 0.7rem
+
+    .registration.info
+        .attendee
+            width: 50%
+            display: inline-block
+            vertical-align: top
+        .parent
+            width: 45%
+            padding-left: 5%
+            display: inline-block
+            vertical-align: top
 
     .sent-emails
         padding: 0
