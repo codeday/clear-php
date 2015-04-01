@@ -8,8 +8,8 @@
     \Route::controller('/directory', 'DirectoryController');
     \Route::controller('/deck', 'DeckController');
 
-    \Route::get('/public-notes/{event}', 'PublicNotesController@getEvent');
-    \Route::controller('/public-notes', 'PublicNotesController');
+    \Route::get('/tidbits/{event}', 'TidbitsController@getEvent');
+    \Route::controller('/tidbits', 'TidbitsController');
 
     \Route::post('/applications/new', 'ApplicationsController@postNew');
     \Route::get('/applications/{application}', 'ApplicationsController@getEdit');

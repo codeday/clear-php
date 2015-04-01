@@ -1,11 +1,11 @@
 {% extends "template.twig" %}
-{% block title %}Public Notes{% endblock %}
+{% block title %}Tidbits{% endblock %}
 {% block section %}tools{% endblock %}
 {% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
 {% block content %}
     <header>
-        <h2>Public Notes</h2>
-        <p>See public notes other RMs/evangelists have written down for their events.<br><br>
+        <h2>Tidbits</h2>
+        <p>See tidbits of information for past events.<br><br>
         You are currently looking at the events for CodeDay {{ managed_batch.name }}. <a href="/change-batch">Change Batch?</a></p>
     </header>
 
@@ -20,7 +20,7 @@
             {% for event in managed_batch.events %}
                 <tr>
                     <td>{% if event.public_notes %}&#10003;{% else %}&#10007;{% endif %}</td>
-                    <td><a href="/tools/public-notes/{{ event.id }}">{{ event.name }}</a></td>
+                    <td><a href="/tools/tidbits/{{ event.id }}">{{ event.name }}</a></td>
                 </tr>
             {% endfor %}
         </tbody>
