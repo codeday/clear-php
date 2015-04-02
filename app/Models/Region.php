@@ -15,6 +15,16 @@ class Region extends \Eloquent {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Event', 'region_id', 'id');
     }
 
+    public function getAllEventsAttribute()
+    {
+        return Batch\Event
+            ::select('batches_events.*')
+            ->where('region_id', '=', $this->id)
+            ->leftJoin('batches', 'batches.id', '=', 'batches_events.batch_id')
+            ->orderBy('batches.starts_at', 'DESC')
+            ->get();
+    }
+
     public function getCoordinatesAttribute()
     {
         return (object)[

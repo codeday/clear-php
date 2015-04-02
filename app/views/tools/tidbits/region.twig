@@ -56,7 +56,7 @@
         <p>See tidbits of information for past events.</p>
     </header>
 
-    {% for event in region.events %}
+    {% for event in region.all_events %}
         <article class="event-tidbits">
             <header>
                 <h3>{{ event.name }} {{ event.batch.name }}</h3>

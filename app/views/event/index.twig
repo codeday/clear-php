@@ -86,7 +86,7 @@
         <div class="field">
             <label for="public_notes">Public Notes</label>
             <textarea name="public_notes" class="markdown">{{ event.public_notes }}</textarea>
-            <span class="help">(This field will be shared with future RMs in this region.)</span>
+            <span class="help">(This field will be <a href="/tools/tidbits/{{ event.region.id }}">shared with future RMs</a> in this region.)</span>
         </div>
         <input type="submit" value="Save"/>
     </form>
