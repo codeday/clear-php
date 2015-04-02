@@ -10,9 +10,9 @@ class TidbitsController extends \Controller {
         return \View::make('tools/tidbits/index');
     }
 
-    public function getEvent()
+    public function getRegion()
     {
-        return \View::make('tools/tidbits/event');
+        return \View::make('tools/tidbits/region', ['region' => \Route::input('region')]);
     }
 
 }

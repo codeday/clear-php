@@ -5,24 +5,14 @@
 {% block content %}
     <header>
         <h2>Tidbits</h2>
-        <p>See tidbits of information for past events.<br><br>
-        You are currently looking at the events for CodeDay {{ managed_batch.name }}. <a href="/change-batch">Change Batch?</a></p>
+        <p>See tidbits of information for past events.</p>
     </header>
 
-    <table>
-        <thead>
-            <tr>
-                <th>&nbsp;</th>
-                <th>Event</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for event in managed_batch.events %}
-                <tr>
-                    <td>{% if event.public_notes %}&#10003;{% else %}&#10007;{% endif %}</td>
-                    <td><a href="/tools/tidbits/{{ event.id }}">{{ event.name }}</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <ul>
+        {% for region in all_regions %}
+            {% if region.events|length > 0 %}
+                <li><a href="/tools/tidbits/{{ region.id }}">{{ region.name }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
 {% endblock %}

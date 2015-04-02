@@ -163,6 +163,11 @@ body > header {
 .wrap textarea {
   border-right: 1px solid #111;
   height: 10rem; }
+  .wrap textarea.markdown {
+    position: relative;
+    background-image: url(/assets/img/markdown.png);
+    background-repeat: no-repeat;
+    background-position: 100% 100%; }
 .wrap select {
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
@@ -730,6 +735,50 @@ body.tools .checkin .type-volunteer {
 body.tools .checkin .type-sponsor {
   color: #FB481C;
   font-weight: bold; }
+body.tools .event-tidbits {
+  display: block;
+  padding: 1rem;
+  border: 1px solid #ddbcbc;
+  text-decoration: none;
+  border-radius: 4px;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1rem; }
+  body.tools .event-tidbits header {
+    display: block;
+    margin-bottom: 1rem; }
+    body.tools .event-tidbits header h3 {
+      font-size: 2rem;
+      margin: 0; }
+    body.tools .event-tidbits header p {
+      font-size: 0.8rem;
+      color: #ddbcbc; }
+  body.tools .event-tidbits h3 {
+    text-transform: uppercase;
+    color: #ddbcbc;
+    margin-top: 0 !important;
+    font-size: 1rem; }
+  body.tools .event-tidbits .venue .map {
+    display: inline-block;
+    width: 60%;
+    height: 300px; }
+  body.tools .event-tidbits .venue .info {
+    display: inline-block;
+    width: 39%;
+    vertical-align: top;
+    text-align: center; }
+    body.tools .event-tidbits .venue .info div.contact {
+      margin-top: 1rem; }
+    body.tools .event-tidbits .venue .info span {
+      display: block; }
+  body.tools .event-tidbits .sponsors p {
+    font-size: 0.8rem;
+    color: #ddbcbc; }
+  body.tools .event-tidbits > section {
+    clear: both;
+    padding: 1rem 0;
+    border-top: 1px solid #efdede; }
+    body.tools .event-tidbits > section.blurb {
+      font-size: 1.7rem; }
 body.tools .status {
   border-collapse: collapse; }
   body.tools .status thead th {

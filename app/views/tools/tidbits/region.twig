@@ -1,0 +1,160 @@
+{% extends "template.twig" %}
+{% block title %}Tidbits{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <script type="text/javascript">
+        var tidbitMapStyle = [
+            {
+                "featureType": "landscape",
+                "stylers": [
+                    { "visibility": "off" }
+                ]
+            },{
+                "featureType": "transit",
+                "stylers": [
+                    { "visibility": "off" }
+                ]
+            },{
+                "featureType": "poi",
+                "stylers": [
+                    { "visibility": "off" }
+                ]
+            },{
+                "featureType": "road",
+                "stylers": [
+                    { "saturation": -100 },
+                    { "visibility": "on" }
+                ]
+            },{
+                "featureType": "landscape",
+                "elementType": "geometry",
+                "stylers": [
+                    { "saturation": -100 },
+                    { "lightness": 100 },
+                    { "visibility": "on" }
+                ]
+            },{
+                "featureType": "water",
+                "stylers": [
+                    { "saturation": -100 },
+                    { "lightness": 27 }
+                ]
+            }
+        ];
+        window.tidbitMapOptions = {
+            center: new google.maps.LatLng(38.216194740798436, -95.59806542968748),
+            zoom: 4,
+            disableDefaultUI: true,
+            styles: tidbitMapStyle,
+            scrollwheel: false,
+            draggable: false
+        }
+    </script>
+    <header>
+        <h2>Tidbits</h2>
+        <p>See tidbits of information for past events.</p>
+    </header>
+
+    {% for event in region.events %}
+        <article class="event-tidbits">
+            <header>
+                <h3>{{ event.name }} {{ event.batch.name }}</h3>
+                <p>An event hosted {{ event.starts_at.timestamp|date('F j, Y') }} with {{ event.registrations|length }}
+                   registrants, {{ event.attendees_here|length }} of which attended.</p>
+            </header>
+            <section class="directory">
+                <h3>Directory Listing</h3>
+                <table class="directory">
+                    {% if event.manager %}
+                        <tr class="event">
+                            <td>{{ event.manager.name }}</td>
+                            <td>Event Manager</td>
+                            <td><a href="mailto:{{ event.manager.email }}">{{ event.manager.email }}</a></td>
+                            <td><a href="tel:{{ event.manager.phone }}">{{ event.manager.phone }}</a></td>
+                        </tr>
+                        {% if event.evangelist %}
+                            <tr>
+                                <td>{{ event.evangelist.name }}</td>
+                                <td>Lead Evangelist</td>
+                                <td><a href="mailto:{{ event.evangelist.email }}">{{ event.evangelist.email }}</a></td>
+                                <td><a href="tel:{{ event.evangelist.phone }}">{{ event.evangelist.phone }}</a></td>
+                            </tr>
+                        {% endif %}
+                        {% for grant in event.grants %}
+                            <tr>
+                                <td>{{ grant.user.name }}</td>
+                                <td>Volunteer</td>
+                                <td><a href="mailto:{{ grant.user.email }}">{{ grant.user.email }}</a></td>
+                                <td><a href="tel:{{ grant.user.phone }}">{{ grant.user.phone }}</a></td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+            </section>
+
+            {% if event.venue %}
+                <section class="venue">
+                    <h3>Venue Info</h3>
+                    <div class="map" id="{{ event.id }}-map"></div>
+                    <script type="text/javascript">
+
+                        geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({
+                            'address': '{{ event.venue.full_address|escape('js') }}'
+                        }, function(results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                                var mapElem = $('div#{{ event.id }}-map')[0];
+                                var map = new google.maps.Map(mapElem, tidbitMapOptions);
+                                map.setZoom(13);
+                                map.setCenter(results[0].geometry.location);
+
+                                new google.maps.Marker({
+                                    map: map,
+                                    position: results[0].geometry.location
+                                });
+                            }
+                        });
+                    </script>
+                    <div class="info">
+                        <div class="address">
+                            <span class="name">{{ event.venue.name }}</span>
+                            <span class="address_1">{{ event.venue.address_1 }}</span>
+                            {% if event.venue.address_2 %}<span class="address_1">{{ event.venue.address_2 }}</span>{% endif %}
+                            <span class="region">{{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.postal }}</span>
+                        </div>
+                        <div class="contact">
+                            <span class="name">{{ event.venue_contact_first_name }} {{ event.venue_contact_last_name }}</span>
+                            <span class="email"><a href="mailto:{{ event.venue_contact_email }}">{{ event.venue_contact_email }}</a></span>
+                            <span class="phone"><a href="tel:{{ event.venue_contact_phone }}">{{ event.venue_contact_phone }}</a></span>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if event.sponsors|length > 0 %}
+                <section class="sponsors">
+                    <h3>Sponsors</h3>
+                    <table>
+                        {% for sponsor in event.sponsors %}
+                            <tr>
+                                <td><a href="{{ sponsor.url }}">{{ sponsor.name }}</a></td>
+                                <td>{{ sponsor.blurb }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <p>Ask the event manager for intros to sponsors.</p>
+                </section>
+            {% endif %}
+
+            {% if event.public_notes %}
+                <section class="notes">
+                    <h3>Public Notes</h3>
+                        <code>
+                            {{ event.public_notes|markdown|raw }}
+                        </code>
+                </section>
+            {% endif %}
+        </article>
+    {% endfor %}
+{% endblock %}

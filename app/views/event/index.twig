@@ -85,8 +85,8 @@
         <h3>Public Notes</h3>
         <div class="field">
             <label for="public_notes">Public Notes</label>
-            <textarea name="public_notes">{{ event.public_notes }}</textarea>
-            <span class="help">(This field will be available to other RMs. You can use Markdown here.)</span>
+            <textarea name="public_notes" class="markdown">{{ event.public_notes }}</textarea>
+            <span class="help">(This field will be shared with future RMs in this region.)</span>
         </div>
         <input type="submit" value="Save"/>
     </form>

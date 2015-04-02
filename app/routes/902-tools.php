@@ -8,7 +8,7 @@
     \Route::controller('/directory', 'DirectoryController');
     \Route::controller('/deck', 'DeckController');
 
-    \Route::get('/tidbits/{event}', 'TidbitsController@getEvent');
+    \Route::get('/tidbits/{region}', 'TidbitsController@getRegion');
     \Route::controller('/tidbits', 'TidbitsController');
 
     \Route::post('/applications/new', 'ApplicationsController@postNew');
