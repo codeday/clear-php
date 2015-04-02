@@ -60,7 +60,7 @@
         <article class="event-tidbits">
             <header>
                 <h3>{{ event.name }} {{ event.batch.name }}</h3>
-                <p>An event hosted {{ event.starts_at.timestamp|date('F j, Y') }} with {{ event.registrations|length }}
+                <p>An event hosted {{ event.starts_at|date('F j, Y') }} with {{ event.registrations|length }}
                    registrants, {{ event.attendees_here|length }} of which attended.</p>
             </header>
             <section class="directory">

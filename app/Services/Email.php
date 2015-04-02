@@ -279,7 +279,9 @@ class Email {
     private static function renderTwigString($templateString, $context = [])
     {
         $loader = new \Twig_Loader_String();
-        $twig = new \Twig_Environment($loader);
+        $twig = new \Twig_Environment($loader,
+            ['cache' => storage_path().DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'twig']); // Needed because of
+                                                                                                 // hhvm eval() bug.
         return $twig->render($templateString, $context);
     }
 } 
