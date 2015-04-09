@@ -8,13 +8,17 @@ class BanlistController extends \Controller {
 
     public function getIndex()
     {
+        $banlist = Models\Ban
+            ::selectRaw('*, expires_at IS NOT NULL as does_expire')
+            ->orderBy('does_expire')->orderBy('expires_at', 'DESC');
+        if (!Models\User::me()->is_admin) {
+            $banlist->where('created_by_username', '=', Models\User::me()->username);
+        }
+        $banlist = $banlist->get();
+
         return \View::make('tools/banlist',
             [
-                'banlist' =>
-                    Models\Ban
-                        ::selectRaw('*, expires_at IS NOT NULL as does_expire')
-                        ->orderBy('does_expire')->orderBy('expires_at', 'DESC')
-                        ->get(),
+                'banlist' => $banlist,
                 'first_name' => \Input::get('first_name'),
                 'last_name' => \Input::get('last_name'),
                 'email' => \Input::get('email')
@@ -63,6 +67,10 @@ class BanlistController extends \Controller {
     public function postPeriod()
     {
         $ban = Models\Ban::where('id', '=', \Input::get('id'))->firstOrFail();
+
+        if (!Models\User::me()->is_admin && $ban->created_by_username != Models\User::me()->username) {
+            \App::abort(401);
+        }
 
         switch (\Input::get('period')) {
             case "void":

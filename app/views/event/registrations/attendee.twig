@@ -84,17 +84,14 @@
         </section>
     {% endif %}
 
-    {% set activitiesCount = 2 %}
+    {% set activitiesCount = 3 %}
     {% if registration.amount_paid > 0 %}
-        {% set activitiesCount = activitiesCount + 1 %}
-    {% endif %}
-    {% if me.is_admin %}
         {% set activitiesCount = activitiesCount + 1 %}
     {% endif %}
     <section class="registration activities activities-{{ activitiesCount }}">
         <h3>Actions</h3>
 
-        
+
         <section class="transfer">
             <h4>Transfer</h4>
             <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/transfer" method="post" class="dangerous">
@@ -158,16 +155,14 @@
             </form>
         </section>
 
-        {% if me.is_admin %}
-            <section class="ban">
-                <h4>Ban</h4>
-                <form action="/tools/banlist" method="get">
-                    <input type="hidden" name="first_name" value="{{ registration.first_name }}"/>
-                    <input type="hidden" name="last_name" value="{{ registration.last_name }}"/>
-                    <input type="hidden" name="email" value="{{ registration.email }}"/>
-                    <input type="submit" value="Next Step" />
-                </form>
-            </section>
-        {% endif %}
+        <section class="ban">
+            <h4>Ban</h4>
+            <form action="/tools/banlist" method="get">
+                <input type="hidden" name="first_name" value="{{ registration.first_name }}"/>
+                <input type="hidden" name="last_name" value="{{ registration.last_name }}"/>
+                <input type="hidden" name="email" value="{{ registration.email }}"/>
+                <input type="submit" value="Next Step" />
+            </form>
+        </section>
     </section>
 {% endblock %}
