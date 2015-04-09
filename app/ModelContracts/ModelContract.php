@@ -8,7 +8,7 @@ abstract class ModelContract implements \Serializable, \IteratorAggregate, \Json
 
     static function getFields() {}
 
-    public function __construct(\Eloquent $model = null, $permissions = [], $sparse = false)
+    public function __construct($model = null, $permissions = [], $sparse = false)
     {
         $this->buildDocumentation($permissions);
 
@@ -17,7 +17,7 @@ abstract class ModelContract implements \Serializable, \IteratorAggregate, \Json
         }
     }
 
-    public static function Model(\Eloquent $model, $permissions = [], $sparse = false)
+    public static function Model($model, $permissions = [], $sparse = false)
     {
         return new static($model, $permissions, $sparse);
     }
