@@ -131,3 +131,27 @@ body.tools
                             background-color: $color-red
                             width: 0.5rem
                             height: 0.5rem
+
+    .banlist
+        width: 100%
+        tr
+            &.expired
+                color: $foreground-color-light
+            &.info
+                &:not(:first-child)
+                    td, th
+                        padding-top: 2rem
+                        border-top: 1px solid $foreground-color-light
+                td, th
+                    padding-bottom: 1rem
+                    text-align: left
+                    &.enforcement
+                        width: 100%
+                    &.actions
+                        width: 10%
+                    .name, .email
+                        display: block
+                        margin-right: 1rem
+            &.details
+                td
+                    padding-bottom: 2rem

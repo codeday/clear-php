@@ -162,6 +162,23 @@ class Register extends \Controller {
             ];
         }
 
+        // Check if any of the registrants are banned
+        foreach ($registrants as $registrant) {
+            $ban = Models\Ban::GetBannedReasonOrNull($registrant->email);
+            if ($ban) {
+                return [
+                    'status' => 500,
+                    'error' => 'banned',
+                    'message' => $ban->reason_text
+                        . ($ban->expires_at ? '<br /><br />You will be able to register again after '
+                            .date('F j, Y', $ban->expires_at->timestamp).'.' : '')
+                        . '<br /><br />You must <a href="mailto:contact@studentrnd.org">contact us</a> if believe this'
+                        . ' is incorrect; if you register under a different name or email you will be turned away at'
+                        . ' the door without a refund.'
+                ];
+            }
+        }
+
         \DB::beginTransaction(); // In case something goes wrong, we'll want to roll-back the insert.
 
         // Create the registrations in the database

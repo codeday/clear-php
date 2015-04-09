@@ -1,0 +1,119 @@
+{% extends "template.twig" %}
+{% block title %}Banlist{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Banlist</h2>
+        <p>This page lists individuals banned from registering from CodeDay, as well as reasons and expire time.</p>
+    </header>
+
+    <section class="new">
+        <h3>New Ban</h3>
+        <form method="post">
+            <div class="field">
+                <label for="first_name">Name</label>
+                <div class="group">
+                    <input name="first_name" id="first_name" type="text" placeholder="First" required />
+                    <input name="last_name" id="last_name" type="text" placeholder="Last" required />
+                </div>
+            <span class="help">The name of the person to ban. Not consulted for banlist checks; for future reference
+                only.</span>
+            </div>
+            <div class="field">
+                <label for="email">Email</label>
+                <input name="email" id="email" type="text" required />
+                <span class="help">Email to ban.</span>
+            </div>
+            <div class="field">
+                <label for="duration">Duration</label>
+                <select name="duration" id="duration" required>
+                    <option value="current-season">This season</option>
+                    <option value="next-season" selected>This season and next season</option>
+                    <option value="year">This year</option>
+                    <option value="2year">Two years</option>
+                    <option value="forever">Forever</option>
+                </select>
+                <span class="help">How long the person will be banned from registering. Prefer two years over forever
+                    except for very serious violations.</span>
+            </div>
+            <div class="field">
+                <label for="reason">Reason</label>
+                <select name="reason" id="reason">
+                    <optgroup label="Code of Conduct">
+                        <option value="harassment">Harassment</option>
+                        <option value="drugs">Drugs and Alcohol</option>
+                        <option value="weapons">Weapons</option>
+                        <option value="codeofconduct" selected>Other Code of Conduct</option>
+                    </optgroup>
+                    <optgroup label="General">
+                        <option value="chargeback">Chargeback</option>
+                        <option value="noshow">Repeat Noshow</option>
+                        <option value="young">Too Young</option>
+                        <option value="old">Too Old</option>
+                        <option value="recruiter">Recruiter</option>
+                        <option value="other">Other</option>
+                    </optgroup>
+                </select>
+            <span class="help">The reason the person is banned from registering. Returned when a ban action is applied;
+                may be displayed.</span>
+            </div>
+            <div class="field">
+                <label for="details">Details</label>
+                <textarea name="details" id="details" class="markdown" required></textarea>
+                <span class="help">Provide all details supporting the ban. Only for internal use; never public.</span>
+            </div>
+            <input type="submit" value="Ban" />
+        </form>
+    </section>
+
+    {% if banlist|length > 0 %}
+        <h3>Existing Bans</h3>
+        <table class="banlist">
+            <tbody>
+                {% for ban in banlist %}
+                    <tr class="info {% if not ban.is_enforced %}expired{% endif %}"
+                        title="Created {{ ban.created_at.timestamp|date('F j, Y') }}">
+                        <th>
+                            <span class="name">{{ ban.name }}</span>
+                            <span class="email">{{ ban.email }}</span>
+                        </th>
+                        <td class="enforcement">
+                            {% if ban.is_enforced %}
+                            Banned
+                            {% else %}
+                                Was banned
+                            {% endif %}
+                            {% if ban.expires_at %}
+                                until {{ ban.expires_at.timestamp|date('F j, Y') }}
+                            {% else %}
+                                <em>forever</em>
+                            {% endif %}
+                            by {{ ban.created_by.name }}
+                        </td>
+                        <td rowspan="2" class="actions">
+                            <form action="/tools/banlist/period" method="post">
+                                <input type="hidden" name="id" value="{{ ban.id }}" />
+                                <button type="submit" name="period" value="void">Void</button>
+                                {% if ban.is_enforced %}
+                                    <button type="submit" name="period" value="now">End Now</button>
+                                {% endif %}
+                                {% if ban.expires_at %}
+                                    <button type="submit" name="period" value="extend">Extend 1 Year</button>
+                                    <button type="submit" name="period" value="forever">Make Permanent</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    <tr class="details {% if not ban.is_enforced %}expired{% endif %}">
+                        <td>&nbsp;</td>
+                        <td>
+                            <strong>{{ ban.reason_name }} Violation</strong>
+                            {{ ban.details|markdown|raw }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
