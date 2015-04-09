@@ -84,75 +84,90 @@
         </section>
     {% endif %}
 
-    <section class="cancel">
-        <h3>Cancel and Delete</h3>
-        <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/cancel" method="post" class="dangerous">
-            <div class="field">
-                <label for="email">Send Email?</label>
-                <input type="checkbox" name="email" id="email" value="1" checked />
-                <span class="help">If checked, sends an email to the attendee informing them of the cancellation.</span>
-            </div>
-            {% if registration.stripe_id %}
-                <div class="field">
-                    <label for="refund">Refund?</label>
-                    <input type="checkbox" name="refund" id="refund" value="1" checked />
-                    <span class="help">If checked, the attendee will be provided with a refund for this ticket.</span>
-                </div>
-            {% endif %}
-            {% if registration.related_registrations|length > 0 %}
-                <div class="field">
-                    <label for="related">Include Related?</label>
-                    <input type="checkbox" name="related" id="related" value="1"/>
-                    <span class="help">This will also cancel all other registrations in this order.</span>
-                </div>
-            {% endif %}
-            <input type="submit" value="Delete Attendee"/>
-        </form>
-    </section>
-
+    {% set activitiesCount = 2 %}
     {% if registration.amount_paid > 0 %}
-        <section class="refund">
-            <h3>Partial Refund</h3>
-            <p>This will refund part or all of the purchase price without cancelling the ticket.</p>
-            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/refund" method="post" class="dangerous">
+        {% set activitiesCount = activitiesCount + 1 %}
+    {% endif %}
+    {% if me.is_admin %}
+        {% set activitiesCount = activitiesCount + 1 %}
+    {% endif %}
+    <section class="registration activities activities-{{ activitiesCount }}">
+        <h3>Actions</h3>
+
+        
+        <section class="transfer">
+            <h4>Transfer</h4>
+            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/transfer" method="post" class="dangerous">
                 <div class="field">
                     <label for="email">Send Email?</label>
                     <input type="checkbox" name="email" id="email" value="1" checked />
-                    <span class="help">If checked, sends an email to the attendee informing them of the refund.</span>
                 </div>
                 <div class="field">
-                    <label for="amount">Amount</label>
-                    <input type="text" name="amount" id="amount" pattern="\d+(\.\d\d)?" required />
-                    <span class="help">The amount of the purchase to refund. This cannot exceed
-                                       ${{ registration.amount_paid|number_format(2) }}.</span>
+                    <label for="id">To</label>
+                    <select name="id" id="id">
+                        {% for event in loaded_batch.events %}
+                            {% if event.remaining_registrations > 0 or (event.manager_username == me.username or event.isUserAllowed(me) or me.is_admin) %}
+                                <option value="{{ event.id }}">{{ event.name }}
+                                    {% if event.remaining_registrations <= 0 %}(sold out){% endif %}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
                 </div>
-                <input type="submit" value="Refund Attendee"/>
+                <input type="submit" value="Transfer Attendee"/>
             </form>
         </section>
-    {% endif %}
 
-    <section class="transfer">
-        <h3>Transfer</h3>
-        <p>This will transfer the registration to another event. (You cannot transfer to sold-out events unless you
-           manage them.)</p>
-        <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/transfer" method="post" class="dangerous">
-            <div class="field">
-                <label for="email">Send Email?</label>
-                <input type="checkbox" name="email" id="email" value="1" checked />
-                <span class="help">If checked, sends an email to the attendee informing them of the transfer.</span>
-            </div>
-            <div class="field">
-                <label for="id">To</label>
-                <select name="id" id="id">
-                    {% for event in loaded_batch.events %}
-                        {% if event.remaining_registrations > 0 or (event.manager_username == me.username or event.isUserAllowed(me) or me.is_admin) %}
-                            <option value="{{ event.id }}">{{ event.name }}
-                            {% if event.remaining_registrations <= 0 %}(sold out){% endif %}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
-            <input type="submit" value="Transfer Attendee"/>
-        </form>
+        {% if registration.amount_paid > 0 %}
+            <section class="refund">
+                <h4>Partial Refund</h4>
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/refund" method="post" class="dangerous">
+                    <div class="field">
+                        <label for="email">Send Email?</label>
+                        <input type="checkbox" name="email" id="email" value="1" checked />
+                    </div>
+                    <div class="field">
+                        <label for="amount">Amount</label>
+                        <input type="text" name="amount" id="amount" pattern="\d+(\.\d\d)?" required />
+                        <span class="help">Cannot exceed ${{ registration.amount_paid|number_format(2) }}.</span>
+                    </div>
+                    <input type="submit" value="Refund Attendee"/>
+                </form>
+            </section>
+        {% endif %}
+
+        <section class="cancel">
+            <h4>Cancel and Delete</h4>
+            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/cancel" method="post" class="dangerous">
+                <div class="field">
+                    <label for="email">Send Email?</label>
+                    <input type="checkbox" name="email" id="email" value="1" checked />
+                </div>
+                {% if registration.stripe_id %}
+                    <div class="field">
+                        <label for="refund">Refund?</label>
+                        <input type="checkbox" name="refund" id="refund" value="1" checked />
+                    </div>
+                {% endif %}
+                {% if registration.related_registrations|length > 0 %}
+                    <div class="field">
+                        <label for="related">Cancel related?</label>
+                        <input type="checkbox" name="related" id="related" value="1"/>
+                    </div>
+                {% endif %}
+                <input type="submit" value="Delete Attendee"/>
+            </form>
+        </section>
+
+        {% if me.is_admin %}
+            <section class="ban">
+                <h4>Ban</h4>
+                <form action="/tools/banlist" method="get">
+                    <input type="hidden" name="first_name" value="{{ registration.first_name }}"/>
+                    <input type="hidden" name="last_name" value="{{ registration.last_name }}"/>
+                    <input type="hidden" name="email" value="{{ registration.email }}"/>
+                    <input type="submit" value="Next Step" />
+                </form>
+            </section>
+        {% endif %}
     </section>
 {% endblock %}

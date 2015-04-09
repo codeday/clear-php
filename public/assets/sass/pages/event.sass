@@ -158,7 +158,6 @@ body.event
                     &.blurb
                         font-size: 1.7rem
 
-
     .current.registrations
         ul
             padding: 0
@@ -200,16 +199,54 @@ body.event
                     text-overflow: ellipsis
                     font-size: 0.7rem
 
-    .registration.info
-        .attendee
-            width: 50%
-            display: inline-block
-            vertical-align: top
-        .parent
-            width: 45%
-            padding-left: 5%
-            display: inline-block
-            vertical-align: top
+    .registration
+        &.info
+            .attendee
+                width: 50%
+                display: inline-block
+                vertical-align: top
+            .parent
+                width: 45%
+                padding-left: 5%
+                display: inline-block
+                vertical-align: top
+        &.activities
+            clear: both
+            padding-top: 2rem
+            h3
+                text-align: center
+            &.activities-2 section
+                width: 48%
+            &.activities-3 section
+                width: 32%
+            &.activities-4 section
+                width: 24%
+            section
+                display: inline-block
+                vertical-align: top
+                position: relative
+                height: 14rem
+                h4
+                    text-align: center
+                form
+                    .field
+                        input[type="text"], select
+                            clear: both
+                            display: block
+                            float: none
+                            width: 100%
+                        label
+                            width: 75%
+                        span.help
+                            width: 100%
+                            text-align: center
+                    input[type="submit"]
+                        width: 100%
+                        float: none
+                        position: absolute
+                        bottom: 0
+
+
 
     .sent-emails
         padding: 0

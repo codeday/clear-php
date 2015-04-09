@@ -9,11 +9,15 @@ class BanlistController extends \Controller {
     public function getIndex()
     {
         return \View::make('tools/banlist',
-            ['banlist' =>
-                Models\Ban
-                    ::selectRaw('*, expires_at IS NOT NULL as does_expire')
-                    ->orderBy('does_expire')->orderBy('expires_at', 'DESC')
-                    ->get()
+            [
+                'banlist' =>
+                    Models\Ban
+                        ::selectRaw('*, expires_at IS NOT NULL as does_expire')
+                        ->orderBy('does_expire')->orderBy('expires_at', 'DESC')
+                        ->get(),
+                'first_name' => \Input::get('first_name'),
+                'last_name' => \Input::get('last_name'),
+                'email' => \Input::get('email')
             ]
         );
     }

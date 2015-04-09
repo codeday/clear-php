@@ -14,15 +14,15 @@
             <div class="field">
                 <label for="first_name">Name</label>
                 <div class="group">
-                    <input name="first_name" id="first_name" type="text" placeholder="First" required />
-                    <input name="last_name" id="last_name" type="text" placeholder="Last" required />
+                    <input name="first_name" id="first_name" type="text" placeholder="First" value="{{ first_name }}" required />
+                    <input name="last_name" id="last_name" type="text" placeholder="Last" value="{{ last_name }}" required />
                 </div>
             <span class="help">The name of the person to ban. Not consulted for banlist checks; for future reference
                 only.</span>
             </div>
             <div class="field">
                 <label for="email">Email</label>
-                <input name="email" id="email" type="text" required />
+                <input name="email" id="email" type="email" value="{{ email }}" required />
                 <span class="help">Email to ban.</span>
             </div>
             <div class="field">

@@ -673,6 +673,39 @@ body.event .registration.info .parent {
   padding-left: 5%;
   display: inline-block;
   vertical-align: top; }
+body.event .registration.activities {
+  clear: both;
+  padding-top: 2rem; }
+  body.event .registration.activities h3 {
+    text-align: center; }
+  body.event .registration.activities.activities-2 section {
+    width: 48%; }
+  body.event .registration.activities.activities-3 section {
+    width: 32%; }
+  body.event .registration.activities.activities-4 section {
+    width: 24%; }
+  body.event .registration.activities section {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    height: 14rem; }
+    body.event .registration.activities section h4 {
+      text-align: center; }
+    body.event .registration.activities section form .field input[type="text"], body.event .registration.activities section form .field select {
+      clear: both;
+      display: block;
+      float: none;
+      width: 100%; }
+    body.event .registration.activities section form .field label {
+      width: 75%; }
+    body.event .registration.activities section form .field span.help {
+      width: 100%;
+      text-align: center; }
+    body.event .registration.activities section form input[type="submit"] {
+      width: 100%;
+      float: none;
+      position: absolute;
+      bottom: 0; }
 body.event .sent-emails {
   padding: 0; }
   body.event .sent-emails li {
