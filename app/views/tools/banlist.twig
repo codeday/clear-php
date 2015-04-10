@@ -64,7 +64,7 @@
                 <span class="help">Provide all details supporting the ban. Only for internal use; never public.</span>
             </div>
             <input type="submit" value="Ban" />
-        </form>
+        {{ csrf|raw }}</form>
     </section>
 
     {% if banlist|length > 0 %}
@@ -102,7 +102,7 @@
                                     <button type="submit" name="period" value="extend">Extend 1 Year</button>
                                     <button type="submit" name="period" value="forever">Make Permanent</button>
                                 {% endif %}
-                            </form>
+                            {{ csrf|raw }}</form>
                         </td>
                     </tr>
                     <tr class="details {% if not ban.is_enforced %}expired{% endif %}">

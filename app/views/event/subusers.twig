@@ -21,7 +21,7 @@
                     <form action="/event/{{ event.id }}/subusers/revoke" method="post" class="small">
                         <input type="hidden" name="username" value="{{ grant.username }}"/>
                         <input type="submit" value="Revoke"/>
-                    </form>
+                    {{ csrf|raw }}</form>
                 </li>
             {% endfor %}
         </ul>
@@ -36,5 +36,5 @@
         </div>
 
         <input type="submit" value="Add" />
-    </form>
+    {{ csrf|raw }}</form>
 {% endblock %}

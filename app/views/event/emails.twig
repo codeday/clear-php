@@ -18,12 +18,12 @@
 
     <form method="post" action="/event/{{ event.id }}/emails/send">
         {{ composer.compose(event, _context) }}
-    </form>
+    {{ csrf|raw }}</form>
 
     {% if me.is_admin %}
     <form method="post" class="small dangerous" action="/event/{{ event.id }}/emails/delete">
         <input type="submit" value="Truncate Recent Emails" />
-    </form>
+    {{ csrf|raw }}</form>
     {% endif %}
     <h3>Previously Sent Emails</h3>
     <ul class="sent-emails">

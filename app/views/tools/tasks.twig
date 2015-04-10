@@ -18,7 +18,7 @@
                     {% else %}
                         <form action="/tools/tasks/sendpreevent" class="inline dangerous" method="post">
                             <input type="submit" value="Send Pre-Event Email" />
-                        </form>
+                        {{ csrf|raw }}</form>
                     {% endif %}
                 </td>
             </tr>
@@ -30,7 +30,7 @@
                     {% else %}
                         <form action="/tools/tasks/sendreminder" class="inline dangerous" method="post">
                             <input type="submit" value="Send Reminder Email"/>
-                        </form>
+                        {{ csrf|raw }}</form>
                     {% endif %}
                 </td>
             </tr>

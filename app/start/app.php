@@ -31,6 +31,11 @@ include_once(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'Markdown', "markdo
 \View::share('all_applications', Models\Application::all());
 \View::share('managed_batch', Models\Batch::Managed());
 
+// Add CSRF protection
+$csrf = csrf_token();
+\View::share('csrf_token', $csrf);
+\View::share('csrf', '<input type="hidden" name="_token" value="'.$csrf.'" />');
+
 // Add version information to the view
 \View::share('git', [
     'commit' => Services\GitRepository::getVersion(),

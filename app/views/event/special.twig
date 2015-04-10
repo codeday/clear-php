@@ -46,7 +46,7 @@
         </div>
 
         <input type="submit" value="Save" />
-    </form>
+    {{ csrf|raw }}</form>
 
     <header>
         <h2>Related Event</h2>
@@ -55,6 +55,6 @@
     {% if event.overflow_events|length < 1 %}
         <form action="/event/{{ event.id }}/special/overflow" method="post">
             <input type="submit" value="Create Related Event"/>
-        </form>
+        {{ csrf|raw }}</form>
     {% endif %}
 {% endblock %}

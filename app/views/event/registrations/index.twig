@@ -41,7 +41,7 @@
                 <input type="checkbox" name="send_welcome" id="send_welcome" value="1" />
             </div>
             <input type="submit" value="Add" />
-        </form>
+        {{ csrf|raw }}</form>
     </section>
 
     {% if event.registrations|length > 0 %}

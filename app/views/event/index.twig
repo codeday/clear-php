@@ -54,7 +54,7 @@
                         {% if event.allow_registrations %}on{% endif %}
                         ">Event</span>
                 </div>
-            </form>
+            {{ csrf|raw }}</form>
 
             <form method="post" action="/event/{{ event.id }}/update-waitlist-status">
                 <div class="switch openclosed">
@@ -69,7 +69,7 @@
                         {% if event.allow_waitlist_signups and event.allow_registrations_calculated %}on{% endif %}"
                         >Waitlist</span>
                 </div>
-            </form>
+            {{ csrf|raw }}</form>
         </section>
     </section>
 
@@ -89,7 +89,7 @@
             <span class="help">(This field will be <a href="/tools/tidbits/{{ event.region.id }}">shared with future RMs</a> in this region.)</span>
         </div>
         <input type="submit" value="Save"/>
-    </form>
+    {{ csrf|raw }}</form>
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript">

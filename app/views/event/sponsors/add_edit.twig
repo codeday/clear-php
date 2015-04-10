@@ -49,12 +49,12 @@
         </div>
 
         <input type="submit" value="{% if sponsor %}Save{% else %}Create{% endif %}" />
-    </form>
+    {{ csrf|raw }}</form>
 
     {% if sponsor %}
         <h3>Delete Sponsor?</h3>
         <form action="/event/{{ event.id }}/sponsors/{{ sponsor.id }}/delete" method="post" class="dangerous">
             <input type="submit" value="Delete" />
-        </form>
+        {{ csrf|raw }}</form>
     {% endif %}
 {% endblock %}

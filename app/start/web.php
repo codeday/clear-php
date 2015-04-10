@@ -20,3 +20,26 @@
     $response->headers->set('X-Content-Security-Policy', $csp);
     $response->headers->set('X-WebKit-CSP', $csp);
 });
+
+\Route::filter('csrf', function(){
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') { // Is it an AJAX request (these
+                                                                                    // should be protected by default)
+        // noop
+    } else if (\Session::token() != \Input::get('_token')) {
+        \Session::regenerateToken();
+        throw new \Illuminate\Session\TokenMismatchException;
+    } else {
+        \Session::regenerateToken();
+    }
+});
+App::error(function(\Illuminate\Session\TokenMismatchException $exception)
+{
+    return (new \Illuminate\Http\Response(401))
+        ->setContent(
+            "# CSRF Token Mismatch\n\nIf you were on Clear, the page may have been idle too long. Try returning to"
+            . " the previous page, refreshing, and trying your request again.\n\nIf you were NOT on Clear, it's likely"
+            . " you were the subject of an attempted attack. You should report what page you came from."
+        )
+        ->header('Content-type', 'text/plain');
+});

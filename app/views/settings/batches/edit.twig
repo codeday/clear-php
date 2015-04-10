@@ -32,7 +32,7 @@
             <a href="/settings/batches/{{ batch.id }}/load">Load</a>
         {% endif %}
         <input type="submit" value="Save General" />
-    </form>
+    {{ csrf|raw }}</form>
 
     <header>
         <h2>Region Selection: {{ batch.name }}</h2>

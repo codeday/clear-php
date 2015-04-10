@@ -29,7 +29,7 @@
         <form method="post" class="small dangerous" action="/event/{{ event.id }}/subscriptions/delete">
           <input type="hidden" name="id" value="{{ sub.id }}"/>
           <input type="submit" value="Delete" />
-        </form>
+        {{ csrf|raw }}</form>
       </td>
     </tr>
     {% endfor %}

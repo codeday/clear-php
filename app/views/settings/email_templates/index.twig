@@ -14,7 +14,7 @@
             <li>{{ template.name }}
                 <form action="/settings/email-templates/{{ template.id }}/delete" method="post" class="small">
                     <input type="submit" value="(Delete)"/>
-                </form>
+                {{ csrf|raw }}</form>
             </li>
         {% endfor %}
     </ul>
@@ -66,5 +66,5 @@
         </div>
 
         <input type="submit" value="Add" />
-    </form>
+    {{ csrf|raw }}</form>
 {% endblock %}

@@ -61,7 +61,7 @@
                 <input type="checkbox" name="resend" id="resend" value="1" />
             </div>
             <input type="submit" value="Save" />
-        </form>
+        {{ csrf|raw }}</form>
     </section>
 
     {% if registration.related_registrations|length > 0 %}
@@ -111,7 +111,7 @@
                     </select>
                 </div>
                 <input type="submit" value="Transfer Attendee"/>
-            </form>
+            {{ csrf|raw }}</form>
         </section>
 
         {% if registration.amount_paid > 0 %}
@@ -128,7 +128,7 @@
                         <span class="help">Cannot exceed ${{ registration.amount_paid|number_format(2) }}.</span>
                     </div>
                     <input type="submit" value="Refund Attendee"/>
-                </form>
+                {{ csrf|raw }}</form>
             </section>
         {% endif %}
 
@@ -152,7 +152,7 @@
                     </div>
                 {% endif %}
                 <input type="submit" value="Delete Attendee"/>
-            </form>
+            {{ csrf|raw }}</form>
         </section>
 
         <section class="ban">

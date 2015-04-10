@@ -14,6 +14,6 @@
         <form method="post">
             <a href="/settings/batches/{{ batch.id }}">Back</a>
             <input type="submit" value="Load"/>
-        </form>
+        {{ csrf|raw }}</form>
     {% endif %}
 {% endblock %}

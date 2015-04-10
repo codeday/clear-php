@@ -31,7 +31,7 @@
                             <form action="/event/{{ event.id }}/activities/delete" method="post" class="small">
                                 <input type="hidden" name="id" value="{{ activity.id }}" />
                                 <input type="submit" value="Delete" />
-                            </form>
+                            {{ csrf|raw }}</form>
                         </td>
                     </tr>
                 {% endfor %}
@@ -122,5 +122,5 @@
         </div>
 
         <input type="submit" value="Create" />
-    </form>
+    {{ csrf|raw }}</form>
 {% endblock %}
