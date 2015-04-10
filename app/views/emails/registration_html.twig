@@ -7,8 +7,8 @@
     <p>Thanks for registering for CodeDay {{ registration.event.name }}. Your tickets are confirmed, and we are
         excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.</p>
     <p>If you have any questions about the event or your ticket, just reply to this email.</p>
-    <p>Please fill out the <a href="https://clear.codeday.org/e/parent?r={{ registration.id }}">parent info</a> form
-        so we know who to contact if something goes wrong.</p>
+    <p>As soon as you have a chance, pleas fill out the
+        <a href="https://clear.codeday.org/e/parent?r={{ registration.id }}">parent info form.</a></p>
     {% if registration.event.waiver_link %}
     <p>One last note: Please make sure to bring <a href="{{ registration.event.waiver_link }}">the completed waiver</a>
         to the event.</p>
