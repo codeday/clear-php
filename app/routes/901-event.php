@@ -2,8 +2,8 @@
 
 \Route::get('event/{event}/registrations/csv', 'Manage\Event\RegistrationsController@getCsv');
 
+\Route::when('event/*', 'csrf', ['post']);
 \Route::group(['namespace' => 'Manage\Event', 'prefix' => 'event/{event}', 'before' => 's5_manage_event'], function() {
-    \Route::when('*', 'csrf', ['post']);
     \Route::controller('/venue', 'VenueController');
     \Route::controller('/shipping', 'ShippingController');
     \Route::controller('/promotions', 'PromotionsController');

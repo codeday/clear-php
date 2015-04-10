@@ -1,7 +1,7 @@
 <?php
 
+\Route::when('settings/*', 'csrf', ['post']);
 \Route::group(['namespace' => 'Manage\Settings', 'prefix' => 'settings', 'before' => 's5_admin'], function() {
-    \Route::when('*', 'csrf', ['post']);
     \Route::get('batches', 'BatchesController@getIndex');
     \Route::get('batches/create', 'BatchesController@getCreate');
     \Route::post('batches/create', 'BatchesController@postCreate');

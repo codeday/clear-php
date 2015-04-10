@@ -25,7 +25,7 @@
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
             && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') { // Is it an AJAX request (these
                                                                                     // should be protected by default)
-        // noop
+        return;
     } else if (\Session::token() != \Input::get('_token')) {
         \Session::regenerateToken();
         throw new \Illuminate\Session\TokenMismatchException;

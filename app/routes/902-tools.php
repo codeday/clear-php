@@ -1,7 +1,7 @@
 <?php
 
+\Route::when('tools/*', 'csrf', ['post']);
 \Route::group(['namespace' => 'Manage\Tools', 'prefix' => 'tools', 'before' => 's5_manage_events'], function() {
-    \Route::when('tools/*', 'csrf', ['post']);
     \Route::get('', function(){ return \Redirect::to('/tools/attendee'); });
     \Route::controller('/attendee', 'AttendeeController');
     \Route::controller('/checkin', 'CheckinController');
