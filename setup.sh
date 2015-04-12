@@ -10,5 +10,5 @@ cd config
 touch local.json
 cd ../..
 
-echo "Installing Composer dependencies..."
-composer install
+# echo "Installing Composer dependencies..."
+# composer install
