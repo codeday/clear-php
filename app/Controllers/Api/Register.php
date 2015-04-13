@@ -5,6 +5,8 @@ use \CodeDay\Clear\Models;
 use \CodeDay\Clear\Services;
 
 class Register extends \Controller {
+    protected $requiresApplication = false;
+
     public function getIndex() {}
 
     public function getPromotion()

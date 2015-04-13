@@ -4,6 +4,8 @@ namespace CodeDay\Clear\Controllers\Api;
 use \CodeDay\Clear\Models;
 
 class Notify extends \Controller {
+    protected $requiresApplication = false;
+
     public function optionsSubscribe()
     {
         $response = \Response::make();
