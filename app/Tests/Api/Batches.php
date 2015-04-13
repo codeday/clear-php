@@ -1,12 +1,20 @@
 <?php
 namespace CodeDay\Clear\Tests\Api;
 
+use \CodeDay\Clear\Models;
 use \CodeDay\Clear\Tests;
 
 class Batches extends Tests\ApiTestCase {
     public function testIndex()
     {
-        $response = $this->call('GET', '/api/batches');
+        $app = new Models\Application;
+        $app->name = 'internal test app';
+        $app->description = 'internal test app';
+        $app->permission_admin = false;
+        $app->permission_internal = false;
+        $app->save();
+
+        $response = $this->call('GET', '/api/batches?public='.$app->public.'&private='.$app->private);
         $this->assertValidOkApiResponse($response);
 
         $data = json_decode($response->getContent());
@@ -16,11 +24,20 @@ class Batches extends Tests\ApiTestCase {
         $this->assertGreaterThan(0, count($data),
             'Batches list did not contain any batches.');
         $this->assertBatchValid($data[0]);
+
+        $app->delete();
     }
 
     public function testCurrent()
     {
-        $response = $this->call('GET', '/api/batches/current');
+        $app = new Models\Application;
+        $app->name = 'internal test app';
+        $app->description = 'internal test app';
+        $app->permission_admin = false;
+        $app->permission_internal = false;
+        $app->save();
+
+        $response = $this->call('GET', '/api/batches/current?public='.$app->public.'&private='.$app->private);
         $this->assertValidOkApiResponse($response);
 
         $data = json_decode($response->getContent());
@@ -28,6 +45,8 @@ class Batches extends Tests\ApiTestCase {
         $this->assertTrue(is_object($data),
             'Current batch was not an object.');
         $this->assertBatchValid($data, true);
+
+        $app->delete();
     }
 
     private function assertBatchValid($batch,  $sparse = true)

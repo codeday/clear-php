@@ -7,7 +7,14 @@ use \CodeDay\Clear\Tests;
 class Events extends Tests\ApiTestCase {
     public function testIndex()
     {
-        $response = $this->call('GET', '/api/events');
+        $app = new Models\Application;
+        $app->name = 'internal test app';
+        $app->description = 'internal test app';
+        $app->permission_admin = false;
+        $app->permission_internal = false;
+        $app->save();
+
+        $response = $this->call('GET', '/api/events?public='.$app->public.'&private='.$app->private);
         $this->assertValidOkApiResponse($response);
 
         $data = json_decode($response->getContent());
@@ -17,13 +24,22 @@ class Events extends Tests\ApiTestCase {
         $this->assertGreaterThan(0, count($data),
             'Event list did not contain any events.');
         $this->assertEventValid($data[0]);
+
+        $app->delete();
     }
 
     public function testCurrent()
     {
+        $app = new Models\Application;
+        $app->name = 'internal test app';
+        $app->description = 'internal test app';
+        $app->permission_admin = false;
+        $app->permission_internal = false;
+        $app->save();
+
         $event = Models\Batch\Event::first();
 
-        $response = $this->call('GET', '/api/event/'.$event->id);
+        $response = $this->call('GET', '/api/event/'.$event->id.'?public='.$app->public.'&private='.$app->private);
         $this->assertValidOkApiResponse($response);
 
         $data = json_decode($response->getContent());
@@ -31,6 +47,8 @@ class Events extends Tests\ApiTestCase {
         $this->assertTrue(is_object($data),
             'Event was not an object.');
         $this->assertEventValid($data, true);
+
+        $app->delete();
     }
 
     private function assertEventValid($event, $sparse = true)
