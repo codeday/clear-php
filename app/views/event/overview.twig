@@ -6,12 +6,17 @@
 <header>
   <h2>Print-Friendly Overview</h2>
   <p>
-    An overview of your event.<br>
+    An overview of your event. Your notes are
+    appended just before the emergency contact
+    info.<br>
+    <a href="https://gist.github.com/tjhorner/4c4cd686bd78d9e01dd4">Formatting Cheatsheet</a><br>
     <a href="#" onclick="printRaw()">Print</a> <a href="./overview/raw">Raw</a>
   </p>
 </header>
 
-{% include "event/overview-raw.twig" %}
+<div class="overview-paper">
+  {% include "event/overview-raw.twig" %}
+</div>
 {% endblock %}
 {% block scripts %}
 <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -24,4 +29,11 @@
     w.close();
   }
 </script>
+<style>
+  .overview-paper{
+    background: white;
+    padding: 30px;
+    box-shadow: 0 0 10px #888;
+  }
+</style>
 {% endblock %}
