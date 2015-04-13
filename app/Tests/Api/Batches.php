@@ -8,13 +8,15 @@ class Batches extends Tests\ApiTestCase {
     public function testIndex()
     {
         $app = new Models\Application;
-        $app->name = 'internal test app';
-        $app->description = 'internal test app';
+        $app->name = str_random(12);
+        $app->description = str_random(12);
+        $app->public = str_random(12);
+        $app->private = str_random(12);
         $app->permission_admin = false;
         $app->permission_internal = false;
         $app->save();
 
-        $response = $this->call('GET', '/api/batches?public='.$app->public.'&private='.$app->private);
+        $response = $this->call('GET', '/api/batches', ['public' => $app->public, 'private' => $app->private]);
         $this->assertValidOkApiResponse($response);
 
         $data = json_decode($response->getContent());
@@ -31,13 +33,15 @@ class Batches extends Tests\ApiTestCase {
     public function testCurrent()
     {
         $app = new Models\Application;
-        $app->name = 'internal test app';
-        $app->description = 'internal test app';
+        $app->name = str_random(12);
+        $app->description = str_random(12);
+        $app->public = str_random(12);
+        $app->private = str_random(12);
         $app->permission_admin = false;
         $app->permission_internal = false;
         $app->save();
 
-        $response = $this->call('GET', '/api/batches/current?public='.$app->public.'&private='.$app->private);
+        $response = $this->call('GET', '/api/batches/current', ['public' => $app->public, 'private' => $app->private]);
         $this->assertValidOkApiResponse($response);
 
         $data = json_decode($response->getContent());

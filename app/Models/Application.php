@@ -6,6 +6,7 @@ use \Carbon\Carbon;
 class Application extends \Eloquent {
     protected $table = 'applications';
     protected $primaryKey = 'public';
+    public $incrementing = false;
 
     public function admin()
     {
