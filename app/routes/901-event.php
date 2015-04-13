@@ -11,6 +11,7 @@
     \Route::controller('/subusers', 'SubusersController');
     \Route::controller('/preevent', 'PreeventController');
     \Route::controller('/subscriptions', 'SubscriptionsController');
+    \Route::controller('/overview', 'OverviewController');
 
     \Route::get('/registrations/attendee/{registration}', 'RegistrationsController@getAttendee');
     \Route::post('/registrations/attendee/{registration}', 'RegistrationsController@postAttendee');

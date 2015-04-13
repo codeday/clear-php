@@ -1,0 +1,27 @@
+{% extends "template.twig" %}
+{% block title %}Print-Friendly Overview // {{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+<header>
+  <h2>Print-Friendly Overview</h2>
+  <p>
+    An overview of your event.<br>
+    <a href="#" onclick="printRaw()">Print</a> <a href="./overview/raw">Raw</a>
+  </p>
+</header>
+
+{% include "event/overview-raw.twig" %}
+{% endblock %}
+{% block scripts %}
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+  function printRaw(){
+    var printContents = document.getElementById("overview").innerHTML;
+    w = window.open();
+    w.document.write("<div id='overview'>" + printContents + "</div>");
+    w.print();
+    w.close();
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,94 @@
+<div id="overview">
+  <div class="logo">
+    <img src="https://studentrnd.org/assets/img/press/assets/brand/codeday_logo.png">
+    <div class="float-right">
+      <!-- Hacky fix -->
+      <span class="float-right">{{ event.name }}</span><br>
+      {{ event.starts_at|date('F j') }}-{{ event.ends_at|date('j') }}, noon-noon
+    </div>
+  </div>
+  <b>Venue</b>
+    <div class="indent-1">{{ event.venue.name }}</div>
+    <div class="indent-1">{{ event.venue.address_1 }}</div>
+    {% if event.venue.address_2 %}<div class="indent-1">{{ event.venue.address_2 }}</div>{% endif %}
+    <div class="indent-1">{{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.postal }}</div>
+    <br>
+    <div class="indent-1"><b>Venue Contact</b></div>
+      <div class="indent-2">{{ event.venue_contact_first_name }} {{ event.venue_contact_last_name }}</div>
+      <div class="indent-2"><a href="tel:{{ event.venue_contact_phone }}">{{ event.venue_contact_phone }}</a></div>
+      <div class="indent-2"><a href="mailto:{{ event.venue_contact_email }}">{{ event.venue_contact_email }}</a></div>
+
+  <br>
+
+  <b>Sponsors</b>
+    {% for sponsor in event.sponsors %}
+      <div class="indent-1"><a href="{{ sponsor.url }}">{{ sponsor.name }}</a></div>
+      <div class="indent-1">{{ sponsor.blurb }}</div>
+      <div class="indent-1">{{ sponsor.description }}</div>
+    {% endfor %}
+
+  <br>
+
+  <b>Personell</b>
+    <div class="indent-1"><b>Regional Manager</b></div>
+      <div class="indent-2">{{ event.manager.name }}</div>
+      <div class="indent-2"><a href="tel:{{ event.manager.phone }}">{{ event.manager.phone }}</a></div>
+      <div class="indent-2"><a href="mailto:{{ event.manager.email }}">{{ event.manager.email }}</a></div>
+    <br>
+    <div class="indent-1"><b>Evangelist</b></div>
+      <div class="indent-2">{{ event.evangelist.name }}</div>
+      <div class="indent-2"><a href="tel:{{ event.evangelist.phone }}">{{ event.evangelist.phone }}</a></div>
+      <div class="indent-2"><a href="mailto:{{ event.evangelist.email }}">{{ event.evangelist.email }}</a></div>
+    <br>
+    <div class="indent-1"><b>Volunteers</b></div>
+      {% for grant in event.grants %}
+        <div class="indent-2">{{ grant.user.name }}</div>
+        <div class="indent-2"><a href="tel:{{ grant.user.phone }}">{{ grant.user.phone }}</a></div>
+        <div class="indent-2"><a href="mailto:{{ grant.user.email }}">{{ grant.user.email }}</a></div>
+        <br>
+      {% endfor %}
+
+  <br>
+
+  <b>Emergency Contact</b>
+    <div class="indent-1">
+      <a href="tel:888CODE230">(888) CODE-230</a>
+    </div>
+
+  <br>
+
+  <b>Notes</b>
+    <div class="indent-2">
+      {{ event.notes|markdown|raw }}
+    </div>
+
+  <style>
+    #overview{
+      font-family: "Arial";
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .logo{
+      margin-top: 15px;
+      margin-bottom: 10px;
+      font-size: 1.3em;
+    }
+
+    .logo img{
+      max-height: 50px;
+    }
+
+    .logo .float-right{
+      float: right;
+    }
+
+    .indent-1{
+      text-indent: 2em;
+    }
+
+    .indent-2{
+      text-indent: 4em;
+    }
+  </style>
+</div>

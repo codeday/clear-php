@@ -77,8 +77,8 @@
         <h3>Notes</h3>
         <div class="field">
             <label for="notes">Notes</label>
-            <textarea name="notes">{{ event.notes }}</textarea>
-            <span class="help">(For your internal use.)</span>
+            <textarea name="notes" class="markdown">{{ event.notes }}</textarea>
+            <span class="help">(For your internal use. Will be shown in the <a href="/event/{{ event.id }}/overview">print-friendly overview</a>.)</span>
         </div>
         <input type="submit" value="Save"/>
 
