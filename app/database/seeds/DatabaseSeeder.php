@@ -54,6 +54,23 @@ class DatabaseSeeder extends Seeder {
             }
         }
 
+        // Add test application
+        if (!Models\Application::where('public', '=', 'testtesttesttesttesttest')->exists()) {
+            $app = new Models\Application;
+            $app->name = 'Test App';
+            $app->description = 'Internal test';
+            $app->public = 'testtesttesttesttesttest';
+            $app->private = 'testtesttesttesttesttest';
+            $app->permission_admin = false;
+            $app->permission_internal = false;
+            $app->save();
+
+            // Overridden by creating method in model
+            $app->public = 'testtesttesttesttesttest';
+            $app->private = 'testtesttesttesttesttest';
+            $app->save();
+        }
+
 	}
 
 }
