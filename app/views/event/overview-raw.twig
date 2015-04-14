@@ -8,15 +8,19 @@
     </div>
   </div>
   <b>Venue</b>
-    <div class="indent-1">{{ event.venue.name }}</div>
-    <div class="indent-1">{{ event.venue.address_1 }}</div>
-    {% if event.venue.address_2 %}<div class="indent-1">{{ event.venue.address_2 }}</div>{% endif %}
-    <div class="indent-1">{{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.postal }}</div>
-    <br>
-    <div class="indent-1"><b>Venue Contact</b></div>
-      <div class="indent-2">{{ event.venue_contact_first_name }} {{ event.venue_contact_last_name }}</div>
-      <div class="indent-2"><a href="tel:{{ event.venue_contact_phone }}">{{ event.venue_contact_phone }}</a></div>
-      <div class="indent-2"><a href="mailto:{{ event.venue_contact_email }}">{{ event.venue_contact_email }}</a></div>
+    {% if event.venue %}
+      <div class="indent-1">{{ event.venue.name }}</div>
+      <div class="indent-1">{{ event.venue.address_1 }}</div>
+      {% if event.venue.address_2 %}<div class="indent-1">{{ event.venue.address_2 }}</div>{% endif %}
+      <div class="indent-1">{{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.postal }}</div>
+      <br>
+      <div class="indent-1"><b>Venue Contact</b></div>
+        <div class="indent-2">{{ event.venue_contact_first_name }} {{ event.venue_contact_last_name }}</div>
+        <div class="indent-2"><a href="tel:{{ event.venue_contact_phone }}">{{ event.venue_contact_phone }}</a></div>
+        <div class="indent-2"><a href="mailto:{{ event.venue_contact_email }}">{{ event.venue_contact_email }}</a></div>
+    {% else %}
+      <div class="indent-1"><i>No venue... yet</i></div>
+    {% endif %}
 
   <br>
 
@@ -26,6 +30,9 @@
       <div class="indent-1">{{ sponsor.blurb }}</div>
       <div class="indent-1">{{ sponsor.description }}</div>
     {% endfor %}
+    {% if event.sponsors|length < 1 %}
+      <div class="indent-1"><i>No sponsors</i></div>
+    {% endif %}
 
   <br>
 
@@ -34,11 +41,17 @@
       <div class="indent-2">{{ event.manager.name }}</div>
       <div class="indent-2"><a href="tel:{{ event.manager.phone }}">{{ event.manager.phone }}</a></div>
       <div class="indent-2"><a href="mailto:{{ event.manager.email }}">{{ event.manager.email }}</a></div>
+      {% if not event.manager %}
+        <div class="indent-2"><i>No RM</i></div>
+      {% endif %}
     <br>
     <div class="indent-1"><b>Evangelist</b></div>
       <div class="indent-2">{{ event.evangelist.name }}</div>
       <div class="indent-2"><a href="tel:{{ event.evangelist.phone }}">{{ event.evangelist.phone }}</a></div>
       <div class="indent-2"><a href="mailto:{{ event.evangelist.email }}">{{ event.evangelist.email }}</a></div>
+      {% if not event.evangelist %}
+        <div class="indent-2"><i>No evangelist</i></div>
+      {% endif %}
     <br>
     <div class="indent-1"><b>Volunteers</b></div>
       {% for grant in event.grants %}
@@ -47,19 +60,23 @@
         <div class="indent-2"><a href="mailto:{{ grant.user.email }}">{{ grant.user.email }}</a></div>
         <br>
       {% endfor %}
+      {% if event.grants|length < 1 %}
+        <div class="indent-2"><i>No volunteers</i></div>
+        <br>
+      {% endif %}
+
+  <div class="overview-notes">
+    {{ event.notes|markdown|raw }}
+    {% if not event.notes %}
+      <i>No event notes</i>
+    {% endif %}
+  </div>
 
   <br>
 
-  <b>Emergency Contact</b>
+  <b class="emergency">Emergency Contact (for parents)</b>
     <div class="indent-1">
-      <a href="tel:888CODE230">(888) CODE-230</a>
-    </div>
-
-  <br>
-
-  <b>Notes</b>
-    <div class="indent-2">
-      {{ event.notes|markdown|raw }}
+      <a href="tel:888CODE230" class="emergency">(888) CODE-230</a>
     </div>
 
   <style>
@@ -89,6 +106,19 @@
 
     .indent-2{
       text-indent: 4em;
+    }
+
+    .overview-notes h1, .overview-notes h2, .overview-notes h3, .overview-notes p, .overview-notes blockquote{
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .overview-notes blockquote{
+      margin-left: 2em;
+    }
+
+    .emergency{
+      color: red;
     }
   </style>
 </div>
