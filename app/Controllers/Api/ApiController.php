@@ -53,11 +53,11 @@ abstract class ApiController extends \Controller {
     protected function requirePermission($or = [])
     {
         $this->setApplicationOrFail();
-        foreach ($this->or as $permission) {
+        foreach ($or as $permission) {
             if (in_array(trim($permission), $this->permissions)) {
                 return true;
             }
         }
         \App::abort(401);
     }
-} 
+}
