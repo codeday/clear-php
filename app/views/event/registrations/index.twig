@@ -51,7 +51,7 @@
               <a href="/event/{{ event.id }}/registrations?sort=id">ID</a>,
               <a href="/event/{{ event.id }}/registrations?sort=first_name">First Name</a>,
               <a href="/event/{{ event.id }}/registrations?sort=last_name">Last Name</a>,
-              <a href="/event/{{ event.id }}/registrations?sort=created_at">Date Registered</a>
+              <a href="/event/{{ event.id }}/registrations?sort=created_at">Date Registered</a> (default)
             </p>
             <ul>
                 {% for attendee in registrations %}

@@ -12,7 +12,7 @@ class RegistrationsController extends \Controller {
           $sort = \Input::get('sort');
           $registrations = $event->registrationsSortedBy($sort);
         }else{
-          $registrations = $event->registrationsSortedByFirstName;
+          $registrations = $event->registrationsSortedBy("created_at");
         }
         return \View::make('event/registrations/index', ['signature' => $this->getListSignature(), 'registrations' => $registrations]);
     }

@@ -526,20 +526,6 @@ class Event extends \Eloquent {
         ->get();
     }
 
-    public function getRegistrationsSortedByFirstNameAttribute()
-    {
-        return Event\Registration::where('batches_event_id', '=', $this->id)
-          ->orderBy('first_name', 'asc')
-          ->get();
-    }
-
-    public function getRegistrationsSortedByLastNameAttribute()
-    {
-        return Event\Registration::where('batches_event_id', '=', $this->id)
-          ->orderBy('last_name', 'asc')
-          ->get();
-    }
-
     public function getVenueAttribute()
     {
         if ($this->venue_full_address === null) {
