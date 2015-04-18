@@ -10,7 +10,8 @@ class RegistrationsController extends \Controller {
         $event = \Route::input('event');
         if(\Input::get('sort')){
           $sort = \Input::get('sort');
-          $registrations = $event->registrationsSortedBy($sort);
+          $order = \Input::get('order') == 'desc' ? 'desc' : 'asc';
+          $registrations = $event->registrationsSortedBy($sort, $order);
         }else{
           $registrations = $event->registrationsSortedBy("created_at");
         }

@@ -519,10 +519,10 @@ class Event extends \Eloquent {
         return $this->getRegistrationsSince($carbon);
     }
 
-    public function registrationsSortedBy($column)
+    public function registrationsSortedBy($column, $order = 'asc')
     {
       return Event\Registration::where('batches_event_id', '=', $this->id)
-        ->orderBy($column, 'asc')
+        ->orderBy($column, $order)
         ->get();
     }
 
