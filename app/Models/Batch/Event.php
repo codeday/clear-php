@@ -485,7 +485,6 @@ class Event extends \Eloquent {
 
     public function getRegistrationsSince(Carbon $since)
     {
-
         return Event\Registration::where('batches_event_id', '=', $this->id)
                                 ->where('created_at', '>', $since)
                                 ->get();
@@ -518,6 +517,27 @@ class Event extends \Eloquent {
         $carbon->subDays($carbon->dayOfWeek);
 
         return $this->getRegistrationsSince($carbon);
+    }
+
+    public function registrationsSortedBy($column)
+    {
+      return Event\Registration::where('batches_event_id', '=', $this->id)
+        ->orderBy($column, 'asc')
+        ->get();
+    }
+
+    public function getRegistrationsSortedByFirstNameAttribute()
+    {
+        return Event\Registration::where('batches_event_id', '=', $this->id)
+          ->orderBy('first_name', 'asc')
+          ->get();
+    }
+
+    public function getRegistrationsSortedByLastNameAttribute()
+    {
+        return Event\Registration::where('batches_event_id', '=', $this->id)
+          ->orderBy('last_name', 'asc')
+          ->get();
     }
 
     public function getVenueAttribute()

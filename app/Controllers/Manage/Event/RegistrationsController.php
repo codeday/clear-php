@@ -7,7 +7,14 @@ use \CodeDay\Clear\Services;
 class RegistrationsController extends \Controller {
     public function getIndex()
     {
-        return \View::make('event/registrations/index', ['signature' => $this->getListSignature()]);
+        $event = \Route::input('event');
+        if(\Input::get('sort')){
+          $sort = \Input::get('sort');
+          $registrations = $event->registrationsSortedBy($sort);
+        }else{
+          $registrations = $event->registrationsSortedByFirstName;
+        }
+        return \View::make('event/registrations/index', ['signature' => $this->getListSignature(), 'registrations' => $registrations]);
     }
 
     public function getCsv()

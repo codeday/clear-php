@@ -47,11 +47,17 @@
     {% if event.registrations|length > 0 %}
         <section class="current registrations">
             <h3>Current Attendees</h3>
+            <p>Sort by:
+              <a href="/event/{{ event.id }}/registrations?sort=id">ID</a>,
+              <a href="/event/{{ event.id }}/registrations?sort=first_name">First Name</a>,
+              <a href="/event/{{ event.id }}/registrations?sort=last_name">Last Name</a>,
+              <a href="/event/{{ event.id }}/registrations?sort=created_at">Date Registered</a>
+            </p>
             <ul>
-                {% for attendee in event.registrations %}
+                {% for attendee in registrations %}
                     <li class="type-{{ attendee.type }}">
                         <a href="/event/{{ event.id }}/registrations/attendee/{{ attendee.id }}">
-                            <img src="http://www.gravatar.com/avatar/{{ attendee.email_md5 }}?s=200&d=mm" alt="{{ attendee.name }}"/>
+                            <img src="http://www.gravatar.com/avatar/{{ attendee.email_md5 }}?s=200&amp;d=mm" alt="{{ attendee.name }}"/>
                             <span class="name">
                                 <span class="first">{{ attendee.first_name }}</span>
                                 <span class="last">{{ attendee.last_name }}</span>
