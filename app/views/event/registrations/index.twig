@@ -55,7 +55,7 @@
             </p>
             <ul>
                 {% for attendee in registrations %}
-                    <li class="type-{{ attendee.type }}">
+                    <li class="type-{{ attendee.type }}" title="Registered on {{ attendee.created_at|date('F j, Y g:i A') }}">
                         <a href="/event/{{ event.id }}/registrations/attendee/{{ attendee.id }}">
                             <img src="http://www.gravatar.com/avatar/{{ attendee.email_md5 }}?s=200&amp;d=mm" alt="{{ attendee.name }}"/>
                             <span class="name">
