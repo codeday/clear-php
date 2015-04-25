@@ -442,7 +442,7 @@ class Event extends \Eloquent {
         if ($this->evangelist && $this->evangelist->phone) {
             return $this->evangelist->phone;
         } else {
-            return '12068538786';
+            return '1000@sip.studentrnd.org:5080';
         }
     }
 
