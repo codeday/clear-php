@@ -101,7 +101,7 @@ class Register extends \Controller {
 
         $total_cost = $unit_cost * count($registrants);
 
-        if ($total_cost != $quoted_price) {
+        if (number_format($total_cost, 2) != number_format($quoted_price, 2)) {
             return [
                 'status' => 500,
                 'error' => 'quote_mismatch',
