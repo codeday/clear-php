@@ -7,7 +7,7 @@
     <p>Thanks for registering for CodeDay {{ registration.event.name }}. Your tickets are confirmed, and we are
         excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.</p>
     <p>If you have any questions about the event or your ticket, just reply to this email.</p>
-    <p>As soon as you have a chance, pleas fill out the
+    <p>As soon as you have a chance, please fill out the
         <a href="https://clear.codeday.org/e/parent?r={{ registration.id }}">parent info form.</a></p>
     {% if registration.event.waiver_link %}
     <p>One last note: Please make sure to bring <a href="{{ registration.event.waiver_link }}">the completed waiver</a>
@@ -41,7 +41,7 @@
                     </tr>
                 </table>
 
-                <p>Please do not bring this email to CodeDay, we will check you in by name.</p>
+                <p>You don't need to bring this email to CodeDay, we will check you in by name.</p>
 
                 <hr/>
 
@@ -56,6 +56,7 @@
                         {% endif %}
                         {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
                     {% endif %}
+                    <p><small>Reg ID: {{ registration.id }} - <a href="http://promotions.codeday.org/verify/{{ registration.id }}">Verify on Promotions</a></small></p>
                 </p>
             </td>
         </tr>
