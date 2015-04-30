@@ -1,0 +1,38 @@
+{% autoescape false %}
+Hi {{ user.first_name }},
+
+Thanks for joining us as an evangelist for CodeDay {{ managed_batch.name }}! You're in for a very rewarding and very, very fun weekend. Before that happens, it's time to gear up!
+
+
+# Training
+
+{% if not user.is_certified_evangelist %}
+One of the first things you'll need to do as an Evangelist is read our Evangelism Guide, available at http://wiki.studentrnd.org/display/EVG/CodeDay+Evangelism
+
+**You need to read through this document in full in the next week.** This is one of the most important resources for CodeDay evangelism: it's based on the notes of hundreds of past CodeDay Evangelists.
+{% else %}
+Our training hasn't changed much since you were last certified, but it's always useful to refresh your memory, so we recommend you check out the Evangelism Guide at http://wiki.studentrnd.org/display/EVG/CodeDay+Evangelism
+{% endif %}
+
+
+# Tools
+
+You already have an s5 account, so you're ready to log into all our internal tools. One of the tools you'll find most useful is Clear -- the CodeDay management backend -- located at https://clear.codeday.org/.
+
+Another tool to pay attention to: your StudentRND email, available at http://mail.studentrnd.org/. If you don't think you'll be checking it often, be sure to set up forwarding! We'll send out all useful evangelism information to this email.
+
+
+# Flights
+
+If you'll be flying out to CodeDay, we'll follow-up in the next day or so to collect availability and traveller information.
+
+
+# Let's Get Moving
+
+There's not a lot of time, so you should get started on this right away!
+
+Expect more information, including an invitation to a pre-CodeDay meeting, in the coming weeks!
+
+Cheers!
+The StudentRND Team
+{% endautoescape %}

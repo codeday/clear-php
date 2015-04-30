@@ -61,8 +61,14 @@
                         <table border="0" cellpadding="20" cellspacing="0" width="600" id="emailFooter">
                             <tr>
                                 <td align="left" valign="top">
-                                    <p>You received this email because you registered for CodeDay. You can
-                                        <a href="https://clear.codeday.org/e/unsubscribe?e={{ registration.email|url_encode }}">unsubscribe from emails like this.</a><br />
+                                    <p>
+                                        {% block why %}
+                                            You received this email because you registered for CodeDay.
+                                        {% endblock %}
+                                        {% block unsubscribe %}
+                                            You can
+                                            <a href="https://clear.codeday.org/e/unsubscribe?e={{ registration.email|url_encode }}">unsubscribe from emails like this.</a><br />
+                                        {% endblock %}
                                     Our mailing address is 505 Broadway E #141, Seattle, WA 98102</p>
                                 </td>
                             </tr>

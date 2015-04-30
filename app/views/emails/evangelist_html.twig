@@ -1,0 +1,45 @@
+{% extends "emails/template_transactional.twig" %}
+{% block why %}You received this email because you were assigned as an Evangelist to a CodeDay.{% block %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block header %}
+    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
+{% endblock %}
+{% block body %}
+    <p>Hi {{ user.first_name }},</p>
+
+    <p>Thanks for joining us as an evangelist for CodeDay {{ managed_batch.name }}! You're in for a very rewarding and
+       very, very fun weekend. Before that happens, it's time to gear up!</p>
+
+    <h2>Training</h2>
+    {% if not user.is_certified_evangelist %}
+        <p>One of the first things you'll need to do as an Evangelist is read our
+           <a href="http://wiki.studentrnd.org/display/EVG/CodeDay+Evangelism">Evangelism Guide</a>.</p>
+
+        <p><strong>You need to read through this document in full in the next week.</strong> This is one of the most
+           important resources for CodeDay evangelism: it's based on the notes of hundreds of past CodeDay Evangelists.
+           </p>
+    {% else %}
+        <p>Our training hasn't changed much since you were last certified, but it's always useful to refresh your
+           memory, so we recommend you check out the
+           <a href="http://wiki.studentrnd.org/display/EVG/CodeDay+Evangelism">Evangelism Guide</a>.</p>
+    {% endif %}
+
+    <h2>Tools</h2>
+    <p>You already have an s5 account, so you're ready to log into all our internal tools. One of the tools you'll find
+        most useful is <a href="https://clear.codeday.org/">Clear</a> -- the CodeDay management backend.</p>
+
+    <p>Another tool to pay attention to: your <a href="http://mail.studentrnd.org/">StudentRND email</a>. If you don't
+       think you'll be checking it often, be sure to set up forwarding! We'll send out all useful evangelism information
+       to this email.</p>
+
+    <h2>Flights</h2>
+    <p>If you'll be flying out to CodeDay, we'll follow-up in the next day or so to collect availability and traveller
+       information.</p>
+
+    <h2>Let's Get Moving!</h2>
+    <p>There's not a lot of time, so you should get started on this right away!</p>
+    <p>Expect more information, including an invitation to a pre-CodeDay meeting, in the coming weeks!</p>
+
+    <p>Cheers!<br />
+    The StudentRND Team</p>
+{% endblock %}

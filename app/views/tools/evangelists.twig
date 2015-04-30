@@ -25,6 +25,8 @@
             {% endfor %}
             </tbody>
         </table>
+        <label for="send_emails">Send emails to new evangelists?</label>
+        <input type="checkbox" name="send_emails" id="send_emails" value="1" checked />
         <input type="submit" value="Save" />
     {{ csrf|raw }}</form>
 {% endblock %}

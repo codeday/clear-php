@@ -104,6 +104,11 @@ class User extends \Eloquent {
         return $user;
     }
 
+    public function getInternalEmailAttribute()
+    {
+        return $this->username.'@studentrnd.org';
+    }
+
     public function managedEvents()
     {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Event', 'manager_username', 'username');
