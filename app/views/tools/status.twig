@@ -19,6 +19,7 @@
                 <th><abbr title="Evangelist Assigned">EVG</abbr></th>
                 <th><abbr title="Shipping Address Set">SHA</abbr></th>
                 <th><abbr title="Shipped">SHP</abbr></th>
+                <th><abbr title="Evangelist Certified">EVC</abbr></th>
                 <th>10%</th>
                 <th>20%</th>
                 <th>50%</th>
@@ -36,6 +37,7 @@
                     <td {% if event.evangelist_username %}class="okay"{% endif %}><span><span></span></span></td>
                     <td {% if event.ship_address_1 %}class="okay"{% endif %}><span><span></span></span></td>
                     <td {% if event.shipment_number %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.evangelist.is_certified_evangelist %}class="okay"{% endif %}><span><span></span></span></td>
                     <td {% if event.registration_estimate and (event.registrations.count / event.registration_estimate) > 0.1 %}class="okay"{% endif %}><span><span></span></span></td>
                     <td {% if event.registration_estimate and (event.registrations.count / event.registration_estimate) > 0.2 %}class="okay"{% endif %}><span><span></span></span></td>
                     <td {% if event.registration_estimate and (event.registrations.count / event.registration_estimate) > 0.5 %}class="okay"{% endif %}><span><span></span></span></td>

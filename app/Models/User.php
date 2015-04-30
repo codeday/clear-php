@@ -82,7 +82,7 @@ class User extends \Eloquent {
             $user = new self;
         }
 
-        if (!$user->exists || $user->updated_at->diffInDays() > 1) {
+        if (!$user->exists || $user->updated_at->diffInHours() > 1) {
             try {
                 $s5_user = self::api()->User->get($username);
             } catch (\Exception $ex) {
@@ -95,6 +95,9 @@ class User extends \Eloquent {
             $user->email = $s5_user->email;
             $user->phone = $s5_user->phone;
             $user->is_admin = $s5_user->is_admin;
+            $user->is_certified_evangelist = count(array_filter($s5_user->groups, function($e) {
+                return $e->id == \Config::get('s5.groups.certified_evangelist');
+            })) > 0;
             $user->save();
         }
 
