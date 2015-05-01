@@ -1,0 +1,63 @@
+{% extends "emails/template_transactional.twig" %}
+{% block header %}
+    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
+{% endblock %}
+{% block why %}You're receiving this email because you're a CodeDay venue.{% endblock %}
+{% block body %}
+    <p>Hi {{ event.venue_contact_first_name }},</p>
+
+    <p>We just wanted to take a quick moment to remind you that we'll be hosting CodeDay {{ managed_batch.name }} at
+       {{ event.venue_name }} on {{ event.starts_at|date('F j, Y') }}. This email will give you a bit of information
+       about what's happening.</p>
+    <p>This email is automatically generated: if you have a special arrangement in place with the our event team which
+        contradicts anything in this email, your agreement supersedes. If you have any questions, please reply to this
+        email.</p>
+
+    <h2>Contacts</h2>
+    <p>Shortly before the event, we will send you a final list of contacts &mdash; including names, emails, and phone
+       numbers &mdash; of all day-of staff. For now, if you have any questions, you should contact
+       {{ event.manager.name }}{% if event.manager.phone %} at {{ event.manager.phone }}{% endif %}.</p>
+
+    <h2>Schedule Overview</h2>
+    <h3>Saturday</h3>
+    <ul>
+        <li>10am: Setup</li>
+        <li>11am: Doors</li>
+        <li>12pm: Kickoff</li>
+        <li>1pm: Start coding, workshops, lunch</li>
+        <li>7pm: Dinner</li>
+    </ul>
+    <h3>Sunday</h3>
+    <ul>
+        <li>12am: Midnight Snack</li>
+        <li>9am: Judges arrive</li>
+        <li>10am: Presentations</li>
+        <li>11am: Awards</li>
+        <li>12pm: Cleanup</li>
+        <li>1pm: Venue cleaned</li>
+    </ul>
+    <p>If you'd like to talk at the kickoff, please arrive by 11:30am.</p>
+
+    <h2>Cleaning</h2>
+    <p>We will do everything in our power to leave the venue as clean as it was when we arrived. To help us out, we will
+        need access to the following:</p>
+    <ul>
+        <li>A broom and dustpan</li>
+        <li>Garbage bags</li>
+        <li>Dumpsters</li>
+        <li>Supplies for washing tables</li>
+        <li>If you have a carpeted floor, a vacuum</li>
+    </ul>
+    <p>If any of these items will be hard to find, or you have any special requirements, please let us know.</p>
+
+    <h2>Attendees</h2>
+    <p>If you need a list of event attendees, you can download one
+        <a href="https://clear.codeday.org/event/{{ event.id }}/registrations/csv?signature={{ event.signature }}">here</a>.
+        This link will automatically update as participants register, so it's best to download it as close to the
+        start of the event as possible.</p>
+    <p>(We will be running our own check-in on the day of, so unless you have your own requirements, there's no need to
+        worry about this.)</p>
+
+    <p>Cheers,<br />
+        The CodeDay Team</p>
+{% endblock %}

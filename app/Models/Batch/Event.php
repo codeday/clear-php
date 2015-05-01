@@ -15,6 +15,11 @@ class Event extends \Eloquent {
         return $this->allow_registrations && $this->batch->allow_registrations;
     }
 
+    public function getSignatureAttribute()
+    {
+        return hash_hmac('sha256', \Config::get('app.key'), $this->id);
+    }
+
     public function getFullNameAttribute()
     {
         return 'CodeDay '.$this->name.' '.$this->batch->name;

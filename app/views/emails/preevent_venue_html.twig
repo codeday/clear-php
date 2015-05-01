@@ -1,0 +1,108 @@
+{% extends "emails/template_transactional.twig" %}
+{% block header %}
+    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
+{% endblock %}
+{% block why %}You're receiving this email because you're a CodeDay venue.{% endblock %}
+{% block body %}
+    <p>Is it really that time?</p>
+    <p>Yes, yes it is. Dearest partner, it is almost time for CodeDay. At 11am on Saturday, participants will be showing
+       up at your venue's doors in preparation for 24 hours of coding.</p>
+    <p>We should have everything taken care of already, but we wanted to share some helpful information with you in case
+       you should need it.</p>
+    <p>This email is automatically generated: if you have a special arrangement in place with the our event team which
+       contradicts anything in this email, your agreement supersedes. If you have any questions, please reply to this
+       email.</p>
+
+    <h2>Contacts</h2>
+    <p>If you need to get in contact with someone day-of, our Evangelist should be on-call throughout the event. In
+       case you have any troubles getting in touch with them, here are all the contacts for this event:</p>
+    <table class="directory">
+        <tr class="event">
+            <td>Emergency</td>
+            <td>Internal</td>
+            <td>&nbsp;</td>
+            <td><a href="tel:18559807628">(855) 980-7628</a></td>
+        </tr>
+        <tr class="event">
+            <td>Emergency</td>
+            <td>External (parents)</td>
+            <td><a href="mailto:contact@studentrnd.org">contact@studentrnd.org</a></td>
+            <td><a href="tel:18882633230">(888) CODE-230</a></td>
+        </tr>
+        {% if event.evangelist %}
+            <tr>
+                <td>{{ event.evangelist.name }}</td>
+                <td>Lead Evangelist</td>
+                <td><a href="mailto:{{ event.evangelist.email }}">{{ event.evangelist.email }}</a></td>
+                <td><a href="tel:{{ event.evangelist.phone }}">{{ event.evangelist.phone }}</a></td>
+            </tr>
+        {% endif %}
+        <tr class="event">
+            <td>{{ event.manager.name }}</td>
+            <td>Event Manager</td>
+            <td><a href="mailto:{{ event.manager.email }}">{{ event.manager.email }}</a></td>
+            <td><a href="tel:{{ event.manager.phone }}">{{ event.manager.phone }}</a></td>
+        </tr>
+        {% for grant in event.grants %}
+            <tr>
+                <td>{{ grant.user.name }}</td>
+                <td>Volunteer</td>
+                <td><a href="mailto:{{ grant.user.email }}">{{ grant.user.email }}</a></td>
+                <td><a href="tel:{{ grant.user.phone }}">{{ grant.user.phone }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Schedule Overview</h2>
+    <h3>Saturday</h3>
+    <ul>
+        <li>10am: Setup</li>
+        <li>11am: Doors</li>
+        <li>12pm: Kickoff</li>
+        <li>1pm: Start coding, workshops, lunch</li>
+        <li>7pm: Dinner</li>
+    </ul>
+    <h3>Sunday</h3>
+    <ul>
+        <li>12am: Midnight Snack</li>
+        <li>9am: Judges arrive</li>
+        <li>10am: Presentations</li>
+        <li>11am: Awards</li>
+        <li>12pm: Cleanup</li>
+        <li>1pm: Venue cleaned</li>
+    </ul>
+    <p>If you'd like to talk at the kickoff, please arrive by 11:30am.</p>
+
+    <h2>Cleaning</h2>
+    <p>We will do everything in our power to leave the venue as clean as it was when we arrived. To help us out, we will
+       need access to the following:</p>
+    <ul>
+        <li>A broom and dustpan</li>
+        <li>Garbage bags</li>
+        <li>Dumpsters</li>
+        <li>Supplies for washing tables</li>
+        <li>If you have a carpeted floor, a vacuum</li>
+    </ul>
+    <p>If any of these items will be hard to find, or you have any special requirements, please let us know.</p>
+    
+    {% if event.sponsors|length > 0 %}
+        <h2>Sponsors</h2>
+        <p>The following sponsors will be participating in CodeDay, and will be at the venue.</p>
+        {% for sponsor in event.sponsors %}
+            <h3>{{ sponsor.name }}</h3>
+            <h4>{{ sponsor.blurb }}</h4>
+            <p>{{ sponsor.description }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <h2>Attendees</h2>
+    <p>If you need a list of event attendees, you can download one
+        <a href="https://clear.codeday.org/event/{{ event.id }}/registrations/csv?signature={{ event.signature }}">here</a>.
+        This link will automatically update as participants register, so it's best to download it as close to the
+        start of the event as possible.</p>
+    <p>(We will be running our own check-in on the day of, so unless you have your own requirements, there's no need to
+       worry about this.)</p>
+
+    <p>Cheers,<br />
+    The CodeDay Team</p>
+{% endblock %}

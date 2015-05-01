@@ -11,6 +11,18 @@
     <table class="tasks">
         <tbody>
             <tr>
+                <td class="step {% if managed_batch.venue_reminder_email_sent_at %}done{% endif %}"><span><span></span></span></td>
+                <td>
+                    {% if managed_batch.venue_reminder_email_sent_at %}
+                        Venue Reminder Email: Sent
+                    {% else %}
+                        <form action="/tools/tasks/sendvenuereminder" class="inline dangerous" method="post">
+                            <input type="submit" value="Send Venue Reminder Email"/>
+                            {{ csrf|raw }}</form>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
                 <td class="step {% if managed_batch.preevent_email_sent_at %}done{% endif %}"><span><span></span></span></td>
                 <td>
                     {% if managed_batch.preevent_email_sent_at %}
@@ -30,7 +42,19 @@
                     {% else %}
                         <form action="/tools/tasks/sendreminder" class="inline dangerous" method="post">
                             <input type="submit" value="Send Reminder Email"/>
-                        {{ csrf|raw }}</form>
+                            {{ csrf|raw }}</form>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td class="step {% if managed_batch.venue_postevent_email_sent_at %}done{% endif %}"><span><span></span></span></td>
+                <td>
+                    {% if managed_batch.venue_postevent_email_sent_at %}
+                        Venue Post-Event Email: Sent
+                    {% else %}
+                        <form action="/tools/tasks/sendvenuepostevent" class="inline dangerous" method="post">
+                            <input type="submit" value="Send Venue Post-Event Email"/>
+                            {{ csrf|raw }}</form>
                     {% endif %}
                 </td>
             </tr>

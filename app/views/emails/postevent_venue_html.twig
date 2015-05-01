@@ -1,0 +1,18 @@
+{% extends "emails/template_transactional.twig" %}
+{% block why %}You're receiving this email because you're a CodeDay venue.{% endblock %}
+{% block body %}
+    <p>Hi {{ event.venue_contact_first_name }},</p>
+
+    <p>We just wanted to take a quick moment to thank you for hosting CodeDay.</p>
+
+    <p>Our staff made every effort to return your venue to the way we found it. If you notice any problems, can you
+       please let us know as soon as possible? Your happiness is extremely important to us, and we'll do everything we
+       can to fix any problems.</p>
+
+    <p>To let us know about any problems, you can reply to this email, or call our hotline at (855) 980-7628.</p>
+
+    <p>We'll be following up soon with detailed results from the event.</p>
+
+    <p>Cheers!<br />
+       The CodeDay Team</p>
+{% endblock %}
