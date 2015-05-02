@@ -1,0 +1,20 @@
+{% extends "template.twig" %}
+{% block title %}Decrypt{% endblock %}
+{% block section %}debug{% endblock %}
+{% block subnav %}{% include "debug/subnav.twig" %}{% endblock %}
+{% block content %}
+    {% if traceback %}
+        <section class="log">
+            {{ traceback|nl2br }}
+        </section>
+    {% else %}
+        <form method="post">
+            <div class="field">
+                <label for="blob">Blob</label>
+                <textarea name="blob" id="blob"></textarea>
+                <span class="help">Encrypted error traceback from web.</span>
+            </div>
+            <input type="submit" value="Decrypt" />
+        {{ csrf|raw }}</form>
+    {% endif %}
+{% endblock %}

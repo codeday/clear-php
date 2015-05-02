@@ -5,4 +5,5 @@
     \Route::get('', function(){ return \Redirect::to('/debug/log'); });
     \Route::controller('/log', 'LogController');
     \Route::controller('/queue', 'QueueController');
+    \Route::controller('/decrypt', 'DecryptController');
 });
