@@ -48,7 +48,7 @@
                                     {{ flight_plan.to[0].checkin_allowed_at.timestamp|date('h:ia') }})
                             </th>
                         </tr>
-                        {{ smacros.itinerary_block(flight_plan.to, me, csrf) }}
+                        {{ smacros.itinerary_block(flight_plan.to, event, me, csrf) }}
                     {% endif %}
 
                     {# Draw the FROM CodeDay block #}
@@ -61,7 +61,7 @@
                                     {{ flight_plan.from[0].checkin_allowed_at.timestamp|date('h:ia') }})
                             </th>
                         </tr>
-                        {{ smacros.itinerary_block(flight_plan.from, me, csrf) }}
+                        {{ smacros.itinerary_block(flight_plan.from, event, me, csrf) }}
                     {% endif %}
                 {% endfor %}
                 {% if me.is_admin %}
@@ -118,7 +118,7 @@
         </table>
     {% endif %}
 {% endblock %}
-{% macro itinerary_block(flights, me, csrf) %}
+{% macro itinerary_block(flights, event, me, csrf) %}
     {% set last_flight = null %}
     {% for flight in flights %}
         {% if last_flight and last_flight.to_airport == flight.from_airport %}
@@ -136,8 +136,8 @@
             {% if me.is_admin %}
                 <td>
                     <form action="/event/{{ event.id }}/evangelism/deleteflight" method="post" class="inline">
-                        <input type="hidden" name="id" id="{{ flight.id }}"/>
-                        <input type="submit" value="x"/>
+                        <input type="hidden" name="id" value="{{ flight.id }}"/>
+                        <input type="submit" value="x" />
                         {{ csrf|raw }}</form>
                 </td>
             {% endif %}

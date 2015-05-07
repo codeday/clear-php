@@ -32,4 +32,17 @@ class EvangelismController extends \Controller {
 
         return \Redirect::to('/event/'.$event->id.'/evangelism');
     }
+
+    public function postDeleteflight()
+    {
+        $event = \Route::input('event');
+
+        if (!Models\User::me()->is_admin) {
+            \App::abort(403);
+        }
+
+        Models\Batch\Event\Flight::where('id', '=', \Input::get('id'))->firstOrFail()->delete();
+
+        return \Redirect::to('/event/'.$event->id.'/evangelism');
+    }
 }
