@@ -1,0 +1,146 @@
+{% extends "template.twig" %}
+{% block title %}Evangelism // {{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% import _self as smacros %}
+{% block content %}
+    <header>
+        <h2>Evangelism</h2>
+        <p>Information about the evangelist assigned to the event.</p>
+    </header>
+
+    <h3>Contact Information</h3>
+    <p>
+        <strong>{{ event.evangelist.name }}</strong><br />
+        <a href="mailto:{{ event.evangelist.email }}">{{ event.evangelist.email }}</a><br />
+        <a href="tel:{{ event.evangelist.phone }}">{{ event.evangelist.phone }}</a>
+    </p>
+
+
+    {% if event.flights|length > 0 or me.is_admin %}
+        <h3>Flights</h3>
+        <table class="flight-plans">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Departing</th>
+                    <th>Arriving</th>
+                    <th>Confirmation</th>
+                    {% if me.is_admin %}
+                        <th>...</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {# Draw a flight plan for each traveler #}
+                {% for flight_plan in event.flight_plans %}
+                    <tr class="person">
+                        <th colspan="{% if me.is_admin %}4{% else %}3{% endif %}">{{ flight_plan.traveler.name }}</th>
+                    </tr>
+
+                    {# Draw the TO CodeDay block #}
+                    {% if flight_plan.to|length > 0 %}
+                        <tr class="direction">
+                            <th colspan="{% if me.is_admin %}4{% else %}3{% endif %}">
+                                From home city to CodeDay
+                                (check in on
+                                    {{ flight_plan.to[0].checkin_allowed_at.timestamp|date('n/j') }} at
+                                    {{ flight_plan.to[0].checkin_allowed_at.timestamp|date('h:ia') }})
+                            </th>
+                        </tr>
+                        {{ smacros.itinerary_block(flight_plan.to, me, csrf) }}
+                    {% endif %}
+
+                    {# Draw the FROM CodeDay block #}
+                    {% if flight_plan.from|length > 0 %}
+                        <tr class="direction">
+                            <th colspan="{% if me.is_admin %}4{% else %}3{% endif %}">
+                                From CodeDay to home city
+                                (check in on
+                                    {{ flight_plan.from[0].checkin_allowed_at.timestamp|date('n/j') }} at
+                                    {{ flight_plan.from[0].checkin_allowed_at.timestamp|date('h:ia') }})
+                            </th>
+                        </tr>
+                        {{ smacros.itinerary_block(flight_plan.from, me, csrf) }}
+                    {% endif %}
+                {% endfor %}
+                {% if me.is_admin %}
+                    <form action="/event/{{ event.id }}/evangelism/addflight" method="post" class="inline">
+                        <tr class="add">
+                            <td><select name="traveler_username" id="traveler_username" required>
+                                    {% if event.evangelist %}
+                                        <option value="{{ event.evangelist.username }}" selected>{{ event.evangelist.name }}</option>
+                                    {% endif %}
+                                    {% if event.manager %}
+                                        <option value="{{ event.manager.username }}">{{ event.manager.name }}</option>
+                                    {% endif %}
+                                    {% for grant in event.grants %}
+                                        <option value="{{ grant.username }}">{{ grant.user.name }}</option>
+                                    {% endfor %}
+                                </select><br />
+                                <select name="direction" id="direction">
+                                    <option value="to">To Event</option>
+                                    <option value="from">From Event</option>
+                                </select>
+                                <input type="text"
+                                       name="airline" id="airline"
+                                       placeholder="Airline Code"
+                                       maxlength="3" required />
+                                <input type="text"
+                                       name="flight_number" id="flight_number"
+                                       placeholder="Flight Number"
+                                       required /></td>
+                            <td><input type="text"
+                                       name="from_airport" id="from_airport"
+                                       placeholder="From Airport"
+                                       maxlength="4" required /><br />
+                                <input type="datetime-local"
+                                       name="departs_at" id="departs_at"
+                                       placeholder="Departs At (YYYY-MM-DD HH:MM:SS)"
+                                       required /></td>
+                            <td><input type="text"
+                                       name="to_airport" id="to_airport"
+                                       placeholder="To Airport"
+                                       maxlength="4" required /><br />
+                                <input type="datetime-local"
+                                       name="arrives_at" id="arrives_at"
+                                       placeholder="Arrives At (YYYY-MM-DD HH:MM:SS)"
+                                       required /></td>
+                            <td><input type="text"
+                                       name="confirmation_code" id="confirmation_code"
+                                       placeholder="Confirmation Code"
+                                       required /></td>
+                            <td><input type="submit" value="+" /></td>
+                        </tr>
+                    {{ csrf|raw }}</form>
+                {% endif %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
+{% macro itinerary_block(flights, me, csrf) %}
+    {% set last_flight = null %}
+    {% for flight in flights %}
+        {% if last_flight and last_flight.to_airport == flight.from_airport %}
+            <tr class="layover">
+                <td colspan="{% if me.is_admin %}4{% else %}3{% endif %}">Layover at {{ flight.from_airport }}:
+                    {{ last_flight.arrives_at.diffForHumans(flight.departs_at, true) }}</td>
+            </tr>
+        {% endif %}
+        {% set last_flight = flight %}
+        <tr>
+            <td>{{ flight.airline }} {{ flight.flight_number }}</td>
+            <td>{{ flight.from_airport }} on {{ flight.departs_at.timestamp|date('n/j') }} at {{ flight.departs_at.timestamp|date('h:ia') }}</td>
+            <td>{{ flight.to_airport }} on {{ flight.arrives_at.timestamp|date('n/j') }} at {{ flight.arrives_at.timestamp|date('h:ia') }}</td>
+            <td>{{ flight.confirmation_code }}</td>
+            {% if me.is_admin %}
+                <td>
+                    <form action="/event/{{ event.id }}/evangelism/deleteflight" method="post" class="inline">
+                        <input type="hidden" name="id" id="{{ flight.id }}"/>
+                        <input type="submit" value="x"/>
+                        {{ csrf|raw }}</form>
+                </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+{% endmacro %}

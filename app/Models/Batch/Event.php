@@ -254,6 +254,38 @@ class Event extends \Eloquent {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\Activity', 'batches_event_id', 'id')->orderBy('time');
     }
 
+    public function flights()
+    {
+        return $this
+            ->hasMany('\CodeDay\Clear\Models\Batch\Event\Flight', 'batches_event_id', 'id')
+            ->orderBy('departs_at');
+    }
+
+    public function getFlightPlansAttribute()
+    {
+        $travelers = [];
+        foreach (Event\Flight::groupBy('traveler_username')->where('batches_event_id', '=', $this->id)->get()
+                 as $flight) {
+            $travelers[] = $flight->traveler;
+        }
+
+        $plans = [];
+        foreach ($travelers as $traveler) {
+            $plan = (object)['traveler' => $traveler, 'to' => [], 'from' => []];
+            foreach (Event\Flight
+                         ::orderBy('departs_at')
+                         ->where('batches_event_id', '=', $this->id)
+                         ->where('traveler_username', '=', $traveler->username)
+                         ->get()
+                     as $flight) {
+                $plan->{$flight->direction}[] = $flight;
+            }
+            $plans[] = $plan;
+        }
+
+        return $plans;
+    }
+
     public function getScheduleAttribute()
     {
         $standard_schedule = [

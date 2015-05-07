@@ -12,6 +12,7 @@
     \Route::controller('/preevent', 'PreeventController');
     \Route::controller('/subscriptions', 'SubscriptionsController');
     \Route::controller('/overview', 'OverviewController');
+    \Route::controller('/evangelism', 'EvangelismController');
 
     \Route::get('/registrations/attendee/{registration}', 'RegistrationsController@getAttendee');
     \Route::post('/registrations/attendee/{registration}', 'RegistrationsController@postAttendee');
