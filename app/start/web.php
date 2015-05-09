@@ -3,8 +3,8 @@
 // XSS, CSRF, etc protection
 \App::after(function($request, $response)
 {
-    $csp = "default-src 'self'; script-src 'unsafe-eval' 'unsafe-inline' 'self' https://*.googleapis.com https://cdnjs.cloudflare.com http://*.filepicker.io"
-        . " http://code.jquery.com https://code.jquery.com https://*.gstatic.com; object-src 'self'; style-src 'self' 'unsafe-inline'"
+    $csp = "default-src 'self'; script-src 'unsafe-eval' 'unsafe-inline' 'self' https://*.googleapis.com https://cdnjs.cloudflare.com https://*.filepicker.io"
+        . " http://*.filepicker.io http://code.jquery.com https://code.jquery.com https://*.gstatic.com; object-src 'self'; style-src 'self' 'unsafe-inline'"
         . " https://*.googleapis.com https://*.gstatic.com; img-src *; media-src *; frame-src 'self' https://*.filepicker.io;"
         . " font-src 'self' https://*.googleapis.com https://*.gstatic.com; connect-src *;";
 
