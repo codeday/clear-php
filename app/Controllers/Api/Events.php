@@ -14,4 +14,11 @@ class Events extends ApiController {
     {
         return json_encode(ModelContracts\Event::Model(\Route::input('event'), $this->permissions));
     }
-} 
+
+    public function getManagedBy()
+    {
+        $this->requirePermission(['internal']);
+        $user = Models\User::where('username', '=', \Route::input('username'))->get();
+        return json_encode($user);
+    }
+}
