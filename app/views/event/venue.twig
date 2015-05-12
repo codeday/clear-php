@@ -31,7 +31,7 @@
             <div class="field">
                 <label for="waiver_link">Waiver Link</label>
                 <input type="url" name="waiver_link" id="waiver_link" placeholder="https://www.dropbox.com/s/4y1qkxzp15gb879/waiver.pdf" tabindex="8" value="{{ event.waiver_link }}" />
-                <span class="help">If the venue requires students to sign a waiver, include a link to the file here. (Host on Dropbox if necessary.)</span>
+                <span class="help">If the venue requires students to sign a waiver, include a link to the file here. (<a href="#" id="filepicker_waiver">Select a File</a>)</span>
             </div>
             <div class="field">
                 <label for="max_registrations">Capacity</label>
@@ -52,9 +52,26 @@
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript">
+    (function(a){if(window.filepicker){return}var b=a.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===a.location.protocol?"https:":"http:")+"//api.filepicker.io/v1/filepicker.js";var c=a.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c);var d={};d._queue=[];var e="pick,pickMultiple,pickAndStore,read,write,writeUrl,export,convert,store,storeUrl,remove,stat,setKey,constructWidget,makeDropPane".split(",");var f=function(a,b){return function(){b.push([a,arguments])}};for(var g=0;g<e.length;g++){d[e[g]]=f(e[g],d._queue)}window.filepicker=d})(document);
+    </script>
+    <script type="text/javascript">
         var placeSearch, autocomplete;
 
         $(document).ready(function(){
+            // TODO load API key from config instead of hardcoding
+            filepicker.setKey("ADH0Y21m6Ql6Bea2jbz5Az");
+
+            $("#filepicker_waiver").click(function(){
+              filepicker.pick(
+                {
+                  mimetypes: ['image/*', 'application/pdf'],
+                },
+                function(blob){
+                  $("#waiver_link").val(blob.url);
+                }
+              );
+            })
+
             var autocomplete = new google.maps.places.Autocomplete(
                     (document.getElementById('venue_name')),
                     { types: ['establishment'], componentRestrictions: {

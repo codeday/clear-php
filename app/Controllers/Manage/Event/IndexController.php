@@ -9,6 +9,12 @@ class IndexController extends \Controller {
         return \View::make('event/index');
     }
 
+    public function getMyEvent()
+    {
+      $event = Models\User::me()->current_managed_events->sortBy('date_created')->last();
+      return \Redirect::to('/event/' . $event->id . '/' . \Route::input('path'));
+    }
+
     public function postUpdateRegistrationStatus()
     {
         $event = \Route::input('event');

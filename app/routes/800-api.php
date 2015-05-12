@@ -8,10 +8,10 @@
 
     \Route::controller('events', 'Events');
     \Route::get('event/{event}', 'Events@getEvent');
+    \Route::get('events/managed-by/{username}', 'Events@getManagedBy');
 
     \Route::controller('registrations', 'Registrations');
     \Route::get('registration/{registration}', 'Registrations@getRegistration');
-    // \Route::get('registrations/by_email', 'Registrations@getRegistrationsByEmail');
 
     \Route::controller('promotions', 'Promotions');
     \Route::post('promotions/new', 'PromotionsController@postNew');
