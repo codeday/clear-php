@@ -12,7 +12,7 @@
 
     <h3>Your Events</h3>
     <ul>
-        {% for event in user.managed_events %}
+        {% for event in user.loaded_managed_events %}
             <li>
                 <strong>{{ event.name }}:</strong>
                 {% if not event.allow_registrations_calculated %}
@@ -26,7 +26,7 @@
     </ul>
 
     {% set has_events = false %}
-    {% for event in user.managed_events %}
+    {% for event in user.loaded_managed_events %}
         {% if event.allow_registrations_calculated and event.registrations_this_week|length > 0 %}
             {% set has_events = true %}
         {% endif %}
@@ -34,7 +34,7 @@
     {% if has_events %}
         <h3>New Registrations</h3>
         <p>When you get a chance, say "hi" to these brave new attendees:</p>
-        {% for event in user.managed_events %}
+        {% for event in user.loaded_managed_events %}
             {% if event.allow_registrations_calculated and event.registrations_this_week|length > 0 %}
                 <h4>{{ event.name }}</h4>
                 <ul>

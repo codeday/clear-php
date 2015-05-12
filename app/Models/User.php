@@ -143,6 +143,11 @@ class User extends \Eloquent {
         return $this->getManagedEvents(Batch::Managed());
     }
 
+    public function getLoadedManagedEventsAttribute()
+    {
+        return $this->getManagedEvents(Batch::Loaded());
+    }
+
     public function getManagedEvents(Batch $batch)
     {
         return Batch\Event::select('batches_events.*')

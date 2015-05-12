@@ -8,13 +8,13 @@
     <p>Hi {{ user.first_name }},</p>
 
    <p>CodeDay is fast-approaching, and in order to successfully host your
-       event{% if user.managed_events|length > 1 %}s{% endif %}, we need some more information from you. Please fill
+       event{% if user.loaded_managed_events|length > 1 %}s{% endif %}, we need some more information from you. Please fill
        in the following information by
        <strong>{{ loaded_batch.starts_at.addDays(-8).timestamp|date('l, F j') }}</strong>. If this information is
        not entered by then, you will be missing critical event supplies.</p>
     
     <ul>
-        {% for event in user.managed_events %}
+        {% for event in user.loaded_managed_events %}
             {% if not event.ship_address_1 %}
                 <li><a href="https://clear.codeday.org/event/{{ event.id }}/shipping">{{ event.name }} Shipping Info</a></li>
             {% endif %}
