@@ -36,25 +36,33 @@
 
             <div class="parent">
                 <h4>Parent Info</h4>
-                <div class="field">
-                    <label for="parent_name">Name</label>
-                    <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
-                </div>
+                {% if registration.parent_no_info %}
+                    <p>(Over 18 and not living with parent.)</p>
+                    <input type="hidden" name="parent_name" value="{{ registration.parent_name }}" />
+                    <input type="hidden" name="parent_email" value="{{ registration.parent_email }}"/>
+                    <input type="hidden" name="parent_phone" value="{{ registration.parent_phone }}" />
+                    <input type="hidden" name="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
+                {% else %}
+                    <div class="field">
+                        <label for="parent_name">Name</label>
+                        <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
+                    </div>
 
-                <div class="field">
-                    <label for="parent_email">Email</label>
-                    <input type="email" name="parent_email" id="parent_email" value="{{ registration.parent_email }}" />
-                </div>
+                    <div class="field">
+                        <label for="parent_email">Email</label>
+                        <input type="email" name="parent_email" id="parent_email" value="{{ registration.parent_email }}" />
+                    </div>
 
-                <div class="field">
-                    <label for="parent_phone">Phone 1</label>
-                    <input type="phone" name="parent_phone" id="parent_phone" value="{{ registration.parent_phone }}" />
-                </div>
+                    <div class="field">
+                        <label for="parent_phone">Phone 1</label>
+                        <input type="phone" name="parent_phone" id="parent_phone" value="{{ registration.parent_phone }}" />
+                    </div>
 
-                <div class="field">
-                    <label for="parent_secondary_phone">Phone 2</label>
-                    <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
-                </div>
+                    <div class="field">
+                        <label for="parent_secondary_phone">Phone 2</label>
+                        <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
+                    </div>
+                {% endif %}
             </div>
 
             <div class="field">
