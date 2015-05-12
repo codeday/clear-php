@@ -52,7 +52,10 @@
             </thead>
             <tbody>
                 {% for registration in event.registrations %}
-                    <tr class="type-{{ registration.type }} {% if registration.checked_in_at %}checked-in{% endif %}">
+                    <tr class="type-{{ registration.type }}
+                        {% if registration.checked_in_at %}checked-in{% endif %}
+                        {% if not registration.parent_email %}missing-parent-info{% endif %}
+                        ">
                         <td class="name">{{ registration.name }}</td>
                         <td class="email">{{ registration.email }}</td>
                         <td class="id">{{ registration.id }}</td>
@@ -113,6 +116,12 @@
                     "Please check that the teacher has a valid, school-issued photo ID."
                 )) {
                 return;
+            }
+
+            if (_this.parents('tr').hasClass('missing-parent-info') && action == 'in') {
+                _this.parents('tr').removeClass('missing-parent-info');
+                alert("Checked in, but missing parent info. Please collect! (Collection window opened.)");
+                window.open('/e/parent?r='+id, '_blank');
             }
 
             $.ajax({
