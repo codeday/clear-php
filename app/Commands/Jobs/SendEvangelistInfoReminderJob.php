@@ -26,7 +26,7 @@ class SendEvangelistInfoReminderJob {
                     $evangelist->name, $evangelist->email,
                     'Phone Number Required For CodeDay',
                     null,
-                    \View::make('emails/evangelist_info_reminder_html'),
+                    \View::make('emails/evangelist_info_reminder_html', ['user' => $evangelist]),
                     false
                 );
             }
