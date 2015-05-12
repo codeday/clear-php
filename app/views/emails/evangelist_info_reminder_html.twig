@@ -13,7 +13,7 @@
 
     <p>You can enter your contact number <a href="https://s5.studentrnd.org/me/edit">on s5</a>.</p>
 
-    {% loaded_batch.starts_at.addDays(-8).isPast() %}
+    {% if loaded_batch.starts_at.addDays(-8).isPast() %}
         <p>This information is <strong>OVERDUE!</strong> Please enter it as soon as possible!</p>
     {% else %}
         <p>Please enter it by <strong>{{ loaded_batch.starts_at.addDays(-8).timestamp|date('l, F j') }}</strong>.</p>
