@@ -16,10 +16,11 @@ class IndexController extends \Controller {
     public function postParent(){
         $registration = Models\Batch\Event\Registration::where('id', '=', \Input::get('r'))->firstOrFail();
 
-        $registration->parent_name = \Input::get('parent_name');
-        $registration->parent_email = \Input::get('parent_email');
-        $registration->parent_phone = \Input::get('parent_phone');
-        $registration->parent_secondary_phone = \Input::get('parent_secondary_phone');
+        $registration->parent_name = \Input::get('parent_name') ? \Input::get('parent_name') : null;
+        $registration->parent_email = \Input::get('parent_email') ? \Input::get('parent_email') : null;
+        $registration->parent_phone = \Input::get('parent_phone') ? \Input::get('parent_phone') : null;
+        $registration->parent_secondary_phone = \Input::get('parent_secondary_phone') ? \Input::get('parent_secondary_phone') : null;
+        $registration->parent_no_info = \Input::get('parent_no_info') ? true : false;
         $registration->save();
 
         return \View::make('email-pages/parent', [

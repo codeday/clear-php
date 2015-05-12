@@ -26,22 +26,12 @@
           <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
       </div>
 
+      <div class="field">
+          <label for="parent_no_info">Or, if you're over 18 and don't live with your parents, check here:</label>
+          <input type="checkbox" name="parent_no_info" value="1" {% if registration.parent_no_info %}checked{% endif %}/>
+      </div>
+
       <input type="submit" value="Save"/>
   </form>
 {% endblock %}
-{% block scripts %}
-  <script type="application/javascript">
-      $(document).ready(function(){
-          var checkAll = function(){
-              var selected = $('input[type="radio"][name="type"]:checked').val();
-              if (selected == 'all') {
-                  $('.warning').show(500);
-              } else {
-                  $('.warning').hide(500);
-              }
-          };
-          $('input[type="radio"][name="type"]').on('change', checkAll);
-          checkAll();
-      });
-  </script>
-{% endblock %}
+
