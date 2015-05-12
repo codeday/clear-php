@@ -13,3 +13,4 @@
 
 \Artisan::add(new \CodeDay\Clear\Commands\ClearBeanstalkdQueueCommand);
 \Artisan::add(new \CodeDay\Clear\Commands\TestCommand);
+\Artisan::add(new \CodeDay\Clear\Commands\CronCommand);

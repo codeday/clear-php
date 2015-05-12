@@ -1,0 +1,16 @@
+{% autoescape false %}
+Hi {{ registration.first_name }},
+
+Thanks for registering for CodeDay {{ registration.event.name }}. {{ registration.event.starts_at|date('F jS') }} is fast approaching, and we want to make sure you're ready to attend.
+
+Before you can attend CodeDay, we need your parent contact info. We'll use this to get in touch with them in case anything goes wrong during the event (unlikely), and to let them know what cool things you made at CodeDay (way more likely).
+
+Can you fill out your parent information here: https://clear.codeday.org/e/parent?r={{ registration.id }}
+
+It'll only take a second. Thanks!
+
+(If you're over 18 and not living with your parents, you'll be able to indicate that on that page, instead.)
+
+Cheers!
+The CodeDay Team
+{% endautoescape %}

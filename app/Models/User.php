@@ -104,6 +104,25 @@ class User extends \Eloquent {
         return $user;
     }
 
+    public function s5Update()
+    {
+        try {
+            $s5_user = self::api()->User->get($this->username);
+        } catch (\Exception $ex) {
+            return null;
+        }
+
+        $this->first_name = $s5_user->first_name;
+        $this->last_name = $s5_user->last_name;
+        $this->email = $s5_user->email;
+        $this->phone = $s5_user->phone;
+        $this->is_admin = $s5_user->is_admin;
+        $this->is_certified_evangelist = count(array_filter($s5_user->groups, function($e) {
+                return $e->id == \Config::get('s5.groups.certified_evangelist');
+            })) > 0;
+        $this->save();
+    }
+
     public function getInternalEmailAttribute()
     {
         return $this->username.'@studentrnd.org';

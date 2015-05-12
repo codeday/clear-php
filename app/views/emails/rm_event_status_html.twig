@@ -1,0 +1,62 @@
+{% extends "emails/template_transactional.twig" %}
+{% block why %}You received this email because you manage a CodeDay.{% endblock %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block header %}{% endblock %}
+{% block body %}
+    <p>Hi {{ user.first_name }},</p>
+
+    <p>This is your {{ interval }} CodeDay update!</p>
+    {% if interval == 'daily' %}
+        <p>(Because we're getting close to CodeDay, you're getting this daily.)</p>
+    {% endif %}
+
+    <h3>Your Events</h3>
+    <ul>
+        {% for event in user.managed_events %}
+            <li>
+                <strong>{{ event.name }}:</strong>
+                {% if not event.allow_registrations_calculated %}
+                    {{ event.notify.count }} notification subscribers
+                {% else %}
+                    {{ event.registrations_this_week|length }} so far this week
+                    ({{ event.registrations.count }} total)
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% set has_events = false %}
+    {% for event in user.managed_events %}
+        {% if event.allow_registrations_calculated and event.registrations_this_week|length > 0 %}
+            {% set has_events = true %}
+        {% endif %}
+    {% endfor %}
+    {% if has_events %}
+        <h3>New Registrations</h3>
+        <p>When you get a chance, say "hi" to these brave new attendees:</p>
+        {% for event in user.managed_events %}
+            {% if event.allow_registrations_calculated and event.registrations_this_week|length > 0 %}
+                <h4>{{ event.name }}</h4>
+                <ul>
+                    {% for registration in event.registrations_this_week %}
+                        <li><a href="mailto:{{ registration.email }}">{{ registration.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <h3>Leaderboard</h3>
+    <ol>
+        {% for event in leaderboard %}
+            <li>
+                <strong>{{ event.name }}:</strong>
+                &#9652;{{ event.registrations_this_week|length }} so far this week
+                ({{ event.registrations.count }} total)
+            </li>
+        {% endfor %}
+    </ol>
+
+    <p>Cheers!<br />
+    The StudentRND Team</p>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "emails/template_transactional.twig" %}
+{% block header %}
+    <img src="https://clear.codeday.org/assets/img/email_confirm_header_01.jpg" alt="Your CodeDay Registration"/>
+{% endblock %}
+{% block unsubscribe %}{% endblock %}
+{% block body %}
+    <p>Hi {{ registration.first_name }},</p>
+
+    <p>Thanks for registering for CodeDay {{ registration.event.name }}. {{ registration.event.starts_at|date('F jS') }}
+        is fast approaching, and we want to make sure you're ready to attend.</p>
+
+    <p>Before you can attend CodeDay, we need your parent contact info. We'll use this to get in touch with them in case
+        anything goes wrong during the event (unlikely), and to let them know what cool things you made at CodeDay (way
+        more likely).</p>
+
+    <p>Can you fill out <a href="https://clear.codeday.org/e/parent?r={{ registration.id }}">your parent
+        information?</a> It'll only take a second. Thanks!</p>
+
+    <p>(If you're over 18 and not living with your parents, you'll be able to indicate that on that page, instead.)</p>
+
+    <p>Cheers!<br />
+        The CodeDay Team</p>
+{% endblock %}

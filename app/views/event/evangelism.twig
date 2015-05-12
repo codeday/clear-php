@@ -50,7 +50,6 @@
                         </tr>
                         {{ smacros.itinerary_block(flight_plan.to, event, me, csrf) }}
                     {% endif %}
-
                     {# Draw the FROM CodeDay block #}
                     {% if flight_plan.from|length > 0 %}
                         <tr class="direction">
