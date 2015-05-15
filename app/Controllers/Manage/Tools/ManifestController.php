@@ -24,7 +24,14 @@ class ManifestController extends \Controller {
                 }
             }
 
-            return \View::make('tools/manifests', ['totals' => $totals]);
+            $sorted_events = Models\Batch\Event
+                ::select('batches_events.*')
+                ->leftJoin('regions', 'regions.id', '=', 'batches_events.region_id')
+                ->where('batch_id', '=', Models\Batch::Managed()->id)
+                ->orderBy('regions.ground_days_in_transit', 'DESC')
+                ->get();
+
+            return \View::make('tools/manifests', ['totals' => $totals, 'sorted_events' => $sorted_events]);
         }
     }
 }

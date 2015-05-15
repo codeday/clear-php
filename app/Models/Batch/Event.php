@@ -67,6 +67,19 @@ class Event extends \Eloquent {
         }
     }
 
+    public function getShipByAttribute()
+    {
+        $shipDate = $this->batch->starts_at->addDays(-1);
+        for ($i = 0; $i < $this->region->ground_days_in_transit; $i++) {
+            $shipDate->addDays(-1);
+            while (in_array($shipDate->dayOfWeek, [Carbon::SATURDAY, Carbon::SUNDAY])) {
+                $shipDate->addDays(-1);
+            }
+        }
+
+        return $shipDate;
+    }
+
     /**
      * Gets the next available overflow event
      *

@@ -79,7 +79,7 @@
         </tbody>
     </table>
 
-    {% for event in managed_batch.events %}
+    {% for event in sorted_events %}
         <h1>CodeDay Packing List</h1>
         <h2>{{ event.name }}</h2>
         <table class="geninfo">
@@ -92,6 +92,10 @@
             <tr>
                 <th>Attendee Estimate</th>
                 <td>{{ event.ship_for }}</td>
+            </tr>
+            <tr>
+                <th>Ship By</th>
+                <td>{{ event.ship_by.timestamp|date('Y-M-d') }} 05:00:00 {{ null|date('e') }}</td>
             </tr>
             <tr>
                 <th>Packing List Created</th>
