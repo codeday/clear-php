@@ -14,17 +14,17 @@ class DatabaseSeeder extends Seeder {
 
         // Add batches
         if (!Models\Batch::exists()) {
+						$present_batch = new Models\Batch;
+						$present_batch->starts_at = time() + (60 * 60 * 24 * 365 * 10);
+						$present_batch->name = "Far Future";
+						$present_batch->is_loaded = true;
+						$present_batch->save();
+						
             $past_batch = new Models\Batch;
             $past_batch->starts_at = time() - (60 * 60 * 24 * 30);
             $past_batch->name = "Past";
             $past_batch->is_loaded = false;
             $past_batch->save();
-
-            $present_batch = new Models\Batch;
-            $present_batch->starts_at = time() + (60 * 60 * 24 * 365 * 10);
-            $present_batch->name = "Far Future";
-            $present_batch->is_loaded = true;
-            $present_batch->save();
         }
 
         $batch = Models\Batch::Loaded();

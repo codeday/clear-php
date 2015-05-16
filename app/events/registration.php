@@ -8,3 +8,7 @@ use \CodeDay\Clear\Services;
         .$reg->event->id.'/registrations/attendee/'.$reg->id.'|'.$reg->name.'>'
         .' registered for CodeDay '.$reg->event->name);
 });
+
+\Event::listen('registration.*', function($data){
+  \CodeDay\Clear\Models\Application\Webhook::Fire(\Event::firing(), $data);
+});

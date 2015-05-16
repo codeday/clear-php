@@ -13,6 +13,11 @@ class Application extends \Eloquent {
         return $this->belongsTo('\CodeDay\Clear\Models\User', 'admin_username', 'username');
     }
 
+    public function webhooks()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Application\Webhook', 'application_id', 'public');
+    }
+
     protected static function boot()
     {
         parent::boot();

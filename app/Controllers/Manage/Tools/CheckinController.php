@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Controllers\Manage\Tools;
 
 use \CodeDay\Clear\Models;
+use \CodeDay\Clear\ModelContracts;
 
 class CheckinController extends \Controller {
 
@@ -27,9 +28,11 @@ class CheckinController extends \Controller {
         if ($action == 'in') {
             $attendee->checked_in_at = \Carbon\Carbon::now();
             $attendee->save();
+            \Event::fire('registration.checkin', \DB::table('batches_events_registrations')->where('id', '=', $attendee_id)->get()[0]);
         } else {
             $attendee->checked_in_at = null;
             $attendee->save();
+            \Event::fire('registration.checkout', \DB::table('batches_events_registrations')->where('id', '=', $attendee_id)->get()[0]);
         }
 
         return json_encode((object)['status' => 200]);

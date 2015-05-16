@@ -51,4 +51,53 @@
 
         <input type="submit" value="Save" />
     {{ csrf|raw }}</form>
+
+    <h3>Webhooks</h3>
+
+    <table>
+      <tbody>
+        <tr>
+          <th>URL</th>
+          <th>Event</th>
+          <th>&nbsp;</th>
+        </tr>
+        {% for hook in application.webhooks %}
+        <tr>
+          <td>{{ hook.url }}</td>
+          <td>{{ hook.event }}</td>
+          <td>
+            <form method="post" class="small" action="/tools/applications/{{ application.public }}/webhook/delete">
+              <input type="hidden" name="id" value="{{ hook.id }}"/>
+              <input type="submit" value="Delete" />
+              {{ csrf|raw }}
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <form action="/tools/applications/{{ application.public }}/webhook" method="post">
+      <h3>New Webhook</h3>
+
+      <div class="field">
+          <label for="hook_url">Hook URL</label>
+          <input type="text" name="hook_url" id="hook_url"/>
+          <span class="help">We'll send a POST request to this URL when the event is triggered.</span>
+      </div>
+
+      <div class="field">
+          <label for="hook_event">Hook Event</label>
+          <select name="hook_event" id="hook_event">
+            <option value="registration.register">Registration.Register - Fired when an attendee registers</option>
+            <option value="registration.checkin">Registration.Checkin - Fired when an attendee checks in</option>
+            <option value="registration.checkout">Registration.Checkout - Fired when an attendee checks out</option>
+          </select>
+          <span class="help">The event to listen for.</span>
+      </div>
+
+      <input type="submit" value="Create"/>
+      {{ csrf|raw }}
+    </form>
+
 {% endblock %}

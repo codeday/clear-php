@@ -14,6 +14,8 @@
     \Route::post('/applications/new', 'ApplicationsController@postNew');
     \Route::get('/applications/{application}', 'ApplicationsController@getEdit');
     \Route::post('/applications/{application}', 'ApplicationsController@postEdit');
+    \Route::post('/applications/{application}/webhook', 'ApplicationsController@postWebhook');
+    \Route::post('/applications/{application}/webhook/delete', 'ApplicationsController@postWebhookDelete');
     \Route::controller('/applications', 'ApplicationsController');
     \Route::controller('banlist', 'BanlistController');
 

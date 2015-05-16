@@ -2,13 +2,11 @@
 
 echo "Setting up environment for Clear..."
 cd app
-mkdir storage
+mkdir -p storage
 cd storage
-mkdir cache logs meta sessions views
+mkdir -p cache logs meta sessions views
 cd ..
 cd config
 touch local.json
 cd ../..
-
-# echo "Installing Composer dependencies..."
-# composer install
+echo "Done. Run \`composer install\`."
