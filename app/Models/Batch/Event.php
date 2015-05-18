@@ -414,8 +414,23 @@ class Event extends \Eloquent {
             $standard_schedule[$i]->day = $day;
         }
 
+        // Get activities
+        $activities = [];
+        foreach ($this->activities as $activity) {
+            $activities[] = (object)[
+                'time' => $activity->time,
+                'title' => $activity->title,
+                'type' => $activity->type,
+                'url' => $activity->url,
+                'description' => $activity->description,
+                'timestamp' => $activity->timestamp,
+                'hour' => $activity->hour,
+                'day' => $activity->day
+            ];
+        }
+
         // Build the unified schedule
-        $unified_schedule = array_merge($standard_schedule, iterator_to_array($this->activities));
+        $unified_schedule = array_merge($standard_schedule, $activities);
         usort($unified_schedule, function($a, $b) {
             return ($a->time - $b->time) * 100;
         });
