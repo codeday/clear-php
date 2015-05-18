@@ -52,6 +52,8 @@ class ApplicationsController extends \Controller {
         $application->description = \Input::get('description');
         $application->save();
 
+        setcookie("readme_appkey", json_encode(["token" => $application->public, "secret" => $application->private]), time()+3600);
+
         \Session::flash('status_message', 'Application created.');
 
         return \Redirect::to('/tools/applications');
@@ -64,6 +66,8 @@ class ApplicationsController extends \Controller {
         if ($application->admin_username !== Models\User::me()->username && !Models\User::me()->is_admin) {
             \App::abort(401);
         }
+
+        setcookie("readme_appkey", json_encode(["token" => $application->public, "secret" => $application->private]), time()+3600);
 
         return \View::make('tools/applications/edit', [
             'application' => $application
