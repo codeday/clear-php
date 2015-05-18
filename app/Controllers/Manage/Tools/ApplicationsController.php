@@ -52,7 +52,7 @@ class ApplicationsController extends \Controller {
         $application->description = \Input::get('description');
         $application->save();
 
-        setcookie("readme_appkey", json_encode(["token" => $application->public, "secret" => $application->private]), time()+3600);
+        setcookie("readme_appkey", json_encode(["token" => $application->public, "secret" => $application->private]), time()+3600, null, "*.clear.codeday.org");
 
         \Session::flash('status_message', 'Application created.');
 
@@ -67,7 +67,7 @@ class ApplicationsController extends \Controller {
             \App::abort(401);
         }
 
-        setcookie("readme_appkey", json_encode(["token" => $application->public, "secret" => $application->private]), time()+3600);
+        setcookie("readme_appkey", json_encode(["token" => $application->public, "secret" => $application->private]), time()+3600, null, "*.clear.codeday.org");
 
         return \View::make('tools/applications/edit', [
             'application' => $application
