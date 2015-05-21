@@ -6,6 +6,7 @@
 
     \Route::controller('/checkin', 'CheckinController');
     \Route::controller('/deck', 'DeckController');
+    \Route::controller('/call-parents', 'CallParentsController');
 
     \Route::group(['before' => 's5_admin'], function(){
         \Route::controller('send-sms', 'SendSmsController');

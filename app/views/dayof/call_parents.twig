@@ -1,0 +1,102 @@
+{% extends "template.twig" %}
+{% block title %}Call Parents{% endblock %}
+{% block section %}dayof{% endblock %}
+{% block subnav %}{% include "dayof/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Call Parents</h2>
+        <p>This will robocall all parents of students at an event. This should almost never be used! For individual
+           calls, make the call from your personal phone.</p>
+        <p><strong>Getting calls for unimportant subjects is very annoying.</strong> Please use this tool only to send
+           important messages. Some examples of <strong>OKAY USES:</strong></p>
+        <ul>
+            <li>Letting parents know if the event runs significantly over schedule</li>
+            <li>Informing parents if the event is cancelled after students have arrived</li>
+            <li>Getting in contact with parents after an earthquake or other natural disaster</li>
+        </ul>
+        <p><strong>PROHIBITED USES:</strong></p>
+        <ul>
+            <li>Anything marketing-related (which is a violation of Federal law)</li>
+            <li>Reminding parents about the event</li>
+            <li>Inviting parents to the closing presentations</li>
+            <li>Letting parents know the event is cancelled before it has started</li>
+            <li>Providing driving directions</li>
+            <li>Anything not time-sensitive</li>
+            <li>Anything which can be communicated as easily over email</li>
+        </ul>
+    </header>
+
+    {% if me.is_admin %}
+        {% set events = managed_batch.events %}
+    {% else %}
+        {% set events = me.current_managed_events %}
+    {% endif %}
+
+    <form method="post">
+        <div class="field">
+            <label for="to">To Event</label>
+            <select name="to" id="to" required>
+                <option value="">(select)</option>
+                {% for event in events %}
+                    <option value="{{ event.id }}">{{ event.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="field">
+            <label for="template">Template</label>
+            <select id="template">
+                <option value="">(select to use)</option>
+                <option value="start-delay">Delay of event start time (morning of event)</option>
+                <option value="end-delay">Delay of event end time (after event has started)</option>
+                <option value="cancelled">Cancelled (morning of event)</option>
+                <option value="emergency">Emergency pickup (after event has started)</option>
+            </select>
+            <span class="help">Select a pre-made template for a common event situation.</span>
+        </div>
+        <div class="field">
+            <label for="message">Message</label>
+            <textarea name="message" id="message" required maxlength="1000"></textarea>
+            <span class="help">The message to send. Spell phonetically ("Code Day" instead of "CodeDay"). We will
+                automatically prepend an intro including event details and information about how to get in contact
+                with you.</span>
+        </div>
+        <input type="submit" value="This is an urgent communication. Send it now." />
+    {{ csrf|raw }}</form>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        (function(){
+            var templates = {
+                "end-delay":
+                        "CodeDay is running behind schedule. The event will now end at [[NEW END TIME]] instead of"
+                        +" noon. The final presentations will now begin at [[NEW PRESENTATION TIME]]. If this does not"
+                        +" work, you may still pick your student up at the original time. We apologize for this delay.",
+                "start-delay":
+                        "CodeDay is starting late. Doors will now open at [[NEW DOORS TIME]] instead of 11am. The event"
+                        +" will officially start at [[NEW START TIME]]. CodeDay will still end at noon on Sunday as"
+                        +" before. We aplogize for the delay.",
+                "cancelled":
+                        "CodeDay is cancelled. We apologize for the late notice. You will receive a full refund for"
+                        +" your tickets. Please check your email for more details.",
+                "emergency":
+                        "Due to an emergency, we are cancelling the rest of CodeDay. You will need you to pick up your"
+                        +" student. [[PICKUP INSTRUCTIONS]]"
+            };
+
+            $('#template').on('change', function(){
+                var selected = $(this).val();
+                if (selected == '') return;
+                if ($('#message').val() && !confirm("This will overwrite your current edits. Continue?")) {
+                    return;
+                }
+
+                var text = templates[selected];
+                $('#message').val(text);
+
+                $('#template option').filter(function(){
+                    return $(this).val() == '';
+                }).prop('selected', true);
+            });
+        })();
+    </script>
+{% endblock %}
