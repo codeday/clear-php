@@ -26,6 +26,15 @@ Another tool to pay attention to: your StudentRND email, available at http://mai
 
 If you'll be flying out to CodeDay, we'll follow-up in the next day or so to collect availability and traveller information.
 
+# Phone
+{% if not user.phone %}
+
+In order to successfully host the event, we need your contact phone number. On the day of the event, if any parents need to reach event staff, it will be routed to you. (We will not give out this number directly; it goes through our phone system.)
+
+You can add your phone number on s5 -- https://s5.studentrnd.org/me/edit.
+{% endif %}
+
+We'll {% if not user.phone %}also {% endif %}use your phone number to stay in contact with you on the day-of. This will usually be through text messages, so if you can't receive text messages, let us know here -- https://clear.codeday.org/e/smsunsubscribe.
 
 # Let's Get Moving
 

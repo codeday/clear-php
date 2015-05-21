@@ -24,6 +24,11 @@
            <a href="http://wiki.studentrnd.org/display/EVG/CodeDay+Evangelism">Evangelism Guide</a>.</p>
     {% endif %}
 
+    <h2>Phone</h2>
+    {% if not user.phone %}
+
+    {% endif %}
+
     <h2>Tools</h2>
     <p>You already have an s5 account, so you're ready to log into all our internal tools. One of the tools you'll find
         most useful is <a href="https://clear.codeday.org/">Clear</a> -- the CodeDay management backend.</p>
@@ -35,6 +40,17 @@
     <h2>Flights</h2>
     <p>If you'll be flying out to CodeDay, we'll follow-up in the next day or so to collect availability and traveller
        information.</p>
+
+    <h2>Phone</h2>
+    {% if not user.phone %}
+        <p>In order to successfully host the event, we need your contact phone number. On the day of the event, if any
+           parents need to reach event staff, it will be routed to you. (We will not give out this number directly; it
+            goes through our phone system.)</p>
+        <p>You can add your phone number on <a href="https://s5.studentrnd.org/me/edit">s5</a>.</p>
+    {% endif %}
+    <p>We'll {% if not user.phone %}also {% endif %}use your phone number to stay in contact with you on the day-of.
+       This will usually be through text messages, so if you can't receive text messages, let us know
+       <a href="https://clear.codeday.org/e/smsunsubscribe">here.</a></p>
 
     <h2>Let's Get Moving!</h2>
     <p>There's not a lot of time, so you should get started on this right away!</p>

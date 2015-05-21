@@ -1,0 +1,52 @@
+{% extends "template.twig" %}
+{% block title %}SMS // Settings{% endblock %}
+{% block section %}settings{% endblock %}
+{% block subnav %}{% include "settings/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Evangelists SMSs</h2>
+        <p>SMS messages sent out to Evangelists during the event.</p>
+    </header>
+
+    <h3>Current Messages</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Hours From Start</th>
+                <th>Content</th>
+                <th>x</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in sms %}
+                <tr>
+                    <td>{{ message.hours_offset }}</td>
+                    <td>{{ message.content }}</td>
+                    <td>
+                        <form method="post" action="/settings/sms/delete">
+                            <input type="hidden" name="id" value="{{ message.id }}" />
+                            <input type="submit" value="x"/>
+                        {{ csrf|raw }}</form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Create New</h3>
+    <form method="post" action="/settings/sms/new">
+        <div class="field">
+            <label for="hours_offset">Hours Offset</label>
+            <input type="text" name="hours_offset" id="hours_offset" placeholder="1.5" required />
+            <span class="help">The duration after the start of an event to send the message.</span>
+        </div>
+
+        <div class="field">
+            <label for="content"></label>
+            <input type="text" name="content" id="content" placeholder="It's almost noon! Are you ready?" required />
+            <span class="help">The message to send.</span>
+        </div>
+
+        <input type="submit" value="Add" />
+    {{ csrf|raw }}</form>
+{% endblock %}

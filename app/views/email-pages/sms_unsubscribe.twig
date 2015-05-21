@@ -1,0 +1,17 @@
+{% extends 'email-pages/template' %}
+{% block title %}SMS Optout{% endblock %}
+{% block content %}
+  <h1>SMS Optout</h1>
+  {% if success %}
+      <p class="success">Optout status changed.</p>
+  {% endif %}
+  <form method="post">
+      <div class="field">
+          <label for="sms_optout">If you can't receive text messages, check here:</label>
+          <input type="checkbox" name="sms_optout" value="1" {% if me.sms_optout %}checked{% endif %}/>
+      </div>
+
+      <input type="submit" value="Save"/>
+  </form>
+{% endblock %}
+

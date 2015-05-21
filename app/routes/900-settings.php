@@ -26,5 +26,9 @@
     \Route::post('email-templates/new', 'EmailTemplatesController@postNew');
     \Route::post('email-templates/{email_template}/delete', 'EmailTemplatesController@postDelete');
 
-    \Route::controller('', 'IndexController');
+    \Route::controller('sms', 'SmsController');
+
+    \Route::get('', function() {
+        return \Redirect::to('/settings/batches');
+    });
 });

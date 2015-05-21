@@ -29,6 +29,23 @@ class IndexController extends \Controller {
         ]);
     }
 
+    public function getSmsunsubscribe()
+    {
+        return \View::make('email-pages/sms_unsubscribe', ['me' => Models\User::me()]);
+    }
+
+    public function postSmsunsubscribe()
+    {
+        $user = Models\User::me();
+        $user->sms_optout =\Input::get('sms_optout') ? true : false;
+        $user->save();
+
+        return \View::make('email-pages/sms_unsubscribe', [
+            'me' => Models\User::me(),
+            'success' => true
+        ]);
+    }
+
     public function getUnsubscribe()
     {
         $email = \Input::get('e');

@@ -1,0 +1,48 @@
+{% extends "template.twig" %}
+{% block title %}Emails{% endblock %}
+{% block section %}tools{% endblock %}
+{% import "widgets/compose_email.twig" as composer %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Send SMS</h2>
+        <p>You can contact event staff over SMS here.</p>
+    </header>
+
+    <form method="post">
+        <div class="field">
+            <label for="to">To</label>
+            <select name="to" id="to">
+                <optgroup label="All...">
+                    <option value="evangelists">Current Evangelists</option>
+                    <option value="rms">Current RMs</option>
+                </optgroup>
+                <optgroup label="Current Evangelists">
+                    {% for event in managed_batch.events %}
+                        {% if event.evangelist_username and event.evangelist.phone %}
+                            <option value="u:{{ event.evangelist_username }}">
+                                {{ event.name }}: {{ event.evangelist.name }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </optgroup>
+                <optgroup label="Current RMs">
+                    {% for event in managed_batch.events %}
+                        {% if event.manager_username and event.manager.phone %}
+                            <option value="u:{{ event.manager_username }}">
+                                {{ event.name }}: {{ event.manager.name }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </optgroup>
+            </select>
+            <span class="help">Who to send the SMS to</span>
+        </div>
+        <div class="field">
+            <label for="message">Message</label>
+            <textarea name="message" id="message" maxlength="160" required></textarea>
+            <span class="help">The message to send over SMS. Max length of 160 characters.</span>
+        </div>
+        <input type="submit" value="Send" />
+    {{ csrf|raw }}</form>
+{% endblock %}

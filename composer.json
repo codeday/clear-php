@@ -25,7 +25,8 @@
         "bugsnag/bugsnag-laravel": "1.*",
         "guzzlehttp/guzzle": "~4.0",
         "studentrnd/ups-api": "dev-master",
-        "phpunit/phpunit": "~4.5"
+        "phpunit/phpunit": "~4.5",
+        "twilio/sdk": "~4.2"
     },
     "autoload": {
         "classmap": [
