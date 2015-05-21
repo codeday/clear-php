@@ -1,58 +1,4 @@
 body.tools
-    .events-selector
-        &:after
-            content: ""
-            display: block
-            clear: both
-            width: 0
-            height: 0
-        ul
-            padding: 0
-            width: 25%
-            float: left
-            li
-                list-style-type: none
-            
-    .directory
-        border-collapse: collapse
-        td, th
-            padding-right: 0.75rem
-            padding-bottom: 0.25rem
-        .event td, .event th
-            padding-top: 1rem
-
-
-    .tasks
-        tr
-            height: 2.5rem
-            td.step
-                padding-right: 1rem
-                &.done span span
-                    background-color: $color-green
-                & > span
-                    display: block
-                    border: 1px solid $foreground-color-light
-                    padding: 1px
-                    margin-bottom: 0.125rem
-                    & > span
-                        display: block
-                        background-color: $color-red
-                        width: 0.5rem
-                        height: 0.5rem
-
-    .checkin
-        .type-teacher
-            color: $color-blue
-            font-weight: bold
-
-        .type-volunteer
-            color: $color-green
-            font-weight: bold
-
-        .type-sponsor
-            color: $color-red
-            font-weight: bold
-
     .event-tidbits
         display: block
         padding: 1rem
@@ -105,33 +51,6 @@ body.tools
             border-top: 1px solid $foreground-color-lighter
             &.blurb
                 font-size: 1.7rem
-
-    .status
-        border-collapse: collapse
-        thead
-            th
-                font-size: 0.75rem
-                font-family: monospace
-        tbody
-            tr
-                &:nth-child(2n+1)
-                    background-color: $foreground-color-lighter
-                td
-                    border-left: 1px solid $foreground-color-light
-                    padding: 0.5rem
-                    &.okay span span
-                        background-color: $color-green
-                    & > span
-                        display: inline-block
-                        border: 1px solid $foreground-color-light
-                        padding: 1px
-                        margin-bottom: 0.125rem
-                        & > span
-                            display: block
-                            background-color: $color-red
-                            width: 0.5rem
-                            height: 0.5rem
-
     .banlist
         width: 100%
         tr

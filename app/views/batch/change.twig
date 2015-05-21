@@ -1,0 +1,25 @@
+{% extends "template.twig" %}
+{% block section %}batch{% endblock %}
+{% block subnav %}{% include "batch/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Change Managed Batch</h2>
+        <p>Batches are groups of events starting at the same time.</p>
+        <p>You can change which batch you're currently managing here. The batch currently loaded on the public
+           site is shown in red.</p>
+    </header>
+    <ul class="batches">
+        {% for batch in all_batches %}
+            {% if me.is_admin or me.getManagedEvents(batch)|length > 0 %}
+                <li {% if managed_batch.id == batch.id %}class="loaded"{% endif %}>
+                    <a class="edit" href="/batch/change?id={{ batch.id }}">
+                        <span class="month">{{ batch.starts_at.timestamp|date('F') }}</span>
+                        <span class="year">{{ batch.starts_at.timestamp|date('Y') }}</span>
+                        <span class="day">{{ batch.starts_at.timestamp|date('d') }}{% if batch.is_loaded %}*{% endif %}</span>
+                        <span class="events">{{ batch.events|length }}</span>
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -3,7 +3,6 @@
 <section class="batch-tools">
     <ul>
         <li><a href="/tools/attendee">Attendee Finder</a></li>
-        <li><a href="/tools/directory">Batch Directory</a></li>
         <li><a href="/tools/tidbits">Tidbits</a></li>
         <li><a href="/tools/banlist">Banlist</a></li>
         {% if me.is_admin %}
@@ -11,43 +10,6 @@
         {% endif %}
     </ul>
 </section>
-
-{% if me.is_admin %}
-    <section class="bulk-tools">
-        <h3>Bulk</h3>
-        <ul>
-            <li><a href="/tools/managers">Managers</a></li>
-            <li><a href="/tools/status">Status</a></li>
-            <li><a href="/tools/promotions">Bulk Promotions</a></li>
-            <li><a href="/tools/emails">Bulk Email</a></li>
-            <li><a href="/tools/tasks">Tasks</a></li>
-            <li><a href="/tools/revenue">Revenue</a></li>
-            <li><a href="/tools/send-sms">Send SMS</a></li>
-        </ul>
-    </section>
-{% endif %}
-
-<section class="evangelism">
-    <h3>Evangelism</h3>
-    <ul>
-        <li><a href="/tools/checkin">Checkin</a></li>
-        <li><a href="/tools/deck">Kickoff Slide Deck</a></li>
-        {% if me.is_admin %}
-            <li><a href="/tools/evangelists">Evangelist Assignments</a></li>
-        {% endif %}
-    </ul>
-</section>
-
-{% if me.is_admin %}
-    <section class="shipping">
-        <h3>Shipping</h3>
-        <ul>
-            <li><a href="/tools/supplies">Supplies</a></li>
-            <li><a href="/tools/shipments">Shipments</a></li>
-            <li><a href="/tools/manifests">Manifests</a></li>
-        </ul>
-    </section>
-{% endif %}
 
 <section class="api">
     <h3>API</h3>

@@ -1,0 +1,99 @@
+{% extends "template.twig" %}
+{% block title %}Batch Promotions{% endblock %}
+{% block section %}batch{% endblock %}
+{% block subnav %}{% include "batch/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Batch Promotions</h2>
+        <p>This tool will create a promotion across all events in the batch.</p>
+    </header>
+
+    <form method="post" action="/batch/promotions/new">
+        <div class="field">
+            <label for="type">Type</label>
+            <select name="type" id="type">
+                <option value="none" selected>Select One</option>
+                <option value="tracking">Tracking</option>
+                <option value="custom">Custom</option>
+            </select>
+        </div>
+
+        <div class="field" style="display: none">
+            <label for="code">Code</label>
+            <input type="text" name="code" id="code" value="" placeholder="BELLEVUEHIGH" maxlength="15" />
+            <span class="help">The coupon code students should enter. Leave blank to generate.</span>
+        </div>
+
+        <div class="field" style="display: none">
+            <label for="notes">Notes</label>
+            <textarea name="notes" id="notes"></textarea>
+            <span class="help">Notes on code purpose, for internal use.</span>
+        </div>
+
+        <div class="field" style="display: none">
+            <label for="percent_discount">Discount %</label>
+            <input type="number" name="percent_discount" id="percent_discount" value="" placeholder="50" min="1" max="100" step="1" required />
+            <span class="help">The amount to discount tickets when the code is applied.</span>
+        </div>
+
+        <div class="field" style="display: none">
+            <label for="expires_at">Expires On</label>
+            <input type="date" name="expires_at" id="expires_at" value="" />
+            <span class="help">When the code is no longer valid.</span>
+        </div>
+
+        <div class="field" style="display: none">
+            <label for="allowed_uses">Allowed Uses</label>
+            <input type="number" name="allowed_uses" id="allowed_uses" value="" placeholder="50" min="1" max="100" step="1" />
+            <span class="help">The number of times this code is allowed to be used, if any limit is to be imposed.</span>
+        </div>
+
+        <input type="submit" value="Create" />
+    {{ csrf|raw }}</form>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var types = {
+                tracking: {
+                    expires_at: null,
+                    allowed_uses: null,
+                    percent_discount: 20
+                },
+                none: {
+                    code: null,
+                    notes: null,
+                    percent_discount: null,
+                    expires_at: null,
+                    allowed_uses: null
+                },
+                custom: {}
+            };
+            var all_fields = ['code', 'notes', 'percent_discount', 'expires_at', 'allowed_uses'];
+
+            $('#type').on('change', function(){
+                var selected_type = $(this).val();
+                var options = types[selected_type];
+
+                console.log(selected_type);
+                console.log(options);
+
+                for (var i in all_fields) {
+                    var key = all_fields[i];
+                    var val = options[key];
+                    console.log(key, val);
+                    var input = $('#'+key);
+                    var field = input.parent();
+
+                    if (typeof(val) === 'undefined') {
+                        input.val('');
+                        field.css('display', 'block');
+                    } else {
+                        input.val(val);
+                        field.css('display', 'none');
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

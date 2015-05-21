@@ -33,21 +33,6 @@
             );
 
             tour.addStep(
-              'event-predictions',
-              {
-                title: 'Predictions',
-                text: "With Clear, you can see how many registrations we predict for your event. "+
-                      "If the prediction is over your venue's limit, you'll see a \"+\" after it.",
-                attachTo: {
-                  element: $('.my-events li:first-child .predicted')[0],
-                  on: 'left'
-                },
-                scrollTo: false,
-                showCancelLink: true
-              }
-            );
-
-            tour.addStep(
                 'event-settings',
                 {
                     title: 'Your Event' + (eventsCount > 1 ? 's' : ''),
@@ -110,7 +95,7 @@
                     text: "Most event tools and settings are on other pages.<br /><br />For example, in registrations" +
                         " you can refund attendees, transfer their tickets, or manually add a new attendee.",
                     attachTo: {
-                        element: $('.subnav .general li:nth-child(3n - 1)')[0],
+                        element: $('.subnav .general li:nth-child(4n - 1)')[0],
                         on: 'right'
                     },
                     scrollTo: false,
@@ -122,19 +107,19 @@
                 'tools',
                 {
                     title: 'Tools',
-                    text: "Most of the rest of the things you should do are in Tools. Let's take a look.",
+                    text: "Most of the rest of the things you should do are in Day-Of. Let's take a look.",
                     attachTo: {
-                        element: $('header nav li a[href="/tools"]')[0],
+                        element: $('header nav li a[href="/dayof"]')[0],
                         on: 'bottom'
                     },
                     scrollTo: false,
                     showCancelLink: true,
                     buttons: [
                         {
-                            text: 'Open Tools',
+                            text: 'Open Day-Of',
                             action: function() {
-                                localStorage['current-tour-page'] = 'tools';
-                                $('header nav li a[href="/tools"]')[0].click()
+                                localStorage['current-tour-page'] = 'dayof';
+                                $('header nav li a[href="/dayof"]')[0].click()
                             }
                         }
                     ]
@@ -142,24 +127,8 @@
             );
         },
 
-        'tools': function(tour)
+        'dayof': function(tour)
         {
-            tour.addStep(
-                'tools-attendee-finder',
-                {
-                    title: 'Attendee Finder',
-                    text: "There are a few useful tools here.<br /><br />In the attendee finder, you can search for" +
-                        " attendees across all events. If an attendee says xhe registered but xhe's not on your list," +
-                        " you can check if xhe registered for another account here.",
-                    attachTo: {
-                        element: $('.subnav .batch-tools li:nth-child(3n - 2)')[0],
-                        on: 'right'
-                    },
-                    scrollTo: false,
-                    showCancelLink: true
-                }
-            );
-
             tour.addStep(
                 'tools-checkin',
                 {

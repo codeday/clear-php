@@ -1,0 +1,58 @@
+{% extends "template.twig" %}
+{% block title %}Status{% endblock %}
+{% block section %}batch{% endblock %}
+{% block subnav %}{% include "batch/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Status</h2>
+        <p>HUD for what's done in the batch.</p>
+    </header>
+
+    <table class="status">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th><abbr title="Manager Set">MGR</abbr></th>
+                <th><abbr title="Venue Set">VEN</abbr></th>
+                <th><abbr title="Registrations Open">RDY</abbr></th>
+                <th><abbr title="Evangelist Assigned">EVG</abbr></th>
+                <th><abbr title="Shipping Address Set">SHA</abbr></th>
+                <th><abbr title="Shipped">SHP</abbr></th>
+                <th><abbr title="Evangelist Certified">EVC</abbr></th>
+                <th>10%</th>
+                <th>20%</th>
+                <th>50%</th>
+                <th>100%</th>
+                <th>Rev</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set ticket_rev = 0 %}
+            {% for event in managed_batch.events %}
+                <tr>
+                    <th>{{ event.name }}</th>
+                    <td>{{ event.manager.name }}</td>
+                    <td {% if event.manager_username %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.venue %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.allow_registrations %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.evangelist_username %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.ship_address_1 %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.shipment_number %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.evangelist.is_certified_evangelist %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.registration_estimate and (event.registrations.count / event.registration_estimate) > 0.1 %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.registration_estimate and (event.registrations.count / event.registration_estimate) > 0.2 %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.registration_estimate and (event.registrations.count / event.registration_estimate) > 0.5 %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.registration_estimate and (event.registrations.count / event.registration_estimate) > 1 %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td>${{ event.revenue|number_format(2) }}</td>
+                    {% set ticket_rev = ticket_rev + event.revenue %}
+                </tr>
+            {% endfor %}
+            <tr>
+                <th>TOTAL</th>
+                <td colspan="12">&nbsp;</td>
+                <td>${{ ticket_rev|number_format(2) }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

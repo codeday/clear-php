@@ -1,0 +1,11 @@
+<h2>Day-of</h2>
+
+<section class="evangelism">
+    <ul>
+        <li><a href="/dayof/checkin">Checkin</a></li>
+        <li><a href="/dayof/deck">Kickoff Slide Deck</a></li>
+        {% if me.is_admin %}
+            <li><a href="/dayof/send-sms">Send SMS</a></li>
+        {% endif %}
+    </ul>
+</section>

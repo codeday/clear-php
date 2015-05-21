@@ -1,0 +1,32 @@
+{% extends "template.twig" %}
+{% block title %}Evangelist Assignments{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "batch/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Evangelist Assignments</h2>
+        <p>This tool allows you to configure who's going where.</p>
+    </header>
+
+    <form method="post">
+        <table class="region-details">
+            <thead>
+            <tr>
+                <td>City</td>
+                <td>Evangelist</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in managed_batch.events %}
+                <tr id="region-details-{{ event.webname }}">
+                    <td>{{ event.name }}</td>
+                    <td><input type="text" name="id[{{ event.id }}][evangelist_username]" placeholder="{{ event.manager_username }}" value="{{ event.evangelist_username }}"/></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <label for="send_emails">Send emails to new evangelists?</label>
+        <input type="checkbox" name="send_emails" id="send_emails" value="1" checked />
+        <input type="submit" value="Save" />
+    {{ csrf|raw }}</form>
+{% endblock %}

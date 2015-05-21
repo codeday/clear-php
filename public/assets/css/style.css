@@ -103,6 +103,10 @@ body > header {
     padding-top: 1.05rem; }
     body > header section.user li {
       font-weight: 300; }
+      body > header section.user li.active a {
+        color: #FB481C;
+        font-weight: 500;
+        border-bottom: none; }
       body > header section.user li.username {
         font-weight: 700; }
       body > header section.user li a:hover {
@@ -758,50 +762,6 @@ body.event .flight-plans input[type="submit"] {
   min-width: 0;
   float: none; }
 
-body.tools .events-selector:after {
-  content: "";
-  display: block;
-  clear: both;
-  width: 0;
-  height: 0; }
-body.tools .events-selector ul {
-  padding: 0;
-  width: 25%;
-  float: left; }
-  body.tools .events-selector ul li {
-    list-style-type: none; }
-body.tools .directory {
-  border-collapse: collapse; }
-  body.tools .directory td, body.tools .directory th {
-    padding-right: 0.75rem;
-    padding-bottom: 0.25rem; }
-  body.tools .directory .event td, body.tools .directory .event th {
-    padding-top: 1rem; }
-body.tools .tasks tr {
-  height: 2.5rem; }
-  body.tools .tasks tr td.step {
-    padding-right: 1rem; }
-    body.tools .tasks tr td.step.done span span {
-      background-color: #15E014; }
-    body.tools .tasks tr td.step > span {
-      display: block;
-      border: 1px solid #ddbcbc;
-      padding: 1px;
-      margin-bottom: 0.125rem; }
-      body.tools .tasks tr td.step > span > span {
-        display: block;
-        background-color: #FB481C;
-        width: 0.5rem;
-        height: 0.5rem; }
-body.tools .checkin .type-teacher {
-  color: #0343FA;
-  font-weight: bold; }
-body.tools .checkin .type-volunteer {
-  color: #15E014;
-  font-weight: bold; }
-body.tools .checkin .type-sponsor {
-  color: #FB481C;
-  font-weight: bold; }
 body.tools .event-tidbits {
   display: block;
   padding: 1rem;
@@ -846,28 +806,6 @@ body.tools .event-tidbits {
     border-top: 1px solid #efdede; }
     body.tools .event-tidbits > section.blurb {
       font-size: 1.7rem; }
-body.tools .status {
-  border-collapse: collapse; }
-  body.tools .status thead th {
-    font-size: 0.75rem;
-    font-family: monospace; }
-  body.tools .status tbody tr:nth-child(2n+1) {
-    background-color: #efdede; }
-  body.tools .status tbody tr td {
-    border-left: 1px solid #ddbcbc;
-    padding: 0.5rem; }
-    body.tools .status tbody tr td.okay span span {
-      background-color: #15E014; }
-    body.tools .status tbody tr td > span {
-      display: inline-block;
-      border: 1px solid #ddbcbc;
-      padding: 1px;
-      margin-bottom: 0.125rem; }
-      body.tools .status tbody tr td > span > span {
-        display: block;
-        background-color: #FB481C;
-        width: 0.5rem;
-        height: 0.5rem; }
 body.tools .banlist {
   width: 100%; }
   body.tools .banlist tr.expired {
@@ -938,6 +876,74 @@ body.docs .model-details {
         border-radius: 3px;
         -moz-border-radius: 3px;
         font-family: monospace; }
+
+body.dayof .checkin .type-teacher {
+  color: #0343FA;
+  font-weight: bold; }
+body.dayof .checkin .type-volunteer {
+  color: #15E014;
+  font-weight: bold; }
+body.dayof .checkin .type-sponsor {
+  color: #FB481C;
+  font-weight: bold; }
+
+body.batch .events-selector:after {
+  content: "";
+  display: block;
+  clear: both;
+  width: 0;
+  height: 0; }
+body.batch .events-selector ul {
+  padding: 0;
+  width: 25%;
+  float: left; }
+  body.batch .events-selector ul li {
+    list-style-type: none; }
+body.batch .directory {
+  border-collapse: collapse; }
+  body.batch .directory td, body.batch .directory th {
+    padding-right: 0.75rem;
+    padding-bottom: 0.25rem; }
+  body.batch .directory .event td, body.batch .directory .event th {
+    padding-top: 1rem; }
+body.batch .tasks tr {
+  height: 2.5rem; }
+  body.batch .tasks tr td.step {
+    padding-right: 1rem; }
+    body.batch .tasks tr td.step.done span span {
+      background-color: #15E014; }
+    body.batch .tasks tr td.step > span {
+      display: block;
+      border: 1px solid #ddbcbc;
+      padding: 1px;
+      margin-bottom: 0.125rem; }
+      body.batch .tasks tr td.step > span > span {
+        display: block;
+        background-color: #FB481C;
+        width: 0.5rem;
+        height: 0.5rem; }
+body.batch .status {
+  border-collapse: collapse; }
+  body.batch .status thead th {
+    font-size: 0.75rem;
+    font-family: monospace; }
+  body.batch .status tbody tr:nth-child(2n+1) {
+    background-color: #efdede; }
+  body.batch .status tbody tr td {
+    border-left: 1px solid #ddbcbc;
+    padding: 0.5rem; }
+    body.batch .status tbody tr td.okay span span {
+      background-color: #15E014; }
+    body.batch .status tbody tr td > span {
+      display: inline-block;
+      border: 1px solid #ddbcbc;
+      padding: 1px;
+      margin-bottom: 0.125rem; }
+      body.batch .status tbody tr td > span > span {
+        display: block;
+        background-color: #FB481C;
+        width: 0.5rem;
+        height: 0.5rem; }
 
 .wrap .compose-email {
   border: 1px solid #ddbcbc; }

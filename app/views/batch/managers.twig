@@ -1,0 +1,32 @@
+{% extends "template.twig" %}
+{% block title %}Manager Assignments{% endblock %}
+{% block section %}batch{% endblock %}
+{% block subnav %}{% include "batch/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Manager Assignments</h2>
+        <p>This tool allows you to configure who's managing what.</p>
+    </header>
+
+    <form method="post">
+        <table class="region-details">
+            <thead>
+            <tr>
+                <td>City</td>
+                <td>Reg Est</td>
+                <td>Manager</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in managed_batch.events %}
+                <tr id="region-details-{{ event.webname }}">
+                    <td>{{ event.name }}</td>
+                    <td><input type="text" name="id[{{ event.id }}][registration_estimate]" value="{{ event.registration_estimate }}"/></td>
+                    <td><input type="text" name="id[{{ event.id }}][manager_username]" value="{{ event.manager_username }}"/></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" value="Save Regions" />
+    {{ csrf|raw }}</form>
+{% endblock %}
