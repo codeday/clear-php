@@ -31,34 +31,37 @@ use \CodeDay\Clear\Models;
     \Route::controller('/emergency', 'EmergencyController');
 });
 
-function getDayOfEvent()
-{
-    $event = null;
+if (!function_exists('getDayOfEvent')) {
+    function getDayOfEvent()
+    {
+        $event = null;
 
-    if (\Session::has('dayof_event')) {
-        $event = Models\Batch\Event::where('id', '=', \Session::get('dayof_event'))->first();
-    }
+        if (\Session::has('dayof_event')) {
+            $event = Models\Batch\Event::where('id', '=', \Session::get('dayof_event'))->first();
+        }
 
-    if (Models\User::me()->username != $event->manager_username
+        if (Models\User::me()->username != $event->manager_username
             && Models\User::me()->username != $event->evangelist_username
             && !$event->isUserAllowed(Models\User::me())
-            && !Models\User::me()->is_admin) {
-        $event = null;
-    }
-
-    if (!$event->batch_id == Models\Batch::Managed()->id) {
-        $event = null;
-    }
-
-    if (!$event) {
-        if (Models\User::me()->is_admin) {
-            $event = Models\Batch::Managed()->events[0];
-        } else {
-            $event = Models\User::me()->current_managed_events[0];
+            && !Models\User::me()->is_admin
+        ) {
+            $event = null;
         }
-        \Session::put('dayof_event', $event->id);
-    }
 
-    \View::share('event', $event);
-    return $event;
+        if (!$event->batch_id == Models\Batch::Managed()->id) {
+            $event = null;
+        }
+
+        if (!$event) {
+            if (Models\User::me()->is_admin) {
+                $event = Models\Batch::Managed()->events[0];
+            } else {
+                $event = Models\User::me()->current_managed_events[0];
+            }
+            \Session::put('dayof_event', $event->id);
+        }
+
+        \View::share('event', $event);
+        return $event;
+    }
 }
