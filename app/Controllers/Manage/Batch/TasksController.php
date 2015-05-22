@@ -106,6 +106,24 @@ class TasksController extends \Controller {
                         ]
                     );
                 } catch (\Exception $ex) {}
+
+                foreach ($event->registrations as $registration) {
+                    if ($registration->parent_email) {
+                        try {
+                            Services\Email::SendOnQueue(
+                                'CodeDay '.$event->name, $event->webname.'@codeday.org',
+                                $registration->parent_name, $registration->parent_email,
+                                'CodeDay this weekend',
+                                null,
+                                \View::make('emails/parent_reminder_html', [
+                                    'registration' => $registration,
+                                    'event' => $registration->event
+                                ]),
+                                false
+                            );
+                        } catch (\Exception $ex) {}
+                    }
+                }
             }
         }
 
