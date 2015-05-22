@@ -29,7 +29,7 @@ class EmergencyController extends \Controller {
         $number = \Input::get('num') === 'secondary' ?
             $registration->parent_secondary_phone : $registration->parent_phone;
 
-        Services\Phone::connectPhones(Models\User::me()->phone, $number);
+        Services\Phone::connectPhones(Models\User::me()->phone, $number, Models\Batch\Event\Call::ExternalNumber);
 
         \Session::flash('status_message', 'Calling you...');
         return \Redirect::to('/dayof/emergency');
