@@ -24,14 +24,11 @@ use \CodeDay\Clear\Models;
 
     \Route::get('', function() { return \Redirect::to('/dayof/checkin'); });
 
+
     \Route::controller('/checkin', 'CheckinController');
     \Route::controller('/register', 'RegisterController');
     \Route::controller('/deck', 'DeckController');
-    \Route::controller('/call-parents', 'CallParentsController');
-
-    \Route::group(['before' => 's5_admin'], function(){
-        \Route::controller('send-sms', 'SendSmsController');
-    });
+    \Route::controller('/emergency', 'EmergencyController');
 });
 
 function getDayOfEvent()

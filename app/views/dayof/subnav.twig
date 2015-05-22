@@ -6,12 +6,14 @@
         {% set events = me.current_managed_events %}
     {% endif %}
 
-    <select id="event-switcher">
-        {% for switch_event in events %}
-            <option value="{{ switch_event.id }}"
-                    {% if switch_event.id == event.id %}selected{% endif %}>{{ switch_event.name }}</option>
-        {% endfor %}
-    </select>
+    {% if events|length > 1 %}
+        <select id="event-switcher">
+            {% for switch_event in events %}
+                <option value="{{ switch_event.id }}"
+                        {% if switch_event.id == event.id %}selected{% endif %}>{{ switch_event.name }}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
 </div>
 
 <section class="evangelism">
@@ -19,10 +21,7 @@
         <li><a href="/dayof/checkin">Checkin</a></li>
         <li><a href="/dayof/register">Register At-The-Door</a></li>
         <li><a href="/dayof/deck">Kickoff Slide Deck</a></li>
-        <li><a href="/dayof/call-parents">Call Parents</a></li>
-        {% if me.is_admin %}
-            <li><a href="/dayof/send-sms">Send SMS</a></li>
-        {% endif %}
+        <li><a href="/dayof/emergency">Emergency Contacts</a></li>
     </ul>
 </section>
 

@@ -1,5 +1,5 @@
 <?php
-namespace CodeDay\Clear\Controllers\Manage\DayOf;
+namespace CodeDay\Clear\Controllers\Manage\Batch;
 
 use CodeDay\Clear\Models;
 use CodeDay\Clear\Services;
@@ -8,7 +8,7 @@ class SendSmsController extends \Controller {
 
     public function getIndex()
     {
-        return \View::make('dayof/send_sms');
+        return \View::make('batch/send_sms');
     }
 
     public function postIndex()
@@ -24,7 +24,7 @@ class SendSmsController extends \Controller {
         }
 
         \Session::flash('status', 'SMS enqued.');
-        return \Redirect::to('/dayof/send-sms');
+        return \Redirect::to('/batch/send-sms');
     }
 
 }

@@ -1,0 +1,15 @@
+{% extends "template.twig" %}
+{% block title %}Emergency Contacts{% endblock %}
+{% block section %}dayof{% endblock %}
+{% block subnav %}{% include "dayof/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Call {{ registration.name }}'s parent {{ registration.parent_name }}?</h2>
+        <p>This will call you at {{ me.phone }} and connect you automatically.</p>
+    </header>
+    <form method="post">
+        <input type="hidden" name="id" value="{{ registration.id }}"/>
+        <input type="hidden" name="num" value="{{ num }}"/>
+        <input type="submit" value="Connect me"/>
+    {{ csrf|raw }}</form>
+{% endblock %}

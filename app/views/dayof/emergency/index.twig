@@ -1,14 +1,49 @@
 {% extends "template.twig" %}
-{% block title %}Call Parents{% endblock %}
+{% block title %}Emergency Contacts{% endblock %}
 {% block section %}dayof{% endblock %}
 {% block subnav %}{% include "dayof/subnav.twig" %}{% endblock %}
 {% block content %}
     <header>
-        <h2>Call Parents</h2>
+        <h2>Emergency Contacts</h2>
+        <p>For your convenience, a list of participants with emergency contact information. You can use this if you need
+           to make any one-off calls to emergency contacts.</p>
+        <p>Click on a number to be connected to the parent automatically.</p>
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Name</th>
+                <th>Parent Name</th>
+                <th>Parent Email</th>
+                <th>Parent Phone</th>
+                <th>Parent Alt Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reg in event.registrations %}
+                <tr>
+                    <td>
+                        <img src="http://www.gravatar.com/avatar/{{ reg.email_md5 }}?s=48&amp;d=mm" alt=""/>
+                    </td>
+                    <td>{{ reg.name }}</td>
+                    <td>{{ reg.parent_name }}</td>
+                    <td><a href="mailto:{{ reg.parent_email }}">{{ reg.parent_email }}</a></td>
+                    <td><a href="/dayof/emergency/call?id={{ reg.id }}&num=primary">{{ reg.parent_phone }}</a></td>
+                    <td><a href="/dayof/emergency/call?id={{ reg.id }}&num=secondary">{{ reg.parent_secondary_phone }}</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr/>
+
+    <header>
+        <h3>Mass Robocall</h3>
         <p>This will robocall all parents of students at an event. This should almost never be used! For individual
-           calls, make the call from your personal phone.</p>
+            calls, make the call from your personal phone.</p>
         <p><strong>Getting calls for unimportant subjects is very annoying.</strong> Please use this tool only to send
-           important messages. Some examples of <strong>OKAY USES:</strong></p>
+            important messages. Some examples of <strong>OKAY USES:</strong></p>
         <ul>
             <li>Letting parents know if the event runs significantly over schedule</li>
             <li>Informing parents if the event is cancelled after students have arrived</li>
@@ -26,7 +61,7 @@
         </ul>
     </header>
 
-    <form method="post">
+    <form method="post" action="/dayof/emergency/robocall" class="dangerous">
         <div class="field">
             <label for="template">Template</label>
             <select id="template">
@@ -46,26 +81,26 @@
                 with you.</span>
         </div>
         <input type="submit" value="This is an urgent communication. Send it now." />
-    {{ csrf|raw }}</form>
+        {{ csrf|raw }}</form>
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript">
         (function(){
             var templates = {
                 "end-delay":
-                        "CodeDay is running behind schedule. The event will now end at [[NEW END TIME]] instead of"
-                        +" noon. The final presentations will now begin at [[NEW PRESENTATION TIME]]. If this does not"
-                        +" work, you may still pick your student up at the original time. We apologize for this delay.",
+                "CodeDay is running behind schedule. The event will now end at [[NEW END TIME]] instead of"
+                +" noon. The final presentations will now begin at [[NEW PRESENTATION TIME]]. If this does not"
+                +" work, you may still pick your student up at the original time. We apologize for this delay.",
                 "start-delay":
-                        "CodeDay is starting late. Doors will now open at [[NEW DOORS TIME]] instead of 11am. The event"
-                        +" will officially start at [[NEW START TIME]]. CodeDay will still end at noon on Sunday as"
-                        +" before. We apologize for the delay.",
+                "CodeDay is starting late. Doors will now open at [[NEW DOORS TIME]] instead of 11am. The event"
+                +" will officially start at [[NEW START TIME]]. CodeDay will still end at noon on Sunday as"
+                +" before. We apologize for the delay.",
                 "cancelled":
-                        "CodeDay is cancelled. We apologize for the late notice. You will receive a full refund for"
-                        +" your tickets. Please check your email for more details.",
+                "CodeDay is cancelled. We apologize for the late notice. You will receive a full refund for"
+                +" your tickets. Please check your email for more details.",
                 "emergency":
-                        "Due to an emergency, we are cancelling the rest of CodeDay. You will need you to pick up your"
-                        +" student. [[PICKUP INSTRUCTIONS]]"
+                "Due to an emergency, we are cancelling the rest of CodeDay. You will need you to pick up your"
+                +" student. [[PICKUP INSTRUCTIONS]]"
             };
 
             $('#template').on('change', function(){
@@ -85,3 +120,4 @@
         })();
     </script>
 {% endblock %}
+

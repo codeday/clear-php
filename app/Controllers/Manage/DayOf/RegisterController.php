@@ -47,7 +47,7 @@ class RegisterController extends \Controller {
         $reg->save();
         \Event::fire('registration.checkin', \DB::table('batches_events_registrations')->where('id', '=', $reg->id)->get()[0]);
 
-        \Session::flash('status', 'Successfully registered.');
+        \Session::flash('status_message', 'Successfully registered.');
         return \Redirect::to('/dayof/register');
     }
 }
