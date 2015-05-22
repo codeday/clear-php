@@ -2,7 +2,7 @@
 .menu-handle {
   display: none; }
 
-@media (max-device-width: 2048px) {
+@media screen and (max-width: 768px), screen and (min-resolution: 192dpi) and (max-device-width: 2048px) {
   body > header {
     background-color: #FB481C;
     max-width: none !important;
@@ -556,7 +556,7 @@ body.dashboard section.content > .my-events {
           height: 4.5rem;
           margin-right: 4.66%;
           padding-top: 1rem; }
-          @media (max-device-width: 2048px) {
+          @media screen and (max-width: 768px), screen and (min-resolution: 192dpi) and (max-device-width: 2048px) {
             body.dashboard section.content > .my-events ul li div.name {
               width: 20%;
               max-width: 7rem;
@@ -568,7 +568,7 @@ body.dashboard section.content > .my-events {
             background-color: #0343FA; }
           body.dashboard section.content > .my-events ul li div.name.closed {
             background-color: #FB481C; }
-        @media (max-device-width: 2048px) {
+        @media screen and (max-width: 768px), screen and (min-resolution: 192dpi) and (max-device-width: 2048px) {
           body.dashboard section.content > .my-events ul li div {
             width: 25%; }
             body.dashboard section.content > .my-events ul li div.percent, body.dashboard section.content > .my-events ul li div.predicted {
@@ -584,7 +584,7 @@ body.dashboard section.content > .other-events {
   body.dashboard section.content > .other-events section.map {
     float: right;
     width: 60%; }
-    @media (max-device-width: 2048px) {
+    @media screen and (max-width: 768px), screen and (min-resolution: 192dpi) and (max-device-width: 2048px) {
       body.dashboard section.content > .other-events section.map {
         display: none; } }
     body.dashboard section.content > .other-events section.map div.heatmap {
@@ -593,7 +593,7 @@ body.dashboard section.content > .other-events {
   body.dashboard section.content > .other-events section.list {
     width: 35%;
     float: left; }
-    @media (max-device-width: 2048px) {
+    @media screen and (max-width: 768px), screen and (min-resolution: 192dpi) and (max-device-width: 2048px) {
       body.dashboard section.content > .other-events section.list {
         width: 100%;
         float: none; } }
@@ -617,7 +617,7 @@ body.dashboard section.content > .other-events {
           text-transform: uppercase;
           width: 2.5rem;
           margin-right: 0.2rem; }
-          @media (max-device-width: 2048px) {
+          @media screen and (max-width: 768px), screen and (min-resolution: 192dpi) and (max-device-width: 2048px) {
             body.dashboard section.content > .other-events section.list ul li div.name {
               font-size: 1rem;
               height: 2rem;
@@ -667,7 +667,7 @@ body.event .content > .status {
   body.event .content > .status .hud {
     width: 30%;
     float: left; }
-    @media (max-device-width: 2048px) {
+    @media screen and (max-width: 768px), screen and (min-resolution: 192dpi) and (max-device-width: 2048px) {
       body.event .content > .status .hud {
         width: 100%;
         float: none; } }
@@ -695,7 +695,7 @@ body.event .content > .status {
     float: right;
     margin-top: 1.8rem;
     text-align: center; }
-    @media (max-device-width: 2048px) {
+    @media screen and (max-width: 768px), screen and (min-resolution: 192dpi) and (max-device-width: 2048px) {
       body.event .content > .status .toggles {
         width: 100%;
         float: none; } }
@@ -935,7 +935,7 @@ body.event .flight-plans input[type="submit"] {
   width: auto;
   min-width: 0;
   float: none; }
-@media (max-device-width: 2048px) {
+@media screen and (max-width: 768px), screen and (min-resolution: 192dpi) and (max-device-width: 2048px) {
   body.event #registrations-over-time {
     display: none; } }
 
@@ -1072,7 +1072,7 @@ body.dayof .parent {
   padding-left: 2%; }
 body.dayof .student {
   padding-right: 2%; }
-@media (max-device-width: 2048px) {
+@media screen and (max-width: 768px), screen and (min-resolution: 192dpi) and (max-device-width: 2048px) {
   body.dayof .parent, body.dayof .student {
     width: 100%;
     padding: 0;
