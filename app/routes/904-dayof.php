@@ -40,7 +40,7 @@ if (!function_exists('getDayOfEvent')) {
             $event = Models\Batch\Event::where('id', '=', \Session::get('dayof_event'))->first();
         }
 
-        if (Models\User::me()->username != $event->manager_username
+        if (isset($event) && Models\User::me()->username != $event->manager_username
             && Models\User::me()->username != $event->evangelist_username
             && !$event->isUserAllowed(Models\User::me())
             && !Models\User::me()->is_admin
@@ -48,11 +48,11 @@ if (!function_exists('getDayOfEvent')) {
             $event = null;
         }
 
-        if (!$event->batch_id == Models\Batch::Managed()->id) {
+        if (isset($event) && !$event->batch_id == Models\Batch::Managed()->id) {
             $event = null;
         }
 
-        if (!$event) {
+        if (!isset($event)) {
             if (Models\User::me()->is_admin) {
                 $event = Models\Batch::Managed()->events[0];
             } else {
