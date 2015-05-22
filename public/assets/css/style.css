@@ -624,7 +624,7 @@ body.dashboard section.content > .other-events {
               padding-top: 0.5rem;
               width: 22%;
               max-width: 4rem;
-              margin-right: 3%; } }
+              margin-right: 2%; } }
           body.dashboard section.content > .other-events section.list ul li div.name.sold-out {
             background-color: #000;
             color: #fff; }
@@ -648,9 +648,6 @@ body.dashboard section.content > .other-events {
               text-transform: uppercase;
               font-weight: 300;
               font-size: 0.75rem; }
-            @media (max-device-width: 768px) {
-              body.dashboard section.content > .other-events section.list ul li div span.number, body.dashboard section.content > .other-events section.list ul li div span.label {
-                font-size: 1rem; } }
         body.dashboard section.content > .other-events section.list ul li:after {
           content: "";
           clear: both;
