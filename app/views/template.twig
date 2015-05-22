@@ -103,9 +103,12 @@
                 <span class="menu-layer"></span>
             </button>
         </section>
-        <h1>
+        <h1{% if event %} class="with-region"{% endif %}>
             <span class="event">CodeDay</span>
             <span class="tool">Clear</span>
+            {% if event %}
+                <span class="region">{{ event.name }}</span>
+            {% endif %}
         </h1>
         <section class="menu off">
             <nav>

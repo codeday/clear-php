@@ -25,8 +25,12 @@
             display: inline-block
             height: 1.5rem !important
             font-size: 1.5rem
-            .event
+            background-image: url(/assets/img/logo-square-white.png) !important
+            .tool
                 display: none
+            &.with-region
+                .event
+                    display: none
 
         .menu-handle
             display: inline-block
@@ -134,7 +138,6 @@
         margin-top: 5rem !important
         max-width: none !important
         & > section.content
-            padding: 0 1.5rem
             &.with-subnav
                 width: 100% !important
                 float: none !important
