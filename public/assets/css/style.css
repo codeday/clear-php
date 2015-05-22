@@ -1,4 +1,144 @@
 @charset "UTF-8";
+.menu-handle {
+  display: none; }
+
+@media (max-device-width: 768px) {
+  body > header {
+    background-color: #FB481C;
+    max-width: none !important;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    height: 3.5rem;
+    z-index: 999; }
+    body > header h1 {
+      color: #f7efef;
+      text-indent: 2.5rem !important;
+      background-position: 0 50% !important;
+      width: auto !important;
+      font-weight: normal;
+      float: none !important;
+      display: inline-block;
+      height: 1.5rem !important;
+      font-size: 1.5rem; }
+      body > header h1 .event {
+        display: none; }
+    body > header .menu-handle {
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: 0; }
+      body > header .menu-handle .menu-icon {
+        display: block;
+        border: none;
+        background: none;
+        outline: 0;
+        padding: 1.5rem 1rem;
+        cursor: pointer; }
+      body > header .menu-handle .menu-layer {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: #f7efef;
+        position: relative;
+        animation-duration: 300ms;
+        animation-timing-function: ease-in-out; }
+        body > header .menu-handle .menu-layer:before, body > header .menu-handle .menu-layer:after {
+          display: block;
+          width: inherit;
+          height: 3px;
+          position: absolute;
+          background: inherit;
+          left: 0;
+          content: "";
+          animation-duration: 300ms;
+          animation-timing-function: ease-in-out; }
+        body > header .menu-handle .menu-layer:before {
+          bottom: 200%; }
+        body > header .menu-handle .menu-layer:after {
+          top: 200%; }
+        body > header .menu-handle .menu-layer.to-arrow {
+          animation-name: material-design-hamburger-icon-slide;
+          animation-fill-mode: forwards; }
+          body > header .menu-handle .menu-layer.to-arrow:before {
+            animation-name: material-design-hamburger-icon-slide-before;
+            animation-fill-mode: forwards; }
+          body > header .menu-handle .menu-layer.to-arrow:after {
+            animation-name: material-design-hamburger-icon-slide-after;
+            animation-fill-mode: forwards; }
+        body > header .menu-handle .menu-layer.from-arrow {
+          animation-name: material-design-hamburger-icon-slide-from; }
+          body > header .menu-handle .menu-layer.from-arrow:before {
+            animation-name: material-design-hamburger-icon-slide-before-from; }
+          body > header .menu-handle .menu-layer.from-arrow:after {
+            animation-name: material-design-hamburger-slide-after-from; }
+    body > header > .menu nav {
+      padding: 0;
+      float: none;
+      width: 100%; }
+      body > header > .menu nav ul {
+        margin: 0;
+        width: 100%; }
+        body > header > .menu nav ul li {
+          width: 100%;
+          display: block;
+          padding: 1rem 0; }
+    body > header > .menu section.user {
+      position: absolute;
+      bottom: 0;
+      padding: 0;
+      float: none;
+      width: 100%; }
+      body > header > .menu section.user .username {
+        display: none; }
+
+  body > header > .menu, body > div.wrap > section.subnav {
+    transition: all 300ms;
+    position: fixed;
+    top: 3.5rem;
+    bottom: 0;
+    display: block;
+    overflow-y: auto;
+    background: #f7efef;
+    margin-top: 0;
+    width: 11rem; }
+    body > header > .menu.off, body > div.wrap > section.subnav.off {
+      left: -60%;
+      width: 50%; }
+    body > header > .menu.on, body > div.wrap > section.subnav.on {
+      left: 0;
+      box-shadow: 8px 8px 20px 0 rgba(0, 0, 0, 0.2);
+      transition: all 300ms; }
+
+  body > div.wrap {
+    margin-top: 5rem !important;
+    max-width: none !important; }
+    body > div.wrap > section.content {
+      padding: 0 1.5rem; }
+      body > div.wrap > section.content.with-subnav {
+        width: 100% !important;
+        float: none !important; }
+    body > div.wrap > section.subnav {
+      width: auto !important;
+      margin-right: 0 !important;
+      z-index: 995;
+      padding: 0 1.5rem; }
+      body > div.wrap > section.subnav h2 {
+        display: none; }
+      body > div.wrap > section.subnav ul {
+        margin: 0; }
+        body > div.wrap > section.subnav ul li {
+          padding: 1rem 0; }
+          body > div.wrap > section.subnav ul li a {
+            display: inline !important;
+            font-weight: 300;
+            border-bottom: 1px dotted #EFDEDE !important; }
+      body > div.wrap > section.subnav.on {
+        left: 11rem;
+        right: 0; }
+
+  footer {
+    display: none; } }
 body > div.wrap {
   width: 100%;
   margin: 0 auto;
@@ -416,12 +556,23 @@ body.dashboard section.content > .my-events {
           height: 4.5rem;
           margin-right: 4.66%;
           padding-top: 1rem; }
+          @media (max-device-width: 768px) {
+            body.dashboard section.content > .my-events ul li div.name {
+              width: 20%;
+              max-width: 7rem;
+              height: 3.5rem;
+              padding-top: 0.75rem; } }
           body.dashboard section.content > .my-events ul li div.name.open {
             background-color: #15E014; }
           body.dashboard section.content > .my-events ul li div.name.venue {
             background-color: #0343FA; }
           body.dashboard section.content > .my-events ul li div.name.closed {
             background-color: #FB481C; }
+        @media (max-device-width: 768px) {
+          body.dashboard section.content > .my-events ul li div {
+            width: 25%; }
+            body.dashboard section.content > .my-events ul li div.percent, body.dashboard section.content > .my-events ul li div.predicted {
+              display: none; } }
       body.dashboard section.content > .my-events ul li:after {
         content: "";
         clear: both;
@@ -433,12 +584,19 @@ body.dashboard section.content > .other-events {
   body.dashboard section.content > .other-events section.map {
     float: right;
     width: 60%; }
+    @media (max-device-width: 768px) {
+      body.dashboard section.content > .other-events section.map {
+        display: none; } }
     body.dashboard section.content > .other-events section.map div.heatmap {
       width: 100%;
       height: 300px; }
   body.dashboard section.content > .other-events section.list {
     width: 35%;
     float: left; }
+    @media (max-device-width: 768px) {
+      body.dashboard section.content > .other-events section.list {
+        width: 100%;
+        float: none; } }
     body.dashboard section.content > .other-events section.list ul {
       margin: 0;
       padding: 0; }
@@ -459,6 +617,14 @@ body.dashboard section.content > .other-events {
           text-transform: uppercase;
           width: 2.5rem;
           margin-right: 0.2rem; }
+          @media (max-device-width: 768px) {
+            body.dashboard section.content > .other-events section.list ul li div.name {
+              font-size: 1rem;
+              height: 2rem;
+              padding-top: 0.5rem;
+              width: 22%;
+              max-width: 4rem;
+              margin-right: 3%; } }
           body.dashboard section.content > .other-events section.list ul li div.name.sold-out {
             background-color: #000;
             color: #fff; }
@@ -482,6 +648,9 @@ body.dashboard section.content > .other-events {
               text-transform: uppercase;
               font-weight: 300;
               font-size: 0.75rem; }
+            @media (max-device-width: 768px) {
+              body.dashboard section.content > .other-events section.list ul li div span.number, body.dashboard section.content > .other-events section.list ul li div span.label {
+                font-size: 1rem; } }
         body.dashboard section.content > .other-events section.list ul li:after {
           content: "";
           clear: both;
@@ -501,6 +670,10 @@ body.event .content > .status {
   body.event .content > .status .hud {
     width: 30%;
     float: left; }
+    @media (max-device-width: 768px) {
+      body.event .content > .status .hud {
+        width: 100%;
+        float: none; } }
     body.event .content > .status .hud ul {
       padding: 0;
       margin: 0; }
@@ -525,6 +698,10 @@ body.event .content > .status {
     float: right;
     margin-top: 1.8rem;
     text-align: center; }
+    @media (max-device-width: 768px) {
+      body.event .content > .status .toggles {
+        width: 100%;
+        float: none; } }
     body.event .content > .status .toggles form {
       display: inline-block;
       margin-right: 2rem; }
@@ -761,6 +938,9 @@ body.event .flight-plans input[type="submit"] {
   width: auto;
   min-width: 0;
   float: none; }
+@media (max-device-width: 768px) {
+  body.event #registrations-over-time {
+    display: none; } }
 
 body.tools .event-tidbits {
   display: block;
@@ -895,6 +1075,15 @@ body.dayof .parent {
   padding-left: 2%; }
 body.dayof .student {
   padding-right: 2%; }
+@media (max-device-width: 768px) {
+  body.dayof .parent, body.dayof .student {
+    width: 100%;
+    padding: 0;
+    display: block; }
+  body.dayof .group input {
+    width: 35%; }
+  body.dayof td.email, body.dayof th.email, body.dayof td.id, body.dayof th.id {
+    display: none; } }
 
 body.batch .events-selector:after {
   content: "";

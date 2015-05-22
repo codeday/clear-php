@@ -59,6 +59,11 @@ body.dashboard
                         height: 4.5rem
                         margin-right: 4.66%
                         padding-top: 1rem
+                        +mobile
+                            width: 20%
+                            max-width: 7rem
+                            height: 3.5rem
+                            padding-top: 0.75rem
 
                         &.open
                             background-color: #15E014
@@ -68,6 +73,11 @@ body.dashboard
 
                         &.closed
                             background-color: #FB481C
+
+                    +mobile
+                        width: 25%
+                        &.percent, &.predicted
+                            display: none
 
                 &:after
                     content: ""
@@ -81,6 +91,8 @@ body.dashboard
         section.map
             float: right
             width: 60%
+            +mobile
+                display: none
             div.heatmap
                 width: 100%
                 height: 300px
@@ -88,6 +100,9 @@ body.dashboard
         section.list
             width: 35%
             float: left
+            +mobile
+                width: 100%
+                float: none
             ul
                 margin: 0
                 padding: 0
@@ -109,12 +124,21 @@ body.dashboard
                             size: 0.75rem
                             weight: 300
 
+
                         text:
                             align: center
                             transform: uppercase
 
                         width: 2.5rem
                         margin-right: 0.2rem
+
+                        +mobile
+                            font-size: 1rem
+                            height: 2rem
+                            padding-top: 0.5rem
+                            width: 22%
+                            max-width: 4rem
+                            margin-right: 3%
 
                         &.sold-out
                             background-color: #000
@@ -146,6 +170,9 @@ body.dashboard
                                 font-weight: 300
                                 font-size: 0.75rem
 
+                            +mobile
+                                &.number, &.label
+                                    font-size: 1rem
                     &:after
                         content: ""
                         clear: both

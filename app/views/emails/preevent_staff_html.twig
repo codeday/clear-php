@@ -23,12 +23,12 @@
         <tr>
             <td align="center">
                 <p>
-                    <strong>Hosted at {{ registration.event.venue.name }}</strong><br />
-                    {{ registration.event.venue_address_1 }}<br />
-                    {% if registration.event.venue_address_2 %}
-                        {{ registration.event.venue_address_2 }}<br />
+                    <strong>Hosted at {{ event.venue.name }}</strong><br />
+                    {{ event.venue_address_1 }}<br />
+                    {% if event.venue_address_2 %}
+                        {{ event.venue_address_2 }}<br />
                     {% endif %}
-                    {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
+                    {{ event.venue.city }} {{ event.venue.state }} {{ event.venue.postal }}
                 </p>
                 {% if event.venue_contact_first_name %}
                     <p>

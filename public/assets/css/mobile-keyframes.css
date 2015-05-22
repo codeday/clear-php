@@ -1,0 +1,55 @@
+@keyframes material-design-hamburger-icon-slide {
+    0% {
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes material-design-hamburger-icon-slide-before {
+    0% {
+    }
+    100% {
+        transform: rotate(45deg);
+        margin: 3% 37%;
+        width: 75%;
+    }
+}
+
+@keyframes material-design-hamburger-icon-slide-after {
+    0% {
+    }
+    100% {
+        transform: rotate(-45deg);
+        margin: 3% 37%;
+        width: 75%;
+    }
+}
+
+@keyframes material-design-hamburger-icon-slide-from {
+    0% {
+        transform: rotate(-180deg);
+    }
+    100% {
+    }
+}
+
+@keyframes material-design-hamburger-icon-slide-before-from {
+    0% {
+        transform: rotate(45deg);
+        margin: 3% 37%;
+        width: 75%;
+    }
+    100% {
+    }
+}
+
+@keyframes material-design-hamburger-icon-slide-after-from {
+    0% {
+        transform: rotate(-45deg);
+        margin: 3% 37%;
+        width: 75%;
+    }
+    100% {
+    }
+}

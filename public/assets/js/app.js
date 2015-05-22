@@ -53,4 +53,23 @@ $(document).on('ready', function(){
             sound_obj.get(0).play();
         }
     }
+
+    /* Mobile menus */
+
+    $('.menu-icon').on('click', function() {
+        var child;
+
+        $('body').toggleClass('background-blur');
+
+        var $menu = $('.menu, .subnav');
+        var $layer = $('.menu-layer');
+
+        if ($layer.hasClass('to-arrow')) {
+            $layer.removeClass('to-arrow').addClass('from-arrow');
+            $menu.removeClass('on').addClass('off');
+        } else {
+            $layer.removeClass('from-arrow').addClass('to-arrow');
+            $menu.removeClass('off').addClass('on');
+        }
+    });
 });

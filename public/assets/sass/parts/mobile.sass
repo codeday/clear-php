@@ -1,0 +1,163 @@
+.menu-handle
+    display: none
+
+@mixin mobile
+    @media (max-device-width : 768px)
+        @content
+
++mobile
+    body > header
+        background-color: $color-red
+        max-width: none !important
+        text-align: center
+        position: fixed
+        top: 0
+        height: 3.5rem
+        z-index: 999
+
+        h1
+            color: $background-color
+            text-indent: 2.5rem !important
+            background-position: 0 50% !important
+            width: auto !important
+            font-weight: normal
+            float: none !important
+            display: inline-block
+            height: 1.5rem !important
+            font-size: 1.5rem
+            .event
+                display: none
+
+        .menu-handle
+            display: inline-block
+            position: absolute
+            top: 0
+            left: 0
+
+            .menu-icon
+                display: block
+                border: none
+                background: none
+                outline: 0
+                padding: 1.5rem 1rem
+                cursor: pointer
+
+            .menu-layer
+                display: block
+                width: 25px
+                height: 3px
+                background: $background-color
+                position: relative
+                animation-duration: 300ms
+                animation-timing-function: ease-in-out
+
+                &:before, &:after
+                    display: block
+                    width: inherit
+                    height: 3px
+                    position: absolute
+                    background: inherit
+                    left: 0
+                    content: ''
+                    animation-duration: 300ms
+                    animation-timing-function: ease-in-out
+
+                &:before
+                    bottom: 200%
+
+                &:after
+                    top: 200%
+
+                &.to-arrow
+                    animation-name: material-design-hamburger-icon-slide
+                    animation-fill-mode: forwards
+
+                    &:before
+                        animation-name: material-design-hamburger-icon-slide-before
+                        animation-fill-mode: forwards
+
+                    &:after
+                        animation-name: material-design-hamburger-icon-slide-after
+                        animation-fill-mode: forwards
+
+                &.from-arrow
+                    animation-name: material-design-hamburger-icon-slide-from
+
+                    &:before
+                        animation-name: material-design-hamburger-icon-slide-before-from
+
+                    &:after
+                        animation-name: material-design-hamburger-slide-after-from
+        & > .menu
+            nav
+                padding: 0
+                float: none
+                width: 100%
+                ul
+                    margin: 0
+                    width: 100%
+                    li
+                        width: 100%
+                        display: block
+                        padding: 1rem 0
+
+            section.user
+                position: absolute
+                bottom: 0
+                padding: 0
+                float: none
+                width: 100%
+                .username
+                    display: none
+
+    body > header > .menu, body > div.wrap > section.subnav
+        transition: all 300ms
+        position: fixed
+        top: 3.5rem
+        bottom: 0
+        display: block
+        overflow-y: auto
+        background: $background-color
+        margin-top: 0
+        width: 11rem
+
+        &.off
+            left: -60%
+            width: 50%
+
+        &.on
+            left: 0
+            box-shadow: 8px 8px 20px 0 rgba(0, 0, 0, 0.2)
+            transition: all 300ms
+
+    body > div.wrap
+        margin-top: 5rem !important
+        max-width: none !important
+        & > section.content
+            padding: 0 1.5rem
+            &.with-subnav
+                width: 100% !important
+                float: none !important
+        & > section.subnav
+            width: auto !important
+            margin-right: 0 !important
+            z-index: 995
+            padding: 0 1.5rem
+            h2
+                display: none
+            ul
+                margin: 0
+                li
+                    padding: 1rem 0
+                    a
+                        display: inline !important
+                        font-weight: 300
+                        border-bottom: 1px dotted #EFDEDE !important
+            &.on
+                left: 11rem
+                right: 0
+
+        
+    footer
+        display: none
+

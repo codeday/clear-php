@@ -38,11 +38,11 @@
         <table id="registrants" class="checkin">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Ticket</th>
-                    <th>Type</th>
-                    <th>Check In?</th>
+                    <th class="name">Name</th>
+                    <th class="email">Email</th>
+                    <th class="id">Ticket</th>
+                    <th class="type">Type</th>
+                    <th class="action">Check In?</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,7 +55,7 @@
                         <td class="email">{{ registration.email }}</td>
                         <td class="id">{{ registration.id }}</td>
                         <td class="type">{{ registration.type }}</td>
-                        <td>
+                        <td class="action">
                             <form class="checkin" method="post">
                                 <input type="hidden" name="id" value="{{ registration.id }}" />
                                 <input type="hidden" name="action" value="{% if registration.checked_in_at %}out{% else %}in{% endif %}"/>
