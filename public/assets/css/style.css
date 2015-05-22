@@ -877,6 +877,8 @@ body.docs .model-details {
         -moz-border-radius: 3px;
         font-family: monospace; }
 
+body.dayof .switcher {
+  text-align: center; }
 body.dayof .checkin .type-teacher {
   color: #0343FA;
   font-weight: bold; }
@@ -886,6 +888,13 @@ body.dayof .checkin .type-volunteer {
 body.dayof .checkin .type-sponsor {
   color: #FB481C;
   font-weight: bold; }
+body.dayof .parent, body.dayof .student {
+  width: 48%;
+  display: inline-block; }
+body.dayof .parent {
+  padding-left: 2%; }
+body.dayof .student {
+  padding-right: 2%; }
 
 body.batch .events-selector:after {
   content: "";

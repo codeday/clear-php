@@ -1,8 +1,23 @@
-<h2>Day-of</h2>
+<h2>Day-Of</h2>
+<div class="switcher">
+    {% if me.is_admin %}
+        {% set events = managed_batch.events %}
+    {% else %}
+        {% set events = me.current_managed_events %}
+    {% endif %}
+
+    <select id="event-switcher">
+        {% for switch_event in events %}
+            <option value="{{ switch_event.id }}"
+                    {% if switch_event.id == event.id %}selected{% endif %}>{{ switch_event.name }}</option>
+        {% endfor %}
+    </select>
+</div>
 
 <section class="evangelism">
     <ul>
         <li><a href="/dayof/checkin">Checkin</a></li>
+        <li><a href="/dayof/register">Register At-The-Door</a></li>
         <li><a href="/dayof/deck">Kickoff Slide Deck</a></li>
         <li><a href="/dayof/call-parents">Call Parents</a></li>
         {% if me.is_admin %}
@@ -10,3 +25,9 @@
         {% endif %}
     </ul>
 </section>
+
+<script type="text/javascript">
+    $('#event-switcher').on('change', function(){
+        window.location = '/dayof/switch?event='+$(this).val();
+    });
+</script>

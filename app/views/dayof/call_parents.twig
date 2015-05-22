@@ -26,22 +26,7 @@
         </ul>
     </header>
 
-    {% if me.is_admin %}
-        {% set events = managed_batch.events %}
-    {% else %}
-        {% set events = me.current_managed_events %}
-    {% endif %}
-
     <form method="post">
-        <div class="field">
-            <label for="to">To Event</label>
-            <select name="to" id="to" required>
-                <option value="">(select)</option>
-                {% for event in events %}
-                    <option value="{{ event.id }}">{{ event.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
         <div class="field">
             <label for="template">Template</label>
             <select id="template">
@@ -74,7 +59,7 @@
                 "start-delay":
                         "CodeDay is starting late. Doors will now open at [[NEW DOORS TIME]] instead of 11am. The event"
                         +" will officially start at [[NEW START TIME]]. CodeDay will still end at noon on Sunday as"
-                        +" before. We aplogize for the delay.",
+                        +" before. We apologize for the delay.",
                 "cancelled":
                         "CodeDay is cancelled. We apologize for the late notice. You will receive a full refund for"
                         +" your tickets. Please check your email for more details.",

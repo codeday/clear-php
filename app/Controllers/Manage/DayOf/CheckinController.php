@@ -8,14 +8,12 @@ class CheckinController extends \Controller {
 
     public function getIndex()
     {
-        $this->checkAccess();
-        return \View::make('dayof/checkin', ['event' => $this->getEvent()]);
+        return \View::make('dayof/checkin');
     }
 
     public function postIndex()
     {
-        $this->checkAccess();
-        $event = $this->getEvent();
+        $event = getDayOfEvent();
         $attendee_id = \Input::get('id');
         $action = \Input::get('action');
 
@@ -36,27 +34,5 @@ class CheckinController extends \Controller {
         }
 
         return json_encode((object)['status' => 200]);
-    }
-
-    private function getEvent()
-    {
-        $event_id = \Input::get('event');
-        return Models\Batch\Event::where('id', '=', $event_id)->first();
-    }
-
-    private function checkAccess()
-    {
-        $event = $this->getEvent();
-
-        if (!$event) {
-            return true;
-        }
-
-        if (Models\User::me()->username != $event->manager_username
-            && Models\User::me()->username != $event->evangelist_username
-            && !$event->isUserAllowed(Models\User::me())
-            && !Models\User::me()->is_admin) {
-            \App::abort(401);
-        }
     }
 }

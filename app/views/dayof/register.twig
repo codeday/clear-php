@@ -1,0 +1,120 @@
+{% extends "template.twig" %}
+{% block title %}Registration{% endblock %}
+{% block section %}dayof{% endblock %}
+{% block subnav %}{% include "dayof/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Registration</h2>
+        <p>You can use this to manually register a student and charge their credit card at the door. This will bypass
+           any registration caps, so be cautious with this.</p>
+        <p>(If multiple people are registering on one card, we recommend billing the first for the cost of all
+           registrations, and processing the rest as 0-cost.)</p>
+    </header>
+
+    <form id="register-form" method="post">
+        <section class="student">
+            <h2>Student Information</h2>
+            <div class="field">
+                <label for="first_name">First Name</label>
+                <input type="text" name="first_name" id="first_name" required />
+            </div>
+            <div class="field">
+                <label for="last_name">Last Name</label>
+                <input type="text" name="last_name" id="last_name" required />
+            </div>
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required />
+            </div>
+        </section>
+        <section class="parent">
+            <h2>Parent Info (under 18)</h2>
+            <div class="field">
+                <label for="parent_name">Name</label>
+                <input name="parent_name" id="parent_name" type="text"/>
+            </div>
+            <div class="field">
+                <label for="parent_email">Email</label>
+                <input name="parent_email" id="parent_email" type="email" />
+            </div>
+            <div class="field">
+                <label for="parent_phone">Phone</label>
+                <input name="parent_phone" id="parent_phone" type="text"/>
+            </div>
+            <div class="field">
+                <label for="parent_secondary_phone">Secondary Phone</label>
+                <input name="parent_secondary_phone" id="parent_secondary_phone" type="text"/>
+            </div>
+        </section>
+        <section class="payment">
+            <h2>Billing Info</h2>
+            <div class="field">
+                <label for="amount">Amount to Bill</label>
+                <input type="number" name="amount" id="amount" value="20" min="0" required />
+            </div>
+            <div class="field">
+                <label for="card">Card Number</label>
+                <input type="text" id="card" required />
+            </div>
+            <div class="field">
+                <label for="exp">Expiration</label>
+                <div class="group">
+                    <input type="text" id="mm" name="mm" pattern="\d\d?" placeholder="MM" required />
+                    <input type="text" id="yy" name="yy" pattern="\d\d(\d\d)?" placeholder="YYYY" required />
+                </div>
+            </div>
+        </section>
+        <input type="hidden" id="token" name="token" value=""/>
+        <input type="submit" id="pay-button" value="Register" />
+    {{ csrf|raw }}</form>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+        $("#amount").on('change', function(){
+            var paymentElems = $("#card, #mm, #yy");
+            var paymentParents = paymentElems.parents('div.field');
+            if ($(this).val() > 0) {
+                paymentElems.attr('required', true);
+                paymentParents.css('display', 'block');
+            } else {
+                paymentElems.attr('required', false);
+                paymentParents.css('display', 'none');
+            }
+        });
+
+        Stripe.setPublishableKey('{{ stripe_pk }}');
+        $('#pay-button').click(function(e){
+            if ($("#amount").val() == 0) {
+                return;
+            }
+        e.preventDefault();
+
+        if ($('#pay-button').text() == '...') {
+            return;
+        }
+
+        $('#pay-button').text('...');
+
+        Stripe.card.createToken({
+            number: $('#card').val(),
+            exp_month: $('#mm').val(),
+            exp_year: $('#yy').val()
+        },
+        function(status, response) {
+            if (response.error) {
+                swal({
+                    title: 'Error',
+                    text: response.error.message,
+                    type: 'error'
+                });
+                $('#pay-button').text('Register');
+            } else {
+                var token = response.id;
+                $('#token').val(token);
+                $('#register-form').submit();
+            }
+        });
+        });
+    </script>
+{% endblock %}
