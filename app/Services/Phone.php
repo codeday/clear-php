@@ -49,15 +49,18 @@ class Phone {
         });
     }
 
-    public static function connectPhones($first, $second, $from = null)
+    public static function connectPhones($first, $second, $from = null, $preConnectionTwiml = null)
     {
         if ($from === null) { $from = \Config::get('twilio.from'); }
+        if ($preConnectionTwiml === null) {
+            $preConnectionTwiml = "<Say voice=\"alice\">I am now connecting you.</Say>";
+        }
 
         $first = self::sanitizeNumber($first);
         $second = self::sanitizeNumber($second);
         $from = self::sanitizeNumber($from);
 
-        $twiml = '<Response><Say>Connecting you.</Say><Dial>'.$second.'</Dial></Response>';
+        $twiml = '<Response>'.$preConnectionTwiml.'<Dial>'.$second.'</Dial></Response>';
 
         \Queue::push(function($job) use ($first, $from, $twiml) {
             $client = new \Services_Twilio(\Config::get('twilio.sid'), \Config::get('twilio.token'));

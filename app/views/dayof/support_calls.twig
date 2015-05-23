@@ -1,0 +1,50 @@
+{% extends "template.twig" %}
+{% block title %}Support Call History{% endblock %}
+{% block section %}dayof{% endblock %}
+{% block subnav %}{% include "dayof/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Support Calls</h2>
+        <p>This is a history of incoming support calls to this event. You can call a number back from here.</p>
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Caller</th>
+                <th>Time</th>
+                <th>Student Name</th>
+                <th>Parent Name</th>
+                <th>Parent Email</th>
+                <th>Call Back?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for call in event.support_calls %}
+                <tr>
+                    <td>
+                        {% if call.registration %}
+                            <img src="http://www.gravatar.com/avatar/{{ call.registration.email_md5 }}?s=48&amp;d=mm" alt=""/>
+                        {% endif %}
+                    </td>
+                    <td>{{ call.caller }}</td>
+                    <td>{{ call.created_at.timestamp|date('l, g:ia') }}</td>
+                    {% if call.registration %}
+                        <td>{{ call.registration.name }}</td>
+                        <td>{{ call.registration.parent_name }}</td>
+                        <td><a href="mailto:{{ call.registration.parent_email }}">{{ call.registration.parent_email }}</a></td>
+                    {% else %}
+                        <td colspan="3"></td>
+                    {% endif %}
+                    <td>
+                        <form action="/dayof/support-calls/call" method="post" class="danger">
+                            <input type="hidden" name="sid" value="{{ call.call_sid }}" />
+                            <input type="submit" value="Call back" />
+                        {{ csrf|raw }}</form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

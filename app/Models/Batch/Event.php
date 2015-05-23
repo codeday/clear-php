@@ -543,6 +543,11 @@ class Event extends \Eloquent {
         return $sponsors_info;
     }
 
+    public function supportCalls()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\SupportCall', 'batches_event_id', 'id')->orderBy('created_at', 'DESC');
+    }
+
     public function registrations()
     {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\Registration', 'batches_event_id', 'id');

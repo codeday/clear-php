@@ -29,6 +29,7 @@ use \CodeDay\Clear\Models;
     \Route::controller('/register', 'RegisterController');
     \Route::controller('/deck', 'DeckController');
     \Route::controller('/emergency', 'EmergencyController');
+    \Route::controller('/support-calls', 'SupportCallsController');
 });
 
 if (!function_exists('getDayOfEvent')) {

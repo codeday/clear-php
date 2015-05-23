@@ -18,8 +18,8 @@ class IndexController extends \Controller {
 
         $registration->parent_name = \Input::get('parent_name') ? \Input::get('parent_name') : null;
         $registration->parent_email = \Input::get('parent_email') ? \Input::get('parent_email') : null;
-        $registration->parent_phone = \Input::get('parent_phone') ? \Input::get('parent_phone') : null;
-        $registration->parent_secondary_phone = \Input::get('parent_secondary_phone') ? \Input::get('parent_secondary_phone') : null;
+        $registration->parent_phone = $this->sanitizePhone(\Input::get('parent_phone'));
+        $registration->parent_secondary_phone = $this->sanitizePhone(\Input::get('parent_secondary_phone'));
         $registration->parent_no_info = \Input::get('parent_no_info') ? true : false;
         $registration->save();
 
@@ -27,6 +27,20 @@ class IndexController extends \Controller {
             'registration' => $registration,
             'success' => true
         ]);
+    }
+
+    private function sanitizePhone($phone)
+    {
+        $stripped = preg_replace('/\D/', '', $phone);
+        if (strlen($stripped) < 11) {
+            $stripped = '1'.$stripped;
+        }
+
+        if (strlen($stripped) === 11) {
+            return $stripped;
+        } else {
+            return null;
+        }
     }
 
     public function getSmsunsubscribe()
