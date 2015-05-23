@@ -10,7 +10,7 @@ class SendEvangelistSmsJob {
     public $interval = 'always';//'6 minutes';
     public function fire()
     {
-        foreach (Models\Batch\Event::get() as $event) {
+        foreach (Models\Batch::Loaded()->events as $event) {
             if (!$event->evangelist_username || !$event->evangelist->phone) continue;
 
             $adjustedBatchTimezone = Models\Batch::Loaded()->starts_at->setTimezone($event->region->timezone)->hour(12);
