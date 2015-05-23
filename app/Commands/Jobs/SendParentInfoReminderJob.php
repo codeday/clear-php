@@ -22,6 +22,7 @@ class SendParentInfoReminderJob {
                     $where->whereNull('parent_email')
                           ->where('parent_no_info', '=', false);
                 })
+                ->where('batches_events_registrations.type', '=', 'student')
                 ->get();
 
             foreach ($registrationsMissingParentInfo as $registration) {

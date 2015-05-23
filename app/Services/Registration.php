@@ -138,6 +138,8 @@ class Registration {
 
     public static function EnqueueSurveyEmail(Models\Batch\Event\Registration $reg)
     {
+        if ($reg->type !== 'student') return;
+
         $officeHoursStart = 9;
         $officeHoursEnd = 17;
         $officeDays = [Carbon::MONDAY, Carbon::TUESDAY, Carbon::WEDNESDAY, Carbon::THURSDAY, Carbon::FRIDAY];
