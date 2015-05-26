@@ -141,7 +141,7 @@ class TasksController extends \Controller {
         $batch->save();
 
         Services\Email::SendToBatch(
-            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
+            'Tyler Menezes', 'tylermenezes@studentrnd.org',
             Models\Batch::Managed(), 'attendees',
             'Making CodeDay Better',
             null,

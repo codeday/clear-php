@@ -251,11 +251,11 @@ class Email {
                 $eventContract = ModelContracts\Event::Model($event, ['internal']);
                 $additionalContextCopy = array_merge(['event' => $eventContract], $additionalContext);
 
-                $fromName = Email::renderTwigString($fromName, $additionalContextCopy);
-                $fromEmail = Email::renderTwigString($fromEmail, $additionalContextCopy);
+                $fromNameCopy = Email::renderTwigString($fromName, $additionalContextCopy);
+                $fromEmailCopy = Email::renderTwigString($fromEmail, $additionalContextCopy);
 
-                Email::SendToEvent($fromName, $fromEmail, $event, $listType, $subject, $contentText, $contentHtml,
-                    $additionalContextCopy, $isMarketing);
+                Email::SendToEvent($fromNameCopy, $fromEmailCopy, $event, $listType, $subject, $contentText,
+                    $contentHtml, $additionalContextCopy, $isMarketing);
             }
 
             $job->delete();
