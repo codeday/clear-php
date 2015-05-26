@@ -22,60 +22,32 @@ class TasksController extends \Controller {
         $batch->preevent_email_sent_at = Carbon::now();
         $batch->save();
 
-        foreach (Models\Batch::Managed()->events as $event) {
-            if ($event->allow_registrations_calculated) {
-                try {
-                    // Send participant email
-                    Services\Email::SendToEvent(
-                        'CodeDay ' . $event->name, $event->webname . '@codeday.org',
-                        $event, 'attendees',
-                        'CodeDay is Shortly Upon Us',
-                        \View::make('emails/preevent_text'),
-                        \View::make('emails/preevent_html'),
-                        [
-                            'me' => Models\User::me(),
-                            'event' => ModelContracts\Event::Model($event)
-                        ]
-                    );
+        // Send the participant email
+        Services\Email::SendToBatch(
+            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
+            Models\Batch::Managed(), 'attendees',
+            'CodeDay is Shortly Upon Us',
+            \View::make('emails/preevent_text'),
+            \View::make('emails/preevent_html')
+        );
 
-                    // Send venue email
-                    if ($event->venue_contact_email) {
-                        Services\Email::SendOnQueue(
-                            'CodeDay '.$event->name, $event->webname.'@codeday.org',
-                            $event->venue_contact_first_name.' '.$event->venue_contact_last_name, $event->venue_contact_email,
-                            'Information for CodeDay at '.$event->venue_name,
-                            null,
-                            \View::make('emails/preevent_venue_html', ['event' => $event])
-                        );
-                    }
+        // Send the staff email
+        Services\Email::SendToBatch(
+            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
+            Models\Batch::Managed(), 'event-staff',
+            'CodeDay Looms',
+            null,
+            \View::make('emails/preevent_staff_html')
+        );
 
-                    // Send staff emails
-                    $staff = [];
-                    if ($event->manager_username) {
-                        $staff[] = ['name' => $event->manager->name, 'email' => $event->manager->email];
-                        $staff[] = ['name' => $event->manager->name, 'email' => $event->manager->internal_email];
-                    }
-                    if ($event->evangelist_username) {
-                        $staff[] = ['name' => $event->evangelist->name, 'email' => $event->evangelist->email];
-                        $staff[] = ['name' => $event->evangelist->name, 'email' => $event->evangelist->internal_email];
-                    }
-                    foreach ($event->grants as $grant) {
-                        $staff[] = ['name' => $grant->name, 'email' => $grant->email];
-                        $staff[] = ['name' => $grant->name, 'email' => $grant->internal_email];
-                    }
-
-                    foreach ($staff as $member) {
-                        Services\Email::SendOnQueue(
-                            'CodeDay '.$event->name, $event->webname.'@codeday.org',
-                            $member['name'], $member['email'],
-                            'CodeDay is Shortly Upon Us',
-                            null,
-                            \View::make('emails/preevent_staff_html', ['event' => $event])
-                        );
-                    }
-                } catch (\Exception $ex) {}
-            }
-        }
+        // Send the venue email
+        Services\Email::SendToBatch(
+            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
+            Models\Batch::Managed(), 'venues',
+            'Information for CodeDay {{ event.name }}',
+            null,
+            \View::make('emails/preevent_venue_html')
+        );
 
         \Session::flash('status_message', 'Email enqueued');
 
@@ -91,41 +63,23 @@ class TasksController extends \Controller {
         $batch->reminder_email_sent_at = Carbon::now();
         $batch->save();
 
-        foreach (Models\Batch::Managed()->events as $event) {
-            if ($event->allow_registrations_calculated) {
-                try {
-                    Services\Email::SendToEvent(
-                        'CodeDay '.$event->name, $event->webname.'@codeday.org',
-                        $event, 'attendees',
-                        'Reminder: Your Registration for CodeDay',
-                        \View::make('emails/reminder_text'),
-                        \View::make('emails/reminder_html'),
-                        [
-                            'me' => Models\User::me(),
-                            'event' => ModelContracts\Event::Model($event)
-                        ]
-                    );
-                } catch (\Exception $ex) {}
+        // Send the participant email
+        Services\Email::SendToBatch(
+            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
+            Models\Batch::Managed(), 'attendees',
+            'Reminder: Your Registration for CodeDay',
+            \View::make('emails/reminder_text'),
+            \View::make('emails/reminder_html')
+        );
 
-                foreach ($event->registrations as $registration) {
-                    if ($registration->parent_email) {
-                        try {
-                            Services\Email::SendOnQueue(
-                                'CodeDay '.$event->name, $event->webname.'@codeday.org',
-                                $registration->parent_name, $registration->parent_email,
-                                'CodeDay this weekend',
-                                null,
-                                \View::make('emails/parent_reminder_html', [
-                                    'registration' => $registration,
-                                    'event' => $registration->event
-                                ]),
-                                false
-                            );
-                        } catch (\Exception $ex) {}
-                    }
-                }
-            }
-        }
+        // Send the parent email
+        Services\Email::SendToBatch(
+            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
+            Models\Batch::Managed(), 'parents',
+            'Reminder: CodeDay Is This Weekend',
+            null,
+            \View::make('emails/parent_reminder_html')
+        );
 
         \Session::flash('status_message', 'Email enqueued');
 
@@ -141,19 +95,13 @@ class TasksController extends \Controller {
         $batch->venue_reminder_email_sent_at = Carbon::now();
         $batch->save();
 
-        foreach (Models\Batch::Managed()->events as $event) {
-            if ($event->allow_registrations_calculated && $event->venue_contact_email) {
-                try {
-                    Services\Email::SendOnQueue(
-                        'CodeDay '.$event->name, $event->webname.'@codeday.org',
-                        $event->venue_contact_first_name.' '.$event->venue_contact_last_name, $event->venue_contact_email,
-                        'Reminder: CodeDay at '.$event->venue_name,
-                        null,
-                        \View::make('emails/reminder_venue_html', ['event' => $event])
-                    );
-                } catch (\Exception $ex) {}
-            }
-        }
+        Services\Email::SendToBatch(
+            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
+            Models\Batch::Managed(), 'venues',
+            'Reminder: CodeDay {{ event.name }}',
+            null,
+            \View::make('emails/reminder_venue_html')
+        );
 
         \Session::flash('status_message', 'Email enqueued');
 
@@ -169,19 +117,39 @@ class TasksController extends \Controller {
         $batch->venue_postevent_email_sent_at = Carbon::now();
         $batch->save();
 
-        foreach (Models\Batch::Managed()->events as $event) {
-            if ($event->allow_registrations_calculated && $event->venue_contact_email) {
-                try {
-                    Services\Email::SendOnQueue(
-                        'CodeDay '.$event->name, $event->webname.'@codeday.org',
-                        $event->venue_contact_first_name.' '.$event->venue_contact_last_name, $event->venue_contact_email,
-                        'How did we do?',
-                        null,
-                        \View::make('emails/postevent_venue_html', ['event' => $event])
-                    );
-                } catch (\Exception $ex) {}
-            }
+
+        Services\Email::SendToBatch(
+            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
+            Models\Batch::Managed(), 'venues',
+            'How did we do?',
+            null,
+            \View::make('emails/postevent_venue_html')
+        );
+
+        \Session::flash('status_message', 'Email enqueued');
+
+        return \Redirect::to('/batch/tasks');
+    }
+
+    public function postSendsurvey()
+    {
+        $batch = Models\Batch::Managed();
+        if ($batch->survey_email_sent_at !== null) {
+            return \App::abort(403);
         }
+        $batch->survey_email_sent_at = Carbon::now();
+        $batch->save();
+
+        Services\Email::SendToBatch(
+            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
+            Models\Batch::Managed(), 'attendees',
+            'Making CodeDay Better',
+            null,
+            \View::make('emails/survey_html'),
+            [
+                'survey' => \Input::get('survey')
+            ]
+        );
 
         \Session::flash('status_message', 'Email enqueued');
 

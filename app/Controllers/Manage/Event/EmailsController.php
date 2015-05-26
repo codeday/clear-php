@@ -26,34 +26,6 @@ class EmailsController extends \Controller {
         }
     }
 
-    public function postPreview()
-    {
-        $event = \Route::input('event');
-        $to = \Input::get('to');
-        $from = \Input::get('from');
-        $subject = \Input::get('subject');
-        $message = \Input::get('message');
-
-        $from_raw = $this->getFrom($from);
-
-        $tracking_promo_code = 'XYZZY';
-
-        return Services\Email::PreviewToEvent(
-            $from_raw->name, $from_raw->email,
-            $event, $to,
-            $subject,
-            $message,
-            null,
-            [
-                'me' => Models\User::me(),
-                'event' => ModelContracts\Event::Model($event),
-                'tracking_promo_code' => $tracking_promo_code,
-                'link' => 'https://codeday.org/'.$event->region_id,
-                'register_link' => 'https://codeday.org/'.$event->region_id.'/register'
-            ]
-        );
-    }
-
     public function postSend()
     {
         $event = \Route::input('event');

@@ -26,10 +26,15 @@ class EmergencyController extends \Controller {
         $registration = Models\Batch\Event\Registration::where('id', '=', \Input::get('id'))->firstOrFail();
         if ($registration->batches_event_id !== getDayOfEvent()->id) \App::abort(404);
 
+        // Figure out which parent phone we're using
         $number = \Input::get('num') === 'secondary' ?
             $registration->parent_secondary_phone : $registration->parent_phone;
 
-        Services\Phone::connectPhones(Models\User::me()->phone, $number, Models\Batch\Event\Call::ExternalNumber);
+        // Make the call
+        Services\Telephony\Voice::connectPhones(
+            Models\User::me()->phone,
+            $number,
+            Models\Batch\Event\Call::ExternalNumber);
 
         \Session::flash('status_message', 'Calling you...');
         return \Redirect::to('/dayof/emergency');
@@ -49,7 +54,7 @@ class EmergencyController extends \Controller {
 
         $twiml = '<Response><Say voice="alice" loop="3">'.$call->full_transcript.'</Say></Response>';
 
-        Services\Phone::callEventParents($event, $twiml, Models\Batch\Event\Call::ExternalNumber);
+        Services\Telephony\Voice::callEventParents($event, $twiml, Models\Batch\Event\Call::ExternalNumber);
 
         \Session::flash('status_message', 'Call enqued.');
         return \Redirect::to('/dayof/emergency');

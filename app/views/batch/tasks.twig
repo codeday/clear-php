@@ -58,6 +58,19 @@
                     {% endif %}
                 </td>
             </tr>
+            <tr>
+                <td class="step {% if managed_batch.survey_email_sent_at %}done{% endif %}"><span><span></span></span></td>
+                <td>
+                    {% if managed_batch.survey_email_sent_at %}
+                        Survey Email: Sent
+                    {% else %}
+                        <form action="/batch/tasks/sendsurvey" class="inline dangerous" method="post">
+                            <input type="submit" value="Send Survey Email"/>
+                            <input type="text" name="survey" id="survey" placeholder="Survey URL" required />
+                            {{ csrf|raw }}</form>
+                    {% endif %}
+                </td>
+            </tr>
         </tbody>
     </table>
 {% endblock %}

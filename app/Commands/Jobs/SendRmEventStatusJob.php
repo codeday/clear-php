@@ -10,6 +10,8 @@ class SendRMEventStatusJob {
     public $interval = '1 day';
     public function fire()
     {
+        if (Models\Batch::Loaded()->starts_at->isPast()) { return; } // Don't send emails once the event has started
+
         $interval = (Models\Batch::Loaded()->starts_at->addWeeks(-2)->isPast()) ? 'daily' : 'weekly';
         $cronjob = Models\Cronjob::where('class', '=', '\\CodeDay\\Clear\\Commands\\Jobs\\'.__CLASS__)->first();
         $last_run = $cronjob ? $cronjob->updated_at : Carbon::createFromTimestamp(0);

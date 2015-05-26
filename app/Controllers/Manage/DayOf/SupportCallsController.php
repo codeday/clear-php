@@ -14,7 +14,7 @@ class SupportCallsController extends \Controller {
     {
         $call = Models\Batch\Event\SupportCall::where('call_sid', '=', \Input::get('sid'))->firstOrFail();
 
-        Services\Phone::connectPhones(
+        Services\Telephony\Voice::connectPhones(
             Models\User::me()->phone,
             $call->caller,
             Models\Batch\Event\Call::ExternalNumber

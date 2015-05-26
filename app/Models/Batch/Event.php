@@ -242,6 +242,13 @@ class Event extends \Eloquent {
         return $this->hasMany('\CodeDay\Clear\Models\User\Grant', 'batches_event_id', 'id');
     }
 
+    public function getSubusersAttribute()
+    {
+        return array_map(function($x) {
+            return $x->user;
+        }, iterator_to_array($this->grants));
+    }
+
     public function emailsSent()
     {
         return $this->hasMany('\CodeDay\Clear\Models\EmailSent', 'batches_event_id', 'id');

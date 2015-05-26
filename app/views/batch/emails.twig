@@ -9,7 +9,7 @@
         <p>You can contact attendees, waitlisted registrants, and notify subscribers here.</p>
     </header>
 
-    <form method="post" action="/tools/emails/send">
+    <form method="post" action="/batch/emails/send">
         <section class="events-selector">
             {% set timezones = ['Pacific', 'Mountain', 'Central', 'Eastern'] %}
             {% for timezone in timezones %}
