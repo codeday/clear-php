@@ -16,9 +16,9 @@
         <div class="field">
             <label for="support_destination_picker">Destination</label>
             <select id="support_destination_picker">
-                <option id="srnd" {% if not event.support_destination %}selected{% endif %}>
+                <option value="srnd" {% if not event.support_destination %}selected{% endif %}>
                     Let StudentRND manage my support email</option>
-                <option id="custom" {% if event.support_destination %}selected{% endif %}>
+                <option value="custom" {% if event.support_destination %}selected{% endif %}>
                     I'd like to manage support email myself</option>
             </select>
         </div>
