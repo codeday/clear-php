@@ -23,6 +23,7 @@
                     <th>Email</th>
                     <th>Event</th>
                     <th>Amount Paid</th>
+                    <th>Checked In</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +42,7 @@
                         <td>{{ attendee.email }}</td>
                         <td>{{ attendee.event.full_name }}</td>
                         <td>${{ attendee.amount_paid|number_format(2) }}</td>
+                        <td>{% if attendee.checked_in_at %}&#10003;{% endif %}</td>
                     </tr>
                 {% endfor %}
             </tbody>

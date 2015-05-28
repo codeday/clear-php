@@ -30,7 +30,7 @@ class RegistrationsController extends \Controller {
                 return implode(',', [$reg->last_name, $reg->first_name, $reg->email,
                     ($reg->promotion ? $reg->promotion->code : ''), $reg->amount_paid,
                     $reg->parent_name, $reg->parent_email, $reg->parent_phone, $reg->parent_secondary_phone,
-                    $reg->created_at]);
+                    $reg->checked_in_at, $reg->created_at]);
             }, array_merge(
                 [(object)[
                     'last_name' => 'lastname',
@@ -42,6 +42,7 @@ class RegistrationsController extends \Controller {
                     'parent_email' => 'parentemail',
                     'parent_phone' => 'parentphone',
                     'parent_secondary_phone' => 'parentphonealt',
+                    'checked_in_at' => 'checkedin',
                     'created_at' => 'created']],
                 iterator_to_array($event->registrations)
             ))

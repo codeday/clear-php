@@ -23,6 +23,7 @@ class AttendeeController extends \Controller {
             $where = implode(' OR ', $searchQueries);
 
             $attendees = Models\Batch\Event\Registration::whereRaw($where, $searchVariables)
+                ->orderBy('created_at', 'DESC')
                 ->get();
         }
 
