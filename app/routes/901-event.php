@@ -10,6 +10,7 @@
     \Route::controller('/shipping', 'ShippingController');
     \Route::controller('/promotions', 'PromotionsController');
     \Route::controller('/emails', 'EmailsController');
+    \Route::controller('/support', 'SupportController');
     \Route::controller('/subusers', 'SubusersController');
     \Route::controller('/preevent', 'PreeventController');
     \Route::controller('/subscriptions', 'SubscriptionsController');

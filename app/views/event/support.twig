@@ -1,0 +1,54 @@
+{% extends "template.twig" %}
+{% block title %}Email Support Settings // {{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Email Support Settings</h2>
+        <p>This page will allow you to change where emails sent to {{ event.webname }}@codeday.org are routed. You can
+            use this to take over support for your CodeDay. If you choose to manage support, you're expected to reply
+            within 3 weekdays at most!</p>
+        <p>For spam reasons, you cannot route support emails to a personal email provider (e.g. gmail.com). We recommend
+           using your studentrnd.org email, or setting up an account with a helpdesk provider, such as
+           <a href="http://helpscout.net">Help Scout</a>.</p>
+    </header>
+    <form method="post">
+        <div class="field">
+            <label for="support_destination_picker">Destination</label>
+            <select id="support_destination_picker">
+                <option id="srnd" {% if not event.support_destination %}selected{% endif %}>
+                    Let StudentRND manage my support email</option>
+                <option id="custom" {% if event.support_destination %}selected{% endif %}>
+                    I'd like to manage support email myself</option>
+            </select>
+        </div>
+
+        <div class="field" {% if not event.support_destination %}style="display: none"{% endif %}>
+            <label for="support_destination">Custom Email</label>
+            <input type="email" name="support_destination" id="support_destination"
+                   value="{{ event.support_destination }}" {% if event.support_destination %}required{% endif %} />
+            <span class="help">To which email would you like support messages forwarded? This cannot be a personal
+                email address.</span>
+        </div>
+
+        <input type="submit" value="Save" />
+    {{ csrf|raw }}</form>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        $("#support_destination_picker").on('change', function(){
+            var $input = $('#support_destination');
+            var $field = $input.parents('div.field');
+
+            if ($(this).val() == 'srnd') {
+                $input.attr('required', false);
+                $input.val('');
+                $field.css('display', 'none');
+            } else {
+                $input.attr('reqquired', true);
+                $input.val('');
+                $field.css('display', 'block');
+            }
+        });
+    </script>
+{% endblock %}

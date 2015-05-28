@@ -24,6 +24,7 @@
 <section class="settings">
     <h3>Settings</h3>
     <ul>
+        <li><a href="/event/{{ event.id }}/support">Support Destination</a></li>
         <li><a href="/event/{{ event.id }}/subusers">Subusers</a></li>
         {% if event.shipment_tracking %}
             <li><a href="http://wwwapps.ups.com/WebTracking/track?track=yes&trackNums={{ event.shipment_tracking|url_encode }}&loc=en_us" target="_blank">Shipping</a></li>
