@@ -14,10 +14,12 @@ class SupportController extends \Controller {
         $event = \Route::input('event');
         $support_destination = \Input::get('support_destination') ? \Input::get('support_destination') : null;
 
-        $domainName = substr(strrchr($support_destination, "@"), 1);
-        if (in_array($domainName, ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com'])) {
-            \Session::flash('error', 'Cannot send to personal email.');
-            return \Redirect::to('/event/'.$event->id.'/support');
+        if ($support_destination) {
+            $domainName = substr(strrchr($support_destination, "@"), 1);
+            if (in_array($domainName, ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com'])) {
+                \Session::flash('error', 'Cannot send to personal email.');
+                return \Redirect::to('/event/'.$event->id.'/support');
+            }
         }
 
         $event->support_destination = $support_destination;
