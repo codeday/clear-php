@@ -56,6 +56,8 @@ class Email {
             $content['content_html'] = $contentHtml;
         }
 
+        \Log::warning("Email has been sent from IP " . $_SERVER["CF-Connecting-IP");
+
         // Enqueue the email
         \Mail::queue($views,
             $content,
@@ -599,4 +601,4 @@ class Email {
         // hhvm eval() bug.
         return $twig->render($templateString, $context);
     }
-} 
+}
