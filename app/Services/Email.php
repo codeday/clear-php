@@ -56,7 +56,7 @@ class Email {
             $content['content_html'] = $contentHtml;
         }
 
-        \Log::warning("Email has been sent from IP " . $_SERVER["CF-Connecting-IP");
+        \Log::warning("Email has been sent from IP " . $_SERVER["CF-Connecting-IP"]);
 
         // Enqueue the email
         \Mail::queue($views,
