@@ -112,6 +112,8 @@ class Email {
             $content['content_html'] = $contentHtml;
         }
 
+        \Log::warning("Email has been sent from IP " . $_SERVER["CF-Connecting-IP"]);
+
         // Enqueue the email
         \Mail::later($delaySeconds, $views,
             $content,
@@ -162,6 +164,8 @@ class Email {
         $eventId = $event->id;
         $contentText = self::serializeView($contentText);
         $contentHtml = self::serializeView($contentHtml);
+
+        \Log::warning("Email has been sent from IP " . $_SERVER["CF-Connecting-IP"]);
 
         \Queue::push(function($job) use ($listType, $fromName, $fromEmail, $eventId, $subject,
                                          $contentText, $contentHtml, $additionalContext, $isMarketing) {
@@ -233,6 +237,8 @@ class Email {
         $batchId = $batch->id;
         $contentText = self::serializeView($contentText);
         $contentHtml = self::serializeView($contentHtml);
+
+        \Log::warning("Email has been sent from IP " . $_SERVER["CF-Connecting-IP"]);
 
         \Queue::push(function($job) use ($fromName, $fromEmail, $batchId, $listType, $subject, $contentText,
                                          $contentHtml, $additionalContext, $isMarketing, $onlyWithOpenRegistrations) {
