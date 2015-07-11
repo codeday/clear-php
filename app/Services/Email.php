@@ -56,7 +56,7 @@ class Email {
             $content['content_html'] = $contentHtml;
         }
 
-        \Log::warning("Email has been sent from IP " . $_SERVER["X-Forwarded-For"]);
+        \Log::warning("Email has been sent from IP " . $_SERVER["HTTP_X_FORWARDED_FOR"]);
 
         // Enqueue the email
         \Mail::queue($views,
@@ -112,7 +112,7 @@ class Email {
             $content['content_html'] = $contentHtml;
         }
 
-        \Log::warning("Email has been sent from IP " . $_SERVER["X-Forwarded-For"]);
+        \Log::warning("Email has been sent from IP " . $_SERVER["HTTP_X_FORWARDED_FOR"]);
 
         // Enqueue the email
         \Mail::later($delaySeconds, $views,
@@ -165,7 +165,7 @@ class Email {
         $contentText = self::serializeView($contentText);
         $contentHtml = self::serializeView($contentHtml);
 
-        \Log::warning("Email has been sent from IP " . $_SERVER["X-Forwarded-For"]);
+        \Log::warning("Email has been sent from IP " . $_SERVER["HTTP_X_FORWARDED_FOR"]);
 
         \Queue::push(function($job) use ($listType, $fromName, $fromEmail, $eventId, $subject,
                                          $contentText, $contentHtml, $additionalContext, $isMarketing) {
@@ -238,7 +238,7 @@ class Email {
         $contentText = self::serializeView($contentText);
         $contentHtml = self::serializeView($contentHtml);
 
-        \Log::warning("Email has been sent from IP " . $_SERVER["X-Forwarded-For"]);
+        \Log::warning("Email has been sent from IP " . $_SERVER["HTTP_X_FORWARDED_FOR"]);
 
         \Queue::push(function($job) use ($fromName, $fromEmail, $batchId, $listType, $subject, $contentText,
                                          $contentHtml, $additionalContext, $isMarketing, $onlyWithOpenRegistrations) {
