@@ -96,7 +96,9 @@ class Registration extends ModelContract
                 'description'   => 'The event the user registered for.',
                 'rich'          => true,
                 'type'          => 'Event',
-                'value'         => function($model) { return $model->event; }
+                'value'         => function($model, $permissions) {
+                    return new Event($model->current_event, $permissions, true);
+                }
             ],
         ];
     }
