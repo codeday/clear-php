@@ -10,7 +10,7 @@
     \Route::get('event/{event}', 'Events@getEvent');
     \Route::get('events/managed-by/{username}', 'Events@getManagedBy');
 
-    \Route::controller('registrations', 'Registrations');
+    \Route::get('registration/by-email/{email}', 'Registrations@getByEmail');
     \Route::get('registration/{registration}', 'Registrations@getRegistration');
 
     \Route::controller('promotions', 'Promotions');

@@ -14,9 +14,16 @@ class Registrations extends ApiController {
   public function getByEmail()
   {
     $this->requirePermission(['admin']);
-    $registrations = \DB::table('batches_events_registrations')->orderBy('created_at', 'desc')->where('email', \Input::get('email'))->get();
+    $registrations = Models\Batch\Event\Registration::orderBy('created_at', 'desc')->where('email', \Route::input('email'))->get();
+
+    if (count($registrations) === 0) {
+      return json_encode(['latest_registration' => null, 'all_registrations' => []]);
+    }
+
     $latest = $registrations[0];
-    // unset($registrations[0]);
-    return json_encode(["latest_registration" => $latest, "all_registrations" => $registrations]);
+    return json_encode([
+        "latest_registration" => ModelContracts\Registration::Model($latest),
+        "all_registrations" => ModelContracts\Registration::Collection($registrations)
+    ]);
   }
 }

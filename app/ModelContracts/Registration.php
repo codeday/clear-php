@@ -23,6 +23,13 @@ class Registration extends ModelContract
                 'value'         => function($model) { return $model->email; }
             ],
 
+            'type' => [
+                'name'          => 'Type',
+                'description'   => 'String indicating what sort of registration this is. One of: student, teacher, volunteer, or sponsor.',
+                'example'       => 'student',
+                'value'         => function($model) { return $model->type; }
+            ],
+
             /* Name-Related Properties */
             'name' => [
                 'name'          => 'Full Name',
@@ -43,6 +50,42 @@ class Registration extends ModelContract
                 'description'   => 'The last name of the registrant.',
                 'example'       => 'Menezes',
                 'value'         => function($model) { return $model->last_name; }
+            ],
+
+            /* Parent-related properties */
+            'parent_information_exempt' => [
+                'name'          => 'Parent Information Exempt?',
+                'description'   => 'Boolean which, if true, indicates that the student is over 18 and self-dependent.',
+                'example'       => 'true',
+                'value'         => function($model) { return $model->parent_no_info; }
+            ],
+
+            'parent_name' => [
+                'name'          => 'Parent Name',
+                'description'   => 'Name of the parent, not normalized to any specific format. May be null.',
+                'example'       => 'Catherine',
+                'value'         => function($model) { return $model->parent_name; }
+            ],
+
+            'parent_email' => [
+                'name'          => 'Parent Email',
+                'description'   => 'Email of the parent. May be null.',
+                'example'       => 'x@example.com',
+                'value'         => function($model) { return $model->parent_email; }
+            ],
+
+            'parent_phone' => [
+                'name'          => 'Parent Phone',
+                'description'   => '10-digit parent contact number, including leading 1. May be null.',
+                'example'       => '14257807901',
+                'value'         => function($model) { return $model->parent_phone; }
+            ],
+
+            'parent_secondary_phone' => [
+                'name'          => 'Parent Secondary Phone',
+                'description'   => '10-digit alternate parent contact number, including leading 1. May be null.',
+                'example'       => '14257807901',
+                'value'         => function($model) { return $model->parent_secondary_phone; }
             ],
 
             /* Price-Related Properties */
