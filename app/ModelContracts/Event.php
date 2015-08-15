@@ -38,6 +38,23 @@ class Event extends ModelContract
                 'value'         => function($model) { return $model->webname; }
             ],
 
+            'urls' => [
+                'name'          => 'URLs',
+                'description'   => 'Collection of user-facing URLs related to this event. Will be null if the event is'
+                                   .' not in a loaded batch, since only loaded events are addressable.',
+                'example'       => '{ "home": "https://codeday.org/seattle", "register": "https://codeday.org/seattle/register"}',
+                'value'         => function($model) {
+                    if (!$model->batch->is_loaded) {
+                        return null;
+                    }
+
+                    return (object)[
+                        'home' => 'https://codeday.org/'.$model->webname,
+                        'register' => $model->AllowRegistrationsCalculated ? 'https://codeday.org/'.$model->webname.'/register' : null
+                    ];
+                }
+            ],
+
             /* Time-Related Properties */
             'starts_at' => [
                 'name'          => 'Starts At',
