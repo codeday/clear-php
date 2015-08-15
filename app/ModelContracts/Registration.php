@@ -57,7 +57,7 @@ class Registration extends ModelContract
                 'name'          => 'Parent Information Exempt?',
                 'description'   => 'Boolean which, if true, indicates that the student is over 18 and self-dependent.',
                 'example'       => 'true',
-                'value'         => function($model) { return $model->parent_no_info; }
+                'value'         => function($model) { return boolval($model->parent_no_info); }
             ],
 
             'parent_name' => [
