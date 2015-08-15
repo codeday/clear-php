@@ -23,6 +23,7 @@ class SponsorsController extends \Controller {
         $sponsor->name = \Input::get('name');
         $sponsor->url = \Input::get('url');
         $sponsor->logo = file_get_contents(\Input::file('logo'));
+        $sponsor->amount = \Input::get('amount');
         $sponsor->blurb = \Input::get('blurb');
         $sponsor->description = \Input::get('description');
         $sponsor->perk = \Input::get('perk');
@@ -61,6 +62,7 @@ class SponsorsController extends \Controller {
             $sponsor->logo = file_get_contents(\Input::file('logo'));
         }
 
+        $sponsor->amount = \Input::get('amount');
         $sponsor->blurb = \Input::get('blurb');
         $sponsor->description = \Input::get('description');
         $sponsor->perk = \Input::get('perk');

@@ -268,9 +268,9 @@ body > header {
     height: 0; }
 
 .wrap ::-webkit-input-placeholder {
-  color: #ddbcbc; }
+  color: #debcbc; }
 .wrap ::-moz-placeholder {
-  color: #ddbcbc;
+  color: #debcbc;
   opacity: 1; }
 .wrap input[type="text"],
 .wrap input[type="url"],
@@ -410,7 +410,7 @@ body > header {
 .wrap section.content > section.new {
   display: block;
   padding: 1rem;
-  border: 1px solid #ddbcbc;
+  border: 1px solid #debcbc;
   text-decoration: none;
   border-radius: 4px;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
@@ -783,7 +783,7 @@ body.event .sponsors {
     body.event .sponsors li a {
       display: block;
       padding: 1rem;
-      border: 1px solid #ddbcbc;
+      border: 1px solid #debcbc;
       text-decoration: none;
       border-radius: 4px;
       box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
@@ -890,7 +890,7 @@ body.event .registration.activities {
 body.event .sent-emails {
   padding: 0; }
   body.event .sent-emails li {
-    border: 1px solid #ddbcbc;
+    border: 1px solid #debcbc;
     border-top-width: 0;
     list-style-type: none;
     cursor: pointer;
@@ -929,7 +929,7 @@ body.event .flight-plans tr.direction th {
 body.event .flight-plans tr.layover td {
   text-align: center;
   font-style: italic;
-  color: #ddbcbc;
+  color: #debcbc;
   font-size: 0.75rem; }
 body.event .flight-plans tr.add td {
   padding-top: 3rem; }
@@ -945,7 +945,7 @@ body.event .flight-plans input[type="submit"] {
 body.tools .event-tidbits {
   display: block;
   padding: 1rem;
-  border: 1px solid #ddbcbc;
+  border: 1px solid #debcbc;
   text-decoration: none;
   border-radius: 4px;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
@@ -958,10 +958,10 @@ body.tools .event-tidbits {
       margin: 0; }
     body.tools .event-tidbits header p {
       font-size: 0.8rem;
-      color: #ddbcbc; }
+      color: #debcbc; }
   body.tools .event-tidbits h3 {
     text-transform: uppercase;
-    color: #ddbcbc;
+    color: #debcbc;
     margin-top: 0 !important;
     font-size: 1rem; }
   body.tools .event-tidbits .venue .map {
@@ -979,7 +979,7 @@ body.tools .event-tidbits {
       display: block; }
   body.tools .event-tidbits .sponsors p {
     font-size: 0.8rem;
-    color: #ddbcbc; }
+    color: #debcbc; }
   body.tools .event-tidbits > section {
     clear: both;
     padding: 1rem 0;
@@ -989,10 +989,10 @@ body.tools .event-tidbits {
 body.tools .banlist {
   width: 100%; }
   body.tools .banlist tr.expired {
-    color: #ddbcbc; }
+    color: #debcbc; }
   body.tools .banlist tr.info:not(:first-child) td, body.tools .banlist tr.info:not(:first-child) th {
     padding-top: 2rem;
-    border-top: 1px solid #ddbcbc; }
+    border-top: 1px solid #debcbc; }
   body.tools .banlist tr.info td, body.tools .banlist tr.info th {
     padding-bottom: 1rem;
     text-align: left; }
@@ -1007,7 +1007,7 @@ body.tools .banlist {
     padding-bottom: 2rem; }
 
 body.debug .log {
-  border: 1px solid #ddbcbc;
+  border: 1px solid #debcbc;
   overflow-y: scroll;
   font-family: monospace;
   white-space: nowrap; }
@@ -1015,7 +1015,7 @@ body.debug .queue-failed {
   padding: 0; }
   body.debug .queue-failed li {
     list-style-type: none;
-    border-bottom: 1px solid #ddbcbc;
+    border-bottom: 1px solid #debcbc;
     padding: 1rem 0; }
   body.debug .queue-failed form {
     display: inline; }
@@ -1037,7 +1037,7 @@ body.docs .model-details {
     body.docs .model-details li:last-child {
       border-bottom: none; }
     body.docs .model-details li h3 .id {
-      border: 1px solid #ddbcbc;
+      border: 1px solid #debcbc;
       background-color: #efdede;
       padding: 0.25rem;
       border-radius: 3px;
@@ -1050,7 +1050,7 @@ body.docs .model-details {
         display: inline; }
       body.docs .model-details li .example span, body.docs .model-details li .example a, body.docs .model-details li .requires span, body.docs .model-details li .requires a, body.docs .model-details li .type span, body.docs .model-details li .type a {
         margin-left: 0.25rem;
-        border: 1px solid #ddbcbc;
+        border: 1px solid #debcbc;
         background-color: #efdede;
         padding: 0.25rem;
         border-radius: 3px;
@@ -1112,7 +1112,7 @@ body.batch .tasks tr {
       background-color: #15E014; }
     body.batch .tasks tr td.step > span {
       display: block;
-      border: 1px solid #ddbcbc;
+      border: 1px solid #debcbc;
       padding: 1px;
       margin-bottom: 0.125rem; }
       body.batch .tasks tr td.step > span > span {
@@ -1120,37 +1120,46 @@ body.batch .tasks tr {
         background-color: #FB481C;
         width: 0.5rem;
         height: 0.5rem; }
-body.batch .status {
+body.batch .status, body.batch .finances {
   border-collapse: collapse; }
-  body.batch .status thead th {
+  body.batch .status thead th, body.batch .finances thead th {
     font-size: 0.75rem;
     font-family: monospace; }
-  body.batch .status tbody tr:nth-child(2n+1) {
+  body.batch .status tbody tr:nth-child(2n+1), body.batch .finances tbody tr:nth-child(2n+1) {
     background-color: #efdede; }
-  body.batch .status tbody tr td {
-    border-left: 1px solid #ddbcbc;
+  body.batch .status tbody tr td, body.batch .finances tbody tr td {
+    border-left: 1px solid #debcbc;
     padding: 0.5rem; }
-    body.batch .status tbody tr td.okay span span {
+    body.batch .status tbody tr td.okay span span, body.batch .finances tbody tr td.okay span span {
       background-color: #15E014; }
-    body.batch .status tbody tr td > span {
+    body.batch .status tbody tr td > span, body.batch .finances tbody tr td > span {
       display: inline-block;
-      border: 1px solid #ddbcbc;
+      border: 1px solid #debcbc;
       padding: 1px;
       margin-bottom: 0.125rem; }
-      body.batch .status tbody tr td > span > span {
+      body.batch .status tbody tr td > span > span, body.batch .finances tbody tr td > span > span {
         display: block;
         background-color: #FB481C;
         width: 0.5rem;
         height: 0.5rem; }
+body.batch .finances tbody tr td {
+  border-left: none; }
+  body.batch .finances tbody tr td.revenue {
+    border-left: 1px double #debcbc;
+    border-width: 3px; }
+  body.batch .finances tbody tr td.cogs, body.batch .finances tbody tr td.net {
+    border-left: 2px solid #debcbc; }
+  body.batch .finances tbody tr td.negative {
+    color: #FB481C; }
 
 .wrap .compose-email {
-  border: 1px solid #ddbcbc; }
+  border: 1px solid #debcbc; }
   .wrap .compose-email .field {
     border-bottom: 1px solid #efdede;
     padding: 0.25rem; }
     .wrap .compose-email .field label {
       width: 10%;
-      color: #ddbcbc; }
+      color: #debcbc; }
     .wrap .compose-email .field.subject label {
       display: none; }
     .wrap .compose-email .field.subject input {
@@ -1178,7 +1187,7 @@ body.batch .status {
     margin-top: 0.75rem;
     float: left; }
   .send-email input[type="submit"] {
-    border: 1px solid #ddbcbc;
+    border: 1px solid #debcbc;
     border-top: none; }
   .send-email select {
     float: right;
@@ -1198,7 +1207,7 @@ body.batch .status {
     font-size: 0.8rem;
     display: block;
     padding-top: 0.4rem;
-    color: #ddbcbc; }
+    color: #debcbc; }
   .switch input[type="checkbox"] {
     display: none; }
     .switch input[type="checkbox"]:disabled + label {
@@ -1219,7 +1228,7 @@ body.batch .status {
     display: block;
     overflow: hidden;
     cursor: pointer;
-    border: 2px solid #ddbcbc;
+    border: 2px solid #debcbc;
     border-radius: 3px;
     position: relative; }
   .switch.onoff .inner:before {
@@ -1264,15 +1273,15 @@ body.batch .status {
     .switch .inner:after {
       padding-right: 10px;
       background-color: #efdede;
-      color: #ddbcbc;
+      color: #debcbc;
       text-align: right; }
   .switch .switch {
     display: block;
     width: 24px;
     margin: 10.5px;
     background: #fff;
-    border: 2px solid #ddbcbc;
-    color: #ddbcbc;
+    border: 2px solid #debcbc;
+    color: #debcbc;
     border-radius: 3px;
     position: absolute;
     top: 0;

@@ -13,7 +13,7 @@
                 <a href="/event/{{ event.id }}/sponsors/{{ sponsor.id }}/edit">
                     <header>
                         <section class="info">
-                            <h3>{{ sponsor.name }}</h3>
+                            <h3>{{ sponsor.name }} (${{ sponsor.amount|number_format(0) }})</h3>
                             {% if sponsor.url %}
                                 <span class="url">{{ sponsor.url }}</span>
                             {% endif %}

@@ -166,7 +166,7 @@ class Event extends \Eloquent {
         }
     }
 
-    public function getRevenueAttribute()
+    public function getTicketRevenueAttribute()
     {
         $orders = \CodeDay\Clear\Models\Batch\Event\Registration
             ::where('batches_event_id', '=', $this->id)
@@ -179,6 +179,30 @@ class Event extends \Eloquent {
         }
 
         return $revenue;
+    }
+
+    public function getSponsorRevenueAttribute()
+    {
+        $sponsors = \CodeDay\Clear\Models\Batch\Event\Sponsor
+            ::where('batches_event_id', '=', $this->id)
+            ->get();
+
+        $revenue = 0;
+        foreach ($sponsors as $sponsor) {
+            $revenue += $sponsor->amount;
+        }
+
+        return $revenue;
+    }
+
+    public function getRevenueAttribute()
+    {
+        return $this->ticket_revenue + $this->sponsor_revenue;
+    }
+
+    public function getCostsAttribute()
+    {
+        return 750; // TODO
     }
 
     public function getIsEarlyBirdPricingAttribute()

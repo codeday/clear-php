@@ -31,6 +31,13 @@
             <span class="help">The URL of the company's website, for use on the website.</span>
         </div>
         <div class="field">
+            <label for="amount">Amount</label>
+            <input type="text" name="amount" id="amount" value="{{ sponsor.amount|number_format(0) }}"
+                    pattern="\d*" required />
+            <span class="help">The amount of cash contributed by the sponsor. If this is 0, and the sponsor is not
+                sponsoring food, please contact your manager for approval before adding.</span>
+        </div>
+        <div class="field">
             <label for="blurb">Blurb</label>
             <input type="text" name="blurb" id="blurb" maxlength="140" value="{{ sponsor.blurb }}" required />
             <span class="help">A tweet-sized description of what the sponsor does. Used in event emails.</span>

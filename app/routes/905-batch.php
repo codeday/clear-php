@@ -18,5 +18,6 @@
         \Route::controller('shipments', 'ShipmentController');
         \Route::controller('manifests', 'ManifestController');
         \Route::controller('send-sms', 'SendSmsController');
+        \Route::controller('finances', 'FinancesController');
     });
 });

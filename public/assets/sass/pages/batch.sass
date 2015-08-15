@@ -40,7 +40,7 @@ body.batch
                         width: 0.5rem
                         height: 0.5rem
 
-    .status
+    .status, .finances
         border-collapse: collapse
         thead
             th
@@ -65,3 +65,13 @@ body.batch
                             background-color: $color-red
                             width: 0.5rem
                             height: 0.5rem
+
+    .finances tbody tr td
+        border-left: none
+        &.revenue
+            border-left: 1px double $foreground-color-light
+            border-width: 3px
+        &.cogs, &.net
+            border-left: 2px solid $foreground-color-light
+        &.negative
+            color: $color-red
