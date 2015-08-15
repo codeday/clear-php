@@ -168,31 +168,26 @@ class Event extends \Eloquent {
 
     public function getTicketRevenueAttribute()
     {
-        $orders = \CodeDay\Clear\Models\Batch\Event\Registration
+        $amount = \CodeDay\Clear\Models\Batch\Event\Registration
             ::where('batches_event_id', '=', $this->id)
-            ->groupBy('stripe_id')
-            ->get();
+            ->sum('amount_paid');
 
-        $revenue = 0;
-        foreach ($orders as $order) {
-            $revenue += $order->order_amount_received;
-        }
+        $count = \CodeDay\Clear\Models\Batch\Event\Registration
+            ::selectRaw('COUNT(DISTINCT stripe_id) as count')
+            ->where('batches_event_id', '=', $this->id)
+            ->first()->count;
 
-        return $revenue;
+        return ($amount * (1-0.027)) - ($count * 0.30);
     }
 
     public function getSponsorRevenueAttribute()
     {
-        $sponsors = \CodeDay\Clear\Models\Batch\Event\Sponsor
-            ::where('batches_event_id', '=', $this->id)
-            ->get();
+        $summary = \CodeDay\Clear\Models\Batch\Event\Sponsor
+            ::selectRaw('SUM(amount) as amount')
+            ->where('batches_event_id', '=', $this->id)
+            ->first();
 
-        $revenue = 0;
-        foreach ($sponsors as $sponsor) {
-            $revenue += $sponsor->amount;
-        }
-
-        return $revenue;
+        return $summary->amount;
     }
 
     public function getRevenueAttribute()
