@@ -195,9 +195,19 @@ class Event extends \Eloquent {
         return $this->ticket_revenue + $this->sponsor_revenue;
     }
 
-    public function getCostsAttribute()
+    public function getContractCostsAttribute()
     {
         return 750; // TODO
+    }
+
+    public function getFoodCostsAttribute()
+    {
+        return count($this->registrations)*10; // TODO
+    }
+
+    public function getCostsAttribute()
+    {
+        return $this->contract_costs + $this->food_costs;
     }
 
     public function getIsEarlyBirdPricingAttribute()

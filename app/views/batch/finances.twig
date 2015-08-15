@@ -16,6 +16,8 @@
                 <th class="tickets">Tickets</th>
                 <th class="sponsors">Sponsorships</th>
                 <th class="revenue">Revenue</th>
+                <th class="contract">Contracts</th>
+                <th class="food">Food</th>
                 <th class="cogs">Costs</th>
                 <th class="net">Net</th>
             </tr>
@@ -24,6 +26,8 @@
             {% set ticket_rev = 0 %}
             {% set sponsor_rev = 0 %}
             {% set rev = 0 %}
+            {% set contract_costs = 0 %}
+            {% set food_costs = 0 %}
             {% set costs = 0 %}
             {% for event in managed_batch.events %}
                 <tr>
@@ -32,6 +36,8 @@
                     <td class="tickets">${{ event.ticket_revenue|number_format(2) }}</td>
                     <td class="sponsors">${{ event.sponsor_revenue|number_format(2) }}</td>
                     <td class="revenue">${{ event.revenue|number_format(2) }}</td>
+                    <td class="contract">${{ event.contract_costs|number_format(2) }}</td>
+                    <td class="food">${{ event.food_costs|number_format(2) }}</td>
                     <td class="cogs">${{ event.costs|number_format(2) }}</td>
                     <td class="net {% if (event.revenue - event.costs) < 0 %}negative{% endif %}">
                         ${{ (event.revenue-event.costs)|abs|number_format(2) }}</td>
@@ -39,6 +45,8 @@
                     {% set ticket_rev = ticket_rev + event.ticket_revenue %}
                     {% set sponsor_rev = sponsor_rev + event.sponsor_revenue %}
                     {% set rev = rev + event.revenue %}
+                    {% set contract_costs = contract_costs + event.contract_costs %}
+                    {% set food_costs = food_costs + event.food_costs %}
                     {% set costs = costs + event.costs %}
                 </tr>
             {% endfor %}
@@ -48,6 +56,8 @@
                 <td class="tickets">${{ ticket_rev|number_format(2) }}</td>
                 <td class="sponsors">${{ sponsor_rev|number_format(2) }}</td>
                 <td class="revenue">${{ rev|number_format(2) }}</td>
+                <td class="contract">${{ contract_costs|number_format(2) }}</td>
+                <td class="food">${{ food_costs|number_format(2) }}</td>
                 <td class="cogs">${{ costs|number_format(2) }}</td>
                 <td class="net {% if (rev-costs) < 0 %}negative{% endif %}">
                     ${{ (rev - costs)|abs|number_format(2) }}

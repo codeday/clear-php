@@ -68,10 +68,9 @@ body.batch
 
     .finances tbody tr td
         border-left: none
-        &.revenue
+        &.revenue, &.cogs
             border-left: 1px double $foreground-color-light
+            border-right: 2px solid $foreground-color-light
             border-width: 3px
-        &.cogs, &.net
-            border-left: 2px solid $foreground-color-light
         &.negative
             color: $color-red

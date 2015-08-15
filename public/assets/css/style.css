@@ -1144,11 +1144,10 @@ body.batch .status, body.batch .finances {
         height: 0.5rem; }
 body.batch .finances tbody tr td {
   border-left: none; }
-  body.batch .finances tbody tr td.revenue {
+  body.batch .finances tbody tr td.revenue, body.batch .finances tbody tr td.cogs {
     border-left: 1px double #debcbc;
+    border-right: 2px solid #debcbc;
     border-width: 3px; }
-  body.batch .finances tbody tr td.cogs, body.batch .finances tbody tr td.net {
-    border-left: 2px solid #debcbc; }
   body.batch .finances tbody tr td.negative {
     color: #FB481C; }
 
