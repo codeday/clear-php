@@ -45,7 +45,10 @@ class Event extends ModelContract
                 'example'       => '{ "home": "https://codeday.org/seattle", "register": "https://codeday.org/seattle/register"}',
                 'value'         => function($model) {
                     if (!$model->batch->is_loaded) {
-                        return null;
+                        return (object)[
+                            'home' => null,
+                            'register' => null
+                        ];
                     }
 
                     return (object)[
