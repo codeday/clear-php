@@ -33,6 +33,14 @@ class Batch extends \Eloquent {
         }, iterator_to_array($shipped_events));
     }
 
+    public function getPreviousAttribute()
+    {
+        return self
+            ::where('starts_at', '<', $this->starts_at)
+            ->orderBy('starts_at', 'DESC')
+            ->first();
+    }
+
     protected static function boot()
     {
         parent::boot();

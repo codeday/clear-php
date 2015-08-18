@@ -42,6 +42,18 @@ class Event extends \Eloquent {
         return $this->starts_at + (60 * 60 * 24);
     }
 
+    public function getPreviousAttribute()
+    {
+        if (!$this->batch->previous) {
+            return null;
+        }
+
+        return self
+            ::where('region_id', '=', $this->region_id)
+            ->where('batch_id', '=', $this->batch->previous->id)
+            ->first();
+    }
+
     public function overflowFor()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\Batch\Event', 'overflow_for_id', 'id');
