@@ -18,6 +18,7 @@
 
     \Route::group(['before' => 's5_admin'], function(){
         \Route::controller('giftcards', 'GiftCardsController');
+        \Route::controller('query', 'QueryController');
     });
 
     \Route::get('/checkin', function() { return \Redirect::to('/dayof/checkin'); });

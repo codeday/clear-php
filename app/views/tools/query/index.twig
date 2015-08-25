@@ -1,0 +1,76 @@
+{% extends "template.twig" %}
+{% block title %}Query{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Query</h2>
+        <p>This tool lets you execute a query, view results, and -- if desired -- download the results as a CSV.</p>
+        <p><strong>This tool is unoptimized.</strong> Queries are run sync on the render thread, so this page will block
+            for large queries. As of right now <strong>there is no protection on this tool. Do not use it to update
+            the database.</strong></p>
+        <p><a href="/tools/query/saved">See Saved Queries</a></p>
+    </header>
+
+    <form method="post">
+        <div class="field">
+            <label for="query">Query</label>
+            <textarea name="query" id="query">{{ query }}</textarea>
+            <span class="help">The full SQL query.</span>
+        </div>
+        <input type="submit" value="Run" />
+    {{ csrf|raw }}</form>
+
+    {% if exception %}
+        <div style="font-family: monospace;margin-top:5rem;border:1px solid red;padding:1rem;clear:both">
+            {{ exception }}
+        </div>
+    {% endif %}
+
+    {% if results %}
+        {% if results.data|length > 0 %}
+            <style type="text/css">
+                td, th {
+                    border-bottom: 1px solid black;
+                    border-right: 1px solid black;
+                }
+                td:first-child, th:first-child {
+                    border-left: 1px solid black;
+                }
+                thead th {
+                    border-top: 1px solid black;
+                }
+            </style>
+            <table style="margin-top:5rem">
+                <thead>
+                    <tr>
+                        {% for heading in results.headings %}
+                            <th>{{ heading }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in results.data %}
+                        <tr>
+                            {% for cell in row %}
+                                <td>{{ cell }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <form class="inline" method="post">
+                <input type="hidden" name="format" value="csv" />
+                <input type="hidden" name="query" value="{{ query|escape('html_attr') }}" />
+                <input type="submit" value="Export as CSV" />
+            {{ csrf|raw }}</form>
+
+            <form class="inline" method="post" action="/tools/query/save">
+                <input type="hidden" name="query" value="{{ query|escape('html_attr') }}" />
+                <input type="submit" value="Save" />
+                {{ csrf|raw }}</form>
+        {% else %}
+            <p>No results.</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "template.twig" %}
+{% block title %}Saved Queries{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Saved Queries</h2>
+        <p>You'll find a list of useful queries here. You can delete old queries, or run new ones here.</p>
+        <p><a href="/tools/query">Back to the Query Page</a></p>
+    </header>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for query in queries %}
+                <tr>
+                    <td>{{ query.name }}</td>
+                    <td>{{ query.description }}</td>
+                    <td>
+                        <form method="post" action="/tools/query">
+                            <input type="hidden" name="query" value="{{ query.sql|escape('html_attr') }}" />
+                            <input type="submit" value="Run">
+                        {{ csrf|raw }}</form>
+
+                        <form method="post" action="/tools/query/delete" class="dangerous">
+                            <input type="hidden" name="id" value="{{ query.id }}" />
+                            <input type="submit" value="Delete" />
+                        {{ csrf|raw }}</form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

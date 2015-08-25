@@ -1,0 +1,32 @@
+{% extends "template.twig" %}
+{% block title %}Saved Queries{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Saved Queries</h2>
+        <p>You'll find a list of useful queries here. You can delete old queries, or run new ones here.</p>
+    </header>
+
+    <form method="post" action="/tools/query/dosave">
+        <div class="field">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" required />
+            <span class="help">User-friendly name of the query.</span>
+        </div>
+
+        <div class="field">
+            <label for="description">Description</label>
+            <input type="text" name="description" id="descriiption" required />
+            <span class="help">What does the query report?</span>
+        </div>
+
+        <div class="field">
+            <label for="sql">SQL</label>
+            <textarea name="sql" id="sql" required>{{ query }}</textarea>
+            <span class="help">The query SQL.</span>
+        </div>
+
+        <input type="submit" value="Save" />
+    {{ csrf|raw }}</form>
+{% endblock %}

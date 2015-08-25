@@ -27,10 +27,7 @@
                                                                                     // should be protected by default)
         return;
     } else if (\Session::token() != \Input::get('_token')) {
-        \Session::regenerateToken();
         throw new \Illuminate\Session\TokenMismatchException;
-    } else {
-        \Session::regenerateToken();
     }
 });
 App::error(function(\Illuminate\Session\TokenMismatchException $exception)
