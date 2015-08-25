@@ -10,6 +10,26 @@
         <p>(Because we're getting close to CodeDay, you're getting this daily.)</p>
     {% endif %}
 
+    <h3>Schedule</h3>
+    {% set weeksLeft = ((managed_batch.starts_at.diffInDays)/7)|round(0, 'floor') %}
+    <p>There are {{ weeksLeft }} weeks and
+        {{ (managed_batch.starts_at.diffInDays)%7 }} days left until CodeDay.</p>
+
+    <p>Here's what your work should be looking like:</p>
+    <ul>
+        <li style="{% if weeksLeft < 8 %}text-decoration:line-through;{% else %}color: red{% endif %}">
+            12-8 Weeks Out: <strong>Get a venue!</strong> Start talking to sponsors, too.
+        </li>
+
+        <li style="{% if weeksLeft < 4 %}text-decoration:line-through;{% elseif weeksLeft < 8 %}color: red{% endif %}">
+            8-4 Weeks Out: <strong>Get Sponsors!</strong> Talk to teachers about promoting in their classes.
+        </li>
+
+        <li style="{% if weeksLeft < 4 %}color: red{% endif %}">
+            Last 4 Weeks: <strong>Promote!</strong> Close any sponsors you haven't yet.
+        </li>
+    </ul>
+
     <h3>Your Events</h3>
     <ul>
         {% for event in user.loaded_managed_events %}
