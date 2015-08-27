@@ -2,14 +2,17 @@
 namespace CodeDay\Clear\Models\Batch;
 
 use \Illuminate\Database\Eloquent;
+use \CodeDay\Clear\Models;
 use \Carbon\Carbon;
 
+/**
+ * Class Event
+ * @package CodeDay\Clear\Models\Batch
+ *
+ * @property Models\SigningRequest  $signing_request
+ * @property string                 $agreement_signed_url;
+ */
 class Event extends \Eloquent {
-    use Eloquent\SoftDeletingTrait;
-
-    protected $table = 'batches_events';
-    public $incrementing = false;
-
     public function getAllowRegistrationsCalculatedAttribute()
     {
         return $this->allow_registrations && $this->batch->allow_registrations;
@@ -719,6 +722,63 @@ class Event extends \Eloquent {
     {
         return $this->region->simple_timezone;
     }
+
+
+    // ## Contracts
+
+    public function agreement()
+    {
+        return $this->hasOne('\CodeDay\Clear\Models\Agreement', 'id', 'agreement_id');
+    }
+
+    /**
+     * Gets the signing request
+     *
+     * @return Models\SigningRequest
+     * @throws \Exception
+     */
+    public function getSigningRequestAttribute()
+    {
+        if (!isset($this->agreement_signing_id)) {
+            if (!isset($this->agreement_id)) {
+                throw new \Exception('No agreement to sign.');
+            }
+
+            $signingRequest = Models\SigningRequest::NewFromHtml(
+                $this->agreement->name,
+                $this->agreement->RenderHtmlFor($this),
+                (object)[
+                    'firstName' => $this->manager->first_name,
+                    'lastName' => $this->manager->last_name,
+                    'email' => $this->manager->email
+                ]
+            );
+            $this->agreement_signing_id = $signingRequest->id;
+            $this->save();
+        }
+
+        return Models\SigningRequest::FromId($this->agreement_signing_id);
+    }
+
+    public function getAgreementPdfAttribute()
+    {
+        if (!isset($this->agreement_signed_url)) {
+            if (!isset($this->agreement_signing_id) || !$this->signing_request->HasPdf()) {
+                return null;
+            }
+
+            $this->agreement_signed_url = $this->signing_request->GetMirroredPdf();
+            $this->save();
+        }
+
+        return $this->agreement_signed_url;
+    }
+
+    // # Laravel
+
+    use Eloquent\SoftDeletingTrait;
+    protected $table = 'batches_events';
+    public $incrementing = false;
 
     protected static function boot()
     {

@@ -1,0 +1,18 @@
+{% extends "template.twig" %}
+{% block title %}Agreements // Settings{% endblock %}
+{% block section %}settings{% endblock %}
+{% block subnav %}{% include "settings/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Agreements</h2>
+        <p>Agreements are documents which RMs can be required to sign before accessing their event.</p>
+    </header>
+
+    <ul>
+        {% for agreement in agreements %}
+            <li><a href="/settings/agreements/{{ agreement.id }}">{{ agreement.name }}</a></li>
+        {% endfor %}
+        <li><a href="/settings/agreements/create">(create new)</a></li>
+    </ul>
+
+{% endblock %}

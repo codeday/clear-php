@@ -7,7 +7,7 @@ class ManagersController extends \Controller {
 
     public function getIndex()
     {
-        return \View::make('batch/managers');
+        return \View::make('batch/managers', ['agreements' => Models\Agreement::all()]);
     }
 
     public function postIndex()
@@ -32,6 +32,13 @@ class ManagersController extends \Controller {
             }
 
             $event->registration_estimate = $settings['registration_estimate'];
+
+            if (isset($settings['agreement']) && $settings['agreement']) {
+                $event->agreement_id = $settings['agreement'];
+            } else {
+                $event->agreement_id = null;
+            }
+
             $event->save();
         }
 

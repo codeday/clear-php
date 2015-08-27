@@ -1,0 +1,59 @@
+{% extends "template.twig" %}
+{% block title %}Agreements // Settings{% endblock %}
+{% block section %}settings{% endblock %}
+{% block subnav %}{% include "settings/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>{% if agreement %}{{ agreement.name }}{% else %}New Agreement{% endif %}</h2>
+        {% if agreement %}
+            <p>Editing this agreement will not change any contracts already signed or out for signing.</p>
+        {% endif %}
+    </header>
+
+    <form method="post">
+        <div class="field">
+            <label for="type">Type</label>
+            <select id="type">
+                <option value="html" {% if agreement.html %}selected{% endif %}>HTML</option>
+                <option value="markdown" {% if agreement.markdown %}selected{% endif %}>Markdown</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" placeholder="Paid Contractor 15-FALL" value="{{ agreement.name }}"
+                   maxlength="25" required />
+            <span class="help">The name of the agreement. Will be displayed to the user.</span>
+        </div>
+
+        <div class="field" {% if agreement.markdown %}style="display:none"{% endif %}>
+            <label for="html">HTML</label>
+            <textarea style="height:40rem" name="html" id="html">{{ agreement.html }}</textarea>
+            <span class="help">The HTML which generates the agreement. Supports use of {{ event }}.</span>
+        </div>
+
+        <div class="field" {% if agreement.html or not agreement %}style="display:none"{% endif %}>
+            <label for="markdown">Markdown</label>
+            <textarea style="height:40rem" name="markdown" id="markdown">{{ agreement.markdown }}</textarea>
+            <span class="help">The Markdown which generates the agreement. Supports use of {{ event }}.</span>
+        </div>
+
+        <input type="submit" value="{% if agreement %}Save{% else %}Create{% endif %}">
+
+    {{ csrf|raw }}</form>
+
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#type').on('change', function(){
+                var newType = $(this).val();
+                var oldType = newType == 'html' ? 'markdown' : 'html';
+
+                $('#'+oldType).val('');
+                $('#'+oldType).parent().css('display', 'none');
+                $('#'+newType).parent().css('display', 'block');
+            });
+        });
+    </script>
+{% endblock %}

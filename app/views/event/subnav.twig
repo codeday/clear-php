@@ -38,5 +38,8 @@
             <li><a href="/event/{{ event.id }}/supplies">Supplies</a></li>
             <li><a href="/event/{{ event.id }}/special">Special</a></li>
         {% endif %}
+        {% if event.agreement_id and (me.is_admin or event.manager_username == me.username) %}
+            <li><a href="/event/{{ event.id }}/agreement">Agreement</a></li>
+        {% endif %}
     </ul>
 </section>

@@ -38,3 +38,7 @@
 \Route::bind('email_template', function($val) {
     return \CodeDay\Clear\Models\EmailTemplate::where('id', '=', $val)->firstOrFail();
 });
+
+\Route::bind('agreement', function($val) {
+    return \CodeDay\Clear\Models\Agreement::where('id', '=', $val)->firstOrFail();
+});

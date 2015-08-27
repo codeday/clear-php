@@ -15,6 +15,7 @@
                 <td>City</td>
                 <td>Reg Est</td>
                 <td>Manager</td>
+                <td>Agreement</td>
             </tr>
             </thead>
             <tbody>
@@ -26,6 +27,24 @@
                     <td><input type="text" name="id[{{ event.id }}][manager_username]"
                                value="{{ event.manager_username }}"
                                {% if event.previous %}placeholder="{{ event.previous.manager_username }}"{% endif %}/></td>
+                    <td>
+                        {% if event.agreement_signed_url %}
+                            <a href="{{ event.agreement_signed_url }}" target="_blank">{{ event.agreement.name }}</a>
+                            <input type="hidden" name="id[{{ event.id }}][agreement]" value="{{ event.agreement_id }}" />
+                        {% elseif event.agreement_signing_id %}
+                            {{ event.agreement.name }}
+                            <input type="hidden" name="id[{{ event.id }}][agreement]" value="{{ event.agreement_id }}" />
+                        {% else %}
+                            <select name="id[{{ event.id }}][agreement]">
+                                <option value="">(none)</option>
+                                {% for agreement in agreements %}
+                                    <option value="{{ agreement.id }}"
+                                            {% if event.agreement_id == agreement.id %}selected{% endif %}>
+                                        {{ agreement.name }}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

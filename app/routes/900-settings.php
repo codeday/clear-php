@@ -22,6 +22,12 @@
     \Route::get('regions/{region}', 'RegionsController@getEdit');
     \Route::post('regions/{region}', 'RegionsController@postEdit');
 
+    \Route::get('agreements', 'AgreementsController@getIndex');
+    \Route::get('agreements/create', 'AgreementsController@getCreate');
+    \Route::post('agreements/create', 'AgreementsController@postCreate');
+    \Route::get('agreements/{agreement}', 'AgreementsController@getEdit');
+    \Route::post('agreements/{agreement}', 'AgreementsController@postEdit');
+
     \Route::get('email-templates', 'EmailTemplatesController@getIndex');
     \Route::post('email-templates/new', 'EmailTemplatesController@postNew');
     \Route::post('email-templates/{email_template}/delete', 'EmailTemplatesController@postDelete');

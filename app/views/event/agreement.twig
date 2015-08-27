@@ -1,0 +1,22 @@
+{% extends "template.twig" %}
+{% block title %}Agreement // {{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Agreement</h2>
+        <p>You are required to sign "{{ event.agreement.name }}" before managing this event.</p>
+    </header>
+
+    <p>For legal reasons, we need to be extra sure you're the one signing this. A link to sign this agreement is being
+       sent to your personal email, {{ event.manager.email }}.</p>
+    <p>When you've completed the signing process, click "check for signature" to continue.</p>
+
+    <form method="post" action="/event/{{ event.id }}/agreement/resend">
+        <input type="submit" value="Re-Send Email" />
+    {{ csrf|raw }}</form>
+
+    <form method="post" action="/event/{{ event.id }}/agreement/check">
+        <input type="submit" value="Check for Signature" />
+        {{ csrf|raw }}</form>
+{% endblock %}
