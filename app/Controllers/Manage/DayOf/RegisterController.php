@@ -1,6 +1,7 @@
 <?php
 namespace CodeDay\Clear\Controllers\Manage\DayOf;
 
+use \Carbon\Carbon;
 use \CodeDay\Clear\Models;
 use \CodeDay\Clear\Services;
 
@@ -13,6 +14,14 @@ class RegisterController extends \Controller {
 
     public function postIndex()
     {
+        // Check if the registrant is banned
+        $ban = Models\Ban::GetBannedReasonOrNull(\Input::get('email'));
+        if ($ban) {
+            \Session::flash('error', 'Participant is banned: '.$ban->reason_name.' Violation. Do not admit; have'
+                .' participant call (425) 780-7901 to resolve.');
+            return \Redirect::to('/dayof/register');
+        }
+
         $reg = Services\Registration::CreateRegistrationRecord(
             getDayOfEvent(),
             \Input::get('first_name'),
@@ -35,7 +44,6 @@ class RegisterController extends \Controller {
             }
         }
 
-        $reg->checked_in_at = \Carbon\Carbon::now();
         if (\Input::get('parent_email')) {
             $reg->parent_name = \Input::get('parent_name') ? \Input::get('parent_name') : null;
             $reg->parent_email = \Input::get('parent_email') ? \Input::get('parent_email') : null;
@@ -45,7 +53,15 @@ class RegisterController extends \Controller {
             $reg->parent_no_info = true;
         }
         $reg->save();
-        \Event::fire('registration.checkin', \DB::table('batches_events_registrations')->where('id', '=', $reg->id)->get()[0]);
+
+        if (Carbon::createFromTimestamp(getDayOfEvent()->starts_at)->addHours(-12)->isPast()) {
+            $reg->checked_in_at = \Carbon\Carbon::now();
+            $reg->save();
+            \Event::fire('registration.checkin', \DB::table('batches_events_registrations')->where('id', '=', $reg->id)->get()[0]);
+        } else {
+            Services\Registration::SendTicketEmail($reg);
+            Services\Registration::EnqueueSurveyEmail($reg);
+        }
 
         \Session::flash('status_message', 'Successfully registered.');
         return \Redirect::to('/dayof/register');

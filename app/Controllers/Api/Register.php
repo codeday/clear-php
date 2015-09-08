@@ -205,7 +205,7 @@ class Register extends \Controller {
         if ($total_cost > 0) {
             try {
                 Services\Registration::ChargeCardForRegistrations($registrations, $total_cost, \Input::get('card_token'));
-            } catch(\Stripe\CardError $e) { // Stripe declined
+            } catch(\Stripe\Error\Card $e) { // Stripe declined
                 $e_json = $e->getJsonBody();
                 $error = $e_json['error'];
                 \DB::rollBack();
