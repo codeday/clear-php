@@ -68,6 +68,9 @@ class RegistrationsController extends \Controller {
             \Input::get('email'));
 
         $registration->type = \Input::get('type');
+        if ($registration->type !== 'student') {
+            $registration->parent_no_info = true;
+        }
         $registration->save();
 
         if (\Input::get('send_welcome')) {

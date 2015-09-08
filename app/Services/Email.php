@@ -457,19 +457,6 @@ class Email {
                 }
             ],
 
-            'event-staff' => [
-                'id' => 'event-staff',
-                'name' => 'Event Staff',
-                'lambda' => function($event) {
-                    return array_map(function($user){
-                        return (object)[
-                            'name' => $user->name,
-                            'email' => $user->email
-                        ];
-                    }, array_merge([$event->manager, $event->evangelist], $event->subusers));
-                }
-            ],
-
             'venues' => [
                 'id' => 'venues',
                 'name' => 'Venues',
