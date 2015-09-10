@@ -16,8 +16,8 @@ class SendRMEventStatusJob {
         $cronjob = Models\Cronjob::where('class', '=', '\\CodeDay\\Clear\\Commands\\Jobs\\'.__CLASS__)->first();
         $last_run = $cronjob ? $cronjob->updated_at : Carbon::createFromTimestamp(0);
 
-        if ($interval === 'weekly' && ($last_run->addDays(5)->isFuture() || Carbon::now()->dayOfWeek != 1)) {
-            echo "Skipping - set to run weekly; too recent or not current Monday\n";
+        if ($interval === 'weekly' && (Carbon::now()->dayOfWeek != 1)) {
+            echo "Skipping - set to run weekly; not currently Monday\n";
             return;
         }
 
