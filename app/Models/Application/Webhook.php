@@ -21,8 +21,8 @@ class Webhook extends \Eloquent {
         $body['private'] = $this->application->private;
         $body['event'] = $this->event;
 
-        $opts['http']['header'] = 'Content-type: application/x-www-form-urlencoded';
-        $opts['http']['content'] = http_build_query($body);
+        $opts['http']['header'] = 'Content-type: application/json';
+        $opts['http']['content'] = json_encode($body);
 
         $url = $this->url;
         try {
