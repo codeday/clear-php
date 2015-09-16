@@ -100,7 +100,6 @@
     <section class="registration activities activities-{{ activitiesCount }}">
         <h3>Actions</h3>
 
-
         <section class="transfer">
             <h4>Transfer</h4>
             <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/transfer" method="post" class="dangerous">
@@ -174,4 +173,24 @@
             </form>
         </section>
     </section>
+
+    {% if me.is_admin %}
+        <section class="registrations webhooks">
+            <h3>Fire Webhooks Manually</h3>
+            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/webhook" method="post">
+              <div class="field">
+                  <label for="hook_event">Hook Event</label>
+                  <select name="hook_event" id="hook_event">
+                    <option value="registration.register">Registration.Register - Fired when an attendee registers</option>
+                    <option value="registration.checkin">Registration.Checkin - Fired when an attendee checks in</option>
+                    <option value="registration.checkout">Registration.Checkout - Fired when an attendee checks out</option>
+                  </select>
+                  <span class="help">The event to fire.</span>
+              </div>
+
+              <input type="submit" value="Fire"/>
+              {{ csrf|raw }}
+            </form>
+        </section>
+    {% endif %}
 {% endblock %}
