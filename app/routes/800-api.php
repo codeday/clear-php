@@ -1,7 +1,7 @@
 <?php
 
 \Route::group(['namespace' => 'Api', 'prefix' => 'api'], function() {
-    \Route::get('stats', 'ApiController@getStats');
+    \Route::get('stats', 'Stats@getIndex');
 
     \Route::controller('register/{event}', 'Register');
 
