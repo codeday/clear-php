@@ -60,4 +60,13 @@ abstract class ApiController extends \Controller {
         }
         \App::abort(401);
     }
+
+    public function getStats(){
+      $this->requirePermission(["internal"]);
+      $registrations = \DB::table('batches_events_registrations')->->count();
+
+      return json_encode([
+        "registrations_all_time" => $registrations
+      ]);
+    }
 }

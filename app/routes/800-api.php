@@ -1,6 +1,8 @@
 <?php
 
 \Route::group(['namespace' => 'Api', 'prefix' => 'api'], function() {
+    \Route::get('stats', 'ApiController@getStats');
+
     \Route::controller('register/{event}', 'Register');
 
     \Route::controller('regions', 'Regions');
