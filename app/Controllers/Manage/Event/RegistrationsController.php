@@ -233,6 +233,6 @@ class RegistrationsController extends \Controller {
 
       \Event::fire($hook, [$registration]);
       \Session::flash('status_message', $hook.' hook queued for '.$registration->name);
-      return \Redirect::to('/event/'.$toEvent->id.'/registrations/attendee/'.$registration->id);
+      return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
     }
 }
