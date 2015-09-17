@@ -175,7 +175,7 @@
     </section>
 
     {% if me.is_admin %}
-        <section class="registrations webhooks" style="margin-top: 10px"> <!-- honestly, I don't care about the inline styles. -->
+        <section class="registrations webhooks" style="margin-top: 2rem"> <!-- honestly, I don't care about the inline styles. -->
             <h3>Fire Webhooks Manually</h3>
             <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/webhook" method="post">
               <div class="field">
