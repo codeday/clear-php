@@ -223,7 +223,7 @@ class RegistrationsController extends \Controller {
 
     public function postWebhook(){
       if(!Models\User::me()->is_admin){
-        \Session::flash('error', "You must be an admin to fire a webhook manually.");
+        \Session::flash('error', "You must be an admin to fire a webhook manually");
         return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
       }
 
@@ -232,5 +232,7 @@ class RegistrationsController extends \Controller {
       $hook = \Input::get('hook_event');
 
       \Event::fire($hook, [$registration]);
+      \Session::flash('status_message', $hook.' hook queued for '$registration->name);
+      return \Redirect::to('/event/'.$toEvent->id.'/registrations/attendee/'.$registration->id);
     }
 }
