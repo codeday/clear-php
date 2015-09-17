@@ -63,7 +63,7 @@ abstract class ApiController extends \Controller {
 
     public function getStats(){
       $this->requirePermission(["internal"]);
-      $registrations = \DB::table('batches_events_registrations')->->count();
+      $registrations = \DB::table('batches_events_registrations')->count();
 
       return json_encode([
         "registrations_all_time" => $registrations
