@@ -6,13 +6,14 @@ use \CodeDay\Clear\Models;
 use \CodeDay\Clear\Services;
 
 class Registration {
-    public static function CreateRegistrationRecord(Models\Batch\Event $event, $firstName, $lastName, $email)
+    public static function CreateRegistrationRecord(Models\Batch\Event $event, $firstName, $lastName, $email, $type)
     {
         $reg = new Models\Batch\Event\Registration;
         $reg->batches_event_id = $event->id;
         $reg->first_name = $firstName;
         $reg->last_name = $lastName;
         $reg->email = $email;
+        $reg->type = $type;
         $reg->save();
 
         \Event::fire('registration.register', [$reg]);

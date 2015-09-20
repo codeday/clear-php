@@ -65,9 +65,8 @@ class RegistrationsController extends \Controller {
         $registration = Services\Registration::CreateRegistrationRecord(
             $event,
             \Input::get('first_name'), \Input::get('last_name'),
-            \Input::get('email'));
+            \Input::get('email'), \Input::get('type'));
 
-        $registration->type = \Input::get('type');
         if ($registration->type !== 'student') {
             $registration->parent_no_info = true;
         }

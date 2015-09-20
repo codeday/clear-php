@@ -189,7 +189,8 @@ class Register extends \Controller {
                 return Services\Registration::CreateRegistrationRecord(
                     $event,
                     $registrant->first_name, $registrant->last_name,
-                    $registrant->email
+                    $registrant->email,
+                    "student"
                 );
             }, $registrants);
         } catch (\Exception $ex) { // Some sort of database error

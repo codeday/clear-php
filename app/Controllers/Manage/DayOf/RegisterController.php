@@ -26,7 +26,8 @@ class RegisterController extends \Controller {
             getDayOfEvent(),
             \Input::get('first_name'),
             \Input::get('last_name'),
-            \Input::get('email')
+            \Input::get('email'),
+            "student"
         );
 
         try {
