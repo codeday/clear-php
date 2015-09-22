@@ -212,7 +212,11 @@ class Event extends \Eloquent {
 
     public function getContractCostsAttribute()
     {
-        return 750; // TODO
+        if ($this->sposnor_revenue > 1000) {
+            return 750;
+        } else {
+            return 0;
+        }
     }
 
     public function getFoodCostsAttribute()
