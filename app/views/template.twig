@@ -150,9 +150,7 @@
 
     <footer>
         Copyright &copy; {{ 'now' | date('Y') }} StudentRND.
-        Rendered by version
-        <a href="https://github.com/StudentRND/Clear/commit/{{ git.commit }}" target="_blank">{{ git.commit_short }}</a>
-        in {{ script_millis|call }}ms.
+        Rendered in {{ script_millis|call }}ms.
         <a href="#" class="toggle-sounds">Disable sounds</a>
         <a href="#" id="tour-start">Start tour</a>
     </footer>
