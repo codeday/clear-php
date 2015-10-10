@@ -3,6 +3,17 @@ namespace CodeDay\Clear\Services;
 
 use \Carbon\Carbon;
 
+/**
+ * Reads metadata about this project's Git status.
+ *
+ * The GitRepository Service is an interface to the metadata stored about the site in Git. It allows getting information
+ * such as revision, authored time, and author of the currently running commit.
+ *
+ * @package     CodeDay\Clear\Services
+ * @author      Tyler Menezes <tylermenezes@studentrnd.org>
+ * @copyright   (c) 2014-2015 StudentRND
+ * @license     Perl Artistic License 2.0
+ */
 class GitRepository {
 
     public static function getAuthoredTime()

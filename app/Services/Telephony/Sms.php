@@ -7,6 +7,9 @@ use \CodeDay\Clear\Models;
  * Helps with sending SMS to phone numbers.
  *
  * @package CodeDay\Clear\Services\Telephony
+ * @author      Tyler Menezes <tylermenezes@studentrnd.org>
+ * @copyright   (c) 2014-2015 StudentRND
+ * @license     Perl Artistic License 2.0
  */
 class Sms {
 

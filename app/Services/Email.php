@@ -10,7 +10,10 @@ use \CodeDay\Clear\ModelContracts;
  * The Email service is an interface to our SMTP servers which offloads emails to a queue for faster processing, and
  * also supports sending in the future and sending to lists.
  *
- * @package CodeDay\Clear\Services
+ * @package     CodeDay\Clear\Services
+ * @author      Tyler Menezes <tylermenezes@studentrnd.org>
+ * @copyright   (c) 2014-2015 StudentRND
+ * @license     Perl Artistic License 2.0
  */
 class Email {
     /**

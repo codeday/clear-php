@@ -5,6 +5,18 @@ use \Carbon\Carbon;
 use \CodeDay\Clear\Models;
 use \CodeDay\Clear\Services;
 
+/**
+ * Registration CRUD interface for front-end registration flows.
+ *
+ * The Registration service has methods for creating, updating, and deleting registrations, as well as dispatching
+ * related events (such as enqueuing a pre-event survey email). It's intended to be an interface for most front-end
+ * registration tasks.
+ *
+ * @package     CodeDay\Clear\Services
+ * @author      Tyler Menezes <tylermenezes@studentrnd.org>
+ * @copyright   (c) 2014-2015 StudentRND
+ * @license     Perl Artistic License 2.0
+ */
 class Registration {
     public static function CreateRegistrationRecord(Models\Batch\Event $event, $firstName, $lastName, $email, $type)
     {

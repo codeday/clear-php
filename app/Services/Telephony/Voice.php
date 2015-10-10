@@ -10,6 +10,9 @@ use \CodeDay\Clear\Models;
  * users and robo-calling. Offloads all calls to a queue for better processing.
  *
  * @package CodeDay\Clear\Services\Telephony
+ * @author      Tyler Menezes <tylermenezes@studentrnd.org>
+ * @copyright   (c) 2014-2015 StudentRND
+ * @license     Perl Artistic License 2.0
  */
 class Voice {
 
