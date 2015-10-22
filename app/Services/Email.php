@@ -460,6 +460,45 @@ class Email {
                 }
             ],
 
+            'event-staff' => [
+                'id' => 'event-staff',
+                'name' => 'Event Staff',
+                'lambda' => function($event) {
+                    $people = array_map(function($user){
+                        return (object)[
+                            'name' => $user->name,
+                            'email' => $user->email,
+                            'registration' => ModelContracts\Registration::Model($user)
+                        ];
+                    }, array_filter(iterator_to_array($event->registrations), function($registration) {
+                        return $registration->type === 'volunteer';
+                    }));
+
+                    if ($event->manager) {
+                        $people[] = (object)[
+                            'name' => $event->manager->name,
+                            'email' => $event->manager->email
+                        ];
+                    }
+
+                    if ($event->evangelist) {
+                        $people[] = (object)[
+                            'name' => $event->evangelist->name,
+                            'email' => $event->manager->email
+                        ];
+                    }
+
+                    foreach ($event->subusers as $subuser) {
+                        $people[] = (object)[
+                            'name' => $subuser->name,
+                            'email' => $subuser->email
+                        ];
+                    }
+
+                    return $people;
+                }
+            ],
+
             'venues' => [
                 'id' => 'venues',
                 'name' => 'Venues',
