@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Controllers\Manage\Event;
 
 use \CodeDay\Clear\Models;
+use \CodeDay\Clear\ModelContracts;
 
 class PreeventController extends \Controller {
     public function __construct()
