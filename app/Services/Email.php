@@ -314,7 +314,7 @@ class Email {
                             'email' => Models\User::me()->username.'@studentrnd.org',
                             'registration' => ModelContracts\Registration::Model(
                                 Models\Batch\Event\Registration::orderByRaw('RAND()')->first()
-                            )
+                            , ['internal'])
                         ]
                     ];
                 }
@@ -328,7 +328,7 @@ class Email {
                         return (object)[
                             'name' => $user->name,
                             'email' => $user->email,
-                            'registration' => ModelContracts\Registration::Model($user)
+                            'registration' => ModelContracts\Registration::Model($user, ['internal'])
                         ];
                     }, array_filter(iterator_to_array($event->registrations), function($registration) {
                         return $registration->type === 'student';
@@ -362,7 +362,7 @@ class Email {
                         return (object)[
                             'name' => $user->name,
                             'email' => $user->email,
-                            'registration' => ModelContracts\Registration::Model($user)
+                            'registration' => ModelContracts\Registration::Model($user, ['internal'])
                         ];
                     }, array_filter($nonreturning_attendees, function($registration) {
                         return $registration->type === 'student';
@@ -378,7 +378,7 @@ class Email {
                         return (object)[
                             'name' => $user->name,
                             'email' => $user->email,
-                            'registration' => ModelContracts\Registration::Model($user)
+                            'registration' => ModelContracts\Registration::Model($user, ['internal'])
                         ];
                     }, array_filter(iterator_to_array($event->registrations), function($registration) {
                         return $registration->type === 'student' && isset($registration->checked_in_at);
@@ -420,7 +420,7 @@ class Email {
                         return (object)[
                             'name' => $user->parent_name,
                             'email' => $user->parent_email,
-                            'registration' => ModelContracts\Registration::Model($user)
+                            'registration' => ModelContracts\Registration::Model($user, ['internal'])
                         ];
                     }, array_filter(iterator_to_array($event->registrations), function($registration) {
                         return isset($registration->parent_name) && isset($registration->parent_email);
@@ -436,7 +436,7 @@ class Email {
                         return (object)[
                             'name' => $user->name,
                             'email' => $user->email,
-                            'registration' => ModelContracts\Registration::Model($user)
+                            'registration' => ModelContracts\Registration::Model($user, ['internal'])
                         ];
                     }, array_filter(iterator_to_array($event->registrations), function($registration) {
                         return $registration->type === 'sponsor';
@@ -452,7 +452,7 @@ class Email {
                         return (object)[
                             'name' => $user->name,
                             'email' => $user->email,
-                            'registration' => ModelContracts\Registration::Model($user)
+                            'registration' => ModelContracts\Registration::Model($user, ['internal'])
                         ];
                     }, array_filter(iterator_to_array($event->registrations), function($registration) {
                         return $registration->type === 'teacher';
@@ -468,7 +468,7 @@ class Email {
                         return (object)[
                             'name' => $user->name,
                             'email' => $user->email,
-                            'registration' => ModelContracts\Registration::Model($user)
+                            'registration' => ModelContracts\Registration::Model($user, ['internal'])
                         ];
                     }, array_filter(iterator_to_array($event->registrations), function($registration) {
                         return $registration->type === 'volunteer';

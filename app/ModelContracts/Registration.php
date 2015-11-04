@@ -140,7 +140,7 @@ class Registration extends ModelContract
                 'rich'          => true,
                 'type'          => 'Event',
                 'value'         => function($model, $permissions) {
-                    return new Event($model->event, $permissions, true);
+                    return new Event($model->event, $permissions);
                 }
             ],
         ];

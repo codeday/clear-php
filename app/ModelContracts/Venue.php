@@ -30,6 +30,20 @@ class Venue extends ModelContract
                 }
             ],
 
+            'contact' => [
+                 'name'         => 'Contact',
+                 'description'  => 'An object containing venue contact info (name, email, phone)',
+                 'requires'     => ['internal'],
+                 'value'        => function($model) {
+                      return (object)[
+                          'first_name' => $model->venue_contact_first_name,
+                          'last_name' => $model->venue_contact_last_name,
+                          'email' => $model->venue_contact_email,
+                          'phone' => $model->venue_contact_phone
+                      ];
+                 }
+            ],
+
             'full_address' => [
                 'name'          => 'Full Address',
                 'description'   => 'String containing the full address, for use online.',

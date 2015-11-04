@@ -4,10 +4,10 @@
 {% endblock %}
 {% block why %}You're receiving this email because you're a CodeDay venue.{% endblock %}
 {% block body %}
-    <p>Hi {{ event.venue_contact_first_name }},</p>
+    <p>Hi {{ event.venue.contact.first_name }},</p>
 
     <p>We just wanted to take a quick moment to remind you that we'll be hosting CodeDay {{ managed_batch.name }} at
-       {{ event.venue_name }} on {{ event.starts_at|date('F j, Y') }}. This email will give you a bit of information
+       {{ event.venue.name }} on {{ event.starts_at|date('F j, Y') }}. This email will give you a bit of information
        about what's happening.</p>
     <p>This email is automatically generated: if you have a special arrangement in place with the our event team which
         contradicts anything in this email, your agreement supersedes. If you have any questions, please reply to this

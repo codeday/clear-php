@@ -80,7 +80,6 @@ class Event extends ModelContract
                 'name'          => 'Venue',
                 'description'   => 'Information related to the space hosting this event.',
                 'type'          => 'Venue',
-                'rich'          => true,
                 'value'         => function ($model, $permissions) {
                         if ($model->venue) {
                             return new Venue($model, $permissions, true);
@@ -136,6 +135,22 @@ class Event extends ModelContract
                 'example'       => '15551231234',
                 'requires'      => ['internal'],
                 'value'         => function ($model) { return $model->emergency_phone; }
+            ],
+
+            'signature'         => [
+                'name'          => 'Signature',
+                'description'   => 'Used internally for generating secret URLs',
+                'example'       => 'md5 hash',
+                'requires'      => ['internal'],
+                'value'         => function ($model) { return $model->signature; }
+            ],
+
+            'preevent_additional' => [
+                'name'          => 'Pre-Event Additional Information',
+                'description'   => 'Additional information included by the RM about the event',
+                'example'       => 'There is no parking on-site! We recommend taking a bus.',
+                'requires'      => ['internal'],
+                'value'         => function($model) { return $model->preevent_additional; }
             ],
 
             'waiver' => [
