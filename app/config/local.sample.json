@@ -1,3 +1,7 @@
+/*
+  Before deploying this file, make sure to remove all of the comments below or you'll get errors.
+  Comments aren't valid JSON.
+*/
 {
     "app": {
         "url": "clear.codeday.dev",

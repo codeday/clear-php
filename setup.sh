@@ -9,4 +9,4 @@ cd ..
 cd config
 cp local.sample.json local.json
 cd ../..
-echo "Done. Run \`composer install\`, edit app/config/local.json, then run `php artisan migrate; php artisan db:seed`."
+echo "Done. Run \'composer install\', edit app/config/local.json, then run 'php artisan migrate; php artisan db:seed'."

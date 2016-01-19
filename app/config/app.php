@@ -5,7 +5,7 @@ $config = json_decode(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'local.json'
 return [
     'debug' => $config['app']['debug'],
     'url' => $config['app']['url'],
-    'timezone' => $config['app']['timezone'],
+    'timezone' => $config['app']['timezone'], // default to America/Los_Angeles
     'locale' => 'en',
     'fallback_locale' => 'en',
     'key' => $config['app']['key'],

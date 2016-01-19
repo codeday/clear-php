@@ -27,7 +27,6 @@ class Batch extends \Eloquent {
             ->groupBy('shipment_number')
             ->get();
 
-
         return array_map(function($e){
             return $e->shipment_number;
         }, iterator_to_array($shipped_events));
@@ -94,4 +93,4 @@ class Batch extends \Eloquent {
     {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Supply', 'batch_id', 'id');
     }
-} 
+}
