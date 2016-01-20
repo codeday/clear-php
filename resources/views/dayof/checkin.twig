@@ -124,7 +124,8 @@
                 url: '/dayof/checkin?event={{ event.id }}',
                 data: {
                     id: id,
-                    action: action
+                    action: action,
+                    "_token": "{{csrf_token|raw}}"
                 },
                 success: function(data) {
                     if (action == 'in') {
