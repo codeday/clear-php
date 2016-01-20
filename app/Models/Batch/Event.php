@@ -150,6 +150,11 @@ class Event extends \Eloquent {
         return $this->belongsTo('\CodeDay\Clear\Models\Region', 'region_id', 'id');
     }
 
+    public function specialLinks()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\SpecialLink', 'batches_event_id', 'id');
+    }
+
     public function notify()
     {
         return $this->hasMany('\CodeDay\Clear\Models\Notify', 'batches_event_id', 'id');

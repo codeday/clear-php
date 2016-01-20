@@ -23,6 +23,33 @@ class SpecialController extends \CodeDay\Clear\Http\Controller {
         return \Redirect::to('/event/'.$event->id.'/special');
     }
 
+    public function postAddlink()
+    {
+        $event = \Route::input('event');
+        $link = new Models\Batch\Event\SpecialLink;
+        $link->name = \Input::get('name');
+        $link->url = \Input::get('url');
+        $link->new_window = \Input::get('new_window') ? true : false;
+        $link->location = 'header';
+        $link->batches_event_id = $event->id;
+        $link->save();
+
+        \Session::flash('success_message', 'Link added');
+        return \Redirect::to('/event/'.$event->id.'/special');
+    }
+
+    public function postDeletelink()
+    {
+        $event = \Route::input('event');
+        $link = Models\Batch\Event\SpecialLink::find(\Input::get('id'));
+        if ($link->batches_event_id !== $event->id) \App::abort(404);
+
+        $link->delete();
+
+        \Session::flash('success_message', 'Link removed');
+        return \Redirect::to('/event/'.$event->id.'/special');
+    }
+
     public function postOverflow()
     {
         $currentEvent = \Route::input('event');

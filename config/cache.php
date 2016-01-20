@@ -1,9 +1,10 @@
 <?php
 
 $config = json_decode(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'local.json'), true);
+$config['memcached']['driver'] = 'memcached';
 
 return [
-    'driver' => 'memcached',
+    'default' => 'memcached',
     'prefix' => $config['memcached']['prefix'],
-    'memcached' => $config['memcached']['servers']
+    'stores' => ['memcached' => $config['memcached']]
 ];

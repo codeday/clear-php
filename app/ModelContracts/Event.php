@@ -199,6 +199,24 @@ class Event extends ModelContract
                 'value'         => function ($model) { return $model->custom_css; }
             ],
 
+            'special_links' => [
+                'name'          => 'Special Links',
+                'description'   => 'Custom links for inclusion on the main site.',
+                'requires'      => ['internal'],
+                'rich'          => true,
+                'example'       => '[{name: "Volunteer", url: "http://", new_window: true, location: "header"}]',
+                'value'         => function ($model) {
+                    return array_map(function($elem) {
+                        return (object)[
+                            'name' => $elem->name,
+                            'url' => $elem->url,
+                            'new_window' => $elem->new_window,
+                            'location' => $elem->location
+                        ];
+                    }, iterator_to_array($model->specialLinks));
+                }
+            ],
+
             'cost' => [
                 'name'          => 'Cost',
                 'description'   => 'The price per ticket.',

@@ -49,6 +49,42 @@
     {{ csrf|raw }}</form>
 
     <header>
+        <h2>Specal Links</h2>
+        <p>You can add special links to the event page.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>URL</th>
+                    <th>_blank?</th>
+                    <th>Action</th>
+                </tr>
+                {% for link in event.specialLinks %}
+                    <tr>
+                        <td>{{ link.name }}</td>
+                        <td>{{ link.url }}</td>
+                        <td>{%  if link.new_window %}yes{% else %}no{% endif %}</td>
+                        <td>
+                            <form action="/event/{{ event.id }}/special/deletelink" method="post">
+                                <input type="hidden" name="id" value="{{ link.id }}">
+                                <input type="submit" value="Delete">
+                            {{ csrf|raw }}</form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <form action="/event/{{ event.id }}/special/addlink" method="post">
+                        <td><input type="text" name="name" required></td>
+                        <td><input type="text" name="url" required></td>
+                        <td><input type="checkbox" name="new_window" value="1"></td>
+                        <td><input type="submit" value="Add"></td>
+                    {{ csrf|raw }}</form>
+                </tr>
+            </thead>
+        </table>
+    </header>
+
+    <header>
         <h2>Related Event</h2>
         <p>You can create a new event to handle multiple nearby events, such as for big regions.</p>
     </header>
