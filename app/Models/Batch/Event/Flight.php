@@ -1,8 +1,6 @@
 <?php
 namespace CodeDay\Clear\Models\Batch\Event;
 
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
-
 class Flight extends \Eloquent {
     protected $table = 'batches_events_flights';
 

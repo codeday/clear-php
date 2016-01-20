@@ -4,7 +4,7 @@ namespace CodeDay\Clear\Models;
 use Illuminate\Database\Eloquent;
 
 class Region extends \Eloquent {
-    use Eloquent\SoftDeletingTrait;
+    use Eloquent\SoftDeletes;
 
     public $_webname; // hack
     public $_event_override;

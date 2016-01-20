@@ -1,7 +1,6 @@
 <?php
 namespace CodeDay\Clear\Models\Batch\Event;
 
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Call extends \Eloquent {
     protected $table = 'batches_events_calls';

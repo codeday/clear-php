@@ -16,7 +16,7 @@ class LambdaFilter extends \Twig_Extension {
         $arguments = func_get_args();
         $callable = array_shift($arguments);
         if(!is_callable($callable)) {
-            throw new InvalidArgumentException();
+            throw new \InvalidArgumentException();
         }
         return call_user_func_array($callable, $arguments);
     }

@@ -6,7 +6,7 @@ use CodeDay\Clear\ModelContracts;
 use CodeDay\Clear\Models\Batch;
 
 class Agreement extends \Eloquent {
-    use Eloquent\SoftDeletingTrait;
+    use Eloquent\SoftDeletes;
     protected $table = 'agreements';
 
     public function RenderHtmlFor(Batch\Event $event) {

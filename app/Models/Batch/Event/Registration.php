@@ -1,13 +1,13 @@
 <?php
 namespace CodeDay\Clear\Models\Batch\Event;
 
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Registration extends \Eloquent {
     protected $table = 'batches_events_registrations';
     public $incrementing = false;
 
-    use SoftDeletingTrait;
+    use SoftDeletes;
 
     public function event()
     {

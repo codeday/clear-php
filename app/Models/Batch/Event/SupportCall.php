@@ -1,7 +1,6 @@
 <?php
 namespace CodeDay\Clear\Models\Batch\Event;
 
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use \CodeDay\Clear\Models;
 
 class SupportCall extends \Eloquent {

@@ -70,15 +70,15 @@ class Event extends \Eloquent {
     public function getRelatedEventsAttribute()
     {
         if ($this->overflow_for_id !== null) {
-            $parent_related = iterator_to_array($this->overflow_for->related_events);
+            $parent_related = iterator_to_array($this->overflowFor->relatedEvents);
             $id = $this->id;
             $parent_related = array_filter($parent_related, function($event) use ($id) {
                 return $id !== $event->id;
             });
 
-            return array_merge([$this->overflow_for], $parent_related);
+            return array_merge([$this->overflowFor], $parent_related);
         } else {
-            return $this->overflow_events;
+            return $this->overflowEvents;
         }
     }
 
@@ -103,7 +103,7 @@ class Event extends \Eloquent {
      */
     public function getOverflowEventAttribute()
     {
-        return $this->overflow_events->first();
+        return $this->overflowEvents->first();
     }
 
     public function prediction()
@@ -780,7 +780,7 @@ class Event extends \Eloquent {
 
     // # Laravel
 
-    use Eloquent\SoftDeletingTrait;
+    use Eloquent\SoftDeletes;
     protected $table = 'batches_events';
     public $incrementing = false;
 
