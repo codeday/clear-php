@@ -1,0 +1,32 @@
+<div style="line-height:-1"><img style="line-height:0" src="../resources/assets/img/flyers/diverse.jpg" />
+<div style="font-size:1.1in;text-align:center;background-color:#000;color:#fff;padding:10pt"> CODEDAY </div></div>
+<div style="font-size:0.35in;text-align:center;line-height:0.5;font-weight:bold">PITCH IDEAS, FORM TEAMS, AND</div><br style="line-height:1.5" />
+<div style="font-size:0.35in;text-align:center;line-height:0;font-weight:bold">BUILD GAMES & APPS IN 24 HOURS.</div><br style="line-height:0.7" />
+
+<div style="background-color:#000;color:#fff">
+    <div style="text-align:center;font-size:0.5in;font-weight:bold">{{ batch.starts_at.timestamp|date('F j')|upper }} - {{ batch.ends_at.timestamp|date('j') }}
+    <div style="font-size:0.15in;text-align:center;font-weight:normal">Noon - Noon (24 Hours){% if not event %}<br />{% endif %}
+    {% if event and event.venue_name and event.venue_address_1 %}
+            <br />Hosted at {{ event.venue_name }} - {{ event.venue_address_1 }}{% if event.venue_address_2 %} {{ event.venue_address_2 }},{% endif %} {{ event.venue_city }}
+    {% endif %}
+        </div>
+    </div>
+    <table style="background-color:#000;color:#fff">
+        <tr><td style="border-right: 1px solid white;font-size:0.3in;line-height:1.1"><br style="line-height:2" /><br />
+                • PROGRAMMERS<br />
+                • DESIGNERS<br />
+                • MUSICIANS<br />
+                • ARTISTS
+        </td><td style="text-align:right">
+            <div style="font-size:0.2in;padding:1in">Come alone or with friends.<br />Beginner & advanced workshops.</div>
+            <div style="font-size:0.3in;font-weight:bold">NO EXPERIENCE NECESSARY.</div><br />
+        </td></tr>
+    </table>
+    </div>
+<div style="font-size:0.35in;text-align:center;font-weight:bold">
+    MORE INFO & REGISTRATION:<br />
+    CODEDAY.ORG{% if event %}/{{ event.webname|upper }}{% endif %}{% if code %}
+    <div style="font-size:0.2in"><br />USE CODE "{{ code.code|upper }}" FOR {{ code.percent_discount|round(0) }}% OFF</div>
+    {% endif %}
+</div>
+

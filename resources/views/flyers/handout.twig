@@ -1,0 +1,44 @@
+{% macro flyer(batch, event, code) %}
+<table>
+    <tr>
+        <td colspan="5"><img src="../resources/assets/img/flyers/diverse.jpg" /></td>
+        <td></td>
+        <td colspan="12" style="text-align:center">
+            <div style="font-size:0.4in;font-weight:bold;line-height:0.5">CODEDAY {{ event.name|upper }}</div>
+            <div style="line-height:0.9;font-weight:bold">
+                {{ batch.starts_at.timestamp|date('F j')|upper }} - {{ batch.ends_at.timestamp|date('j') }}, NOON TO NOON<br />
+            </div>
+            {% if event.venue %}
+                <div style="line-height:0.1;font-size:0.1in">
+                    Hosted at {{ event.venue_name }} - {{ event.venue_address_1 }}{% if event.venue_address_2 %}, {{ event.venue_address_2 }}{% endif %},
+                    {{ event.venue_city }} {{ event.venue_state }}
+                </div>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+<div style="text-align:left;font-size:10pt">
+    <p><strong>CodeDay is a 24-hour event where you code games or apps, make new friends, and have fun!</strong>
+    CodeDay starts off with all attendees pitching ideas for things they want to make, so you'll spend the weekend
+        working on fun ideas dreamed up by you and your friends, and alongside other CodeDay attendees in
+        {{ batch.events|length }} cities nationwide.</p>
+    <p>Don't know how to program? Long-time programmer? Not sure where you stand? Beginners through advanced coders are
+       all welcome; we'll be offering workshops for all levels throughout the event.</p>
+    <p>Not interested in programming? No problem! Artists, designers, musicians, and actors can have a lot of fun
+        contributing to games and apps!</p>
+</div>
+<div style="line-height:0.9;font-weight:bold;text-align:center;font-size:0.1in">
+    TO SEE A VIDEO OF WHAT CODEDAY LOOKS LIKE, READ THE FAQs, AND REGISTER VISIT:
+</div>
+<div style="line-height:0.9;font-weight:bold;text-align:center;font-size:0.3in">
+    CODEDAY.ORG/{{ event.webname|upper }}
+</div>
+<div style="line-height:0.9;text-align:center;font-size:0.1in">
+    Tickets are $10 earlybird, or $20 regular. {% if code %}<strong>Use the code "{{ code.code }}" for a
+    {{ code.percent_discount|round(0) }}% discount,</strong> or e{% else %}E{% endif %}mail us if you need a scholarship.
+</div>
+{% endmacro %}
+{% import _self as me %}
+{{ me.flyer(batch, event, code) }}
+<br /><hr /><div style="line-height:2"> </div>
+{{ me.flyer(batch, event, code) }}
