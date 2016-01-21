@@ -76,7 +76,7 @@ class FlyerController extends \CodeDay\Clear\Http\Controller
         if ($code) {
             $filename .= '-'.strtolower($code->code);
         }
-        $filename .= '-poster';
+        $filename .= '-'.$view;
 
         return response($bin)
             ->header('Content-type', 'application/pdf')
