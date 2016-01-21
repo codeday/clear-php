@@ -27,7 +27,7 @@
     {% endif %}
     <h3>Previously Sent Emails</h3>
     <ul class="sent-emails">
-        {% for email in event.emails_sent|reverse %}
+        {% for email in event.emailsSent|reverse %}
             <li data-sentid="{{ email.id }}">
                 <span class="to">To: {{ email.to }}</span>
                 <span class="time">{{ email.created_at.diffForHumans }}</span>
@@ -38,7 +38,7 @@
 
     <script type="text/javascript">
         var emails_sent = {
-            {% for email in event.emails_sent %}
+            {% for email in event.emailsSent %}
                 "{{ email.id|escape('js') }}": {
                     "to": "{{ email.to|escape('js') }}",
                     "from": "{{ email.from|escape('js') }}",
