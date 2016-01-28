@@ -104,7 +104,8 @@
                         url: '/settings/batches/{{ batch.id }}/updateregion',
                         data: {
                             id: c.webname,
-                            action: c.in_batch ? 'delete' : 'add'
+                            action: c.in_batch ? 'delete' : 'add',
+                            '_token': '{{csrf_token}}'
                         },
                         dataType: 'json',
                         method: 'POST',
