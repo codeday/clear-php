@@ -259,7 +259,7 @@ class Event extends \Eloquent {
 
     public function getEarlyBirdMaxRegistrationsAttribute()
     {
-        return $this->max_registrations * 0.3;
+        return floor($this->max_registrations * 0.3);
     }
 
     public function getUnregisteredNotifyAttribute()
