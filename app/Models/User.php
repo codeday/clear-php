@@ -93,7 +93,7 @@ class User extends \Eloquent {
             $user->first_name = $s5_user->first_name;
             $user->last_name = $s5_user->last_name;
             $user->email = $s5_user->email;
-            $user->phone = $s5_user->phone;
+            if($user->phone){ $user->phone = $s5_user->phone; } // TODO find out why the phone variable isn't set sometimes
             $user->is_admin = $s5_user->is_admin;
             $user->is_certified_evangelist = count(array_filter($s5_user->groups, function($e) {
                 return $e->id == \Config::get('s5.groups.certified_evangelist');
