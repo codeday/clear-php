@@ -369,12 +369,6 @@ class Event extends \Eloquent {
                 'description' => "Please don't show up earlier, you'll be waiting outside!"
             ],
             (Object)[
-                'time' => -0.5,
-                'title' => 'Lunch',
-                'type' => 'event',
-                'description' => "All food is included with your ticket!"
-            ],
-            (Object)[
                 'time' => 0,
                 'title' => 'Kickoff & Pitches',
                 'type' => 'event',
@@ -385,24 +379,6 @@ class Event extends \Eloquent {
                 'title' => 'Start Coding!',
                 'type' => 'event',
                 'description' => "After forming teams, it's time to get to work on your project! Our staff will be helping teams throughout the event."
-            ],
-            (Object)[
-                'time' => 7,
-                'title' => 'Dinner',
-                'type' => 'event',
-                'description' => "All food is included with your ticket!"
-            ],
-            (Object)[
-                'time' => 12,
-                'title' => 'Midnight Snack',
-                'type' => 'event',
-                'description' => "All food is included with your ticket!"
-            ],
-            (Object)[
-                'time' => 19,
-                'title' => 'Breakfast',
-                'type' => 'event',
-                'description' => "All food is included with your ticket!"
             ],
             (Object)[
                 'time' => 20,
@@ -453,11 +429,42 @@ class Event extends \Eloquent {
             ]
         ];
 
+        $meals = [
+            (Object)[
+                'time' => -0.5,
+                'title' => 'Lunch',
+                'type' => 'event',
+                'description' => "All food is included with your ticket!"
+            ],
+            (Object)[
+                'time' => 7,
+                'title' => 'Dinner',
+                'type' => 'event',
+                'description' => "All food is included with your ticket!"
+            ],
+            (Object)[
+                'time' => 12,
+                'title' => 'Midnight Snack',
+                'type' => 'event',
+                'description' => "All food is included with your ticket!"
+            ],
+            (Object)[
+                'time' => 19,
+                'title' => 'Breakfast',
+                'type' => 'event',
+                'description' => "All food is included with your ticket!"
+            ]
+        ];
+
         if (!$this->hide_default_workshops) {
             $standard_schedule = array_merge($standard_schedule, $workshops);
         }
 
-        // Add timestamy/hour/day to generated array
+        if (!$this->hide_meals){
+            $standard_schedule = array_merge($standard_schedule, $meals);
+        }
+
+        // Add timestamp/hour/day to generated array
         for ($i = 0; $i < count($standard_schedule); $i++) {
             $entry = $standard_schedule[$i];
 
