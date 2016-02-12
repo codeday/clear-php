@@ -134,10 +134,9 @@
         <div class="field" style="display: none">
             <label for="type">Ticket Type</label>
             <select name="type" id="type" required>
-                <option value="student" selected>Student</option>
-                <option value="teacher">Teacher</option>
-                <option value="volunteer">Volunteer</option>
-                <option value="sponsor">Sponsor</option>
+                {% for type in ['student', 'volunteer', 'mentor', 'teacher', 'sponsor', 'press', 'vip'] %}
+                    <option value="{{ type }}" {% if registration.type == type %}selected{% endif %}>{{ type }}</option>
+                {% endfor %}
             </select>
             <span class="help">The type of ticket registrants will be given. For your reference only.</span>
         </div>

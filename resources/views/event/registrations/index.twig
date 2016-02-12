@@ -30,11 +30,11 @@
             <div class="field">
                 <label for="type">Type</label>
                 <select name="type" id="type" required>
-                    <option value="student" selected>Student</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="volunteer">Volunteer</option>
-                    <option value="sponsor">Sponsor</option>
+                    {% for type in ['student', 'volunteer', 'mentor', 'teacher', 'sponsor', 'press', 'vip'] %}
+                        <option value="{{ type }}" {% if registration.type == type %}selected{% endif %}>{{ type }}</option>
+                    {% endfor %}
                 </select>
+
             </div>
             <div class="field">
                 <label for="send_welcome">Send Welcome Email?</label>
