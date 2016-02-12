@@ -57,9 +57,9 @@ class Event extends \Eloquent {
             ->first();
     }
 
-    public function overflowFor()
-    {
-        return $this->belongsTo('\CodeDay\Clear\Models\Batch\Event', 'overflow_for_id', 'id');
+    public function getOverflowForAttribute()                                                       
+    {                                                                                               
+        return self::where('id', '=', $this->overflow_for_id)->first();                             
     }
 
     public function overflowEvents()
