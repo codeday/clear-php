@@ -38,6 +38,14 @@
                     <span class="label">Revenue</span>
                     <span class="value">${{ event.revenue|number_format(2) }}</span>
                 </li>
+                <li>
+                    <span class="label" title="Early Bird End Date">Early End</span>
+                    <span class="value">{{ event.early_bird_ends_at|date("M j") }}</span>
+                </li>
+                <li>
+                    <span class="label"></span>
+                    <span class="value">{{ event.early_bird_max_registrations }} registrations</span>
+                </li>
             </ul>
         </section>
         <section class="toggles">

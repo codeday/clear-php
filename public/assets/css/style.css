@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700);
 .menu-handle {
   display: none; }
 
@@ -214,7 +215,7 @@ body > header {
     text-indent: -19999px;
     width: 2rem;
     height: 2rem;
-    background-image: url(/assets/img/logo-square.png);
+    background-image: url(/assets/img/CodeDayHeartColored.svg);
     background-size: contain;
     background-position: 50% 50%;
     background-repeat: no-repeat; }
@@ -343,7 +344,7 @@ body > header {
   .wrap a.action:hover, .wrap form input[type="submit"]:hover, .wrap button:hover {
     color: #111;
     background: linear-gradient(#FCFCFC, #E0E5E8) repeat scroll 0% 0% transparent; }
-  .wrap a.action:active, .wrap form input[type="submit"]:active, .wrap button:active {
+  .wrap a.action:active, .wrap a.action.pressed, .wrap form input[type="submit"]:active, .wrap form input[type="submit"].pressed, .wrap button:active, .wrap button.pressed {
     color: #111;
     background: linear-gradient(#E0E5E8, #FCFCFC) repeat scroll 0% 0% transparent !important; }
   .wrap a.action:after, .wrap form input[type="submit"]:after, .wrap button:after {
@@ -513,6 +514,11 @@ body > .info {
     border-bottom-color: #fdad99;
     color: #ae2503; }
 
+.shepherd-text {
+  font-family: "Roboto", "Helvetica", sans-serif; }
+
+body.dashboard .other-events h2 {
+  margin-top: 0; }
 body.dashboard section.content > .countdown {
   padding: 0 0 2rem;
   border-bottom: 1px solid #efdede; }
@@ -857,6 +863,15 @@ body.event .registration.info .parent {
 body.event .registration.activities {
   clear: both;
   padding-top: 2rem; }
+  body.event .registration.activities .menu-transfer, body.event .registration.activities .menu-cancel, body.event .registration.activities .menu-ban, body.event .registration.activities .menu-refund {
+    display: none;
+    width: 100% !important; }
+  body.event .registration.activities .menu-button {
+    text-align: center;
+    height: 50px; }
+    body.event .registration.activities .menu-button button {
+      margin: 0 auto;
+      float: none; }
   body.event .registration.activities h3 {
     text-align: center; }
   body.event .registration.activities.activities-2 section {
@@ -1173,7 +1188,7 @@ body.batch .finances tbody tr td {
     .wrap .compose-email .field input, .wrap .compose-email .field textarea, .wrap .compose-email .field select {
       border: none;
       width: 90%;
-      font-family: "Helvetica", sans-serif !important;
+      font-family: "Roboto", "Helvetica", sans-serif !important;
       font-size: 1rem; }
 
 .send-email {
@@ -1299,7 +1314,7 @@ body.batch .finances tbody tr td {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
-  font-family: "Helvetica", sans-serif; }
+  font-family: "Roboto", "Helvetica", sans-serif; }
 
 body {
   background-color: #f7efef;

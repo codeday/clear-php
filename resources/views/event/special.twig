@@ -22,6 +22,13 @@
         </div>
 
         <div class="field">
+            <label for="hide_meals">Hide Meals?</label>
+            <input type="checkbox" name="hide_meals" id="hide_meals" value="1" {% if event.hide_meals %}checked{% endif %} />
+            <span class="help">If checked, meals (including Lunch, Dinner, Midnight Snack, and Breakfast) will be hidden.
+                Used for events with special meal times.</span>
+        </div>
+
+        <div class="field">
             <label for="notice">Notice</label>
             <input type="text" id="notice" name="notice" value="{{ event.notice }}" />
             <span class="help">Displayed on a banner at the top of the site.</span>

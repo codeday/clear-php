@@ -14,6 +14,7 @@ class SpecialController extends \CodeDay\Clear\Http\Controller {
         $event = \Route::input('event');
         $event->custom_css = \Input::get('custom_css') ? \Input::get('custom_css') : null;
         $event->hide_default_workshops = \Input::get('hide_default_workshops') ? true : false;
+        $event->hide_meals = \Input::get('hide_meals') ? true : false;
         $event->notice = \Input::get('notice') ? \Input::get('notice') : null;
         $event->name_override = \Input::get('name_override') ? \Input::get('name_override') : null;
         $event->abbr_override = \Input::get('abbr_override') ? \Input::get('abbr_override') : null;
@@ -65,4 +66,4 @@ class SpecialController extends \CodeDay\Clear\Http\Controller {
 
         return \Redirect::to('/event/'.$event->id);
     }
-} 
+}

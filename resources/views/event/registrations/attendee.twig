@@ -97,10 +97,34 @@
     {% if registration.amount_paid > 0 %}
         {% set activitiesCount = activitiesCount + 1 %}
     {% endif %}
+
     <section class="registration activities activities-{{ activitiesCount }}">
         <h3>Actions</h3>
 
-        <section class="transfer">
+        <section class="menu-button">
+          <button data-for-menu="transfer">Transfer</button>
+        </section>
+
+        {% if registration.amount_paid > 0 %}
+          <section class="menu-button">
+            <button data-for-menu="refund">Refund</button>
+          </section>
+        {% endif %}
+
+        <section class="menu-button">
+          <button data-for-menu="cancel">Cancel/Delete</button>
+        </section>
+
+        <section class="menu-button">
+            <form action="/tools/banlist" method="get">
+                <input type="hidden" name="first_name" value="{{ registration.first_name }}"/>
+                <input type="hidden" name="last_name" value="{{ registration.last_name }}"/>
+                <input type="hidden" name="email" value="{{ registration.email }}"/>
+                <button>Ban</button>
+            </form>
+        </section>
+
+        <section class="transfer menu-transfer">
             <h4>Transfer</h4>
             <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/transfer" method="post" class="dangerous">
                 <div class="field">
@@ -123,7 +147,7 @@
         </section>
 
         {% if registration.amount_paid > 0 %}
-            <section class="refund">
+            <section class="refund menu-refund">
                 <h4>Partial Refund</h4>
                 <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/refund" method="post" class="dangerous">
                     <div class="field">
@@ -140,7 +164,7 @@
             </section>
         {% endif %}
 
-        <section class="cancel">
+        <section class="cancel menu-cancel">
             <h4>Cancel and Delete</h4>
             <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/cancel" method="post" class="dangerous">
                 <div class="field">
@@ -161,16 +185,6 @@
                 {% endif %}
                 <input type="submit" value="Delete Attendee"/>
             {{ csrf|raw }}</form>
-        </section>
-
-        <section class="ban">
-            <h4>Ban</h4>
-            <form action="/tools/banlist" method="get">
-                <input type="hidden" name="first_name" value="{{ registration.first_name }}"/>
-                <input type="hidden" name="last_name" value="{{ registration.last_name }}"/>
-                <input type="hidden" name="email" value="{{ registration.email }}"/>
-                <input type="submit" value="Next Step" />
-            </form>
         </section>
     </section>
 
@@ -193,4 +207,15 @@
             </form>
         </section>
     {% endif %}
+{% endblock %}
+{% block scripts %}
+    <script>
+        $("[data-for-menu]").click(function(){
+            var $btn = $(this);
+            $(".menu-button button").removeClass("pressed");
+            $btn.addClass("pressed");
+            $(".menu-transfer, .menu-cancel, .menu-ban, .menu-refund").hide();
+            $(".menu-" + $btn.attr("data-for-menu")).fadeIn("fast");
+        });
+    </script>
 {% endblock %}
