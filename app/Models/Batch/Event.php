@@ -546,8 +546,10 @@ class Event extends \Eloquent {
             }
 
             $items[] = [
-                'item' => $supply->item,
-                'quantity' => $a_quantity
+                'sku' => $supply->sku,
+                'name' => $supply->item,
+                'quantity' => intval($a_quantity),
+                'weight' => ['value' => floatval($supply->weight), 'units' => 'pounds']
             ];
         }
 
@@ -561,8 +563,10 @@ class Event extends \Eloquent {
             }
 
             $items[] = [
-                'item' => $supply->item,
-                'quantity' => $a_quantity
+                'sku' => $supply->sku,
+                'name' => $supply->item,
+                'quantity' => intval($a_quantity),
+                'weight' => ['value' => floatval($supply->weight), 'units' => 'pounds']
             ];
         }
 

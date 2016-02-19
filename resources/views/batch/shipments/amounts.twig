@@ -18,8 +18,6 @@
         <h2>Shipments</h2>
         <p>This tool allows you to easily generate supply shipment labels.</p>
     </header>
-    {% set ship_ready_exists = false %}
-
     <form method="post">
         <table class="ship-options">
             <thead>
@@ -33,7 +31,6 @@
                     {% if event.shipment_number is null %}
                         {% if event.ship_ready %}
                             <tr class="ready">
-                            {% set ship_ready_exists = true %}
                         {% elseif event.ship_address %}
                             <tr class="address">
                         {% else %}

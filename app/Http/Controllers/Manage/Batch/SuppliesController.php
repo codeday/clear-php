@@ -16,6 +16,8 @@ class SuppliesController extends \CodeDay\Clear\Http\Controller {
         $supply->batch_id = Models\Batch::Managed()->id;
         $supply->item = \Input::get('item');
         $supply->type = \Input::get('type');
+        $supply->sku = \Input::get('sku');
+        $supply->weight = \Input::get('weight');
         $supply->quantity = floatval(\Input::get('quantity'));
         $supply->save();
 

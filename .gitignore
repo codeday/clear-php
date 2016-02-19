@@ -6,3 +6,4 @@ Homestead.json
 .env
 app/storage
 /.sass-cache
+/storage/views

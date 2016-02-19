@@ -43,9 +43,19 @@
     <h3>Create Supply</h3>
     <form method="post">
         <div class="field">
+            <label for="sku">SKU</label>
+            <input type="text" name="sku" id="sku" required />
+            <span class="help">The SKU of the item, for inventory management.</span>
+        </div>
+        <div class="field">
             <label for="item">Item</label>
             <input type="text" name="item" id="item" required />
             <span class="help">The name/description of the supply for the manifest.</span>
+        </div>
+        <div class="field">
+            <label for="weight">Unit Weight</label>
+            <input type="text" name="weight" id="weight" pattern="\d(\.\d{1,2})?" required />
+            <span class="help">The weight per unit in pounds.</span>
         </div>
         <div class="field">
             <label for="type">Type</label>

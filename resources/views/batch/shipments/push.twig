@@ -1,0 +1,13 @@
+{% extends "template.twig" %}
+{% block title %}Shipments{% endblock %}
+{% block section %}batch{% endblock %}
+{% block subnav %}{% include "batch/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Push to Shipstation</h2>
+        <p>This tool will push all boxes to ShipStation.</p>
+    </header>
+    <form method="post">
+        <input type="submit" value="Do it!" />
+    {{ csrf|raw }}</form>
+{% endblock %}
