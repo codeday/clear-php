@@ -93,7 +93,7 @@
                     &:after
                         animation-name: material-design-hamburger-slide-after-from
         & > .menu
-            nav
+            nav, section.other
                 padding: 0
                 float: none
                 width: 100%
@@ -104,14 +104,19 @@
                         width: 100%
                         display: block
                         padding: 1rem 0
+                        &.event:before
+                            content: "⤷"
 
-            section.user
+            form.search
+                display: none
+
+            section.batch
                 position: absolute
                 bottom: 0
                 padding: 0
                 float: none
                 width: 100%
-                .username
+                ul li:after
                     display: none
 
     body > header > .menu, body > div.wrap > section.subnav

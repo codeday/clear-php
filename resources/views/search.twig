@@ -1,0 +1,10 @@
+{% extends "template.twig" %}
+{% block title %}Attendee Finder{% endblock %}
+{% block section %}search{% endblock %}
+{% import "widgets/attendees.twig" as a %}
+{% block content %}
+    {% for batch in batches %}
+        <h3>{{ batch.batch.name }}</h3>
+        {{ a.attendees(batch.results) }}
+    {% endfor %}
+{% endblock %}

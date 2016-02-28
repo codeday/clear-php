@@ -1,0 +1,81 @@
+body > header
+    width: 100%
+    margin: 0 auto
+    max-width: $max-width
+    border-bottom: 1px solid $foreground-color-lighter
+
+    h1
+        float: left
+        text-indent: -19999px
+        width: 2rem
+        height: 2rem
+
+        background:
+            image: url(/assets/img/logo-square.png)
+            size: contain
+            position: 50% 50%
+            repeat: no-repeat
+
+    nav, section.batch, section.other
+        padding-top: 0.7rem
+        ul
+            padding: 0
+            li
+                list-style-type: none
+                display: inline-block
+
+                a
+                    text-decoration: none
+                    margin-right: 1rem
+                    font-weight: 300
+                    border-bottom: 1px dotted $foreground-color-lighter
+                    &:hover
+                        border-bottom-color: $accent-color
+                &.active a
+                    color: $accent-color
+                    font-weight: 500
+                    border-bottom: none
+    nav
+        float: left
+        ul li.event:before
+            content: "»"
+            margin: 0 1rem 0 -0.5rem
+
+    section.batch
+        float: left
+        padding-left: 1rem
+        ul li:last-child:after
+            content: "»"
+            margin: 0 1rem 0 0
+
+    section.other
+        float: right
+
+    .search
+        float: right
+        padding-top: 1.2rem
+        input[type="text"]
+            border: 1px solid $foreground-color-lighter
+            color: $foreground-color
+            background-color: $background-color
+            font-family: $font
+            font-size: 0.9rem
+            font-weight: 300
+            padding: 0.5rem 0.75rem
+            &::-webkit-input-placeholder
+                color: $foreground-color
+            &::-moz-placeholder
+                color: $foreground-color
+            &:-ms-input-placeholder
+                color: $foreground-color
+        input[type="submit"]
+            display: none
+        &.active input[type="text"]
+            border-bottom-color: $accent-color
+
+    &:after
+        content: ""
+        clear: both
+        display: block
+        width: 0
+        height: 0

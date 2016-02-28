@@ -1,8 +1,7 @@
 <?php
 
 \Route::group(['namespace' => 'Manage\Tools', 'prefix' => 'tools', 'before' => 's5_manage_events', 'middleware' => ['web']], function() {
-    \Route::get('', function(){ return \Redirect::to('/tools/attendee'); });
-    \Route::controller('/attendee', 'AttendeeController');
+    \Route::get('', function(){ return \Redirect::to('/tools/tidbits'); });
 
     \Route::get('/tidbits/{region}', 'TidbitsController@getRegion');
     \Route::controller('/tidbits', 'TidbitsController');

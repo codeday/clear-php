@@ -1,0 +1,27 @@
+{% macro attendees(attendees, hide_event) %}
+    {% import _self as s %}
+    <ul class="attendee-list">
+        {% for attendee in attendees %}
+            {{ s.attendee(attendee, hide_event) }}
+        {% endfor %}
+    </ul>
+{% endmacro %}
+{% macro attendee(attendee, hide_event) %}
+    <li class="{{ attendee.type }}">
+        <a href="/event/{{ attendee.batches_event_id }}/registrations/attendee/{{ attendee.id }}">
+            <img src="http://www.gravatar.com/avatar/{{ attendee.email_md5 }}?s=200&amp;d=mm" alt="{{ attendee.name }}"/>
+            <span class="name">
+                <span class="first">{{ attendee.first_name }}</span>
+                <span class="last">{{ attendee.last_name }}</span>
+            </span>
+            <span class="details">
+                <span class="paid">
+                    {% if attendee.deleted_at != null %}✘{% elseif attendee.checked_in_at %}✓{% endif %}
+                    ${{ attendee.amount_paid|number_format(0) }}</span>
+                {% if not hide_event %}
+                    <span class="event">{{ attendee.event.webname }}</span>
+                {% endif %}
+            </span>
+        </a>
+    </li>
+{% endmacro %}

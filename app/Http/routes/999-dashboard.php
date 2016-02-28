@@ -6,6 +6,7 @@
         \CodeDay\Clear\Models\User::me()->forget();
         return \Redirect::to('https://s5.studentrnd.org/login/logout');
     });
+    \Route::controller('/search', 'SearchController');
 });
 
 \Route::group(['namespace' => 'Manage', 'before' => 's5_manage_events'], function() {
