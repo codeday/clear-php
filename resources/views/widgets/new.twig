@@ -102,14 +102,14 @@
     $('.new-registration form').on('click', function(e){
         e.stopPropagation();
     });
-    $('.new-registration, .cancel').on('click', function(e){
+    $('.new-registration, .new-registration .cancel').on('click', function(e){
         e.preventDefault();
         $('.new-registration').css('display', 'none');
         $('.new-registration input[type="text"]').val('');
     });
 
     // # Parent Info Display
-    $('#type').on('change', function(){
+    $('.new-registration form #type').on('change', function(){
         if ($('#type').val() == 'student' || $('#type').val() == 'volunteer') {
             $('.parent').css('visibility', 'visible');
         } else {
@@ -119,8 +119,8 @@
     });
 
     // # Payment Display
-    $("#amount").on('input', function(){
-        var paymentElems = $("#card, #mm, #yy");
+    $(".new-registration form #amount").on('input', function(){
+        var paymentElems = $(".new-registration form #card, .new-registration form #mm, .new-registration form #yy");
         var paymentParents = paymentElems.parents('div.field');
         if ($(this).val() > 0) {
             paymentElems.attr('required', true);
@@ -132,16 +132,16 @@
     });
 
     // # Card Swiping
-    $('#card-swipe-handle').on('click', function(){
-        $('#swipe-details').css('display','block');
-        $('#card-details').css('display', 'none');
-        $('#card-swipe-area').val('').focus();
+    $('.new-registration form #card-swipe-handle').on('click', function(){
+        $('.new-registration form #swipe-details').css('display','block');
+        $('.new-registration form #card-details').css('display', 'none');
+        $('.new-registration form #card-swipe-area').val('').focus();
     });
 
-    $('#card-swipe-cancel-handle').on('click', function(){
-        $('#swipe-details').css('display','none');
-        $('#card-details').css('display', 'block');
-        $('#card-swipe-area').val('');
+    $('.new-registration form #card-swipe-cancel-handle').on('click', function(){
+        $('.new-registration form #swipe-details').css('display','none');
+        $('.new-registration form #card-details').css('display', 'block');
+        $('.new-registration form #card-swipe-area').val('');
     });
 
     var parseSwipeData = function(swipe)
@@ -173,16 +173,16 @@
         };
     }
 
-    $('#card-swipe-area').on('keydown', function(event){
+    $('.new-registration form #card-swipe-area').on('keydown', function(event){
         event.stopPropagation();
         if (event.keyCode == 13) {
             event.preventDefault();
             var swiped = $(this).val();
             var cardInfo = parseSwipeData(swiped);
 
-            $('#card').val(cardInfo.number);
-            $('#mm').val(cardInfo.exp.month);
-            $('#yy').val(cardInfo.exp.year);
+            $('.new-registration form #card').val(cardInfo.number);
+            $('.new-registration form #mm').val(cardInfo.exp.month);
+            $('.new-registration form #yy').val(cardInfo.exp.year);
 
             if (typeof(cardInfo.name) === 'object'
                     && $('#first_name').val().length === 0 && $('#last_name').val().length === 0) {
@@ -194,29 +194,29 @@
                 $('#last_name').val(prettyName(cardInfo.name.last));
             }
 
-            $('#card-swipe-cancel-handle').click();
+            $('.new-registration form #card-swipe-cancel-handle').click();
             return false;
         }
     });
 
     // # Process Payments
     Stripe.setPublishableKey('{{ stripe_pk }}');
-    $('#register-form').submit(function(e){
-        if ($("#amount").val() == 0) {
+    $('.new-registration form #register-form').submit(function(e){
+        if ($(".new-registration form #amount").val() == 0) {
             return;
         }
         e.preventDefault();
 
-        if ($('#pay-button').text() == '...') {
+        if ($('.new-registration form #pay-button').text() == '...') {
             return;
         }
 
-        $('#pay-button').text('...');
+        $('.new-registration form #pay-button').text('...');
 
         Stripe.card.createToken({
-            number: $('#card').val(),
-            exp_month: $('#mm').val(),
-            exp_year: $('#yy').val()
+            number: $('.new-registration form #card').val(),
+            exp_month: $('.new-registration form #mm').val(),
+            exp_year: $('.new-registration form #yy').val()
         },
         function(status, response) {
             if (response.error) {
@@ -225,11 +225,11 @@
                     text: response.error.message,
                     type: 'error'
                 });
-                $('#pay-button').text('Register');
+                $('.new-registration form #pay-button').text('Register');
             } else {
                 var token = response.id;
-                $('#token').val(token);
-                $('#register-form').off().submit();
+                $('.new-registration form #token').val(token);
+                $('.new-registration form #register-form').off().submit();
             }
         });
     });
