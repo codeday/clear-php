@@ -18,7 +18,4 @@
         \Route::controller('giftcards', 'GiftCardsController');
         \Route::controller('query', 'QueryController');
     });
-
-    \Route::get('/checkin', function() { return \Redirect::to('/dayof/checkin'); });
-    \Route::get('/deck', function() { return \Redirect::to('/dayof/deck'); });
 });

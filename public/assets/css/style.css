@@ -544,11 +544,8 @@ body > .info {
 .shepherd-text {
   font-family: "Roboto", "Helvetica", sans-serif; }
 
-body.dashboard .other-events h2 {
-  margin-top: 0; }
 body.dashboard section.content > .countdown {
-  padding: 0 0 2rem;
-  border-bottom: 1px solid #e9e9ef; }
+  padding: 0 0 2rem; }
   body.dashboard section.content > .countdown .active {
     font-weight: 500;
     font-size: 2.5rem; }
@@ -560,136 +557,95 @@ body.dashboard section.content > .countdown {
       content: "•";
       color: #e9e9ef;
       padding: 0 0.3rem; }
-body.dashboard section.content > .my-events {
-  border-bottom: 1px solid #e9e9ef; }
-  body.dashboard section.content > .my-events ul {
-    padding: 0; }
-    body.dashboard section.content > .my-events ul li {
-      list-style-type: none;
-      padding: 1rem 0; }
-      body.dashboard section.content > .my-events ul li div {
-        float: left;
-        width: 16.66%;
+body.dashboard section.deadlines {
+  margin: 1rem 0 2rem 0; }
+  @media screen and (max-width: 768px), screen and (min-resolution: 264dpi) and (max-device-width: 2048px) {
+    body.dashboard section.deadlines {
+      display: none; } }
+  body.dashboard section.deadlines div {
+    position: relative; }
+    body.dashboard section.deadlines div .now {
+      background-color: #333;
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      display: block;
+      position: absolute;
+      top: -5px; }
+  body.dashboard section.deadlines table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-top: 1px solid #333; }
+    body.dashboard section.deadlines table tr td {
+      position: relative;
+      width: 25%;
+      color: #333; }
+      body.dashboard section.deadlines table tr td .date {
+        font-size: 1rem;
+        padding-top: 0.5rem;
         display: block; }
-        body.dashboard section.content > .my-events ul li div span {
-          display: block;
-          text-align: center; }
-          body.dashboard section.content > .my-events ul li div span.number {
-            font-size: 2.25rem;
-            padding-top: 0.5rem; }
-          body.dashboard section.content > .my-events ul li div span.label {
-            text-transform: uppercase;
-            font-weight: 300;
-            font-size: 0.75rem; }
-        body.dashboard section.content > .my-events ul li div.name {
-          border: 1px solid #333;
-          background-color: #e9e9ef;
-          font-size: 2.25rem;
-          font-weight: 300;
-          text-align: center;
-          text-transform: uppercase;
-          width: 12%;
-          height: 4.5rem;
-          margin-right: 4.66%;
-          padding-top: 1rem; }
-          @media screen and (max-width: 768px), screen and (min-resolution: 264dpi) and (max-device-width: 2048px) {
-            body.dashboard section.content > .my-events ul li div.name {
-              width: 20%;
-              max-width: 7rem;
-              height: 3.5rem;
-              padding-top: 0.75rem; } }
-          body.dashboard section.content > .my-events ul li div.name.open {
-            background-color: #15E014; }
-          body.dashboard section.content > .my-events ul li div.name.venue {
-            background-color: #0343FA; }
-          body.dashboard section.content > .my-events ul li div.name.closed {
-            background-color: #FB481C; }
-        @media screen and (max-width: 768px), screen and (min-resolution: 264dpi) and (max-device-width: 2048px) {
-          body.dashboard section.content > .my-events ul li div {
-            width: 25%; }
-            body.dashboard section.content > .my-events ul li div.percent, body.dashboard section.content > .my-events ul li div.predicted {
-              display: none; } }
-      body.dashboard section.content > .my-events ul li:after {
+      body.dashboard section.deadlines table tr td .description {
+        font-size: 0.8rem; }
+      body.dashboard section.deadlines table tr td .normal {
+        float: left; }
+      body.dashboard section.deadlines table tr td .last {
+        float: right; }
+      body.dashboard section.deadlines table tr td .normal .date:before, body.dashboard section.deadlines table tr td .last .date:after {
         content: "";
-        clear: both;
         display: block;
-        width: 0;
-        height: 0; }
-body.dashboard section.content > .other-events {
-  padding-top: 2rem; }
-  body.dashboard section.content > .other-events section.map {
-    float: right;
-    width: 60%; }
-    @media screen and (max-width: 768px), screen and (min-resolution: 264dpi) and (max-device-width: 2048px) {
-      body.dashboard section.content > .other-events section.map {
-        display: none; } }
-    body.dashboard section.content > .other-events section.map div.heatmap {
+        width: 1px;
+        height: 10px;
+        background-color: #333;
+        position: absolute;
+        top: -6px; }
+      body.dashboard section.deadlines table tr td .normal .date:before {
+        left: -1px; }
+      body.dashboard section.deadlines table tr td .last .date:after {
+        right: -1px; }
+body.dashboard section.my-events > ul {
+  padding: 0; }
+  body.dashboard section.my-events > ul > li {
+    list-style-type: none;
+    display: inline-block;
+    width: 31%;
+    min-width: 20rem;
+    margin-right: 3%;
+    margin-bottom: 1rem; }
+    body.dashboard section.my-events > ul > li:nth-child(3n) {
+      margin-right: 0; }
+body.dashboard section.latest {
+  border-top: 1px solid #e9e9ef; }
+  body.dashboard section.latest section.recent {
+    vertical-align: top;
+    display: inline-block;
+    width: 31%;
+    margin-right: 3%; }
+    body.dashboard section.latest section.recent .attendee-list li {
+      margin-bottom: -1px; }
+  body.dashboard section.latest section.leaderboard {
+    vertical-align: top;
+    width: 31%;
+    margin-right: 3%;
+    display: inline-block; }
+  body.dashboard section.latest section.news {
+    vertical-align: top;
+    width: 31%;
+    display: inline-block; }
+  @media screen and (max-width: 768px), screen and (min-resolution: 264dpi) and (max-device-width: 2048px) {
+    body.dashboard section.latest section.recent {
       width: 100%;
-      height: 300px; }
-  body.dashboard section.content > .other-events section.list {
-    width: 35%;
-    float: left; }
-    @media screen and (max-width: 768px), screen and (min-resolution: 264dpi) and (max-device-width: 2048px) {
-      body.dashboard section.content > .other-events section.list {
-        width: 100%;
-        float: none; } }
-    body.dashboard section.content > .other-events section.list ul {
-      margin: 0;
-      padding: 0; }
-      body.dashboard section.content > .other-events section.list ul li {
-        list-style-type: none;
-        padding: 0.15rem 0;
-        float: left;
-        width: 50%; }
-        body.dashboard section.content > .other-events section.list ul li a {
-          text-decoration: none; }
-        body.dashboard section.content > .other-events section.list ul li div.name {
-          border: 1px solid #333;
-          background-color: #e9e9ef;
-          display: inline-block;
-          font-size: 0.75rem;
-          font-weight: 300;
-          text-align: center;
-          text-transform: uppercase;
-          width: 2.5rem;
-          margin-right: 0.2rem; }
-          @media screen and (max-width: 768px), screen and (min-resolution: 264dpi) and (max-device-width: 2048px) {
-            body.dashboard section.content > .other-events section.list ul li div.name {
-              font-size: 1rem;
-              height: 2rem;
-              padding-top: 0.5rem;
-              width: 22%;
-              max-width: 4rem;
-              margin-right: 2%; } }
-          body.dashboard section.content > .other-events section.list ul li div.name.sold-out {
-            background-color: #000;
-            color: #fff; }
-          body.dashboard section.content > .other-events section.list ul li div.name.open {
-            background-color: #72CB99; }
-          body.dashboard section.content > .other-events section.list ul li div.name.venue {
-            background-color: #466D98; }
-          body.dashboard section.content > .other-events section.list ul li div.name.closed {
-            background-color: #cb7972; }
-        body.dashboard section.content > .other-events section.list ul li div {
-          display: inline; }
-          body.dashboard section.content > .other-events section.list ul li div.registrants:after {
-            content: ",";
-            margin: 0 0.2 0 -0.2rem; }
-          body.dashboard section.content > .other-events section.list ul li div span {
-            text-align: left; }
-            body.dashboard section.content > .other-events section.list ul li div span.number {
-              font-size: 0.75rem;
-              padding-top: 0.5rem; }
-            body.dashboard section.content > .other-events section.list ul li div span.label {
-              text-transform: uppercase;
-              font-weight: 300;
-              font-size: 0.75rem; }
-        body.dashboard section.content > .other-events section.list ul li:after {
-          content: "";
-          clear: both;
-          display: block;
-          width: 0;
-          height: 0; }
+      margin-right: 0;
+      display: block; }
+    body.dashboard section.latest section.leaderboard, body.dashboard section.latest section.news {
+      width: 48%;
+      min-width: 15rem; } }
+body.dashboard section.batch-status {
+  border-top: 1px solid #e9e9ef;
+  margin-top: 1rem;
+  padding-top: 2rem; }
+  body.dashboard section.batch-status table {
+    margin: 0 auto; }
 
 body.event .content > .status {
   border: 1px solid #e9e9ef;
@@ -1130,36 +1086,6 @@ body.batch .tasks tr {
         background-color: #cb7972;
         width: 0.5rem;
         height: 0.5rem; }
-body.batch .status, body.batch .finances {
-  border-collapse: collapse; }
-  body.batch .status thead th, body.batch .finances thead th {
-    font-size: 0.75rem;
-    font-family: monospace; }
-  body.batch .status tbody tr:nth-child(2n+1), body.batch .finances tbody tr:nth-child(2n+1) {
-    background-color: #e9e9ef; }
-  body.batch .status tbody tr td, body.batch .finances tbody tr td {
-    border-left: 1px solid #cbcbda;
-    padding: 0.5rem; }
-    body.batch .status tbody tr td.okay span span, body.batch .finances tbody tr td.okay span span {
-      background-color: #72CB99; }
-    body.batch .status tbody tr td > span, body.batch .finances tbody tr td > span {
-      display: inline-block;
-      border: 1px solid #cbcbda;
-      padding: 1px;
-      margin-bottom: 0.125rem; }
-      body.batch .status tbody tr td > span > span, body.batch .finances tbody tr td > span > span {
-        display: block;
-        background-color: #cb7972;
-        width: 0.5rem;
-        height: 0.5rem; }
-body.batch .finances tbody tr td {
-  border-left: none; }
-  body.batch .finances tbody tr td.revenue, body.batch .finances tbody tr td.cogs {
-    border-left: 1px double #cbcbda;
-    border-right: 2px solid #cbcbda;
-    border-width: 3px; }
-  body.batch .finances tbody tr td.negative {
-    color: #cb7972; }
 
 .wrap .compose-email {
   border: 1px solid #cbcbda; }
@@ -1309,9 +1235,8 @@ body.batch .finances tbody tr td {
   padding: 0; }
   .attendee-list li {
     list-style-type: none;
-    width: 30%;
-    margin-right: 3%;
-    margin-bottom: 1rem;
+    width: 15rem;
+    margin: 0 0.75rem 0.75rem 0;
     display: inline-block;
     border: 1px solid #e9e9ef;
     border-left: none; }
@@ -1344,5 +1269,77 @@ body.batch .finances tbody tr td {
       border-left-color: #466D98; }
     .attendee-list li.vip a, .attendee-list li.press a, .attendee-list li.sponsor a {
       border-left-color: #333; }
+
+.event-hud {
+  display: block;
+  text-decoration: none;
+  padding: 1rem;
+  border-top: 5px solid transparent; }
+  .event-hud.open {
+    border-top-color: #3a9d65;
+    background-color: #72CB99; }
+  .event-hud.venue {
+    border-top-color: #263b52;
+    background-color: #466D98; }
+  .event-hud.closed {
+    border-top-color: #9d423a;
+    background-color: #cb7972; }
+  .event-hud.sold-out {
+    border-top-color: black;
+    background-color: #333; }
+  .event-hud .name {
+    display: block;
+    font-size: 2rem;
+    color: #F8F8FA;
+    margin-bottom: 1rem; }
+  .event-hud ul.stats {
+    padding: 0; }
+    .event-hud ul.stats li {
+      display: inline-block;
+      list-style-type: none;
+      width: 31%;
+      margin-right: 2%; }
+      .event-hud ul.stats li:nth-child(3n) {
+        margin-right: 0; }
+      .event-hud ul.stats li span {
+        display: block;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.6); }
+        .event-hud ul.stats li span.number {
+          font-size: 1.2rem; }
+      .event-hud ul.stats li.primary span {
+        color: rgba(255, 255, 255, 0.8); }
+
+table.status, table.finances {
+  border-collapse: collapse; }
+  table.status thead th, table.finances thead th {
+    font-size: 0.75rem;
+    font-family: monospace; }
+  table.status tbody tr:nth-child(2n+1), table.finances tbody tr:nth-child(2n+1) {
+    background-color: #e9e9ef; }
+  table.status tbody tr td, table.finances tbody tr td {
+    border-left: 1px solid #cbcbda;
+    padding: 0.5rem;
+    border-left: none; }
+    table.status tbody tr td.okay span span, table.finances tbody tr td.okay span span {
+      background-color: #72CB99; }
+    table.status tbody tr td > span, table.finances tbody tr td > span {
+      display: inline-block;
+      border: 1px solid #cbcbda;
+      padding: 1px;
+      margin-bottom: 0.125rem; }
+      table.status tbody tr td > span > span, table.finances tbody tr td > span > span {
+        display: block;
+        background-color: #cb7972;
+        width: 0.5rem;
+        height: 0.5rem; }
+    table.status tbody tr td.tickets, table.finances tbody tr td.tickets {
+      border-left: 2px solid #cbcbda; }
+    table.status tbody tr td.revenue, table.status tbody tr td.cogs, table.finances tbody tr td.revenue, table.finances tbody tr td.cogs {
+      border-left: 1px double #cbcbda;
+      border-right: 2px solid #cbcbda;
+      border-width: 3px; }
+    table.status tbody tr td.negative, table.finances tbody tr td.negative {
+      color: #cb7972; }
 
 /*# sourceMappingURL=style.css.map */

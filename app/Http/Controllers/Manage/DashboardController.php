@@ -2,12 +2,28 @@
 namespace CodeDay\Clear\Http\Controllers\Manage;
 
 use \CodeDay\Clear\Models;
+use \Carbon\Carbon;
 
 class DashboardController extends \CodeDay\Clear\Http\Controller {
 
     public function getIndex()
     {
-        return \View::make('dashboard');
+        $myEvents = implode(',', array_map(function($a) { return "'".$a->id."'"; }, iterator_to_array(Models\User::me()->loaded_managed_events)));
+        $recentRegistrations = Models\Batch\Event\Registration
+            ::whereRaw(\DB::raw('batches_event_id IN ('.$myEvents.')'))
+            ->where('created_at', '>', Carbon::now()->addWeeks(-1))
+            ->limit(10)->get();
+
+        $leaderboard = iterator_to_array(Models\Batch\Event
+            ::where('batch_id', '=', Models\Batch::Loaded()->id)
+            ->get()
+        );
+        usort($leaderboard, function($a, $b) {
+            return count($b->registrations_this_week) - count($a->registrations_this_week);
+        });
+
+
+        return \View::make('dashboard', ['recent_registrations' => $recentRegistrations, 'leaderboard' => $leaderboard]);
     }
 
     public function getFrontPlugin()

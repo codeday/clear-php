@@ -39,38 +39,3 @@ body.batch
                         background-color: $color-red
                         width: 0.5rem
                         height: 0.5rem
-
-    .status, .finances
-        border-collapse: collapse
-        thead
-            th
-                font-size: 0.75rem
-                font-family: monospace
-        tbody
-            tr
-                &:nth-child(2n+1)
-                    background-color: $foreground-color-lighter
-                td
-                    border-left: 1px solid $foreground-color-light
-                    padding: 0.5rem
-                    &.okay span span
-                        background-color: $color-green
-                    & > span
-                        display: inline-block
-                        border: 1px solid $foreground-color-light
-                        padding: 1px
-                        margin-bottom: 0.125rem
-                        & > span
-                            display: block
-                            background-color: $color-red
-                            width: 0.5rem
-                            height: 0.5rem
-
-    .finances tbody tr td
-        border-left: none
-        &.revenue, &.cogs
-            border-left: 1px double $foreground-color-light
-            border-right: 2px solid $foreground-color-light
-            border-width: 3px
-        &.negative
-            color: $color-red

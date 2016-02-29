@@ -1,0 +1,41 @@
+.event-hud
+    display: block
+    text-decoration: none
+    padding: 1rem
+    border-top: 5px solid transparent
+    &.open
+        border-top-color: darken($color-green, 20%)
+        background-color: $color-green
+    &.venue
+        border-top-color: darken($color-blue, 20%)
+        background-color: $color-blue
+    &.closed
+        border-top-color: darken($color-red, 20%)
+        background-color: $color-red
+    &.sold-out
+        border-top-color: darken($foreground-color, 20%)
+        background-color: $foreground-color
+    
+    .name
+        display: block
+        font-size: 2rem
+        color: $background-color
+        margin-bottom: 1rem
+
+    ul.stats
+        padding: 0
+        li
+            display: inline-block
+            list-style-type: none
+            width: 31%
+            margin-right: 2%
+            &:nth-child(3n)
+                margin-right: 0
+            span
+                display: block
+                text-align: center
+                color: rgba(255,255,255,0.6)
+                &.number
+                    font-size: 1.2rem
+            &.primary span
+                color: rgba(255,255,255,0.8)
