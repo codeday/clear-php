@@ -8,11 +8,14 @@ class DashboardController extends \CodeDay\Clear\Http\Controller {
 
     public function getIndex()
     {
-        $myEvents = implode(',', array_map(function($a) { return "'".$a->id."'"; }, iterator_to_array(Models\User::me()->loaded_managed_events)));
-        $recentRegistrations = Models\Batch\Event\Registration
-            ::whereRaw(\DB::raw('batches_event_id IN ('.$myEvents.')'))
-            ->where('created_at', '>', Carbon::now()->addWeeks(-1))
-            ->limit(10)->get();
+        $recentRegistrations = [];
+        if (count(Models\User::me()->current_managed_events) > 0) {
+            $myEvents = implode(',', array_map(function($a) { return "'".$a->id."'"; }, iterator_to_array(Models\User::me()->current_managed_events)));
+            $recentRegistrations = Models\Batch\Event\Registration
+                ::whereRaw(\DB::raw('batches_event_id IN ('.$myEvents.')'))
+                ->where('created_at', '>', Carbon::now()->addWeeks(-1))
+                ->limit(10)->get();
+        }
 
         $leaderboard = iterator_to_array(Models\Batch\Event
             ::where('batch_id', '=', Models\Batch::Loaded()->id)
