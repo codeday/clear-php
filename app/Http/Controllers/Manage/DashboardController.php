@@ -18,7 +18,7 @@ class DashboardController extends \CodeDay\Clear\Http\Controller {
         }
 
         $leaderboard = iterator_to_array(Models\Batch\Event
-            ::where('batch_id', '=', Models\Batch::Loaded()->id)
+            ::where('batch_id', '=', Models\Batch::Managed()->id)
             ->get()
         );
         usort($leaderboard, function($a, $b) {
