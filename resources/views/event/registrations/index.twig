@@ -6,44 +6,9 @@
 {% block content %}
     <header>
         <h2>Registrations</h2>
-        <p>You can use this screen to view, add, and refund registrations.</p>
-        <p>To add an attendee <em>and charge their card</em>, please use
-           the standard web registration flow.</p>
         <p>If the venue requires an attendance list, they can download an up-to-date one
             <a href="/event/{{ event.id }}/registrations/csv?signature={{ signature }}">here.</a></p>
     </header>
-
-    <section class="add registration">
-        <h3>Add Registration</h3>
-        <form action="/event/{{ event.id }}/registrations/add" method="post">
-            <div class="field">
-                <label for="first_name">First Name</label>
-                <input type="text" name="first_name" id="first_name" required />
-            </div>
-            <div class="field">
-                <label for="last_name">Last Name</label>
-                <input type="text" name="last_name" id="last_name" required />
-            </div>
-            <div class="field">
-                <label for="email">Email</label>
-                <input type="text" name="email" id="email" required />
-            </div>
-            <div class="field">
-                <label for="type">Type</label>
-                <select name="type" id="type" required>
-                    {% for type in ['student', 'volunteer', 'mentor', 'teacher', 'sponsor', 'press', 'vip'] %}
-                        <option value="{{ type }}" {% if registration.type == type %}selected{% endif %}>{{ type }}</option>
-                    {% endfor %}
-                </select>
-
-            </div>
-            <div class="field">
-                <label for="send_welcome">Send Welcome Email?</label>
-                <input type="checkbox" name="send_welcome" id="send_welcome" value="1" />
-            </div>
-            <input type="submit" value="Add" />
-        {{ csrf|raw }}</form>
-    </section>
 
     {% if event.registrations|length > 0 %}
         <section class="current registrations">
@@ -55,6 +20,7 @@
               <a href="/event/{{ event.id }}/registrations?sort=created_at&amp;order=desc">Date Registered</a> (default)
             </p>
             {{ a.attendees(registrations, true) }}
+            <a href="#" class="new-registration-button">New Registration</a>
         </section>
     {% endif %}
 {% endblock %}

@@ -64,11 +64,6 @@
                     </div>
                 {% endif %}
             </div>
-
-            <div class="field">
-                <label for="resend">Resend Email</label>
-                <input type="checkbox" name="resend" id="resend" value="1" />
-            </div>
             <input type="submit" value="Save" />
         {{ csrf|raw }}</form>
     </section>
@@ -100,29 +95,24 @@
 
     <section class="registration activities activities-{{ activitiesCount }}">
         <h3>Actions</h3>
+        <nav>
+            <button data-for-menu="transfer">Transfer</button>
+            {% if registration.amount_paid > 0 %}
+                <button data-for-menu="refund">Refund</button>
+            {% endif %}
+            <button data-for-menu="cancel">Cancel/Delete</button>
+            <button data-for-menu="emails">Re-send Emails</button>
+            {% if me.is_admin %}
+                <button data-for-menu="webhooks">Fire Webhooks</button>
+            {% endif %}
 
-        <section class="menu-button">
-          <button data-for-menu="transfer">Transfer</button>
-        </section>
-
-        {% if registration.amount_paid > 0 %}
-          <section class="menu-button">
-            <button data-for-menu="refund">Refund</button>
-          </section>
-        {% endif %}
-
-        <section class="menu-button">
-          <button data-for-menu="cancel">Cancel/Delete</button>
-        </section>
-
-        <section class="menu-button">
             <form action="/tools/banlist" method="get">
                 <input type="hidden" name="first_name" value="{{ registration.first_name }}"/>
                 <input type="hidden" name="last_name" value="{{ registration.last_name }}"/>
                 <input type="hidden" name="email" value="{{ registration.email }}"/>
                 <button>Ban</button>
             </form>
-        </section>
+        </nav>
 
         <section class="transfer menu-transfer">
             <h4>Transfer</h4>
@@ -186,36 +176,64 @@
                 <input type="submit" value="Delete Attendee"/>
             {{ csrf|raw }}</form>
         </section>
-    </section>
 
-    {% if me.is_admin %}
-        <section class="registrations webhooks" style="margin-top: 2rem"> <!-- honestly, I don't care about the inline styles. -->
-            <h3>Fire Webhooks Manually</h3>
-            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/webhook" method="post">
-              <div class="field">
-                  <label for="hook_event">Hook Event</label>
-                  <select name="hook_event" id="hook_event">
-                    <option value="registration.register">Registration.Register - Fired when an attendee registers</option>
-                    <option value="registration.checkin">Registration.Checkin - Fired when an attendee checks in</option>
-                    <option value="registration.checkout">Registration.Checkout - Fired when an attendee checks out</option>
-                  </select>
-                  <span class="help">The event to fire.</span>
-              </div>
-
-              <input type="submit" value="Fire"/>
-              {{ csrf|raw }}
-            </form>
+        <section class="emails menu-emails">
+            <h4>Re-send Emails</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Sent At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for email in registration.transactionalEmails %}
+                        <tr>
+                            <td>{{ email.email_id }}</td>
+                            <td>{{ email.created_at.timestamp|date('F j, Y h:m:s') }}</td>
+                            <td>
+                                <form class="inline" action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/resend" method="post">
+                                    <input type="hidden" name="id" value="{{ email.id }}" />
+                                    <input type="submit" value="Resend" />
+                                {{ csrf|raw }}</form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </section>
-    {% endif %}
+
+        {% if me.is_admin %}
+            <section class="webhooks menu-webhooks">
+                <h4>Fire Webhooks Manually</h4>
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/webhook" method="post">
+                  <div class="field">
+                      <label for="hook_event">Hook Event</label>
+                      <select name="hook_event" id="hook_event">
+                        <option value="registration.register">Registration.Register - Fired when an attendee registers</option>
+                        <option value="registration.checkin">Registration.Checkin - Fired when an attendee checks in</option>
+                        <option value="registration.checkout">Registration.Checkout - Fired when an attendee checks out</option>
+                      </select>
+                      <span class="help">The event to fire.</span>
+                  </div>
+
+                  <input type="submit" value="Fire"/>
+                  {{ csrf|raw }}
+                </form>
+            </section>
+        {% endif %}
+    </section>
 {% endblock %}
 {% block scripts %}
     <script>
         $("[data-for-menu]").click(function(){
             var $btn = $(this);
-            $(".menu-button button").removeClass("pressed");
+            $("nav button").removeClass("pressed");
             $btn.addClass("pressed");
-            $(".menu-transfer, .menu-cancel, .menu-ban, .menu-refund").hide();
+            $(".activities>section").hide();
             $(".menu-" + $btn.attr("data-for-menu")).fadeIn("fast");
         });
+        $("nav > button[data-for-menu]:first-child").click();
     </script>
 {% endblock %}

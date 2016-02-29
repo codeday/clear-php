@@ -178,30 +178,35 @@ body.event
         &.activities
             clear: both
             padding-top: 2rem
-            .menu-transfer, .menu-cancel, .menu-ban, .menu-refund
-                display: none
-                // >inb4 !important
-                width: 100% !important
-            .menu-button
-                text-align: center
-                height: 50px
+            nav
+                form
+                    display: inline
                 button
-                    margin: 0 auto
                     float: none
+                    display: inline-block
+                    background: $background-color
+                    border: 1px solid $foreground-color-light
+                    min-width: 7rem
+                    font:
+                        size: 0.9rem
+                        weight: 300
+                    &.pressed
+                        background: $background-color
+                        border-bottom-color: $background-color
+                    
             h3
                 text-align: center
-            &.activities-2 section
-                width: 48%
-            &.activities-3 section
-                width: 32%
-            &.activities-4 section
-                width: 24%
             section
-                display: inline-block
+                display: none
                 vertical-align: top
-                position: relative
-                height: 14rem
+                border: 1px solid $foreground-color-light
+                margin-top: -1px
+                padding: 1rem
                 h4
+                    text-align: center
+                    margin-top: 0
+                table
+                    width: 100%
                     text-align: center
                 form
                     .field
@@ -218,8 +223,6 @@ body.event
                     input[type="submit"]
                         width: 100%
                         float: none
-                        position: absolute
-                        bottom: 0
 
 
 

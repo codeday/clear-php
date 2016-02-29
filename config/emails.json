@@ -1,0 +1,41 @@
+{
+    "registration": {
+        "all": [
+            {
+                "id":   "ticket",
+                "subject": "Your CodeDay Ticket",
+                "html": "emails/registration/registration_html",
+                "text": "emails/registration/registration_text",
+                "when": "+0"               
+            }
+        ],
+        "student": [
+            {
+                "id":       "student_postreg",
+                "subject":  "CodeDay",
+                "from":     "Tyler Menezes",
+                "from_e":   "menezest@codeday.org",
+                "text":     "emails/registration/student_postreg_text",
+                "when":     "+1d",
+                "work":     true
+            },
+            {
+                "id":   "student_preevent",
+                "subject": "CodeDay is Shortly Upon Us",
+                "html": "emails/registration/student_preevent_html",
+                "text": "emails/registration/student_preevent_text",
+                "when": "-3d",
+                "work": true
+            },
+            {
+                "id":   "student_reminder",
+                "subject": "Reminder: CodeDay",
+                "html": "emails/registration/student_reminder_html",
+                "text": "emails/registration/student_reminder_html",
+                "when": "-1d",
+                "work": true,
+                "late": false
+            }
+        ]
+    }
+}

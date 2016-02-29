@@ -41,6 +41,15 @@ class Batch extends \Eloquent {
             ->first();
     }
 
+    public function getRegistrationsAttribute()
+    {
+        return Batch\Event\Registration
+            ::select('batches_events_registrations.*')
+            ->join('batches_events', 'batches_events_registrations.batches_event_id', '=', 'batches_events.id')
+            ->where('batches_events.batch_id', '=', $this->id)
+            ->get();
+    }
+
     protected static function boot()
     {
         parent::boot();

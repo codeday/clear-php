@@ -126,7 +126,8 @@
                 </ul>
             </nav>
             <form method="get" action="/search" class="search {% if block('section') == 'search' %}active{%endif %}">
-                <input type="text" name="q" value="{{ search }}" placeholder="Find an Attendee" />
+                <input type="text" name="q" value="{{ search }}" placeholder="Find an Attendee" />{#
+                #}<a href="#" class="new-registration-button">+</a>
                 <input type="submit" value="Search" />
             </form>
             <section class="other">
@@ -160,6 +161,9 @@
         <a href="#" class="toggle-sounds">Disable sounds</a>
         <a href="#" id="tour-start">Start tour</a>
     </footer>
+
+    {% include "widgets/new.twig" %}
+
     <script type="text/javascript" src="/assets/js/sweet-alert.min.js"></script>
     <script type="text/javascript" src="/assets/js/app.js"></script>
     {{ block('scripts') }}

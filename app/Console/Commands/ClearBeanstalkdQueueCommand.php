@@ -1,5 +1,5 @@
 <?php
-namespace CodeDay\Clear\Commands;
+namespace CodeDay\Clear\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;

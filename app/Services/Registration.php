@@ -122,64 +122,12 @@ class Registration {
 
     public static function SendTicketEmail(Models\Batch\Event\Registration $reg)
     {
-        Services\Email::SendOnQueue(
-            'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
-            $reg->name, $reg->email,
-            'Your CodeDay '.$reg->event->name.' Tickets',
-            \View::make('emails/registration_text', ['registration' => $reg]),
-            \View::make('emails/registration_html', ['registration' => $reg])
-        );
-
-        // Schedule the pre-event email to be sent to this attendee if it's already been sent to everyone else
-        if ($reg->event->batch->preevent_email_sent_at !== null && $reg->type === 'student') {
-            $sendAt = Carbon::now()->addMinutes(rand(10, 30))->addSeconds(rand(0,60));
-            $delay = $sendAt->timestamp - Carbon::now()->timestamp;
-            $timeToEvent = $reg->event->starts_at - Carbon::now()->timestamp;
-            if ($timeToEvent < $delay) {
-                $delay = 1;
-            }
-            Services\Email::LaterOnQueue(
-                $delay,
-                'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
-                $reg->name, $reg->email,
-                'CodeDay is Shortly Upon Us',
-                \View::make('emails/preevent_text', ['registration' => $reg]),
-                \View::make('emails/preevent_html', ['registration' => $reg])
-            );
-        }
+        // NOOP until we can fully remove this
     }
 
     public static function EnqueueSurveyEmail(Models\Batch\Event\Registration $reg)
     {
-        if ($reg->type !== 'student') return;
-
-        $officeHoursStart = 9;
-        $officeHoursEnd = 17;
-        $officeDays = [Carbon::MONDAY, Carbon::TUESDAY, Carbon::WEDNESDAY, Carbon::THURSDAY, Carbon::FRIDAY];
-
-        $sendAt = Carbon::now()->addMinutes(rand(10, 120))->addSeconds(rand(0,60));
-
-        if ($sendAt->hour < $officeHoursStart) {
-            $sendAt->hour = $officeHoursStart;
-        } else if ($sendAt->hour > $officeHoursEnd) {
-            $sendAt->addDay()->hour = $officeHoursStart;
-        }
-
-        while (!in_array($sendAt->dayOfWeek, $officeDays)) {
-            $sendAt->addDay();
-        }
-
-        $delay = $sendAt->timestamp - Carbon::now()->timestamp;
-
-        Services\Email::LaterOnQueue(
-            $delay,
-            'Tyler Menezes', 'menezest@codeday.org',
-            $reg->name, $reg->email,
-            'CodeDay',
-            \View::make('emails/postreg_survey', ['registration' => $reg]),
-            null,
-            true
-        );
+        // NOOP until we can fully remove this
     }
 
     public static function SendPartialRefundEmail(Models\Batch\Event\Registration $reg, $refundAmount)

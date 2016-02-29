@@ -1,0 +1,82 @@
+header .new-registration-button
+    display: inline-block
+    border: 1px solid $foreground-color-lighter
+    border-left-width: 0
+    text-decoration: none
+    padding: 0.49rem 0.75rem
+    color: $foreground-color-light !important
+body > .new-registration
+    display: none
+    position: fixed
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    background-color: rgba(0,0,0,0.8)
+    form
+        padding: 1rem
+        position: fixed
+        left: 0
+        right: 0
+        top: 10rem
+        margin: auto
+        width: 100%
+        max-width: 60rem
+        background: $background-color
+        border: 1px solid $foreground-color-light
+        +mobile
+            top: 3rem
+
+        h2
+            width: 100%
+            text-align: center
+            margin-top: 0
+
+        .field
+            padding: 0.25rem
+            label
+                vertical-align: top
+                width: 30%
+                display: inline-block
+            input, select, .group
+                width: 69%
+                display: inline-block
+            input, select
+                background-color: $background-color
+                color: $foreground-color
+                border: 1px solid $foreground-color-lighter
+                padding: 0.25rem
+
+        input[type="submit"]
+            display: block
+            width: 10rem
+            margin: 1rem auto
+            padding: 0.5rem
+            background-color: $accent-color
+            color: $background-color
+            border: none
+            border-radius: 3px
+            cursor: pointer
+
+        .cancel
+            width: 6rem
+            margin: 0 auto
+            display: block
+            text-align: center
+        
+        .attendee
+            width: 48%
+            margin-right: 4%
+        .parent
+            width: 47%
+            margin-right: 0
+        .attendee, .parent
+            display: inline-block
+            +mobile
+                display: block
+                width: 100%
+        .payment
+            .field:not(:nth-child(2))
+                display: none
+            #mm, #yy
+                width: 49%

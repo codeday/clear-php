@@ -1,0 +1,237 @@
+<section class="new-registration">
+    <form method="post" action="/new" class="info" id="register-form">
+        <h2>Create a New Registration</h2>
+        {% if me.is_admin %}
+            {% set events = managed_batch.events %}
+        {% else %}
+            {% set events = me.current_managed_events %}
+        {% endif %}
+        <div class="field">
+            <label for="batches_event_id">Event</label>
+            <select name="batches_event_id" id="batches_event_id">
+                {% for _event in events %}
+                    <option value="{{ _event.id }}" {% if _event.id == event.id %}selected{% endif %}>{{ _event.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="attendee">
+            <h3>Attendee Info</h3>
+            <div class="field">
+                <label for="first_name">First Name</label>
+                <input type="text" name="first_name" id="first_name" required />
+            </div>
+
+            <div class="field">
+                <label for="last_name">Last Name</label>
+                <input type="text" name="last_name" id="last_name" required />
+            </div>
+
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" required />
+            </div>
+
+            <div class="field">
+                <label for="type">Ticket Type</label>
+                <select name="type" id="type">
+                    {% for type in ['student', 'volunteer', 'mentor', 'teacher', 'sponsor', 'press', 'vip'] %}
+                        <option value="{{ type }}">{{ type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="parent">
+            <h3>Parent Info</h3>
+                <div class="field">
+                    <label for="parent_name">Name</label>
+                    <input type="text" name="parent_name" id="parent_name" />
+                </div>
+
+                <div class="field">
+                    <label for="parent_email">Email</label>
+                    <input type="email" name="parent_email" id="parent_email" />
+                </div>
+
+                <div class="field">
+                    <label for="parent_phone">Phone 1</label>
+                    <input type="phone" name="parent_phone" id="parent_phone" />
+                </div>
+
+                <div class="field">
+                    <label for="parent_secondary_phone">Phone 2</label>
+                    <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" />
+                </div>
+        </div>
+        <section class="payment">
+            <h3>Billing Info</h3>
+            <div class="field">
+                <label for="amount">Amount to Bill</label>
+                <input type="number" name="amount" id="amount" value="0" min="0" required />
+            </div>
+            <div class="field">
+                <label for="card">Card Info</label>
+                <div class="group combined">
+                    <div id="card-details">
+                        <input type="text" id="card" style="width:100%" placeholder="4242 4242 4242 4242" /><br />
+                        <input type="text" id="mm" name="mm" pattern="\d\d?" placeholder="MM" />
+                        <input type="text" id="yy" name="yy" pattern="\d\d(\d\d)?" placeholder="YYYY" /><br />
+                        <a href="#" id="card-swipe-handle">Swipe Card</a>
+                    </div>
+                    <div id="swipe-details" style="display:none">
+                        <input type="text" id="card-swipe-area" placeholder="Swipe card now..." />
+                        <a href="#" id="card-swipe-cancel-handle">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <input type="hidden" name="token" id="token" value="" />
+        <input type="submit" value="Register" />
+        <a href="#" class="cancel">Cancel</a>
+    {{ csrf|raw }}</form>
+</section>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+    // # Show/hide
+    $('.new-registration-button').on('click', function(e){
+        e.preventDefault();
+        $('.new-registration').css('display', 'block');
+    });
+    $('.new-registration form').on('click', function(e){
+        e.stopPropagation();
+    });
+    $('.new-registration, .cancel').on('click', function(e){
+        e.preventDefault();
+        $('.new-registration').css('display', 'none');
+        $('.new-registration input').val('');
+    });
+
+    // # Parent Info Display
+    $('#type').on('change', function(){
+        if ($('#type').val() == 'student' || $('#type').val() == 'volunteer') {
+            $('.parent').css('visibility', 'visible');
+        } else {
+            $('.parent').css('visibility', 'hidden');
+            $('.parent input').val('');
+        }
+    });
+
+    // # Payment Display
+    $("#amount").on('input', function(){
+        var paymentElems = $("#card, #mm, #yy");
+        var paymentParents = paymentElems.parents('div.field');
+        if ($(this).val() > 0) {
+            paymentElems.attr('required', true);
+            paymentParents.css('display', 'block');
+        } else {
+            paymentElems.attr('required', false).val('');
+            paymentParents.css('display', 'none');
+        }
+    });
+
+    // # Card Swiping
+    $('#card-swipe-handle').on('click', function(){
+        $('#swipe-details').css('display','block');
+        $('#card-details').css('display', 'none');
+        $('#card-swipe-area').val('').focus();
+    });
+
+    $('#card-swipe-cancel-handle').on('click', function(){
+        $('#swipe-details').css('display','none');
+        $('#card-details').css('display', 'block');
+        $('#card-swipe-area').val('');
+    });
+
+    var parseSwipeData = function(swipe)
+    {
+        var trackOneStartsAt = swipe.indexOf('%');
+        if (trackOneStartsAt < 0) throw "Unsupported reader.";
+        var trackOneEndsAt = swipe.indexOf('?');
+        var trackOneContent = swipe.substr(trackOneStartsAt + 1, trackOneEndsAt - trackOneStartsAt - 1);
+        var components = trackOneContent.split('^');
+
+        var cardType = components[0].substr(0,1);
+        var cardNumber = components[0].substr(1);
+
+        var nameComponents = components[1].split('/');
+        var name = nameComponents.length != 2 ? components[1] :
+        {first: nameComponents[1], last: nameComponents[0]};
+
+        var expMonth = components[2].substr(0,2);
+        var expYear = components[2].substr(2,2);
+
+        return {
+            type: cardType,
+            number: cardNumber,
+            name: name,
+            exp: {
+                month: expMonth,
+                year: expYear
+            }
+        };
+    }
+
+    $('#card-swipe-area').on('keydown', function(event){
+        event.stopPropagation();
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            var swiped = $(this).val();
+            var cardInfo = parseSwipeData(swiped);
+
+            $('#card').val(cardInfo.number);
+            $('#mm').val(cardInfo.exp.month);
+            $('#yy').val(cardInfo.exp.year);
+
+            if (typeof(cardInfo.name) === 'object'
+                    && $('#first_name').val().length === 0 && $('#last_name').val().length === 0) {
+                var prettyName = function(name) {
+                    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+                };
+
+                $('#first_name').val(prettyName(cardInfo.name.first));
+                $('#last_name').val(prettyName(cardInfo.name.last));
+            }
+
+            $('#card-swipe-cancel-handle').click();
+            return false;
+        }
+    });
+
+    // # Process Payments
+    Stripe.setPublishableKey('{{ stripe_pk }}');
+    $('#register-form').submit(function(e){
+        if ($("#amount").val() == 0) {
+            return;
+        }
+        e.preventDefault();
+
+        if ($('#pay-button').text() == '...') {
+            return;
+        }
+
+        $('#pay-button').text('...');
+
+        Stripe.card.createToken({
+            number: $('#card').val(),
+            exp_month: $('#mm').val(),
+            exp_year: $('#yy').val()
+        },
+        function(status, response) {
+            if (response.error) {
+                swal({
+                    title: 'Error',
+                    text: response.error.message,
+                    type: 'error'
+                });
+                $('#pay-button').text('Register');
+            } else {
+                var token = response.id;
+                $('#token').val(token);
+                $('#register-form').off().submit();
+            }
+        });
+    });
+</script>
+

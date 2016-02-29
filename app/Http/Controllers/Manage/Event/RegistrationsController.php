@@ -72,13 +72,7 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
         }
         $registration->save();
 
-        if (\Input::get('send_welcome')) {
-            Services\Registration::SendTicketEmail($registration);
-            Services\Registration::EnqueueSurveyEmail($registration);
-        }
-
         \Session::flash('status_message', $registration->name.' was registered');
-
         return \Redirect::to('/event/'.$event->id.'/registrations');
     }
 
@@ -111,12 +105,7 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
         $registration->email = \Input::get('email');
         $registration->save();
 
-        if (\Input::get('resend')) {
-            Services\Registration::SendTicketEmail($registration);
-        }
-
         \Session::flash('status_message', $registration->name.' updated');
-
         return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
     }
 
@@ -168,6 +157,22 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
 
         \Session::flash('status_message', $registration->name.' was refunded $'.number_format($amount, 2));
 
+        return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
+    }
+
+    public function postResend()
+    {
+        $event = \Route::input('event');
+        $registration = \Route::input('registration');
+        $email = Models\TransactionalEmail::where('id', '=', \Input::get('id'))->firstOrFail();
+        if ($registration->batches_event_id != $event->id ||
+            $email->batches_events_registration_id !== $registration->id) {
+            \App::abort(404);
+        }
+
+        $email->delete();
+
+        \Session::flash('status_message', 'Email queued for re-sending.');
         return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
     }
 

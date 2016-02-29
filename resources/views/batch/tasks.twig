@@ -23,30 +23,6 @@
                 </td>
             </tr>
             <tr>
-                <td class="step {% if managed_batch.preevent_email_sent_at %}done{% endif %}"><span><span></span></span></td>
-                <td>
-                    {% if managed_batch.preevent_email_sent_at %}
-                        Pre-Event Email: Sent
-                    {% else %}
-                        <form action="/batch/tasks/sendpreevent" class="inline dangerous" method="post">
-                            <input type="submit" value="Send Pre-Event Email" />
-                        {{ csrf|raw }}</form>
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td class="step {% if managed_batch.reminder_email_sent_at %}done{% endif %}"><span><span></span></span></td>
-                <td>
-                    {% if managed_batch.reminder_email_sent_at %}
-                        Reminder Email: Sent
-                    {% else %}
-                        <form action="/batch/tasks/sendreminder" class="inline dangerous" method="post">
-                            <input type="submit" value="Send Reminder Email"/>
-                            {{ csrf|raw }}</form>
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
                 <td class="step {% if managed_batch.venue_postevent_email_sent_at %}done{% endif %}"><span><span></span></span></td>
                 <td>
                     {% if managed_batch.venue_postevent_email_sent_at %}

@@ -13,6 +13,9 @@ body {
 a, a:hover, a:active, a:visited {
   color: #333; }
 
+h1, h2, h3, h4, h5, h6, input[type="submit"], button {
+  font-family: "Roboto", "Helvetica", sans-serif; }
+
 .menu-handle {
   display: none; }
 
@@ -814,29 +817,32 @@ body.event .registration.info .parent {
 body.event .registration.activities {
   clear: both;
   padding-top: 2rem; }
-  body.event .registration.activities .menu-transfer, body.event .registration.activities .menu-cancel, body.event .registration.activities .menu-ban, body.event .registration.activities .menu-refund {
-    display: none;
-    width: 100% !important; }
-  body.event .registration.activities .menu-button {
-    text-align: center;
-    height: 50px; }
-    body.event .registration.activities .menu-button button {
-      margin: 0 auto;
-      float: none; }
+  body.event .registration.activities nav form {
+    display: inline; }
+  body.event .registration.activities nav button {
+    float: none;
+    display: inline-block;
+    background: #F8F8FA;
+    border: 1px solid #cbcbda;
+    min-width: 7rem;
+    font-size: 0.9rem;
+    font-weight: 300; }
+    body.event .registration.activities nav button.pressed {
+      background: #F8F8FA;
+      border-bottom-color: #F8F8FA; }
   body.event .registration.activities h3 {
     text-align: center; }
-  body.event .registration.activities.activities-2 section {
-    width: 48%; }
-  body.event .registration.activities.activities-3 section {
-    width: 32%; }
-  body.event .registration.activities.activities-4 section {
-    width: 24%; }
   body.event .registration.activities section {
-    display: inline-block;
+    display: none;
     vertical-align: top;
-    position: relative;
-    height: 14rem; }
+    border: 1px solid #cbcbda;
+    margin-top: -1px;
+    padding: 1rem; }
     body.event .registration.activities section h4 {
+      text-align: center;
+      margin-top: 0; }
+    body.event .registration.activities section table {
+      width: 100%;
       text-align: center; }
     body.event .registration.activities section form .field input[type="text"], body.event .registration.activities section form .field select {
       clear: both;
@@ -850,9 +856,7 @@ body.event .registration.activities {
       text-align: center; }
     body.event .registration.activities section form input[type="submit"] {
       width: 100%;
-      float: none;
-      position: absolute;
-      bottom: 0; }
+      float: none; }
 body.event .sent-emails {
   padding: 0; }
   body.event .sent-emails li {
@@ -1341,5 +1345,85 @@ table.status, table.finances {
       border-width: 3px; }
     table.status tbody tr td.negative, table.finances tbody tr td.negative {
       color: #cb7972; }
+
+header .new-registration-button {
+  display: inline-block;
+  border: 1px solid #e9e9ef;
+  border-left-width: 0;
+  text-decoration: none;
+  padding: 0.49rem 0.75rem;
+  color: #cbcbda !important; }
+
+body > .new-registration {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8); }
+  body > .new-registration form {
+    padding: 1rem;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 10rem;
+    margin: auto;
+    width: 100%;
+    max-width: 60rem;
+    background: #F8F8FA;
+    border: 1px solid #cbcbda; }
+    @media screen and (max-width: 768px), screen and (min-resolution: 264dpi) and (max-device-width: 2048px) {
+      body > .new-registration form {
+        top: 3rem; } }
+    body > .new-registration form h2 {
+      width: 100%;
+      text-align: center;
+      margin-top: 0; }
+    body > .new-registration form .field {
+      padding: 0.25rem; }
+      body > .new-registration form .field label {
+        vertical-align: top;
+        width: 30%;
+        display: inline-block; }
+      body > .new-registration form .field input, body > .new-registration form .field select, body > .new-registration form .field .group {
+        width: 69%;
+        display: inline-block; }
+      body > .new-registration form .field input, body > .new-registration form .field select {
+        background-color: #F8F8FA;
+        color: #333;
+        border: 1px solid #e9e9ef;
+        padding: 0.25rem; }
+    body > .new-registration form input[type="submit"] {
+      display: block;
+      width: 10rem;
+      margin: 1rem auto;
+      padding: 0.5rem;
+      background-color: #cb7972;
+      color: #F8F8FA;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer; }
+    body > .new-registration form .cancel {
+      width: 6rem;
+      margin: 0 auto;
+      display: block;
+      text-align: center; }
+    body > .new-registration form .attendee {
+      width: 48%;
+      margin-right: 4%; }
+    body > .new-registration form .parent {
+      width: 47%;
+      margin-right: 0; }
+    body > .new-registration form .attendee, body > .new-registration form .parent {
+      display: inline-block; }
+      @media screen and (max-width: 768px), screen and (min-resolution: 264dpi) and (max-device-width: 2048px) {
+        body > .new-registration form .attendee, body > .new-registration form .parent {
+          display: block;
+          width: 100%; } }
+    body > .new-registration form .payment .field:not(:nth-child(2)) {
+      display: none; }
+    body > .new-registration form .payment #mm, body > .new-registration form .payment #yy {
+      width: 49%; }
 
 /*# sourceMappingURL=style.css.map */
