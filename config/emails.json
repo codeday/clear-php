@@ -4,11 +4,20 @@
             {
                 "id":   "ticket",
                 "subject": "Your CodeDay Ticket",
-                "html": "emails/registration/registration_html",
-                "text": "emails/registration/registration_text",
+                "html": "emails/registration/ticket_html",
+                "text": "emails/registration/ticket_text",
                 "when": "+0"               
+            },
+            {
+                "id":   "ticket_reminder",
+                "subject": "Reminder: CodeDay",
+                "html": "emails/registration/reminders/reg_html",
+                "when": "-1d",
+                "work": true,
+                "late": false
             }
         ],
+        
         "student": [
             {
                 "id":       "student_postreg",
@@ -22,20 +31,72 @@
             {
                 "id":   "student_preevent",
                 "subject": "CodeDay is Shortly Upon Us",
-                "html": "emails/registration/student_preevent_html",
-                "text": "emails/registration/student_preevent_text",
+                "html": "emails/preevent/student_html",
+                "text": "emails/preevent/student_text",
                 "when": "-3d",
                 "work": true
             },
             {
-                "id":   "student_reminder",
-                "subject": "Reminder: CodeDay",
-                "html": "emails/registration/student_reminder_html",
-                "text": "emails/registration/student_reminder_html",
-                "when": "-1d",
+                "id":   "parent_preevent",
+                "subject": "Your student is attending CodeDay",
+                "html": "emails/preevent/parent_html",
+                "when": "-3d",
                 "work": true,
-                "late": false
+                "target": "parent"
             }
-        ]
+        ],
+        
+        "volunteer": [
+            {
+                "id":   "volunteer_preevent",
+                "subject": "It's almost CodeDay",
+                "html": "emails/preevent/staff_html",
+                "when": "-3d",
+                "work": true
+            }
+        ],
+        
+        "mentor": [
+            {
+                "id":   "mentor_preevent",
+                "subject": "Mentors: What to know for CodeDay",
+                "html": "emails/preevent/mentor_html",
+                "when": "-3d",
+                "work": true
+            }
+        ],
+        
+        "teacher": [
+            {
+                "id":   "teacher_preevent",
+                "subject": "Teachers: What to know for CodeDay",
+                "html": "emails/preevent/teacher_html",
+                "when": "-3d",
+                "work": true
+            }
+        ],
+        
+        "sponsor": [
+            {
+                "id":   "sponsor_preevent",
+                "subject": "Information for CodeDay Sponsors",
+                "html": "emails/preevent/sponsor_html",
+                "when": "-3d",
+                "work": true
+            }
+        ],
+        
+        "judge": [
+            {
+                "id":   "judge_preevent",
+                "subject": "Information for CodeDay Judges",
+                "html": "emails/preevent/judge_html",
+                "when": "-3d",
+                "work": true
+            }
+        ],
+
+        "press" : [],
+        "vip": []
     }
 }

@@ -1,0 +1,58 @@
+{% extends "emails/template_transactional.twig" %}
+{% block header %}
+    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
+{% endblock %}
+{% block body %}
+    <p>Hi there {{ registration.first_name }}!</p>
+    <p>You're registered for the upcoming CodeDay as a judge; we're excited to have you join us <strong>this
+       Sunday at 9am!</strong> This email will give you all the information you will need for this weekend.</p>
+
+    <h2>Event Information</h2>
+    {% if registration.event.evangelist %}
+        <p>Your primary contact this weekend will be {{ registration.event.evangelist.name }}, who can be reached at
+           {{ registration.event.evangelist.phone }} or {{ registration.event.evangelist.email }}.</p>
+        <p>If you have any trouble with that phone number, please call (888) CODE-230: this number will route to
+           multiple staff until it reaches someone.</p>
+        <p><strong>Please arrive for judging no later than 9am on Sunday!</strong></p>
+    {% endif %}
+
+    <table width="100%">
+        <tr>
+            <td align="center">
+                <p>
+                    <strong>CodeDay is hosted at {{ registration.event.venue.name }}</strong><br />
+                    {{ registration.event.venue_address_1 }}<br />
+                    {% if registration.event.venue_address_2 %}
+                        {{ registration.event.venue_address_2 }}<br />
+                    {% endif %}
+                    {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+
+    <h2>About Judging</h2>
+
+    <p>CodeDay is judged very differently from a lot of similar events. We don't put any focus on business model, and
+       generally like to reward teams who tried something new, and who pushed themselves outside of what they could
+       already do.</p>
+    <p>We ask you to consider only the following criteria when evaluating teams:</p>
+    <ol>
+        <li>Creativity</li>
+        <li>Effort</li>
+        <li>Polish</li>
+    </ol>
+
+    <h3>Please Arrive by 9am!</h3>
+    <p>The morning's judging schedule is:</p>
+    <ul>
+        <li>9am: pre-judging</li>
+        <li>10am: presentations</li>
+        <li>11am: awards</li>
+    </ul>
+
+    <p style="text-align: center"><strong><a href="http://wiki.studentrnd.org/display/CODEDAY/Information+For+Judges">
+        See this page for more information on judging.</a></strong></p>
+{% endblock %}

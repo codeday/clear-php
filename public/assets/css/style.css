@@ -1271,7 +1271,7 @@ body.batch .tasks tr {
       border-left-color: #72CB99; }
     .attendee-list li.teacher a, .attendee-list li.mentor a {
       border-left-color: #466D98; }
-    .attendee-list li.vip a, .attendee-list li.press a, .attendee-list li.sponsor a {
+    .attendee-list li.vip a, .attendee-list li.press a, .attendee-list li.sponsor a, .attendee-list li.judge a {
       border-left-color: #333; }
 
 .event-hud {

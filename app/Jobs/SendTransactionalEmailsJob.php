@@ -40,9 +40,10 @@ class SendTransactionalEmailsJob extends Job
             $tplBindings = ['registration' => $registration];
             if (isset($email->text)) $contentText = \View::make($email->text, $tplBindings);
             if (isset($email->html)) $contentHtml = \View::make($email->html, $tplBindings);
+
             Services\Email::SendOnQueue(
                 $email->from, $email->from_e,
-                $registration->name, $registration->email,
+                $email->to, $email->to_e,
                 $email->subject,
                 $contentText, $contentHtml, $email->marketing
             );
@@ -58,7 +59,8 @@ class SendTransactionalEmailsJob extends Job
     private function getEmailsForRegistration(Models\Batch\Event\Registration $registration)
     {
         $config = $this->getEmailsJson()->registration;
-        $relevantConfig = array_merge($config->all, $config->student);
+        $type = $registration->type;
+        $relevantConfig = array_merge($config->all, $config->$type);
         $allEmails = [];
 
         foreach ($relevantConfig as $emailConfig) {
@@ -71,11 +73,23 @@ class SendTransactionalEmailsJob extends Job
             // Check if the time is before the user registered: if it is, make sure the email should still be sent.
             if ($when->lte($registration->created_at) && isset($emailConfig->late) && !$emailConfig->late) continue;
 
+            // Check if the email is going to the user's parents.
+            $to   = $registration->name;
+            $to_e = $registration->email;
+            if (isset($emailConfig->target) && $emailConfig->target == 'parent') {
+                if ($registration->parent_email !== null) {
+                    $to = $registration->parent_name;
+                    $to_e = $registration->parent_email;
+                } else continue;
+            }
+
             // Add the calculated email config.
             $email = [
                 'id'            => $emailConfig->id,
                 'when'          => $when,
                 'subject'       => $emailConfig->subject,
+                'to'            => $to,
+                'to_e'          => $to_e,
                 'marketing'     => isset($emailConfig->marketing) && $emailConfig->marketing
             ];
             if (isset($emailConfig->text)) $email['text'] = $emailConfig->text;

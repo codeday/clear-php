@@ -136,7 +136,7 @@ class Registration {
             'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
             $reg->name, $reg->email,
             'Ticket Refunded: CodeDay '.$reg->event->name,
-            \View::make('emails/reg_refund', [
+            \View::make('emails/registration/refund', [
                 'registration' => $reg,
                 'amount' => $refundAmount
             ])
@@ -149,7 +149,7 @@ class Registration {
             'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
             $reg->name, $reg->email,
             'Ticket Cancelled: CodeDay '.$reg->event->name,
-            \View::make('emails/reg_cancel', [
+            \View::make('emails/registration/cancel', [
                 'registration' => $reg,
                 'refund' => $refund
             ])

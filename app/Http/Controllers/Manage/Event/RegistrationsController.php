@@ -194,7 +194,7 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
                 'CodeDay', 'support@codeday.org',
                 $registration->name, $registration->email,
                 'Ticket Transferred: CodeDay '.$event->name.' to '.$toEvent->name,
-                \View::make('emails/reg_transfer', [
+                \View::make('emails/registration/transfer', [
                     'registration' => $registration,
                     'from_event' => $event,
                     'to_event' => $toEvent

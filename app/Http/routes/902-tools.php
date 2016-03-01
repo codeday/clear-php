@@ -17,5 +17,6 @@
     \Route::group(['before' => 's5_admin'], function(){
         \Route::controller('giftcards', 'GiftCardsController');
         \Route::controller('query', 'QueryController');
+        \Route::controller('preview', 'PreviewController');
     });
 });

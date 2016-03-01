@@ -1,0 +1,83 @@
+{% extends "emails/template_transactional.twig" %}
+{% block header %}
+    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
+{% endblock %}
+{% block body %}
+    <p>Hi there {{ registration.first_name }}!</p>
+    <p>You're registered for the upcoming CodeDay as a teacher; we're excited to have you join us this weekend! This
+       email will give you all the information you will need for this weekend.</p>
+
+    <h2>Event Information</h2>
+    {% if registration.event.evangelist %}
+        <p>Your primary contact this weekend will be {{ registration.event.evangelist.name }}, who can be reached at
+           {{ registration.event.evangelist.phone }} or {{ registration.event.evangelist.email }}.</p>
+        <p>If you hear from a parent who needs to reach a student, please give them the phone number (888) CODE-230,
+           rather than any staff numbers &mdash; this number will route to multiple staff until it reaches someone.</p>
+    {% endif %}
+
+    <table width="100%">
+        <tr>
+            <td align="center">
+                <p>
+                    <strong>CodeDay is hosted at {{ registration.event.venue.name }}</strong><br />
+                    {{ registration.event.venue_address_1 }}<br />
+                    {% if registration.event.venue_address_2 %}
+                        {{ registration.event.venue_address_2 }}<br />
+                    {% endif %}
+                    {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+
+    <h2>Teachers are Mentors at CodeDay, and Mentoring Isn't Teaching!</h2>
+    <p>Helping out at a CodeDay might not be quite what you're used to. This is in large part because <strong>we're not
+       trying to teach kids to program.</strong> We're trying to get kids to fall in love with programming, and show
+       them they're capable of doing things on their own!</p>
+    <p>This might seem like a small difference, but it makes a big difference in how you interact with students.</p>
+    <p>You're not here to be a teacher or lecturer, but to:</p>
+    <ul>
+        <li>Have conversations with students, particularly ones stuck on a problem and getting frustrated.</li>
+        <li>Ask students leading questions to help them discover their own answers.</li>
+        <li>Only in rare occasions, give them an answer directly to get them unblocked.</li>
+    </ul>
+
+    <p style="text-align: center"><strong><a href="http://wiki.studentrnd.org/display/CODEDAY/Information+For+Mentors">
+        See this page for more information on mentoring.</a></strong></p>
+
+    <hr />
+
+    <h3>Additional Contacts</h3>
+    <table class="directory">
+        <tr class="event">
+            <td>Emergency</td>
+            <td>External (parents)</td>
+            <td><a href="mailto:contact@studentrnd.org">contact@studentrnd.org</a></td>
+            <td><a href="tel:18882633230">(888) CODE-230</a></td>
+        </tr>
+        <tr class="event">
+            <td>{{ registration.event.manager.name }}</td>
+            <td>Event Manager</td>
+            <td><a href="mailto:{{ registration.event.manager.email }}">{{ registration.event.manager.email }}</a></td>
+            <td><a href="tel:{{ registration.event.manager.phone }}">{{ registration.event.manager.phone }}</a></td>
+        </tr>
+        {% if registration.event.evangelist %}
+            <tr>
+                <td>{{ registration.event.evangelist.name }}</td>
+                <td>Lead Evangelist</td>
+                <td><a href="mailto:{{ registration.event.evangelist.email }}">{{ registration.event.evangelist.email }}</a></td>
+                <td><a href="tel:{{ registration.event.evangelist.phone }}">{{ registration.event.evangelist.phone }}</a></td>
+            </tr>
+        {% endif %}
+        {% for grant in registration.event.grants %}
+            <tr>
+                <td>{{ grant.user.name }}</td>
+                <td>Volunteer</td>
+                <td><a href="mailto:{{ grant.user.email }}">{{ grant.user.email }}</a></td>
+                <td><a href="tel:{{ grant.user.phone }}">{{ grant.user.phone }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -31,7 +31,7 @@ class SendRMInfoReminderJob {
                     $event->manager->name, $event->manager->username.'@studentrnd.org',
                     'Missing Event Info Reminder For '.date('l, F j'),
                     null,
-                    \View::make('emails/rm_info_reminder_html', ['user' => $event->manager])
+                    \View::make('emails/nags/rm_info_html', ['user' => $event->manager])
                 );
             }
         } else {

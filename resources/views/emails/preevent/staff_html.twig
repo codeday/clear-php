@@ -1,0 +1,112 @@
+{% extends "emails/template_transactional.twig" %}
+{% block header %}
+    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
+{% endblock %}
+{% block body %}
+    <p>Hi there {{ registration.first_name }}!</p>
+    <p>I know what you're thinkng &mdash; &ldquo;is it really that time?&rdquo;</p>
+    <p>Yes, yes it is. Dearest staff, it is almost time for CodeDay. At 11am on Saturday, participants will start
+       wandering in for a weekend of fun, and it's only possible with your help.</p>
+    <p>This email will give you all the information you will need for this weekend.</p>
+
+    <h2>Useful Tools</h2>
+    <ul>
+        <li><a href="https://clear.codeday.org/dayof/checkin">Checkin</a></li>
+        <li><a href="https://clear.codeday.org/dayof/deck/slides">Kickoff Presentation</a></li>
+        <li><a href="http://wiki.studentrnd.org/display/EVG/Evangelism">Evangelism Guide</a></li>
+        <li><a href="https://clear.codeday.org/dayof/emergency">Participant Emergency Contacts</a></li>
+    </ul>
+
+    <h2>Event Information</h2>
+    {% if registration.event.evangelist %}
+        <p>Your primary contact this weekend will be {{ registration.event.evangelist.name }}, who can be reached at
+           {{ registration.event.evangelist.phone }} or {{ registration.event.evangelist.email }}.</p>
+        <p>If you hear from a parent who needs to reach a student, please give them the phone number (888) CODE-230,
+           rather than any staff numbers &mdash; this number will route to multiple staff until it reaches someone.</p>
+    {% endif %}
+    <p>Please read our <a href="http://wiki.studentrnd.org/display/CODEDAY/Information+For+Event+Staff">staff training
+       guide</a> for information about the day-of roles.</p>
+    
+    {% if registration.event.notes %}
+        <hr />
+        {{ registration.event.notes|markdown|raw }}
+    {% endif %}
+
+    <hr />
+    <h2>More Details</h2>
+
+    <h3>The Venue</h3>
+    <table width="100%">
+        <tr>
+            <td align="center">
+                <p>
+                    <strong>Hosted at {{ registration.event.venue.name }}</strong><br />
+                    {{ registration.event.venue_address_1 }}<br />
+                    {% if registration.event.venue_address_2 %}
+                        {{ registration.event.venue_address_2 }}<br />
+                    {% endif %}
+                    {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
+                </p>
+                {% if registration.event.venue_contact_first_name %}
+                    <p>
+                        If you have any problems, contact
+                        <a href="mailto:{{ registration.event.venue_contact_email }}">{{ registration.event.venue_contact_first_name }}
+                            {{ registration.event.venue_contact_last_name }}</a>
+                        {% if registration.event.venue_contact_phone %}
+                            at <a href="tel:{{ registration.event.venue_contact_phone }}">{{ registration.event.venue_contact_phone }}</a>
+                        {% endif %}
+                    </p>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    {% if registration.event.sponsors|length > 0 %}
+        <h3>Sponsors</h3>
+        {% for sponsor in registration.event.sponsors %}
+            <h3>{{ sponsor.name }}</h3>
+            <h4>{{ sponsor.blurb }}</h4>
+            <p>{{ sponsor.description }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <h3>Full Directory</h3>
+    <table class="directory">
+        <tr class="event">
+            <td>Emergency</td>
+            <td>External (parents)</td>
+            <td><a href="mailto:contact@studentrnd.org">contact@studentrnd.org</a></td>
+            <td><a href="tel:18882633230">(888) CODE-230</a></td>
+        </tr>
+        <tr class="event">
+            <td>{{ registration.event.manager.name }}</td>
+            <td>Event Manager</td>
+            <td><a href="mailto:{{ registration.event.manager.email }}">{{ registration.event.manager.email }}</a></td>
+            <td><a href="tel:{{ registration.event.manager.phone }}">{{ registration.event.manager.phone }}</a></td>
+        </tr>
+        {% if registration.event.evangelist %}
+            <tr>
+                <td>{{ registration.event.evangelist.name }}</td>
+                <td>Lead Evangelist</td>
+                <td><a href="mailto:{{ registration.event.evangelist.email }}">{{ registration.event.evangelist.email }}</a></td>
+                <td><a href="tel:{{ registration.event.evangelist.phone }}">{{ registration.event.evangelist.phone }}</a></td>
+            </tr>
+        {% endif %}
+        {% for grant in registration.event.grants %}
+            <tr>
+                <td>{{ grant.user.name }}</td>
+                <td>Volunteer</td>
+                <td><a href="mailto:{{ grant.user.email }}">{{ grant.user.email }}</a></td>
+                <td><a href="tel:{{ grant.user.phone }}">{{ grant.user.phone }}</a></td>
+            </tr>
+        {% endfor %}
+        {% if registration.event.venue_contact_first_name %}
+            <tr>
+                <td>{{ registration.event.venue_contact_first_name }} {{ registration.event.venue_contact_last_name }}</td>
+                <td>Venue Contact</td>
+                <td><a href="mailto:{{ registration.event.venue_contact_email }}">{{ registration.event.venue_contact_email }}</a></td>
+                <td><a href="tel:{{ registration.event.venue_contact_phone }}">{{ registration.event.venue_contact_phone }}</a></td>
+            </tr>
+        {% endif %}
+    </table>
+{% endblock %}

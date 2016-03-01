@@ -134,7 +134,7 @@
         <div class="field" style="display: none">
             <label for="type">Ticket Type</label>
             <select name="type" id="type" required>
-                {% for type in ['student', 'volunteer', 'mentor', 'teacher', 'sponsor', 'press', 'vip'] %}
+                {% for type in ['student', 'volunteer', 'mentor', 'judge', 'teacher', 'sponsor', 'press', 'vip'] %}
                     <option value="{{ type }}" {% if registration.type == type %}selected{% endif %}>{{ type }}</option>
                 {% endfor %}
             </select>

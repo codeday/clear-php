@@ -28,7 +28,7 @@ class TasksController extends \CodeDay\Clear\Http\Controller {
             Models\Batch::Managed(), 'venues',
             'Reminder: CodeDay {{ event.name }}',
             null,
-            \View::make('emails/reminder_venue_html')
+            \View::make('emails/preevent/reminders/venue_html')
         );
 
         \Session::flash('status_message', 'Email enqueued');
@@ -51,7 +51,7 @@ class TasksController extends \CodeDay\Clear\Http\Controller {
             Models\Batch::Managed(), 'venues',
             'How did we do?',
             null,
-            \View::make('emails/postevent_venue_html')
+            \View::make('emails/postevent/venue_html')
         );
 
         \Session::flash('status_message', 'Email enqueued');
@@ -73,7 +73,7 @@ class TasksController extends \CodeDay\Clear\Http\Controller {
             Models\Batch::Managed(), 'attendees',
             'Making CodeDay Better',
             null,
-            \View::make('emails/survey_html'),
+            \View::make('emails/postevent/survey_html'),
             [
                 'survey' => \Input::get('survey')
             ]

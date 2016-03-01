@@ -1,0 +1,22 @@
+{% extends "template.twig" %}
+{% block title %}Preview{% endblock %}
+{% block section %}tools{% endblock %}
+{% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Preview</h2>
+        <p>You can use this tool to preview email templates.</p>
+    </header>
+
+    <form method="post">
+        <div class="field">
+            <label for="view">View</label>
+            <input type="text" name="view" id="view" />
+        </div>
+        <div class="field">
+            <label for="id">Registration ID</label>
+            <input type="text" name="id" id="id" />
+        </div>
+        <input type="submit" value="Preview" />
+    {{ csrf|raw }}</form>
+{% endblock %}
