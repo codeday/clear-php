@@ -2,9 +2,11 @@
 
 namespace CodeDay\Clear\Jobs;
 
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Bus\Queueable;
 
-abstract class Job
+abstract class Job implements SelfHandling, ShouldQueue
 {
     /*
     |--------------------------------------------------------------------------

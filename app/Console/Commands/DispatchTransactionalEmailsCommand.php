@@ -29,7 +29,6 @@ class DispatchTransactionalEmailsCommand extends Command
      */
     public function handle()
     {
-        (new Jobs\SendTransactionalEmailsJob())->handle();
-        //$this->dispatch(new Jobs\SendTransactionalEmailsJob());
+        $this->dispatch(new Jobs\SendTransactionalEmailsJob());
     }
 }

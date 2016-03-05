@@ -12,12 +12,16 @@ class Waiver {
         $waiver = null;
         if ($reg->parent_email) {
             $toEmail = $reg->parent_email;
-            list($toFirst, $toLast) = preg_split('/\s/', $reg->parent_name);
-            if (!$toFirst) {
+            $parts = preg_split('/\s/', $reg->parent_name);
+            if (count($parts) == 0) {
                 $toFirst = 'Parent of';
                 $toLast = $reg->first_name;
-            } elseif (!$toLast) {
+            } elseif (count($parts) == 1) {
+                $toFirst = $parts[0];
                 $toLast = '?';
+            } else {
+                $toFirst = $parts[0];
+                $toLast = $parts[1];
             }
             $waiver = config('legalesign.waiver.parent');
         } elseif ($reg->parent_no_info) {

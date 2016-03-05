@@ -9,8 +9,7 @@
         <p>Type first name, last name, or email to filter the attendee list. Click the button next to an attendee to
            toggle checkin status.</p>
         <p>If only one attendee is showing, you can also press enter directly from the search box.</p>
-        <p>Attendees that are <span class="missing-parent-info">orange</span> have no parent info, and
-           you will be taken to a parent info collection page.</p>
+        <p><strong>If "missing" shows "parent info" or "waiver", please collect it from the participant!</strong></p>
     </header>
 
         <input type="text" id="search" placeholder="Search by name or email" value="" autocomplete="off" />
@@ -29,11 +28,6 @@
             #registrants {
                 width: 100%;
             }
-
-            .missing-parent-info {
-                color: orange;
-                font-weight: bold;
-            }
         </style>
         <table id="registrants" class="checkin">
             <thead>
@@ -42,6 +36,7 @@
                     <th class="email">Email</th>
                     <th class="id">Ticket</th>
                     <th class="type">Type</th>
+                    <th class="missing">Missing</th>
                     <th class="action">Check In?</th>
                 </tr>
             </thead>
@@ -49,12 +44,19 @@
                 {% for registration in event.registrations %}
                     <tr class="type-{{ registration.type }}
                         {% if registration.checked_in_at %}checked-in{% endif %}
-                        {% if not registration.parent_email and not registration.parent_no_info %}missing-parent-info{% endif %}
                         ">
                         <td class="name">{{ registration.name }}</td>
                         <td class="email">{{ registration.email }}</td>
                         <td class="id">{{ registration.id }}</td>
                         <td class="type">{{ registration.type }}</td>
+                        <td class="missing">
+                            {% if not registration.parent_email and not registration.parent_no_info %}
+                                <a href="/e/parent?r={{ registration.id }}" target="_blank">parent info</a>{% if not registration.waiver_pdf_link %},{% endif %}
+                            {% endif %}
+                            {% if not registration.waiver_pdf_link and (registration.type == 'student' or registration.type == 'volunteer')%}
+                                waiver
+                            {% endif %}
+                        </td>
                         <td class="action">
                             <form class="checkin" method="post">
                                 <input type="hidden" name="id" value="{{ registration.id }}" />
@@ -105,18 +107,6 @@
             var _this = $(this);
             var id = $(this).children('input[name="id"]').val();
             var action = $(this).children('input[name="action"]').val();
-
-            if (_this.parents('tr').hasClass('type-teacher') && action == 'in' && !confirm(
-                    "Please check that the teacher has a valid, school-issued photo ID."
-                )) {
-                return;
-            }
-
-            if (_this.parents('tr').hasClass('missing-parent-info') && action == 'in') {
-                _this.parents('tr').removeClass('missing-parent-info');
-                alert("Checked in, but missing parent info. Please collect! (Collection window opened.)");
-                window.open('/e/parent?r='+id, '_blank');
-            }
 
             $.ajax({
                 type: 'POST',

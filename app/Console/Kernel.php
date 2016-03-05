@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\ClearBeanstalkdQueueCommand::class,
-        Commands\DispatchTransactionalEmailsCommand::class
+        Commands\DispatchTransactionalEmailsCommand::class,
+        Commands\DispatchWaiverSyncCommand::class
     ];
 
     /**
@@ -27,6 +28,10 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('dispatch:transactional-emails')
                 ->everyMinute()
+                ->withoutOverlapping();
+
+        $schedule->command('dispatch:waiver-sync')
+                ->dailyAt('17:00')
                 ->withoutOverlapping();
     }
 }
