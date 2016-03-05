@@ -102,6 +102,7 @@
             {% endif %}
             <button data-for-menu="cancel">Cancel/Delete</button>
             <button data-for-menu="emails">Re-send Emails</button>
+            <button data-for-menu="waiver">Waiver</button>
             {% if me.is_admin %}
                 <button data-for-menu="webhooks">Fire Webhooks</button>
             {% endif %}
@@ -202,6 +203,32 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </section>
+
+        <section class="waiver menu-waiver">
+            {% if registration.waiver_pdf_link %}
+                <a href="{{ registration.waiver_pdf_link }}">Download</a>
+            {% elseif registration.waiver_signing_id %}
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
+                    <input type="hidden" name="action" value="resend" />
+                    <input type="submit" value="Resend waiver signing request" />
+                {{ csrf|raw }}</form>
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
+                    <input type="hidden" name="action" value="cancel" />
+                    <input type="submit" value="Cancel waiver signing request" />
+                {{ csrf|raw }}</form>
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
+                    <input type="hidden" name="action" value="sync" />
+                    <input type="submit" value="Force re-check for signature" />
+                {{ csrf|raw }}</form>
+            {% elseif registration.parent_email or registration.parent_no_info %}
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
+                    <input type="hidden" name="action" value="send" />
+                    <input type="submit" value="Send waiver signing request" />
+                {{ csrf|raw }}</form>
+            {% else %}
+                <p>Parent information not yet captured.</p>
+            {% endif %}
         </section>
 
         {% if me.is_admin %}

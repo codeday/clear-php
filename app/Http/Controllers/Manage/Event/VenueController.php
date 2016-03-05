@@ -25,7 +25,6 @@ class VenueController extends \CodeDay\Clear\Http\Controller {
         $event->venue_state = \Input::get('venue_state') ? \Input::get('venue_state') : null;
         $event->venue_postal = \Input::get('venue_postal') ? \Input::get('venue_postal') : null;
         $event->venue_country= \Input::get('venue_country') ? \Input::get('venue_country') : null;
-        $event->waiver_link = \Input::get('waiver_link') ? \Input::get('waiver_link') : null;
         $event->max_registrations = \Input::get('max_registrations') ? \Input::get('max_registrations') : null;
 
         $event->venue_contact_first_name = \Input::get('venue_contact_first_name') ? \Input::get('venue_contact_first_name') : null;

@@ -1,37 +1,63 @@
 {% extends 'email-pages/template' %}
 {% block title %}Parent Info{% endblock %}
 {% block content %}
-  <h1>Parent Info for {{ registration.name }}</h1>
-  {% if success %}
-      <p class="success">Parent info updated.</p>
-  {% endif %}
-  <form method="post">
-      <div class="field">
-          <label for="parent_name">Parent Name:</label>
-          <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
-      </div>
+    {% if registration.parent_email or registration.parent_no_info %}
+        <h1>Finalizing {{ registration.first_name }}'s Registration</h1>
+        
+        {% if success %}
+          <p class="success">Parent info updated.</p>
+        {% endif %}
 
-      <div class="field">
-          <label for="parent_email">Parent Email:</label>
-          <input type="email" name="parent_email" id="parent_email" value="{{ registration.parent_email }}" />
-      </div>
+        <p class="why">One last thing: we need {% if registration.parent_no_info %}you{% else %}your parent{% endif %} to sign a
+           waiver. Our e-signing partner, <a href="https://legalesign.com/">Legalesign</a>, sent an email to
+          {% if registration.parent_no_info %}{{ registration.email }}{% else %}{{ registration.parent_email }}{% endif %}
+          with the link. If that email is incorrect, please contact us.</p>
+    {% else %}
+        <h1>{{ registration.first_name }}'s Parent Info</h1>
+        <p class="why">If you're under 18, we need to know your parent's contact information so we can get in touch in
+            case of an emergency.</p>
 
-      <div class="field">
-          <label for="parent_phone">Parent Primary Phone:</label>
-          <input type="phone" name="parent_phone" id="parent_phone" value="{{ registration.parent_phone }}" />
-      </div>
+        <form method="post">
+          <div class="field">
+              <label for="parent_name">Parent Name:</label>
+              <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
+          </div>
 
-      <div class="field">
-          <label for="parent_secondary_phone">Parent Secondary Phone:</label>
-          <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
-      </div>
+          <div class="field">
+              <label for="parent_email">Parent Email:</label>
+              <input type="email" name="parent_email" id="parent_email" value="{{ registration.parent_email }}" />
+          </div>
 
-      <div class="field">
-          <label for="parent_no_info">Or, if you're over 18 and don't live with your parents, check here:</label>
-          <input type="checkbox" name="parent_no_info" value="1" {% if registration.parent_no_info %}checked{% endif %}/>
-      </div>
+          <div class="field">
+              <label for="parent_phone">Parent Primary Phone:</label>
+              <input type="phone" name="parent_phone" id="parent_phone" value="{{ registration.parent_phone }}" />
+          </div>
 
-      <input type="submit" value="Save"/>
-  {{ csrf|raw }}</form>
+          <div class="field">
+              <label for="parent_secondary_phone">Parent Secondary Phone:</label>
+              <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
+          </div>
+
+          <div class="field">
+              <label for="parent_no_info">Or, if you're over 18 and don't live with your parents, check here:</label>
+              <input type="checkbox" id="parent_no_info" name="parent_no_info" value="1" {% if registration.parent_no_info %}checked{% endif %}/>
+          </div>
+
+          <input type="submit" value="Save"/>
+        {{ csrf|raw }}</form>
+    {% endif %}
 {% endblock %}
-
+{% block scripts %}
+    <script type="text/javascript">
+        var updateShowHide = function() {
+            elems = $('input[type="text"], input[type="phone"], input[type="email"]').parent();
+            if ($('#parent_no_info').prop('checked')) {
+                elems.css('display', 'none');
+            } else {
+                elems.css('display', 'block');
+            }
+        };
+        updateShowHide();
+        $('#parent_no_info').on('click', updateShowHide);
+    </script>
+{% endblock %}

@@ -23,10 +23,10 @@ class VerifyCsrfToken extends BaseVerifier
 
         $response = parent::handle($request, $next);
 
-        $csp = "default-src 'self'; script-src 'unsafe-eval' 'unsafe-inline' 'self' https://*.googleapis.com https://*.stripe.com https://cdnjs.cloudflare.com https://*.filepicker.io"
+        $csp = "default-src 'self'; script-src 'unsafe-eval' 'unsafe-inline' 'self' https://*.googleapis.com https://*.stripe.com https://cdnjs.cloudflare.com https://*.filepicker.io https://*.typekit.net"
         . " http://*.filepicker.io http://code.jquery.com https://code.jquery.com https://*.gstatic.com; object-src 'self'; style-src 'self' 'unsafe-inline'"
-        . " https://*.googleapis.com https://*.gstatic.com; img-src *; media-src *; frame-src 'self' https://*.stripe.com https://*.filepicker.io;"
-        . " font-src 'self' https://*.googleapis.com https://*.gstatic.com; connect-src *;";
+        . " https://*.googleapis.com https://*.gstatic.com https://*.typekit.net; img-src 'unsafe-inline' *; media-src *; frame-src 'self' https://*.stripe.com https://*.filepicker.io;"
+        . " font-src 'self' 'unsafe-inline' https://*.googleapis.com https://*.gstatic.com https://*.typekit.net; connect-src *;";
 
         if (\Request::server("HTTP_HOST") === 'clear.codeday.org') {
             $response->headers->set('Strict-Transport-Security', '2,592,000');

@@ -133,6 +133,32 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
         return \Redirect::to('/event/'.$event->id.'/registrations');
     }
 
+    public function postWaiver()
+    {
+        $event = \Route::input('event');
+        $registration = \Route::input('registration');
+        switch (\Input::get('action')) {
+            case 'resend':
+                Services\Waiver::resend($registration);
+                \Session::flash('status_message', 'Waiver signing request resent.');
+                break;
+            case 'cancel':
+                Services\Waiver::cancel($registration);
+                \Session::flash('status_message', 'Waiver signing request cancelled.');
+                break;
+            case 'send':
+                Services\Waiver::send($registration);
+                \Session::flash('status_message', 'Waiver sent.');
+                break;
+            case 'sync':
+                Services\Waiver::sync($registration);
+                \Session::flash('status_message', 'Waiver sync complete.');
+                break;
+        }
+
+        return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
+    }
+
 
     public function postRefund()
     {

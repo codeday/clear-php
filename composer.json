@@ -20,7 +20,8 @@
         "guzzlehttp/guzzle": "6.*",
         "twilio/sdk": "~4.2",
         "aws/aws-sdk-php": "3.*",
-        "tecnickcom/TCPDF": "6.2.*"
+        "tecnickcom/TCPDF": "6.2.*",
+        "tylermenezes/legalesign-php": "^0.9"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

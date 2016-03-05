@@ -22,6 +22,12 @@
         </div>
 
         <div class="field">
+            <label for="waiver_link">Special Waiver ID</label>
+            <input type="url" name="waiver_id" id="waiver_id" placeholder="0000-0000-0000-0000" value="{{ event.waiver_id }}" />
+            <span class="help">PDF template ID if this event requires a special waiver. You'll need to create this in Legalesign.</span>
+        </div>
+
+        <div class="field">
             <label for="hide_meals">Hide Meals?</label>
             <input type="checkbox" name="hide_meals" id="hide_meals" value="1" {% if event.hide_meals %}checked{% endif %} />
             <span class="help">If checked, meals (including Lunch, Dinner, Midnight Snack, and Breakfast) will be hidden.

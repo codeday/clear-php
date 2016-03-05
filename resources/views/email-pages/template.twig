@@ -1,13 +1,32 @@
 <!doctype html>
 <html lang="en_US">
 <head>
-    <title>{{ block('title') }} // CodeDay</title>
+    <title>{{ block('title') }} ~ CodeDay</title>
     <style type="text/css">
+        * {
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+
+        body {
+            background-color: #ccc;
+        }
+
         .wrap {
+            background-color: #fff;
             width: 100%;
             max-width: 500px;
-            margin: 1rem auto;
-            font-family: Helvetica, Arial, sans-serif;
+            font-family: "proxima-nova", "Proxima Nova", Helvetica, Arial, sans-serif;
+            margin: 3rem auto;
+            padding: 1rem;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        form {
+            margin-top: 3rem;
         }
 
         .field {
@@ -19,9 +38,36 @@
             font-style: italic;
         }
 
+        .field label {
+            display: inline-block;
+            width: 38%;
+        }
+
+        .field * {
+            vertical-align: top;
+        }
+
+        .field input:not([type="checkbox"]) {
+            display: inline-block;
+            width: 60%;
+        }
+
+        input[type="submit"] {
+            float: right;
+        }
+
         p.success {
-            color: #5b5;
+            color: #fff;
             text-align: center;
+            background-color: #72CB99;
+            padding: 0.5rem 1rem;
+            margin: 2rem 1rem;
+        }
+
+        p.why {
+            text-align: center;
+            font-style: italic;
+            font-weight: 700;
         }
 
         input[type="submit"] {
@@ -53,11 +99,25 @@
             padding: 1rem;
             border: 1px solid #f55;
         }
+
+        footer {
+            padding-top: 2rem;
+            clear: both;
+            font-size: 0.7rem;
+        }
+
+        footer, footer a {
+            color: #ccc;
+        }
     </style>
 </head>
 <body>
-    <div class="wrap">
+    <script src="https://use.typekit.net/jzm7jeq.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>    <div class="wrap">
         {{ block('content') }}
+        <footer>
+            &copy; 2014-{{ null|date('Y') }} <a href="https://studentrnd.org/">StudentRND</a>
+        </footer>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

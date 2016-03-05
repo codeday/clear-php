@@ -18,6 +18,7 @@ class SpecialController extends \CodeDay\Clear\Http\Controller {
         $event->notice = \Input::get('notice') ? \Input::get('notice') : null;
         $event->name_override = \Input::get('name_override') ? \Input::get('name_override') : null;
         $event->abbr_override = \Input::get('abbr_override') ? \Input::get('abbr_override') : null;
+        $event->waiver_id = \Input::get('waiver_id') ? \Input::get('waiver_id') : null;
         $event->webname_override = \Input::get('webname_override') ? \Input::get('webname_override') : null;
         $event->save();
 

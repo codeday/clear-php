@@ -53,7 +53,7 @@
                 <div class="switch enableddisabled">
                     <input type="checkbox" name="allow_registrations" id="allow_registrations" value="1"
                            {% if event.allow_registrations %}checked{% endif %}
-                           {% if not event.venue %}disabled{% endif %} />
+                           {% if not event.venue or not event.max_registrations %}disabled{% endif %} />
                     <label for="allow_registrations">
                         <span class="inner"></span>
                         <span class="switch">&#10005;</span>

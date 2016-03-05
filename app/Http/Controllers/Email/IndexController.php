@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Http\Controllers\Email;
 
 use \CodeDay\Clear\Models;
+use CodeDay\Clear\Services;
 
 class IndexController extends \CodeDay\Clear\Http\Controller {
 
@@ -22,6 +23,10 @@ class IndexController extends \CodeDay\Clear\Http\Controller {
         $registration->parent_secondary_phone = $this->sanitizePhone(\Input::get('parent_secondary_phone'));
         $registration->parent_no_info = \Input::get('parent_no_info') ? true : false;
         $registration->save();
+
+        if ($registration->parent_email || $registration->parent_no_info) {
+            Services\Waiver::send($registration);
+        }
 
         return \View::make('email-pages/parent', [
             'registration' => $registration,
