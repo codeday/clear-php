@@ -57,13 +57,15 @@ class EmailsController extends \CodeDay\Clear\Http\Controller {
             $event, $to,
             $subject,
             null,
-            \Markdown($message),
+            \View::make('emails/event_communication_html'),
             [
+                'content' => $message,
                 'me' => Models\User::me(),
                 'event' => ModelContracts\Event::Model($event),
                 'tracking_promo_code' => $tracking_promo_code,
                 'link' => 'https://codeday.org/'.$event->region_id,
-                'register_link' => 'https://codeday.org/'.$event->region_id.'/register'
+                'register_link' => 'https://codeday.org/'.$event->region_id.'/register',
+                'is_marketing' => $isMarketing
             ],
             $isMarketing
         );

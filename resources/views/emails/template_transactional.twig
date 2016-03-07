@@ -13,6 +13,19 @@
         max-width: 600px !important;
     }
 
+    #emailHeaderLogo tr td img {
+        height:50px !important;
+        width: auto !important;
+    }
+
+    #emailHeaderLogo {
+        width: 100%;
+        padding-bottom: 14px;
+        margin-bottom: 14px;
+        border-bottom: 1px solid #ccc;
+        text-align: left;
+    }
+
     #emailContainer, #emailHeader, #emailBody, #emailFooter {
         color: #565656;
         font-family: "Helvetica", "Arial", "Verdana", sans-serif;
@@ -22,14 +35,25 @@
         max-width: 600px !important;
     }
 
+    #emailBody {
+        padding: 14px 0;
+    }
+
     h1, h2, h3, h4 {
         text-align: center;
         margin-top: 2em;
     }
 
+    #emailFooter {
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid #ccc;
+    }
+
     #emailFooter, #emailFooter a {
         font-size: 11px;
         color: #9a9a9a;
+        text-align: left;
     }
 
     hr {
@@ -40,13 +64,13 @@
     }
 
 </style>
-<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+<table border="0" cellpadding="10" cellspacing="0" height="100%" width="100%" id="bodyTable">
     <tr>
         <td align="center" valign="top">
             <table border="0" cellpadding="0" cellspacing="0" width="600" id="emailContainer">
-                {% if block('header') %}
-                    <tr>
-                        <td align="center" valign="top">
+                <tr>
+                    <td align="center" valign="top">
+                        {% if block('header') %}
                             <table border="0" cellpadding="0" cellspacing="0" width="600" id="emailHeader">
                                 <tr>
                                     <td align="center" valign="top">
@@ -54,12 +78,20 @@
                                     </td>
                                 </tr>
                             </table>
-                        </td>
-                    </tr>
-                {% endif %}
+                        {% else %}
+                            <table border="0" cellpadding="0" cellspacing="0" id="emailHeaderLogo">
+                                <tr>
+                                    <td valign="top">
+                                        <img src="https://studentrnd.org/assets/img/press/assets/brand/codeday_logo.png" width="260" height="50" />
+                                    </td>
+                                </tr>
+                            </table>
+                        {% endif %}
+                    </td>
+                </tr>
                 <tr>
                     <td align="center" valign="top">
-                        <table border="0" cellpadding="20" cellspacing="0" width="600" id="emailBody">
+                        <table border="0" cellpadding="0" cellspacing="0" width="600" id="emailBody">
                             <tr>
                                 <td align="left" valign="top">
                                     {{ block('body')}}
@@ -70,18 +102,18 @@
                 </tr>
                 <tr>
                     <td align="center" valign="top">
-                        <table border="0" cellpadding="20" cellspacing="0" width="600" id="emailFooter">
+                        <table border="0" cellspacing="0" width="600" id="emailFooter">
                             <tr>
-                                <td align="left" valign="top">
+                                <td valign="top">
                                     <p>
                                         {% block why %}
                                             You received this email because you registered for CodeDay.
                                         {% endblock %}
                                         {% block unsubscribe %}
                                             You can
-                                            <a href="https://clear.codeday.org/e/unsubscribe?e={{ registration.email|url_encode }}">unsubscribe from emails like this.</a><br />
-                                        {% endblock %}
-                                    Our mailing address is 505 Broadway E #141, Seattle, WA 98102</p>
+                                            <a href="--unsubscribe--">unsubscribe from emails like this.</a>
+                                        {% endblock %}<br />
+                                    Our mailing address is: StudentRND, 505 Broadway E #141, Seattle, WA 98102</p>
                                 </td>
                             </tr>
                         </table>

@@ -3,6 +3,8 @@ namespace CodeDay\Clear\Services;
 
 use \CodeDay\Clear\Models;
 use \CodeDay\Clear\ModelContracts;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
+use Html2Text\Html2Text;
 
 /**
  * Helps with the sending of emails to individuals or groups.
@@ -35,8 +37,6 @@ class Email {
     public static function SendOnQueue($fromName, $fromEmail, $toName, $toEmail, $subject,
                                         $contentText, $contentHtml = null, $isMarketing = false)
     {
-        if (self::isRecipientBlacklisted($toEmail, $isMarketing)) return;
-
         // Render views if they were passed in
         if (is_object($contentText) && get_class($contentText) === 'Illuminate\View\View') {
             $contentText = $contentText->render();
@@ -45,83 +45,46 @@ class Email {
             $contentHtml = $contentHtml->render();
         }
 
-        $views = [];
-        $content = [
-            'to' => $toEmail,
-            'is_marketing' => $isMarketing
-        ];
-        if ($contentText) {
-            $views['text'] = 'emails/blank_text';
-            $content['content_text'] = $contentText;
-        }
-        if ($contentHtml) {
-            $views['html'] = 'emails/blank_html';
-            $content['content_html'] = $contentHtml;
+        // Inline the CSS
+        if (isset($contentHtml)) {
+            $inliner = new CssToInlineStyles();
+            $inliner->setHtml($contentHtml);
+            $inliner->setUseInlineStylesBlock(true);
+            $inliner->setStripOriginalStyleTags(true);
+            $contentHtml = $inliner->convert();
         }
 
-        // Enqueue the email
-        \Mail::queue($views,
-            $content,
-            function($envelope) use ($fromEmail, $fromName, $toEmail, $toName, $subject) {
-                $envelope->from(trim($fromEmail), $fromName);
-                $envelope->to(trim($toEmail), $toName);
-                $envelope->subject($subject);
-            }
-        );
-    }
-
-    /**
-     * Sends an email in the future (how far in the future to be controlled by $delaySeconds).
-     *
-     * @param int           $delaySeconds           The time, in seconds, to delay sending the email.
-     * @param string        $fromName               The name of the person sending the email.
-     * @param string        $fromEmail              The email from which the email will appear to be sent.
-     * @param string        $toName                 The name of the person receiving the email.
-     * @param string        $toEmail                The email of the person receiving the email.
-     * @param string        $subject                The email subject line.
-     * @param View|string   $contentText            String or View representing the text part of the email, or null if
-     *                                              HTML-only.
-     * @param View|string   $contentHtml            String or View representing the HTML part of the email, or null if
-     *                                              text-only.
-     * @param bool          $isMarketing            True if the email is a marketing-related message and should comply
-     *                                              with CAN-SPAM. False if the message is transactional.
-     */
-    public static function LaterOnQueue($delaySeconds, $fromName, $fromEmail, $toName, $toEmail, $subject,
-                                       $contentText, $contentHtml = null, $isMarketing = false)
-    {
-        if (self::isRecipientBlacklisted($toEmail, $isMarketing)) return;
-
-        // Render views if they were passed in
-        if (is_object($contentText) && get_class($contentText) === 'Illuminate\View\View') {
-            $contentText = $contentText->render();
+        // Update unsubscribe link (the CSS inliner will remove this if we insert it before this point)
+        if (isset($contentHtml)) {
+            $contentHtml = str_replace('--unsubscribe--', '<%asm_preferences_raw_url%>', $contentHtml);
         }
-        if (is_object($contentHtml) && get_class($contentHtml) === 'Illuminate\View\View') {
-            $contentHtml = $contentHtml->render();
+        if (isset($contentText)) {
+            $contentText = str_replace('--unsubscribe--', '<%asm_preferences_raw_url%>', $contentText);
         }
 
-        $views = [];
-        $content = [
-            'to' => $toEmail,
-            'is_marketing' => $isMarketing
-        ];
-        if ($contentText) {
-            $views['text'] = 'emails/blank_text';
-            $content['content_text'] = $contentText;
-        }
-        if ($contentHtml) {
-            $views['html'] = 'emails/blank_html';
-            $content['content_html'] = $contentHtml;
+        // Generate any missing components
+        if (!isset($contentText)) {
+            $contentText = Html2Text::convert($contentHtml);
+        } elseif (!isset($contentHtml)) {
+            $contentHtml = nl2br($contentText);
         }
 
-        // Enqueue the email
-        \Mail::later($delaySeconds, $views,
-            $content,
-            function($envelope) use ($fromEmail, $fromName, $toEmail, $toName, $subject) {
-                $envelope->from(trim($fromEmail), $fromName);
-                $envelope->to(trim($toEmail), $toName);
-                $envelope->subject($subject);
-            }
-        );
+        // Submit for processing
+        \Queue::push(function($job) use ($fromName, $fromEmail, $toName, $toEmail, $subject,
+                                         $contentText, $contentHtml, $isMarketing) {
+            $sendgrid = new \SendGrid(config('sendgrid.api_key'));
+            $email = new \SendGrid\Email();
+            $email
+                ->addTo($toEmail, $toName)
+                ->setFrom($fromEmail, $fromName)
+                ->setSubject($subject)
+                ->setAsmGroupId($isMarketing ? config('sendgrid.asm.marketing') : config('sendgrid.asm.transactional'))
+                ->setText($contentText)
+                ->setHtml($contentHtml);
+
+            $sendgrid->send($email);
+            $job->delete();
+        });
     }
 
     /**
@@ -164,7 +127,7 @@ class Email {
         $contentText = self::serializeView($contentText);
         $contentHtml = self::serializeView($contentHtml);
 
-        \Queue::push(function($job) use ($listType, $fromName, $fromEmail, $eventId, $subject,
+        $fn = function($job) use ($listType, $fromName, $fromEmail, $eventId, $subject,
                                          $contentText, $contentHtml, $additionalContext, $isMarketing) {
 
             // Deserialize views
@@ -188,8 +151,16 @@ class Email {
                 } catch (\Exception $ex) {}
             }
 
-            $job->delete();
-        });
+            if (isset($job)) {
+                $job->delete();
+            }
+        };
+
+        if ($listType === 'me') {
+            $fn(null);
+        } else {
+            \Queue::push($fn);
+        }
     }
 
 

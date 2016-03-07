@@ -27,8 +27,7 @@
             <label for="to">To</label>
             <select name="to" id="to">
                 {% for option in email_list_types %}
-                    <option value="{{ option.id }}">{{ option.name }}
-                        {% if event %}({{ option.lambda|call(event)|length }}){% endif %}</option>
+                    <option value="{{ option.id }}">{{ option.name }}</option>
                 {% endfor %}
             </select>
         </div>

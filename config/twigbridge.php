@@ -111,6 +111,8 @@ return [
             'TwigBridge\Extension\Laravel\Translator',
             'TwigBridge\Extension\Laravel\Url',
 
+            'Twig_Extension_StringLoader',
+
             CodeDay\Clear\TwigFilters\JsonDecodeFilter::class,
             CodeDay\Clear\TwigFilters\LambdaFilter::class,
             CodeDay\Clear\TwigFilters\MarkdownFilter::class,
