@@ -38,6 +38,13 @@ class Event extends ModelContract
                 'value'         => function($model) { return $model->webname; }
             ],
 
+            'hashtag' => [
+                'name'          => 'Hashtag',
+                'description'   => 'The hashtag for the event. Used for loading tweets/photos. Currently just webname.',
+                'example'       => 'seattle',
+                'value'         => function($model) { return $model->region->webname; }
+            ],
+
             'urls' => [
                 'name'          => 'URLs',
                 'description'   => 'Collection of user-facing URLs related to this event. Will be null if the event is'
