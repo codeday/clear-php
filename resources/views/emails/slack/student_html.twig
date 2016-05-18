@@ -1,0 +1,24 @@
+{% extends "emails/template_transactional.twig" %}
+{% block header %}
+    <img src="https://clear.codeday.org/assets/img/email_confirm_header_01.jpg" alt="Slack Invite"/>
+{% endblock %}
+{% block unsubscribe %}{% endblock %}
+{% block body %}
+    <p>Hey {{ registration.first_name }},</p>
+
+    <p>By registering for, you've not only signed up for a weekend of fun, you've also become part of a global
+       community of students building cool things!</p>
+
+    <p>We'd like to invite you to join our community Slack (a popular chatroom service)! By joining our Slack, you'll
+       be able to talk with other students at your event and nationwide, mentors, and even some of the people on our
+       board of directors!</p>
+
+    <p>If you'd like to join us, please register at
+       <a href="https://s5apps.studentrnd.org/slack">https://s5apps.studentrnd.org/slack</a>.</p>
+
+    <p>(You will need to register for a StudentRND s5 account, which will let you sign into any other StudentRND
+        services you might need in the future.)</p>
+
+    <p>Cheers!<br />
+        The CodeDay Team</p>
+{% endblock %}

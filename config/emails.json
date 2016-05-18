@@ -37,6 +37,12 @@
                 "work": true
             },
             {
+                "id":   "student_slack",
+                "subject": "Invitation to Join the CodeDay Chat",
+                "html": "emails/slack/student_html",
+                "when": "+5d"
+            },
+            {
                 "id":   "parent_preevent",
                 "subject": "Your student is attending CodeDay",
                 "html": "emails/preevent/parent_html",
@@ -53,6 +59,13 @@
                 "html": "emails/preevent/staff_html",
                 "when": "-3d",
                 "work": true
+            },
+            {
+                "id":   "volunteer_slack",
+                "subject": "Invitation to Join the StudentRND Slack",
+                "html": "emails/slack/volunteer_html",
+                "when": "+5d",
+                "work": true
             }
         ],
         
@@ -62,6 +75,13 @@
                 "subject": "Mentors: What to know for CodeDay",
                 "html": "emails/preevent/mentor_html",
                 "when": "-3d",
+                "work": true
+            },
+            {
+                "id":   "volunteer_slack",
+                "subject": "Invitation to Join the StudentRND Slack",
+                "html": "emails/slack/volunteer_html",
+                "when": "+5d",
                 "work": true
             }
         ],
