@@ -1,0 +1,29 @@
+{% extends "template.twig" %}
+{% block title %}CSV Upload // {{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <h3>CSV Field Mapping Configuration</h3>
+    <form method="post" action="/event/{{ event.id }}/registrations/csv/finalize">
+        {% set i = 0 %}
+        {% for field in fields %}
+            <div class="field">
+                <label for="fields[{{ i }}]">{{ field[0] }}</label>
+                <select name="fields[{{ i }}]" id="fields[{{ i }}]">
+                    <option value=""></option>
+                    <option value="first_name">First Name</option>
+                    <option value="last_name">Last Name</option>
+                    <option value="email">Email</option>
+                    <option value="type">Type</option>
+                    <option value="parent_name">Parent Name</option>
+                    <option value="parent_email">Parent Email</option>
+                    <option value="parent_phone">Parent Phone</option>
+                    <option value="parent_secondary_phone">Parent Secondary Phone</option>
+                </select>
+            </div>
+            {% set i = i+1 %}
+        {% endfor %}
+        <input type="hidden" name="file" value="{{ file|escape('html_attr') }}" />
+        <input type="submit" value="Upload" />
+    {{ csrf|raw }}</form>
+{% endblock %}

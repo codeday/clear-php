@@ -1,0 +1,16 @@
+{% extends "template.twig" %}
+{% block title %}CSV Upload // {{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <h3>CSV Upload</h3>
+    <form method="post" enctype="multipart/form-data">
+        <div class="field">
+            <label for="first_name">CSV</label>
+            <input type="file" name="file" id="file" accept=".csv" required />
+            <span class="help">Upload a CSV containing, at minimum, first names, last names, and emails. Do not include
+                               column headers. You will select column mappings in the next step.</span>
+        </div>
+        <input type="submit" value="Upload" />
+    {{ csrf|raw }}</form>
+{% endblock %}
