@@ -7,7 +7,7 @@ use \CodeDay\Clear\ModelContracts;
 class Checkin extends ApiController {
     // POST /api/checkin
     // r={registration id}, check={in|out}, event={event id}, allow_missing?
-    public function getIndex()
+    public function postIndex()
     {
         $this->requirePermission(['admin']);
         $event = Models\Batch\Event::where('id', '=', \Input::get('event'))->firstOrFail();
