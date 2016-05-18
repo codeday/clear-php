@@ -6,6 +6,7 @@
     \Route::controller('register/{event}', 'Register');
 
     \Route::controller('regions', 'Regions');
+    \Route::controller('checkin', 'Checkin');
     \Route::get('region/{region}', 'Regions@getRegion');
 
     \Route::controller('events', 'Events');
