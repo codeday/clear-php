@@ -12,22 +12,13 @@
     <h2>What to Bring</h2>
     <p>You don't need much, but you do need these things:</p>
     <ul>
-        {% if registration.event.waiver %}
-            <li>The <a href="{{ registration.event.waiver }}">completed waiver</a></li>
-        {% endif %}
         <li>Laptop (or desktop with wifi card)</li>
         <li>Any software you need. If you're a beginner using Windows, we recommend you download the free edition of
             <a href="https://www.scirra.com/construct2">Construct 2</a>.</li>
         <li>Sleeping bag if you plan on sleeping</li>
         <li>Ideas (optional, but strongly recommended)</li>
+        <li><a href="https://clear.codeday.org/e/ticket?r={{ registration.id }}">Your ticket</a></li>
     </ul>
-
-    {% if registration.event.waiver %}
-        <h2>Waiver</h2>
-
-        <p>This was in the last section, but it's worth mentioning again. You must bring
-           <a href="{{ registration.event.waiver }}">a copy of the completed waiver.</a> Please print it out now.</p>
-    {% endif %}
 
     <h2>What to Use</h2>
     <ul>
@@ -57,8 +48,8 @@
     </table>
 
     <h2>Check-in</h2>
-    <p>Check-in starts at 11am. Please arrive before the start of CodeDay at noon. You do not need your tickets, we'll
-       check you in by name.</p>
+    <p>Check-in starts at 11am. Please arrive before the start of CodeDay at noon. Please bring a printed copy of
+       <a href="https://clear.codeday.org/e/ticket?r={{ registration.id }}">your ticket</a> to speed up checkin.</p>
     <p>If you gave your tickets to someone else, please reply to this email posthaste so we can get him or her a proper
        badge.</p>
 

@@ -11,7 +11,7 @@
             {
                 "id":   "ticket_reminder",
                 "subject": "Reminder: CodeDay",
-                "html": "emails/registration/reminders/reg_html",
+                "html": "emails/preevent/reminders/reg_html",
                 "when": "-1d",
                 "work": true,
                 "late": false

@@ -42,6 +42,8 @@ class FlyerController extends \CodeDay\Clear\Http\Controller
         $pdf->SetMargins(0.5, 0.5, 0.5);
         $pdf->SetHeaderMargin(0);
         $pdf->SetFooterMargin(0);
+        $pdf->SetPrintHeader(false);
+        $pdf->SetPrintFooter(false);
 
         //set auto page breaks
         $pdf->SetAutoPageBreak(false);

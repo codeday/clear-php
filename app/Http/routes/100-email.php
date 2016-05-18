@@ -4,5 +4,6 @@
     \Route::controller('/incoming', 'IncomingController');
     \Route::controller('/flyer/{event}', 'FlyerController');
     \Route::controller('/flyer', 'FlyerController');
+    \Route::controller('/ticket', 'TicketController');
     \Route::controller('', 'IndexController');
 });

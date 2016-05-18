@@ -13,12 +13,8 @@ You were charged {{ registration.amount_paid }} for this ticket.
 As soon as you can, please fill out the parent info form: https://clear.codeday.org/e/parent?r={{ registration.id }}
 
 If you have any questions about the event or your ticket, just reply to this email.
-{% if registration.event.waiver_link %}
 
-One last note: Please make sure to bring the completed waiver to the event: {{ registration.event.waiver_link }}
-{% endif %}
-
-You don't need to bring this email to CodeDay, we will check you in by name.
+Your ticket can be downloaded at: https://clear.codeday.org/e/ticket?r={{ registration.id }}
 {% endautoescape %}
 
 Your registration ID is {{ registration.id }}.

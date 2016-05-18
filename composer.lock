@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0e2d82dbacc45b7cafef4d78b3ff4cf1",
-    "content-hash": "6176d940b83550d3c5ec0fab1f3cc20c",
+    "hash": "1d5bf1bc7b94f72b1a22ee09b6a400eb",
+    "content-hash": "4630334878a3cf69dcf401c477c1d3de",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -649,6 +649,51 @@
                 }
             ],
             "time": "2015-04-20 18:58:01"
+        },
+        {
+            "name": "jbdemonte/barcode",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lucabartoli/barcode.git",
+                "reference": "dff97efe26c2593bde7dfd5a1929afead4c85201"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lucabartoli/barcode/zipball/dff97efe26c2593bde7dfd5a1929afead4c85201",
+                "reference": "dff97efe26c2593bde7dfd5a1929afead4c85201",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JBDemonte": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Jean-Baptiste DEMONTE",
+                    "email": "jbdemonte@gmail.com"
+                },
+                {
+                    "name": "Jonathan HOUREZ"
+                }
+            ],
+            "description": "BarCode Coder Library (BCC Library), GD and FPDF compatible",
+            "homepage": "http://barcode-coder.com/en/",
+            "keywords": [
+                "barcode",
+                "fpdf",
+                "gd"
+            ],
+            "time": "2014-04-14 16:15:39"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -1670,7 +1715,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ab77a057b656ace011b2033833d566f7e62666bf",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/0865efd9099baf3e6162fb0962f4a9712108ed23",
                 "reference": "ab77a057b656ace011b2033833d566f7e62666bf",
                 "shasum": ""
             },

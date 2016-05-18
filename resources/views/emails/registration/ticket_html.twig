@@ -9,10 +9,8 @@
     <p>If you have any questions about the event or your ticket, just reply to this email.</p>
     <p>As soon as you have a chance, please fill out the
         <a href="https://clear.codeday.org/e/parent?r={{ registration.id }}">parent info form.</a></p>
-    {% if registration.event.waiver_link %}
-    <p>One last note: Please make sure to bring <a href="{{ registration.event.waiver_link }}">the completed waiver</a>
-        to the event.</p>
-    {% endif %}
+    <p>You should also <a href="https://clear.codeday.org/e/ticket?r={{ registration.id }}">print your ticket</a> to
+       speed up check-in on the day-of.</p>
 
     <hr/>
 
@@ -41,7 +39,7 @@
                     </tr>
                 </table>
 
-                <p>You don't need to bring this email to CodeDay, we will check you in by name.</p>
+                <img src="https://clear.codeday.org/e/ticket/barcode?r={{ registration.id }}" />
 
                 <hr/>
 
@@ -56,7 +54,6 @@
                         {% endif %}
                         {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
                     {% endif %}
-                    <p><small>Reg ID: {{ registration.id }}</small></p>
                 </p>
             </td>
         </tr>
