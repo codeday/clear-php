@@ -38,7 +38,7 @@ use CodeDay\Clear\Models;
         \Route::post('/registrations/attendee/{registration}/webhook', 'RegistrationsController@postWebhook');
         \Route::post('/registrations/attendee/{registration}/resend', 'RegistrationsController@postResend');
         \Route::post('/registrations/attendee/{registration}/waiver', 'RegistrationsController@postWaiver');
-        \Route::controller('/registrations/csv', 'CsvController');
+        \Route::controller('/registrations/bulk', 'BulkController');
         \Route::controller('/registrations', 'RegistrationsController');
 
         \Route::get('/sponsors/{sponsor}/edit', 'SponsorsController@getEdit');

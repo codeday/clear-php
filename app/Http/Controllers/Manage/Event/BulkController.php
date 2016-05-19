@@ -3,13 +3,13 @@ namespace CodeDay\Clear\Http\Controllers\Manage\Event;
 
 use \CodeDay\Clear\Models;
 
-class CsvController extends \CodeDay\Clear\Http\Controller {
+class BulkController extends \CodeDay\Clear\Http\Controller {
     /**
      * Uploads the file
      */
     public function getIndex()
     {
-        return \View::make('event/registrations/csv/index');
+        return \View::make('event/registrations/bulk/index');
     }
 
     /**
@@ -22,7 +22,7 @@ class CsvController extends \CodeDay\Clear\Http\Controller {
 
         unlink(\Input::file('file'));
 
-        return \View::make('event/registrations/csv/fields', ['file' => $file, 'fields' => $fields]);
+        return \View::make('event/registrations/bulk/fields', ['file' => $file, 'fields' => $fields]);
     }
 
     /**

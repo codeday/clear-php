@@ -4,7 +4,7 @@
 {% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
 {% block content %}
     <h3>CSV Field Mapping Configuration</h3>
-    <form method="post" action="/event/{{ event.id }}/registrations/csv/finalize">
+    <form method="post" action="/event/{{ event.id }}/registrations/bulk/finalize">
         {% set i = 0 %}
         {% for field in fields %}
             <div class="field">
