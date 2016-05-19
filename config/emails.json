@@ -40,7 +40,7 @@
                 "id":   "student_slack",
                 "subject": "Invitation to Join the CodeDay Chat",
                 "html": "emails/slack/student_html",
-                "when": "+5d"
+                "when": "+0"
             },
             {
                 "id":   "parent_preevent",
