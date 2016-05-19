@@ -417,14 +417,14 @@ class Event extends \Eloquent {
                 'time' => 2,
                 'title' => 'Beginner: Intro to coding',
                 'type' => 'workshop',
-                'url' => 'https://www.scirra.com/tutorials/37/beginners-guide-to-construct-2',
+                'url' => 'https://blog.srnd.org/jumping-over-chairs-and-learning-to-make-a-game-with-construct-2-a796f4def9e9#.v37wzagti',
                 'description' => "Totally new to coding? No problem! Attend this workshop and we'll walk you through creating your first game."
             ],
             (Object)[
                 'time' => 5,
                 'title' => 'Splunk: Make your game better with data',
                 'type' => 'workshop',
-                'url' => 'https://studentrnd.org/build/making-better-games-with-splunk',
+                'url' => 'https://blog.srnd.org/making-better-games-with-splunk-975cd2a605ce',
                 'description' => 'Learn how others play your game and use that knowledge to make it more fun with minimal work.'
             ]
         ];
