@@ -132,13 +132,6 @@
 
         .slide.sponsors h1 {
             color: #000;
-            font-size: 5rem;
-            text-align: center;
-            margin: 0.5rem;
-        }
-
-        .slide.sponsors h2 {
-            color: #000;
             font-size: 2rem;
             text-align: center;
             margin: 0.5rem;
@@ -161,11 +154,10 @@
             margin: 30px 30px;
         }
 
-        .slide.sponsors.event div img {
-            width: 20rem;
-            height: auto;
-            margin: 30px 30px;
+        .slide.sponsors p.blurb {
+            font-size: 2rem;
         }
+
     </style>
 </head>
 <body>
@@ -178,87 +170,27 @@
         </hgroup>
     </section>
 
-    {% if event.batch.video_id %}
-        <section class="slide video">
-            <h1>Global Video</h1>
-            <iframe src="//www.youtube.com/embed/{{ event.batch.video_id }}?autohide=1&disablekb=1&fs=0&modestbranding=1&rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
-            <p>(Click arrow to advance to next slide.)</p>
-        </section>
+    <section class="slide">
+    <script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js" async></script><div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;"><div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;"><div class="wistia_embed wistia_async_qdkprjanhh videoFoam=true" style="height:100%;width:100%">&nbsp;</div></div></div></section>
+
+    {% if (event.sponsors|length) > 0 %}
+        {% for sponsor in event.sponsors %}
+            <section class="slide sponsors event">
+                <h1>Local Sponsor</h1>
+                <div>
+                    <span><img src="/api/i/sponsor/{{ sponsor.id }}_256.jpg" alt="{{ sponsor.name }}" /></span>
+                    <p class="blurb">
+                        {{ sponsor.blurb }}
+                    </p>
+                    {% if sponsor.blurb != sponsor.description %}
+                        <p class="description">
+                            {{ sponsor.description }}
+                        </p>
+                    {% endif %}
+                </div>
+            </section>
+        {% endfor %}
     {% endif %}
-
-    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/technologists.jpg)">
-        <hgroup>
-            <h2>StudentRND makes students</h2>
-            <h1>Fall in love with coding</h1>
-        </hgroup>
-    </section>
-
-    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/time.jpg)">
-        <hgroup>
-            <h2>As students, there's often</h2>
-            <h1>Not Enough Time</h1>
-        </hgroup>
-        <div class="credit">
-            Photo by marcp_dmoz - https://www.flickr.com/photos/marcp_dmoz/4037053218 - CC BY-NC-SA
-        </div>
-    </section>
-
-    <section class="slide" style="background-image: url(/assets/img/kickoff/busy.jpg)">
-        <!-- study -->
-        <div class="credit">
-            Photo by Youssef Abdelaal - https://www.flickr.com/photos/youssefabdelaal/3198473615 - CC BY-NC-SA
-        </div>
-    </section>
-
-    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/nottoday.jpg)">
-        <hgroup>
-            <h1>Not Today</h1>
-            <h2>Today is CodeDay. Here's how it works:</h2>
-        </hgroup>
-    </section>
-
-    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/ideas.jpg)">
-        <hgroup>
-            <h2>Think of</h2>
-            <h1>Fun Ideas</h1>
-        </hgroup>
-    </section>
-
-    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/pitch.jpg)">
-        <hgroup>
-            <h1>Pitch Your Ideas</h1>
-        </hgroup>
-    </section>
-
-    <section class="slide title bottom" style="background-image: url(/assets/img/kickoff/teams.jpg)">
-        <hgroup>
-            <h1>Form Teams</h1>
-        </hgroup>
-    </section>
-
-    <section class="slide title" style="background-image: url(/assets/img/kickoff/build.jpg)">
-        <hgroup>
-            <h1>Build It</h1>
-        </hgroup>
-    </section>
-
-    <section class="slide title" style="background-image: url(/assets/img/kickoff/fun.jpg)">
-        <hgroup>
-            <h1>Have Fun</h1>
-        </hgroup>
-    </section>
-
-    <section class="slide title" style="background-image: url(/assets/img/kickoff/present.jpg)">
-        <hgroup>
-            <h1>Present It</h1>
-        </hgroup>
-    </section>
-
-    <section class="slide title" style="background-image: url(/assets/img/kickoff/learn.jpg)">
-        <hgroup>
-            <h1>Go Learn</h1>
-        </hgroup>
-    </section>
 
     <section class="slide list" style="background-image: url(/assets/img/kickoff/workshops.jpg)">
         <div>
@@ -283,27 +215,6 @@
                 <li>Best App</li>
                 <li>Best Game</li>
             </ul>
-        </div>
-    </section>
-
-    {% if (event.sponsors|length) > 0 %}
-        <section class="slide sponsors event">
-            <h2>Time to hear from our</h2>
-            <h1>Event Sponsors</h1>
-            <div>
-                {% for sponsor in event.sponsors %}
-                    <span><img src="/api/i/sponsor/{{ sponsor.id }}_256.jpg" alt="{{ sponsor.name }}" /></span>
-                {% endfor %}
-            </div>
-        </section>
-    {% endif %}
-
-    <section class="slide sponsors">
-        <h2>Thanks again to our</h2>
-        <h1>Global Sponsors</h1>
-        <div>
-            <span><img src="/assets/img/sponsors/splunk.png" alt="Splunk" /></span>
-            <span><img src="/assets/img/sponsors/lexisnexis.jpg" alt="Lexis Nexis" /></span>
         </div>
     </section>
 

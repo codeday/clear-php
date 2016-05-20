@@ -46,12 +46,12 @@ class CheckinController extends \CodeDay\Clear\Http\Controller {
         ]);
 
         // Draw the configuration barcode
-        $im = \imagecreate(180, 180); 
+        $im = \imagecreate(130, 130); 
         $black = \imagecolorallocate($im, 0, 0, 0);
-        $white  = \imagecolorallocate($im, 255, 255, 255);
+        $white  = \imagecolorallocate($im, 248, 248, 250);
 
         imagefilledrectangle($im, 0, 0, 200, 200, $white);
-        Barcode::gd($im, $black, 90, 90, 0, "datamatrix", $configuration, 3);
+        Barcode::gd($im, $black, 65, 65, 0, "datamatrix", $configuration, 2);
 
         $response = \Response::make('', 200);
         // Images bigger than ~100x100px will cause PHP to flush the output buffer, so we need to send a header now
