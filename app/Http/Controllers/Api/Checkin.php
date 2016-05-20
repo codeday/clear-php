@@ -18,11 +18,11 @@ class Checkin extends ApiController {
                 \App::abort(404);
             }
             
-            if (Models\User::me()->username != $event->manager_username
-                && Models\User::me()->username != $event->evangelist_username
-                && !$event->isUserAllowed(Models\User::me())
-                && !Models\User::me()->is_admin) {
-                \App::abort(403);
+            if ($user->username != $event->manager_username
+                && $user->username != $event->evangelist_username
+                && !$event->isUserAllowed($user)
+                && !$user->is_admin) {
+                    \App::abort(403);
             }
 
             $this->permissions = ['admin'];
