@@ -5,13 +5,56 @@ use \CodeDay\Clear\Models;
 use \CodeDay\Clear\ModelContracts;
 
 class Checkin extends ApiController {
+    public function __construct() {
+        if (\Input::get('token')) {
+            $user = Models\User::fromToken(\Input::get('token'));
+            $event = Models\Batch\Event::where('id', '=', \Input::get('event'))->first();
+
+            if (!isset($user)) {
+                \App::abort(403);
+            }
+
+            if (!isset($event)) {
+                \App::abort(404);
+            }
+            
+            if (Models\User::me()->username != $event->manager_username
+                && Models\User::me()->username != $event->evangelist_username
+                && !$event->isUserAllowed(Models\User::me())
+                && !Models\User::me()->is_admin) {
+                \App::abort(403);
+            }
+
+            $this->permissions = ['admin'];
+            $this->application = true;
+        } else {
+            $this->setApplicationOrFail();
+        }
+    }
+
     // POST /api/checkin
     // r={registration id}, check={in|out}, event={event id}, allow_missing?
     public function postIndex()
     {
         $this->requirePermission(['admin']);
         $event = Models\Batch\Event::where('id', '=', \Input::get('event'))->firstOrFail();
-        $registration = Models\Batch\Event\Registration::where('id', '=', \Input::get('r'))->where('batches_event_id', '=', $event->id)->firstOrFail();
+        $registration = Models\Batch\Event\Registration::where('id', '=', \Input::get('r'))->first();
+
+        if (!$registration) {
+            return json_encode((object)[
+                'success' => false,
+                'error' => 'Registration does not exist.'
+            ]);
+        }
+
+
+        if ($registration->batches_event_id !== $event->id) {
+            return json_encode((object)[
+                'success' => false,
+                'error' => 'Incorrect event ('.$registration->event->fullName.').'
+            ]);
+        }
+
         $check = \Input::get('check');
         $allowMissing = \Input::get('allow_missing') ? true : false;
 

@@ -46,6 +46,12 @@ class User extends \Eloquent {
         return false;
     }
 
+    public function getTokenAttribute()
+    {
+        $sign = hash_hmac('sha256', $this->username, config('app.key'));
+        return base64_encode(implode('$', [$this->username, $sign]));
+    }
+
     public function forget()
     {
         \Session::forget('s5_username');
@@ -73,6 +79,14 @@ class User extends \Eloquent {
         }
 
         return $me;
+    }
+
+    public static function fromToken($token)
+    {
+        list($username, $signature) = explode('$', base64_decode($token));
+        if (hash_hmac('sha256', $username, config('app.key')) == $signature) {
+            return self::where('username', '=', $username)->first();
+        } else return null;
     }
 
     public static function fromS5Username($username)

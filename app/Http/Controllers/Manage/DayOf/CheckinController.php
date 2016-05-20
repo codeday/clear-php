@@ -1,6 +1,7 @@
 <?php
 namespace CodeDay\Clear\Http\Controllers\Manage\DayOf;
 
+use JBDemonte\Barcode;
 use \CodeDay\Clear\Models;
 use \CodeDay\Clear\ModelContracts;
 
@@ -34,5 +35,37 @@ class CheckinController extends \CodeDay\Clear\Http\Controller {
         }
 
         return json_encode((object)['status' => 200]);
+    }
+
+    public function getConfiguration()
+    {
+        $configuration = json_encode((object)[
+            'eventId' => getDayOfEvent()->id,
+            'eventName' => getDayOfEvent()->fullName,
+            'token' => Models\User::me()->token
+        ]);
+
+        // Draw the configuration barcode
+        $im = \imagecreate(180, 180); 
+        $black = \imagecolorallocate($im, 0, 0, 0);
+        $white  = \imagecolorallocate($im, 255, 255, 255);
+
+        imagefilledrectangle($im, 0, 0, 200, 200, $white);
+        Barcode::gd($im, $black, 90, 90, 0, "datamatrix", $configuration, 3);
+
+        $response = \Response::make('', 200);
+        // Images bigger than ~100x100px will cause PHP to flush the output buffer, so we need to send a header now
+        // but images smaller than that won't cause any output buffering, so we need to return a response with the
+        // proper header so it doesn't get overridden.
+        //
+        // This wouldn't be a problem if imagepng would return instead of echoing.
+        header('Content-type: image/png');
+        header('Cache-control: public,max-age=604800,no-transform');
+        $response->header('Content-Type', 'image/png');
+        $response->header('Cache-control', 'public,max-age=604800,no-transform');
+
+        \imagepng($im);
+        return $response;
+
     }
 }
