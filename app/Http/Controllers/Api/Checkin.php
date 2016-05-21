@@ -72,14 +72,13 @@ class Checkin extends ApiController {
         }
 
         if ($check === 'in') {
-            if ($allowMissing || ($hasParent && $hasWaiver)) {
-                $registration->checked_in_at = \Carbon\Carbon::now();
-                $registration->save();
-                \Event::fire('registration.checkin', $registration);
-            } else {
+            $registration->checked_in_at = \Carbon\Carbon::now();
+            $registration->save();
+            \Event::fire('registration.checkin', $registration);
+            if (!$allowMissing && (!$hasParent || !$hasWaiver)) {
                 return json_encode((object)[
                     'success' => false,
-                    'error' => 'Waiver or parent info missing',
+                    'error' => 'Checked in; missing '.(!$hasParent ? 'parent/waiver' : 'waiver').'.',
                     'registration' => ModelContracts\Registration::Model($registration, $this->permissions)
                 ]);
             }
