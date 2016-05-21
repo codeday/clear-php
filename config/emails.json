@@ -49,6 +49,12 @@
                 "when": "-3d",
                 "work": true,
                 "target": "parent"
+            },
+            {
+                "id":   "student_resources",
+                "subject": "CodeDay Resources",
+                "html": "emails/preevent/student_resources",
+                "when": "-1h"
             }
         ],
         

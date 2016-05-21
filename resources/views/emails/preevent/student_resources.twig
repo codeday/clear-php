@@ -1,0 +1,19 @@
+{% extends "emails/template_transactional.twig" %}
+{% block header %}
+  <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
+{% endblock %}
+{% block body %}
+    <p>Hi {{ registration.first_name }},</p>
+
+    <p>We're excited to have you with us for CodeDay! Here are some resources which might help you enjoy your experience
+     just a little bit more :)</p>
+
+    <ul>
+        <li><a href="https://codeday.org/">See the schedule on your event's website.</a></li>
+        <li><a href="https://s5apps.studentrnd.org/slack">Talk with attendees and mentors in over 40 cities nationwide in our Slack.</a></li>
+        <li><a href="https://mentor.codeday.org/">Need help? Request a mentor from wherever you're working.</a></li>
+        <li><a href="https://www.snapchat.com/add/studentrnd">Add us on Snapchat and see how CodeDay's going in cities nationwide.</a></li>
+        <li><a href="https://twitter.com/studentrnd">Tell your friends and parents to follow @StudentRND on Twitter for realtime updates!</a></li>
+        <li><a href="https://teams.codeday.org/">Register your team to show the world your awesome project.</a></li>
+    </ul>
+{% endblock %}
