@@ -3,6 +3,8 @@ namespace CodeDay\Clear\Http\Controllers\Email;
 
 use CodeDay\Clear\Models;
 use JBDemonte\Barcode;
+use Passbook\Pass;
+use Passbook\Type\EventTicket;
 
 class TicketController extends \CodeDay\Clear\Http\Controller
 {
@@ -84,5 +86,56 @@ class TicketController extends \CodeDay\Clear\Http\Controller
         imagestring($im, 5, 65, 80, trim(chunk_split($registration->id, 3, ' ')), $black);
 
         return $im;
+    }
+
+    public function getApple()
+    {
+        $registration = Models\Batch\Event\Registration::where('id', '=', \Input::get('r'))->firstOrFail();
+
+        $pass = new EventTicket($registration->id, $registration->event->full_name);
+        $pass->setBackgroundColor('rgb(60, 65, 76)');
+        $pass->setLogoText('StudentRND');
+
+        $structure = new Pass\Structure();
+        $primary = new Pass\Field('event', $registration->event->full_name);
+        $primary->setLabel('Event');
+        $structure->addPrimaryField($primary);
+
+        $secondary = new Pass\Field('location', $registration->event->venue_name);
+        $secondary->setLabel('Location');
+        $structure->addSecondaryField($secondary);
+
+        $auxiliary = new Pass\Field('datetime', date('Y-m-d', $registration->event->starts_at).' @12:00');
+        $auxiliary->setLabel('Date & Time');
+        $structure->addAuxiliaryField($auxiliary);
+
+        // Add icon image
+        $icon = new Pass\Image(base_path().'/resources/img/pass.png', 'icon');
+        $pass->addImage($icon);
+
+        // Set pass structure
+        $pass->setStructure($structure);
+
+        // Add barcode
+        $barcode = new Pass\Barcode(Pass\Barcode::TYPE_QR, $registration->id);
+        $pass->setBarcode($barcode);
+
+        $outDir = sys_get_temp_dir().'/'.str_random(10);
+        $outFile = $outDir.'/'.$registration->id.'.pkpass';
+        $factory = new \Passbook\PassFactory(\Config::get('apple.passid'), \Config::get('apple.teamid'),
+            \Config::get('apple.team'), base_path().'/resources/signing/'.\Config::get('apple.passid').'.p12',
+            \Config::get('apple.passp12password'), base_path().'/resources/signing/apple_wwdrca.pem');
+        $factory->setOutputPath($outDir);
+        $factory->package($pass);
+
+        $out = file_get_contents($outFile);
+
+        unlink($outFile);
+        rmdir($outDir);
+
+
+        return response($out)
+            ->header('Content-type', 'application/vnd.apple.pkpass')
+            ->header('Content-Disposition', 'attachment; filename="codeday-tickets.pkpass"');
     }
 }

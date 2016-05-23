@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1d5bf1bc7b94f72b1a22ee09b6a400eb",
-    "content-hash": "4630334878a3cf69dcf401c477c1d3de",
+    "hash": "a30a39b62f03da09723ed8366069eb33",
+    "content-hash": "eec15fe7850fa0dec3b12e84d0b91d25",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -296,6 +296,62 @@
                 "string"
             ],
             "time": "2015-11-06 14:35:42"
+        },
+        {
+            "name": "eo/passbook",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eymengunay/php-passbook.git",
+                "reference": "db4f235fb9f1e77c77eb844fed8420a75ca3073a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eymengunay/php-passbook/zipball/db4f235fb9f1e77c77eb844fed8420a75ca3073a",
+                "reference": "db4f235fb9f1e77c77eb844fed8420a75ca3073a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "ext-zip": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Passbook\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eymen Gunay",
+                    "email": "eymen@egunay.com"
+                }
+            ],
+            "description": "iOS Passbook for PHP",
+            "homepage": "https://github.com/eymengunay/php-passbook",
+            "keywords": [
+                "coupons",
+                "ios",
+                "mobile",
+                "pass",
+                "passbook",
+                "tickets",
+                "wallet"
+            ],
+            "time": "2016-04-24 21:25:58"
         },
         {
             "name": "guzzle/guzzle",

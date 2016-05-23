@@ -38,8 +38,15 @@
                         <td style="font-weight: bold; border-top: 1px solid #565656">{{ registration.order_amount_paid|number_format(2) }}</td>
                     </tr>
                 </table>
-
-                <img src="https://clear.codeday.org/e/ticket/barcode?r={{ registration.id }}" />
+                <p><img src="https://clear.codeday.org/e/ticket/barcode?r={{ registration.id }}" /></p>
+                <p>
+                    <a href="https://clear.codeday.org/e/ticket/apple?r={{ registration.id }}">
+                        <img src="https://clear.codeday.org/assets/img/ticket-apple.png" />
+                    </a>
+                    <a href="https://clear.codeday.org/e/ticket?r={{ registration.id }}">
+                        <img src="https://clear.codeday.org/assets/img/ticket-print.png" />
+                    </a>
+                </p>
 
                 <hr/>
 
