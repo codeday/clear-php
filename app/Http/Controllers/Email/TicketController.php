@@ -101,7 +101,7 @@ class TicketController extends \CodeDay\Clear\Http\Controller
         $primary->setLabel('Event');
         $structure->addPrimaryField($primary);
 
-        $secondary = new Pass\Field('location', $registration->event->venue_name);
+        $secondary = new Pass\Field('location', $registration->event->venue_name ? $registration->event->venue_name : 'TBA');
         $secondary->setLabel('Location');
         $structure->addSecondaryField($secondary);
 
