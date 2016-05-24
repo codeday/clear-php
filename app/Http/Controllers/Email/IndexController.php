@@ -5,6 +5,13 @@ use \CodeDay\Clear\Models;
 use CodeDay\Clear\Services;
 
 class IndexController extends \CodeDay\Clear\Http\Controller {
+    public function getFeedback(){
+        $registration = Models\Batch\Event\Registration::where('id', '=', \Input::get('r'))->firstOrFail();
+
+        return \View::make('email-pages/feedback', [
+            'registration' => $registration
+        ]);
+    }
 
     public function getParent(){
         $registration = Models\Batch\Event\Registration::where('id', '=', \Input::get('r'))->firstOrFail();

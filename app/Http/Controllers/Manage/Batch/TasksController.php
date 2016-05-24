@@ -69,14 +69,12 @@ class TasksController extends \CodeDay\Clear\Http\Controller {
         $batch->save();
 
         Services\Email::SendToBatch(
-            'Tyler Menezes', 'tylermenezes@studentrnd.org',
+            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
             Models\Batch::Managed(), 'attendees',
-            'Making CodeDay Better',
+            'How was CodeDay?',
             null,
             \View::make('emails/postevent/survey_html'),
-            [
-                'survey' => \Input::get('survey')
-            ]
+            []
         );
 
         \Session::flash('status_message', 'Email enqueued');

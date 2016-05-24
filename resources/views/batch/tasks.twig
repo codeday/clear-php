@@ -42,7 +42,6 @@
                     {% else %}
                         <form action="/batch/tasks/sendsurvey" class="inline dangerous" method="post">
                             <input type="submit" value="Send Survey Email"/>
-                            <input type="text" name="survey" id="survey" placeholder="Survey URL" required />
                             {{ csrf|raw }}</form>
                     {% endif %}
                 </td>

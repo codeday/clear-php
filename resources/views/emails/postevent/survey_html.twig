@@ -2,31 +2,8 @@
 {% block body %}
     <p>Hi {{ registration.first_name }},</p>
 
-    <p>I really hope you enjoyed CodeDay this past weekend!</p>
+    <p>Thank you for attending CodeDay this weekend! We hope we lived up to your expectations!</p>
 
-    <p>My goal with CodeDay is to create an environment where you can meet cool people, work on interesting projects,
-       learn something new, and have a lot of fun. To do that, I need your help.</p>
+    <p><a href="https://clear.codeday.org/e/feedback?r={{ registration.id }}">Would you be willing to share your experience with us?</a> Your feedback helps us make future CodeDays even better!</p>
 
-    <p>At the first CodeDay in 2011, I personally talked to each of the participants during the event. As we've started
-       bringing CodeDay into more and more cities nationwide, however, that's become impossible to do.</p>
-
-    <p>That's why I'm reaching out to you now, {{ registration.first_name }}. Could you take 5 minutes to tell us about
-       your experience at CodeDay &mdash; what went well, and what we could have done better for you?</p>
-
-    <hr />
-
-    <p>My team has put together a quick survey here, and we'd be really appreciative if you'd take it:
-        <a href="{{ survey }}?event={{ registration.event.webname }}">{{ survey }}?event={{ registration.event.webname }}</a></p>
-
-    <hr />
-
-    <p>Survey aside, if you had a bad experience, want to let us know about a staff member who did a great job, or have
-       anything else to say, I welcome replies to this email. (Yes, this email was sent by a computer, but I personally
-       read and reply to any replies!)</p>
-
-    <p>Again, thank you so much for attending CodeDay! We all really put our hearts into making this a great event, and
-       it's all because we love getting to know you and seeing the cool things you make.</p>
-
-    <p>Tyler Menezes<br />
-       Executive Director, StudentRND</p>
 {% endblock %}
