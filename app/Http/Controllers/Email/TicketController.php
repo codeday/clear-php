@@ -93,10 +93,18 @@ class TicketController extends \CodeDay\Clear\Http\Controller
         $registration = Models\Batch\Event\Registration::where('id', '=', \Input::get('r'))->firstOrFail();
 
         $pass = new EventTicket($registration->id, $registration->event->full_name);
-        $pass->setBackgroundColor('rgb(60, 65, 76)');
-        $pass->setLogoText('StudentRND');
+        $pass->setBackgroundColor('rgb(203, 121, 114)');
+        $pass->setForegroundColor('rgb(255, 255, 255)');
+        $pass->setSuppressStripShine(true);
+
+        //$pass->setExpirationDate((new \Carbon\Carbon($registration->event->starts_at))->addDays(2)->timestamp());
 
         $structure = new Pass\Structure();
+
+        $type = new Pass\Field('type', ucfirst($registration->type));
+        $type->setLabel('Ticket');
+        $structure->addHeaderField($type);
+
         $primary = new Pass\Field('event', $registration->event->full_name);
         $primary->setLabel('Event');
         $structure->addPrimaryField($primary);
@@ -105,13 +113,19 @@ class TicketController extends \CodeDay\Clear\Http\Controller
         $secondary->setLabel('Location');
         $structure->addSecondaryField($secondary);
 
-        $auxiliary = new Pass\Field('datetime', date('Y-m-d', $registration->event->starts_at).' @12:00');
-        $auxiliary->setLabel('Date & Time');
-        $structure->addAuxiliaryField($auxiliary);
+        $sDate = new Pass\Field('date', date('M j, Y', $registration->event->starts_at));
+        $sDate->setLabel('Starts');
+        $sTime = new Pass\Field('time', '11am');
+        $sTime->setLabel('Doors Open');
+        $price = new Pass\Field('price', '$'.$registration->amount_paid);
+        $price->setLabel('Price');
+        $structure->addAuxiliaryField($sDate);
+        $structure->addAuxiliaryField($sTime);
+        $structure->addAuxiliaryField($price);
 
-        // Add icon image
-        $icon = new Pass\Image(base_path().'/resources/img/pass.png', 'icon');
-        $pass->addImage($icon);
+        $pass->addImage(new Pass\Image(base_path().'/resources/img/pass.png', 'icon'));
+        $pass->addImage(new Pass\Image(base_path().'/resources/img/logo.png', 'logo'));
+        $pass->addImage(new Pass\Image(base_path().'/resources/img/jump.png', 'thumbnail'));
 
         // Set pass structure
         $pass->setStructure($structure);
