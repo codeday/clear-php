@@ -33,6 +33,23 @@ class Event extends \Eloquent {
         return $this->batch->name;
     }
 
+    //Calculates the average age of an attendee as long as they're within the 'scope'
+    public function getAvgAgeAttribute()
+    {
+        $age = 0;
+        $count = 0;
+        foreach($this->registrations as $reg){
+            if($reg->age > 5 && $reg->age < 30){
+                $age += $reg->age;
+                $count++;
+            }
+        }
+
+        $age = $age / $count;
+        return $age;
+    
+    }
+
     public function getStartsAtAttribute()
     {
         return Carbon::createFromTimestamp($this->batch->starts_at->timestamp, $this->region->timezone)
