@@ -38,6 +38,7 @@ class Event extends \Eloquent {
     {
         $age = 0;
         $count = 0;
+
         foreach($this->registrations as $reg){
             if($reg->age > 5 && $reg->age < 30){
                 $age += $reg->age;
@@ -45,9 +46,14 @@ class Event extends \Eloquent {
             }
         }
 
-        $age = $age / $count;
+        if($count !== 0){
+          $age = $age / $count;
+        }else{
+          $age = 0;
+        }
+
         return $age;
-    
+
     }
 
     public function getStartsAtAttribute()
@@ -74,9 +80,9 @@ class Event extends \Eloquent {
             ->first();
     }
 
-    public function getOverflowForAttribute()                                                       
-    {                                                                                               
-        return self::where('id', '=', $this->overflow_for_id)->first();                             
+    public function getOverflowForAttribute()
+    {
+        return self::where('id', '=', $this->overflow_for_id)->first();
     }
 
     public function overflowEvents()
