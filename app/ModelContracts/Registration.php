@@ -88,6 +88,13 @@ class Registration extends ModelContract
                 'value'         => function($model) { return $model->parent_secondary_phone; }
             ],
 
+            'age' => [
+                'name'          => 'Age of Attendee',
+                'description'   => 'Age of the person attending the event.',
+                'example'       => '13',
+                'value'         => function($model) { return floatval($model->age); }
+            ],
+
             /* Price-Related Properties */
             'amount_paid' => [
                 'name'          => 'Amount Paid',

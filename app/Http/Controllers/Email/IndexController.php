@@ -28,7 +28,9 @@ class IndexController extends \CodeDay\Clear\Http\Controller {
         $registration->parent_email = \Input::get('parent_email') ? \Input::get('parent_email') : null;
         $registration->parent_phone = $this->sanitizePhone(\Input::get('parent_phone'));
         $registration->parent_secondary_phone = $this->sanitizePhone(\Input::get('parent_secondary_phone'));
-        $registration->parent_no_info = \Input::get('parent_no_info') ? true : false;
+        $registration->age = \Input::get('attendee_age') ? \Input::get('attendee_age') : null;
+        $registration->parent_no_info = $registration->age >= 18; 
+
         $registration->save();
 
         if ($registration->parent_email || $registration->parent_no_info) {
