@@ -3,15 +3,6 @@
 {% block section %}dayof{% endblock %}
 {% block subnav %}{% include "dayof/subnav.twig" %}{% endblock %}
 {% block content %}
-    <header>
-        <h2>Checkin</h2>
-        <p>You can use this to check in attendees at the door.</p>
-        <p>Type first name, last name, or email to filter the attendee list. Click the button next to an attendee to
-           toggle checkin status.</p>
-        <p>If only one attendee is showing, you can also press enter directly from the search box.</p>
-        <p><strong>If "missing" shows "parent info" or "waiver", please collect it from the participant!</strong></p>
-    </header>
-
         <input type="text" id="search" placeholder="Search by name or email" value="" autocomplete="off" />
         <style type="text/css">
             .checked-in td {

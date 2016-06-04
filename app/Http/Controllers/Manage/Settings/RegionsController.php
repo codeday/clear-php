@@ -18,6 +18,16 @@ class RegionsController extends \CodeDay\Clear\Http\Controller {
     {
         $region = \Route::input('region');
         $region->name = \Input::get('name');
+        $region->id = \Input::get('webname');
+        $region->abbr = \Input::get('abbr');
+        $region->lat = \Input::get('lat');
+        $region->lng = \Input::get('lng');
+
+        if (\Input::hasFile('image')) {
+            $filePath = \Input::file('image')->getRealPath();
+            $region->image = file_get_contents($filePath);
+        }
+
         $region->save();
 
         \Session::flash('status_message', 'Region updated');

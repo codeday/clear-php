@@ -9,36 +9,39 @@
     {% endif %}
     
     <a href="/event/{{ event.id }}" class="event-hud {{ status }}">
-        <span class="name">{{ event.name }}</span>
-        <ul class="stats">
-            {% if not event.allow_registrations_calculated %}
-                <li class="primary">
-                    <span class="number">{{ event.notify.count }}</span>
-                    <span class="label">Subscribers</span>
-                </li>
-            {% elseif not event.batch.starts_at.isFuture %}
-                <li class="primary">
-                    <span class="number">{{ event.attendees_here.count }}</span>
-                    <span class="label">Here</span>
-                </li>
-                <li>
-                    <span class="number">{{ event.registrations.count }}</span>
-                    <span class="label">Registered</span>
-                </li>
-            {% else %}
-                <li class="primary">
-                    <span class="number">{{ event.registrations.count }}</span>
-                    <span class="label">Registered</span>
-                </li>
-                <li>
-                    <span class="number">{{ event.registrations_today|length }}</span>
-                    <span class="label">Today</span>
-                </li>
-                <li>
-                    <span class="number">{{ event.registrations_this_week|length }}</span>
-                    <span class="label">This Week</span>
-                </li>
-            {% endif %}
-        </ul>
+        <div class="image" style="background-image: url(/api/i/region/{{ event.region_id }}_512,256.jpg"></div>
+        <div class="data">
+            <span class="name">{{ event.name }}</span>
+            <ul class="stats">
+                {% if not event.allow_registrations_calculated %}
+                    <li class="primary">
+                        <span class="number">{{ event.notify.count }}</span>
+                        <span class="label">Subscribers</span>
+                    </li>
+                {% elseif not event.batch.starts_at.isFuture %}
+                    <li class="primary">
+                        <span class="number">{{ event.attendees_here.count }}</span>
+                        <span class="label">Here</span>
+                    </li>
+                    <li>
+                        <span class="number">{{ event.registrations.count }}</span>
+                        <span class="label">Registered</span>
+                    </li>
+                {% else %}
+                    <li class="primary">
+                        <span class="number">{{ event.registrations.count }}</span>
+                        <span class="label">Registered</span>
+                    </li>
+                    <li>
+                        <span class="number">{{ event.registrations_today|length }}</span>
+                        <span class="label">Today</span>
+                    </li>
+                    <li>
+                        <span class="number">{{ event.registrations_this_week|length }}</span>
+                        <span class="label">This Week</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </a>
 {% endmacro %}

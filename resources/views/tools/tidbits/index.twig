@@ -2,17 +2,16 @@
 {% block title %}Tidbits{% endblock %}
 {% block section %}tools{% endblock %}
 {% block subnav %}{% include "tools/subnav.twig" %}{% endblock %}
+{% import "widgets/regions.twig" as regions %}
 {% block content %}
     <header>
         <h2>Tidbits</h2>
         <p>See tidbits of information for past events.</p>
     </header>
 
-    <ul>
-        {% for region in all_regions %}
-            {% if region.events|length > 0 %}
-                <li><a href="/tools/tidbits/{{ region.id }}">{{ region.name }}</a></li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+    {% for region in all_regions %}
+        {% if region.events|length > 0 %}
+            <a href="/tools/tidbits/{{ region.id }}" class="region-link">{{ regions.region(region) }}</a>
+        {% endif %}
+    {% endfor %}
 {% endblock %}

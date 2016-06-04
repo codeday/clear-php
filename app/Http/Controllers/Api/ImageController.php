@@ -14,6 +14,8 @@ class ImageController extends \CodeDay\Clear\Http\Controller
         switch ($class) {
             case "sponsor":
                 return Models\Batch\Event\Sponsor::find($id);
+            case "region":
+                return Models\Region::find($id);
             default:
                 \App::abort(404);
         }
@@ -26,6 +28,8 @@ class ImageController extends \CodeDay\Clear\Http\Controller
         switch ($class) {
             case "sponsor":
                 return $this->getClass()->logo;
+            case "region":
+                return $this->getClass()->image;
             default:
                 \App::abort(404);
         }

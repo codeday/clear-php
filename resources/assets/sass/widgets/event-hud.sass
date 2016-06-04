@@ -1,21 +1,33 @@
 .event-hud
     display: block
     text-decoration: none
-    padding: 1rem
     border-top: 5px solid transparent
     &.open
-        border-top-color: darken($color-green, 20%)
-        background-color: $color-green
+        border-top-color: $color-green
+        .data
+            background-color: transparentize($color-green, 0.2)
     &.venue
-        border-top-color: darken($color-blue, 20%)
-        background-color: $color-blue
+        border-top-color: $color-blue
+        .data
+            background-color: transparentize($color-blue, 0.4)
     &.closed
-        border-top-color: darken($color-red, 20%)
-        background-color: $color-red
+        border-top-color: $color-red
+        .data
+            background-color: transparentize($color-red, 0.2)
     &.sold-out
-        border-top-color: darken($foreground-color, 20%)
-        background-color: $foreground-color
-    
+        border-top-color: $foreground-color
+        .data
+            background-color: transparentize($foreground-color, 0.2)
+
+    .data, .image
+        width: 100%
+        height: 8rem
+        padding: 1rem
+
+    .image
+        margin-bottom: -8rem
+        background-size: cover
+
     .name
         display: block
         font-size: 2rem

@@ -5,13 +5,37 @@
 {% block content %}
     <header>
         <h2>Region Details: {{ region.name }}</h2>
-        <p><i>Please note, this page is not permanent, it will be either deleted or expanded upon later.</i></p>
     </header>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="field">
             <label for="name">Name</label>
             <input required type="text" name="name" id="name" value="{{ region.name }}" placeholder="Seattle" />
             <span class="help">The region city, to be used in various places across the website.</span>
+        </div>
+        <div class="field">
+            <label for="webname">Webname</label>
+            <input required type="text" name="webname" id="webname" value="{{ region.webname }}" placeholder="seattle" />
+            <span class="help">The ID used in URLs for these cities.</span>
+        </div>
+        <div class="field">
+            <label for="abbr">Abbr</label>
+            <input required type="text" name="abbr" id="abbr" value="{{ region.abbr }}" placeholder="SEA" />
+            <span class="help">A 2-4 letter city name, used for HUDs. Usually the airport code.</span>
+        </div>
+        <div class="field">
+            <label for="lat">Lat</label>
+            <input required type="text" name="lat" id="lat" value="{{ region.lat }}" placeholder="-120.01" />
+            <span class="help">The city's latitude</span>
+        </div>
+        <div class="field">
+            <label for="lng">Lng</label>
+            <input required type="text" name="lng" id="lng" value="{{ region.lng }}" placeholder="40.12" />
+            <span class="help">The city's longitude</span>
+        </div>
+        <div class="field">
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image" accept="image/*" />
+            <span class="help">An image of the city, used for generating some images in Clear.</span>
         </div>
         <input type="submit" value="Save" />
         {{ csrf|raw }}
