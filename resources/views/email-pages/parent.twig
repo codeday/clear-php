@@ -17,47 +17,127 @@
         <p class="why">If you're under 18, we need to know your parent's contact information so we can get in touch in
             case of an emergency.</p>
 
-        <form method="post">
-          <div class="field">
-              <label for="parent_name">Parent Name:</label>
-              <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
+        <form method="post" id="parent_info_collector">
+          <!--Section manages the age collection and workflow.-->
+          <div class="getAgeSection">
+            <div class="field">
+              <label for="attendee_age" id="attendee_label">Age of Attendee:</label>
+              <input type = "number" name = "attendee_age" id="attendee_age" value = "{{ registration.age }}">
+            </div>
+            <button class="parent_nextStep">Next</button>
           </div>
 
-          <div class="field">
-              <label for="parent_email">Parent Email:</label>
-              <input type="email" name="parent_email" id="parent_email" value="{{ registration.parent_email }}" />
+          <!--If the user is under 18 then it will show this section.-->
+          <div class="parent_required_information" style="display:none;">
+              <div class="field">
+                  <label for="parent_name">Parent Name:</label>
+                  <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
+              </div>
+
+              <div class="field">
+                  <label for="parent_email">Parent Email:</label>
+                  <input type="email" name="parent_email" id="parent_email" value="{{ registration.parent_email }}" />
+              </div>
+
+              <div class="field">
+                  <label for="parent_phone">Parent Primary Phone:</label>
+                  <input type="phone" name="parent_phone" id="parent_phone" value="{{ registration.parent_phone }}" />
+              </div>
+
+              <div class="field">
+                  <label for="parent_secondary_phone">Parent Secondary Phone:</label>
+                  <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
+              </div>
           </div>
 
-          <div class="field">
-              <label for="parent_phone">Parent Primary Phone:</label>
-              <input type="phone" name="parent_phone" id="parent_phone" value="{{ registration.parent_phone }}" />
+          <!--If the user is under 9 then this section will show.-->
+          <div class="parent_warnings" style="display:none; color:red">
+            <h3>Warning</h3>
+            <ul>
+              <li class="whichWarning"></li>
+            </ul>
+            <button class="user_oked">I Understand</button>
           </div>
 
-          <div class="field">
-              <label for="parent_secondary_phone">Parent Secondary Phone:</label>
-              <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
+          <!--Shows after the user hits submit.-->
+          <div class="submit_thankyou" style="display:none;">
+            <h3>Thank you, we are processing your request.</h3>
           </div>
 
-          <div class="field">
-              <label for="parent_no_info">Or, if you're over 18, check here:</label>
-              <input type="checkbox" id="parent_no_info" name="parent_no_info" value="1" {% if registration.parent_no_info %}checked{% endif %}/>
-          </div>
-
-          <input type="submit" value="Save"/>
+          <input type="submit" value="Save" id="saveApplicationData" style="display:none;"/>
         {{ csrf|raw }}</form>
     {% endif %}
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript">
-        var updateShowHide = function() {
-            elems = $('input[type="text"], input[type="phone"], input[type="email"]').parent();
-            if ($('#parent_no_info').prop('checked')) {
-                elems.css('display', 'none');
-            } else {
-                elems.css('display', 'block');
-            }
-        };
-        updateShowHide();
-        $('#parent_no_info').on('click', updateShowHide);
+
+    var updateShowHide = function(e){
+       var  age = $('#attendee_age').val();
+
+        //BL : 18 years and over does not need to fill out this form.  But we still want to collect that for use.
+        if (age < 5 || age > 35){
+          showAgeError();
+        } else if(age >= 18 && age < 25){
+          //Submit the page
+          quickSubmitForm(e);
+        } else if(age < 9 || age >= 25) {
+          showUserWarnings(age);
+        } else {
+          showRestOfPage();
+        }
+    }
+
+    var moveNextStep = function(e){
+      e.preventDefault();
+      updateShowHide(e);
+    };
+
+    var moveWarningStepNext = function(e){
+      e.preventDefault();
+      if($("#attendee_age").val() >= 25){
+        quickSubmitForm(e);
+      } else {
+        showRestOfPage();
+      }
+    };
+
+    var showAgeError = function(){
+      $("#attendee_label").html('Error : Invalid Age Entered').css('background-color', 'red');
+    };
+
+    var showRestOfPage = function(e){
+      $(".getAgeSection").slideUp('slow');
+      $('.parent_required_information').slideDown('slow');
+      $("#saveApplicationData").fadeIn('slow');
+      $(".parent_warnings").slideUp('slow');
+    };
+
+    var quickSubmitForm = function(e){
+      e.preventDefault();
+      $(".submit_thankyou").fadeIn('slow');
+      $("#saveApplicationData").fadeOut('slow');
+      $("#parent_info_collector").submit();
+    }
+
+    var hideWholePage = function(){
+      $('.parent_required_information').slideUp('slow');
+      $("#saveApplicationData").fadeIn('slow');
+    };
+
+    var showUserWarnings = function(age){
+      if(age < 9){
+        $(".whichWarning").html("While younger students are welcome to attend, Codeday is geared towards students in middle school, high school or college.  If you are still interested in attending please click otherwise contact us @ <a href='contact.codeday.org''>here</a>");
+      } else if (age >= 25){
+        $(".whichWarning").html("CodeDay is geared towards students in middle school, high school or college.  If you are a mentor and have accidently reached this page please contact us :  <a href='contact.codeday.org'>here</a>.  If you're still interested in attending please click, 'I Understand.'");
+      }
+
+      $(".getAgeSection").slideUp('slow');
+      $('.parent_warnings').slideDown('slow');
+    };
+
+    $(".parent_nextStep").on('click', moveNextStep);
+    $("#saveApplicationData").on('click', quickSubmitForm);
+    $(".user_oked").on('click', moveWarningStepNext);
+
     </script>
 {% endblock %}

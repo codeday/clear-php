@@ -3,6 +3,8 @@
 \Route::group(['namespace' => 'Api', 'prefix' => 'api', 'middleware' => ['api']], function() {
     \Route::get('stats', 'Stats@getIndex');
 
+    \Route::get('application/', 'Application@getApplication');
+
     \Route::controller('register/{event}', 'Register');
 
     \Route::controller('regions', 'Regions');
