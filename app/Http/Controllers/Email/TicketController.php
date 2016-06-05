@@ -10,11 +10,7 @@ class TicketController extends \CodeDay\Clear\Http\Controller
 {
     public function getIndex()
     {
-        $registration = Models\Batch\Event\Registration::where('id', '=', \Input::get('r'))->firstOrFail();
         $pdf = new \TCPDF('P', 'in', 'LETTER', true, 'UTF-8', false);
-
-        $barcodeFile = tempnam(sys_get_temp_dir(), 'clear-barcode').'.png';
-        imagepng($this->generateBarcode($registration), $barcodeFile); 
 
         //set margins
         $pdf->SetMargins(0.5, 0.5, 0.5);
@@ -41,18 +37,66 @@ class TicketController extends \CodeDay\Clear\Http\Controller
 
         $pdf->SetFont('dejavusans', '', 14, '', true);
 
-        $pdf->AddPage();
+        foreach (explode(',', \Input::get('r')) as $r) {
+            $registration = Models\Batch\Event\Registration::where('id', '=', $r)->firstOrFail();
 
-        $html = \View::make('emails/ticket', ['registration' => $registration, 'barcode' => $barcodeFile])->render();
+            $barcodeFile = tempnam(sys_get_temp_dir(), 'clear-barcode').'.png';
+            imagepng($this->generateBarcode($registration), $barcodeFile); 
 
-        $pdf->writeHTMLCell($w=0, $h=0, $x='', $y='', $html);
+            $pdf->AddPage();
+            $html = \View::make('emails/ticket', ['registration' => $registration, 'barcode' => $barcodeFile])->render();
+            $pdf->writeHTMLCell($w=0, $h=0, $x='', $y='', $html);
+ 
+            unlink($barcodeFile);
+        }
 
         $bin = $pdf->Output('codeday-tickets.pdf', 'S');
-        unlink($barcodeFile);
 
         return response($bin)
             ->header('Content-type', 'application/pdf')
             ->header('Content-Disposition', 'inline; filename="codeday-tickets.pdf"');
+    }
+
+    public function getReceipt()
+    {
+        $pdf = new \TCPDF('P', 'in', 'LETTER', true, 'UTF-8', false);
+
+        //set margins
+        $pdf->SetMargins(0.5, 0.5, 0.5);
+        $pdf->SetHeaderMargin(0);
+        $pdf->SetFooterMargin(0);
+        $pdf->SetPrintHeader(false);
+        $pdf->SetPrintFooter(false);
+
+        //set auto page breaks
+        $pdf->SetAutoPageBreak(false);
+
+        //set image scale factor
+        $pdf->setImageScale(1);
+
+        // set document information
+        $pdf->SetCreator('Clear');
+        $pdf->SetAuthor('StudentRND');
+        $pdf->SetTitle('CodeDay Receipt');
+        $pdf->SetSubject('CodeDay Receipt');
+        $pdf->SetKeywords('codeday,receipt');
+
+        // set default font subsetting mode
+        $pdf->setFontSubsetting(true);
+
+        $pdf->SetFont('dejavusans', '', 14, '', true);
+
+        $reg = Models\Batch\Event\Registration::where('id', '=', explode(',', \Input::get('r'))[0])->firstOrFail();
+
+        $pdf->AddPage();
+        $html = \View::make('emails/receipt', ['registrations' => $reg->all_in_order])->render();
+        $pdf->writeHTMLCell($w=0, $h=0, $x='', $y='', $html);
+
+        $bin = $pdf->Output('codeday-receipt.pdf', 'S');
+
+        return response($bin)
+            ->header('Content-type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="codeday-receipt.pdf"');
     }
 
     public function getBarcode()

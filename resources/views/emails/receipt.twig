@@ -1,0 +1,29 @@
+<table><tr><td width="20%"></td><td style="text-align: center" width="60%">
+    <h1>{{ registrations[0].event.full_name }}</h1>
+    <h2 style="font-size: 0.9em">Receipt</h2>
+    <table style="font-size: 0.6em">
+        <thead>
+            <tr style="font-weight: bold">
+                <th style="border-bottom: 2px solid #000">Attendee</th>
+                <th style="border-bottom: 2px solid #000">Cost</th>
+                <th style="border-bottom: 2px solid #000">Refunds</th>
+                <th style="border-bottom: 2px solid #000">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set cost = 0 %}
+            {% for registration in registrations %}
+                <tr>
+                    <td>{{ registration.name }}</td>
+                    <td>${{ (registration.amount_paid + registration.amount_refunded)|number_format(2) }}</td>
+                    <td>{% if registration.amount_refunded > 0 %}(${{ registration.amount_refunded|number_format(2) }}){% endif %}</td>
+                    <td>${{ registration.amount_paid }}</td>
+                    {% set cost = cost + registration.amount_paid %}
+                </tr>
+            {% endfor %}
+            <tr><td></td><td></td><td style="border-top: 1px solid #000;font-weight: bold">Total: </td><td style="border-top: 1px solid #000;font-weight: bold">${{ cost|number_format(2) }}</td></tr>
+        </tbody>
+    </table><br />
+    <span style="font-size: 0.6em">Paid on {{ registration.created_at|date('F j, Y g:i A') }}</span>
+</td><td width="20%"></td>
+</tr></table>

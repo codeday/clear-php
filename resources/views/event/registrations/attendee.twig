@@ -6,6 +6,7 @@
 {% block content %}
     <header class="registration details">
         <h2>{{ registration.name }}</h2>
+        <p>(<a href="/e/ticket?r={{ registration.id }}">Ticket</a>, <a href="/e/ticket/receipt?r={{ registration.id }}">receipt</a>)</p>
         {% if registration.previous_registrations|length > 0 %}
             <section class="previous">
                 <h3>Previous Attendance:</h3>
