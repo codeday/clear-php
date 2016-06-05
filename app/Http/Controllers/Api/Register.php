@@ -239,7 +239,8 @@ class Register extends \CodeDay\Clear\Http\Controller {
         }
 
         return [
-            'status' => 200
+            'status' => 200,
+            'ids' => array_map(function($reg) { return $reg->id; }, $registrations)
         ];
     }
 }
