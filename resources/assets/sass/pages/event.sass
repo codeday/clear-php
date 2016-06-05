@@ -165,19 +165,28 @@ body.event
                         font-size: 1.7rem
 
     .registration
+        &.details
+            .previous
+                display: inline-block
+                width: 66%
+                vertical-align: top
+            .related
+                display: inline-block
+                width: 30%
+                margin-left: 3%
+                vertical-align: top
+
         &.info
             .attendee
-                width: 50%
                 display: inline-block
+                width: 50%
                 vertical-align: top
             .parent
+                display: inline-block
                 width: 45%
                 padding-left: 5%
-                display: inline-block
                 vertical-align: top
         &.activities
-            clear: both
-            padding-top: 2rem
             nav
                 form
                     display: inline
@@ -186,7 +195,7 @@ body.event
                     display: inline-block
                     background: $background-color
                     border: 1px solid $foreground-color-light
-                    min-width: 7rem
+                    min-width: 6rem
                     font:
                         size: 0.9rem
                         weight: 300

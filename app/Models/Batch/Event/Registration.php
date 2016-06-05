@@ -40,6 +40,11 @@ class Registration extends \Eloquent {
             ->get();
     }
 
+    public function getPreviousRegistrationsAttribute()
+    {
+        return self::where('email', '=', $this->email)->where('id', '!=', $this->id)->get();
+    }
+
     public function getAllInOrderAttribute()
     {
         if (!$this->stripe_id) {

@@ -2,100 +2,26 @@
 {% block title %}{{ registration.name }} // {{ event.full_name }}{% endblock %}
 {% block section %}event{% endblock %}
 {% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% import "widgets/attendees.twig" as a %}
 {% block content %}
-    <section class="info registration">
-        <h3>Update Attendee Information</h3>
-        <p>Registered on {{ registration.created_at|date('F j, Y g:i A') }}</p>
-        <form method="post" class="info">
-            <div class="attendee">
-                <h4>Attendee Info</h4>
-                <div class="field">
-                    <label for="first_name">First Name</label>
-                    <input type="text" name="first_name" id="first_name" value="{{ registration.first_name }}" required />
-                </div>
-
-                <div class="field">
-                    <label for="last_name">Last Name</label>
-                    <input type="text" name="last_name" id="last_name" value="{{ registration.last_name }}" required />
-                </div>
-
-                <div class="field">
-                    <label for="email">Email</label>
-                    <input type="text" name="email" id="email" value="{{ registration.email }}" required />
-                </div>
-
-                <div class="field">
-                    <label for="type">Ticket Type</label>
-                    <select name="type" id="type">
-                        {% for type in ['student', 'volunteer', 'mentor', 'judge', 'teacher', 'sponsor', 'press', 'vip'] %}
-                            <option value="{{ type }}" {% if registration.type == type %}selected{% endif %}>{{ type }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-
-            <div class="parent">
-                <h4>Parent Info</h4>
-                {% if registration.parent_no_info %}
-                    <p>(Over 18)</p>
-                    <input type="hidden" name="parent_name" value="{{ registration.parent_name }}" />
-                    <input type="hidden" name="parent_email" value="{{ registration.parent_email }}"/>
-                    <input type="hidden" name="parent_phone" value="{{ registration.parent_phone }}" />
-                    <input type="hidden" name="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
-                {% else %}
-                    <div class="field">
-                        <label for="parent_name">Name</label>
-                        <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
-                    </div>
-
-                    <div class="field">
-                        <label for="parent_email">Email</label>
-                        <input type="email" name="parent_email" id="parent_email" value="{{ registration.parent_email }}" />
-                    </div>
-
-                    <div class="field">
-                        <label for="parent_phone">Phone 1</label>
-                        <input type="phone" name="parent_phone" id="parent_phone" value="{{ registration.parent_phone }}" />
-                    </div>
-
-                    <div class="field">
-                        <label for="parent_secondary_phone">Phone 2</label>
-                        <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
-                    </div>
-                {% endif %}
-            </div>
-            <input type="submit" value="Save" />
-        {{ csrf|raw }}</form>
-    </section>
-
-    {% if registration.related_registrations|length > 0 %}
-        <section class="current registrations related">
-            <h3>Other Attendees In This Purchase</h3>
-            <ul>
-                {% for attendee in registration.related_registrations %}
-                    <li>
-                        <a href="/event/{{ event.id }}/registrations/attendee/{{ attendee.id }}">
-                            <img src="http://www.gravatar.com/avatar/{{ attendee.email_md5 }}?s=200&d=mm" alt="{{ attendee.name }}"/>
-                                <span class="name">
-                                    <span class="first">{{ attendee.first_name }}</span>
-                                    <span class="last">{{ attendee.last_name }}</span>
-                                </span>
-                            <span class="email">{{ attendee.email }}</span>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </section>
-    {% endif %}
-
-    {% set activitiesCount = 3 %}
-    {% if registration.amount_paid > 0 %}
-        {% set activitiesCount = activitiesCount + 1 %}
-    {% endif %}
-
-    <section class="registration activities activities-{{ activitiesCount }}">
-        <h3>Actions</h3>
+    <header class="registration details">
+        <h2>{{ registration.name }}</h2>
+        {% if registration.previous_registrations|length > 0 %}
+            <section class="previous">
+                <h3>Previous Attendance:</h3>
+                {{ a.attendees(registration.previous_registrations, false, true) }}
+            </section>
+        {% endif %}
+        {% if registration.related_registrations|length > 0 %}
+            <section class="related">
+                <h3>Also in This Order:</h3>
+                {{ a.attendees(registration.related_registrations, true) }}
+            </section>
+        {% endif %}
+    </header>
+    <section class="registration activities">
         <nav>
+            <button data-for-menu="info">Info</button>
             <button data-for-menu="transfer">Transfer</button>
             {% if registration.amount_paid > 0 %}
                 <button data-for-menu="refund">Refund</button>
@@ -114,6 +40,70 @@
                 <button>Ban</button>
             </form>
         </nav>
+
+        <section class="info registration menu-info">
+            <p>Registered on {{ registration.created_at|date('F j, Y g:i A') }}</p>
+            <form method="post" class="info">
+                <div class="attendee">
+                    <h4>Attendee Info</h4>
+                    <div class="field">
+                        <label for="first_name">First Name</label>
+                        <input type="text" name="first_name" id="first_name" value="{{ registration.first_name }}" required />
+                    </div>
+
+                    <div class="field">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" name="last_name" id="last_name" value="{{ registration.last_name }}" required />
+                    </div>
+
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" value="{{ registration.email }}" required />
+                    </div>
+
+                    <div class="field">
+                        <label for="type">Ticket Type</label>
+                        <select name="type" id="type">
+                            {% for type in ['student', 'volunteer', 'mentor', 'judge', 'teacher', 'sponsor', 'press', 'vip'] %}
+                                <option value="{{ type }}" {% if registration.type == type %}selected{% endif %}>{{ type }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="parent">
+                    <h4>Parent Info</h4>
+                    {% if registration.parent_no_info %}
+                        <p>(Over 18)</p>
+                        <input type="hidden" name="parent_name" value="{{ registration.parent_name }}" />
+                        <input type="hidden" name="parent_email" value="{{ registration.parent_email }}"/>
+                        <input type="hidden" name="parent_phone" value="{{ registration.parent_phone }}" />
+                        <input type="hidden" name="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
+                    {% else %}
+                        <div class="field">
+                            <label for="parent_name">Name</label>
+                            <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
+                        </div>
+
+                        <div class="field">
+                            <label for="parent_email">Email</label>
+                            <input type="email" name="parent_email" id="parent_email" value="{{ registration.parent_email }}" />
+                        </div>
+
+                        <div class="field">
+                            <label for="parent_phone">Phone 1</label>
+                            <input type="phone" name="parent_phone" id="parent_phone" value="{{ registration.parent_phone }}" />
+                        </div>
+
+                        <div class="field">
+                            <label for="parent_secondary_phone">Phone 2</label>
+                            <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
+                        </div>
+                    {% endif %}
+                </div>
+                <input type="submit" value="Save" />
+            {{ csrf|raw }}</form>
+        </section>
 
         <section class="transfer menu-transfer">
             <h4>Transfer</h4>
