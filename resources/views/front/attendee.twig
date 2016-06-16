@@ -1,24 +1,7 @@
-{% extends "template.twig" %}
-{% block title %}{{ registration.name }} // {{ event.full_name }}{% endblock %}
-{% block section %}event{% endblock %}
-{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% extends "front/template.twig" %}
 {% import "widgets/attendees.twig" as a %}
 {% block content %}
-    <header class="registration details">
-        <h2>{{ registration.name }}</h2>
-        {% if registration.previous_registrations|length > 0 %}
-            <section class="previous">
-                <h3>Previous Attendance:</h3>
-                {{ a.attendees(registration.previous_registrations, false, true) }}
-            </section>
-        {% endif %}
-        {% if registration.related_registrations|length > 0 %}
-            <section class="related">
-                <h3>Also in This Order:</h3>
-                {{ a.attendees(registration.related_registrations, true) }}
-            </section>
-        {% endif %}
-    </header>
+    <h1><a href="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}" target="_blank">{{ registration.name }}</a></h1>
     <section class="registration activities">
         <nav>
             <button data-for-menu="info">Info</button>
@@ -33,7 +16,7 @@
                 <button data-for-menu="webhooks">Fire Webhooks</button>
             {% endif %}
 
-            <form action="/tools/banlist" method="get">
+            <form action="/tools/banlist" method="get" target="_blank">
                 <input type="hidden" name="first_name" value="{{ registration.first_name }}"/>
                 <input type="hidden" name="last_name" value="{{ registration.last_name }}"/>
                 <input type="hidden" name="email" value="{{ registration.email }}"/>
@@ -42,8 +25,8 @@
         </nav>
 
         <section class="info registration menu-info">
-                <p>Registered on {{ registration.created_at|date('F j, Y g:i A') }} (<a href="/e/ticket?r={{ registration.id }}" target="_blank">ticket</a>, <a href="/e/ticket/receipt?r={{ registration.id }}" target="_blank">receipt</a>)</p>
-<form method="post" class="info">
+            <p>Registered on {{ registration.created_at|date('F j, Y g:i A') }} (<a href="/e/ticket?r={{ registration.id }}" target="_blank">ticket</a>, <a href="/e/ticket/receipt?r={{ registration.id }}" target="_blank">receipt</a>)</p>
+            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}"method="post" class="info" target="_blank">
                 <div class="attendee">
                     <h4>Attendee Info</h4>
                     <div class="field">
@@ -107,7 +90,7 @@
 
         <section class="transfer menu-transfer">
             <h4>Transfer</h4>
-            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/transfer" method="post" class="dangerous">
+            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/transfer" method="post" class="dangerous" target="_blank">
                 <div class="field">
                     <label for="email">Send Email?</label>
                     <input type="checkbox" name="email" id="email" value="1" checked />
@@ -130,7 +113,7 @@
         {% if registration.amount_paid > 0 %}
             <section class="refund menu-refund">
                 <h4>Partial Refund</h4>
-                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/refund" method="post" class="dangerous">
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/refund" method="post" class="dangerous" target="_blank">
                     <div class="field">
                         <label for="email">Send Email?</label>
                         <input type="checkbox" name="email" id="email" value="1" checked />
@@ -147,7 +130,7 @@
 
         <section class="cancel menu-cancel">
             <h4>Cancel and Delete</h4>
-            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/cancel" method="post" class="dangerous">
+            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/cancel" method="post" class="dangerous" target="_blank">
                 <div class="field">
                     <label for="email">Send Email?</label>
                     <input type="checkbox" name="email" id="email" value="1" checked />
@@ -199,20 +182,20 @@
             {% if registration.waiver_pdf_link %}
                 <a href="{{ registration.waiver_pdf_link }}">Download</a>
             {% elseif registration.waiver_signing_id %}
-                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST" target="_blank">
                     <input type="hidden" name="action" value="resend" />
                     <input type="submit" value="Resend waiver signing request" />
                 {{ csrf|raw }}</form>
-                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST" target="_blank">
                     <input type="hidden" name="action" value="cancel" />
                     <input type="submit" value="Cancel waiver signing request" />
                 {{ csrf|raw }}</form>
-                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST" target="_blank">
                     <input type="hidden" name="action" value="sync" />
                     <input type="submit" value="Force re-check for signature" />
                 {{ csrf|raw }}</form>
             {% elseif registration.parent_email or registration.parent_no_info %}
-                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST" target="_blank">
                     <input type="hidden" name="action" value="send" />
                     <input type="submit" value="Send waiver signing request" />
                 {{ csrf|raw }}</form>
@@ -224,7 +207,7 @@
         {% if me.is_admin %}
             <section class="webhooks menu-webhooks">
                 <h4>Fire Webhooks Manually</h4>
-                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/webhook" method="post">
+                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/webhook" method="post" target="_blank">
                   <div class="field">
                       <label for="hook_event">Hook Event</label>
                       <select name="hook_event" id="hook_event">

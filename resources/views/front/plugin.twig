@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+    <style type="text/css">
+        #details, body, html {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="details" src="/front/attendee"></iframe>
+    <script src="https://dl.frontapp.com/libs/frontjs.min.js"></script>
+    <script type="text/javascript">
+        Front.on('conversation', function (data) {
+            document.getElementById("details").src = '/front/attendee?email='+data.contact.handle;
+        });
+
+        Front.on('no_conversation', function () {
+            document.getElementById("details").src = '/front/attendee';
+        });
+    </script>
+</body>
+</html>

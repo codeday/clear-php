@@ -11,6 +11,5 @@
 });
 
 \Route::group(['namespace' => 'Manage', 'before' => 's5_manage_events'], function() {
-    \Route::get('/front-plugin', 'DashboardController@getFrontPlugin');
-    \Route::get('/front-plugin-data', 'DashboardController@getFrontPluginData');
+    \Route::controller('/front', 'FrontController');
 });

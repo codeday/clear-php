@@ -30,35 +30,6 @@ class DashboardController extends \CodeDay\Clear\Http\Controller {
         return \View::make('dashboard', ['recent_registrations' => $recentRegistrations, 'leaderboard' => $leaderboard]);
     }
 
-    public function getFrontPlugin()
-    {
-        return \View::make('front-plugin');
-    }
-
-    public function getFrontPluginData()
-    {
-        $thisRegistration = Models\Batch\Event\Registration
-                        ::select('batches_events_registrations.*')
-                        ->join('batches_events', 'batches_events_registrations.batches_event_id', '=', 'batches_events.id')
-                        ->where(function($where) {
-                            $where->where('email', '=', \Input::get('email'))
-                                ->orWhere('parent_email', '=', \Input::get('email'));
-                        })
-                        ->where('batches_events.batch_id', '=', Models\Batch::Loaded()->id)
-                        ->first();
-        $registrations = Models\Batch\Event\Registration
-                        ::where('email', '=', \Input::get('email'))
-                        ->orWhere('parent_email', '=', \Input::get('email'))
-                        ->orderBy('created_at')
-                        ->get();
-
-        return json_encode([
-            'this_event' => ModelContracts\Registration::Model($thisRegistration, ['internal']),
-            'most_recent' => ModelContracts\Registration::Model($registrations[0], ['internal']),
-            'all' => ModelContracts\Registration::Collection($registrations, ['internal'])
-            ]);
-    }
-
     public function getUpdates()
     {
         if (Models\User::me()->is_admin) {
