@@ -31,9 +31,9 @@ class Grant extends ModelContract
             ],
 
             'region' => [
-                'name'          => 'Event',
+                'name'          => 'Region',
                 'description'   => 'The region of the event that this grant gave the user access to.',
-                'type'          => 'Event',
+                'type'          => 'Region',
                 'rich'          => true,
                 'value'         => function($model, $permissions) { return new Region($model->event->region, $permissions, true); }
             ]
