@@ -15,6 +15,20 @@ class Events extends ApiController {
         return json_encode(ModelContracts\Event::Model(\Route::input('event'), $this->permissions));
     }
 
+    public function getVolunteeredFor()
+    {
+        $this->requirePermission(['internal']);
+        $grants = Models\User\Grant::where('username', '=', \Input::get('username'))->get();
+
+        $response = [];
+
+        foreach($grants as $grant){
+          array_push($response, ModelContracts\Grant::Model($grant, $this->permissions));
+        }
+
+        return json_encode($response);
+    }
+
     public function getManagedBy()
     {
         $this->requirePermission(['internal']);

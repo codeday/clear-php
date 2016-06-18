@@ -47,4 +47,4 @@ class SubusersController extends \CodeDay\Clear\Http\Controller {
             return \Redirect::to('/event/'.$event->id.'/subusers');
         }
     }
-} 
+}
