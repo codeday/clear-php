@@ -12,8 +12,10 @@
     \Route::get('region/{region}', 'Regions@getRegion');
 
     \Route::controller('events', 'Events');
+    // TODO normalize "-" and "_", just need to make sure other things don't get confused.
     \Route::get('event/{event}', 'Events@getEvent');
     \Route::get('events/managed-by/{username}', 'Events@getManagedBy');
+    \Route::get('events/volunteered-for', 'Events@getVolunteeredFor');
 
     \Route::get('registration/by-email/{email}', 'Registrations@getByEmail');
     \Route::get('registration/{registration}', 'Registrations@getRegistration');
