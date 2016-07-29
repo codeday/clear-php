@@ -395,13 +395,13 @@ class Event extends \Eloquent {
                 'time' => 0,
                 'title' => 'Kickoff & Pitches',
                 'type' => 'event',
-                'description' => "Not sure what you want to work on? Get some ideas and form a team at the kickoff."
+                'description' => "Not sure what you want to work on? Our Code Evangelists will help you get some ideas and form a team."
             ],
             (Object)[
                 'time' => 1,
                 'title' => 'Start Coding!',
                 'type' => 'event',
-                'description' => "After forming teams, it's time to get to work on your project! Our staff will be helping teams throughout the event."
+                'description' => "After forming teams, it's time to get to work on your project! Our Code Evangelists and other mentors will be helping teams throughout the event."
             ],
             (Object)[
                 'time' => 20,
@@ -441,7 +441,7 @@ class Event extends \Eloquent {
                 'title' => 'Beginner: Intro to coding',
                 'type' => 'workshop',
                 'url' => 'https://blog.srnd.org/jumping-over-chairs-and-learning-to-make-a-game-with-construct-2-a796f4def9e9#.v37wzagti',
-                'description' => "Totally new to coding? No problem! Attend this workshop and we'll walk you through creating your first game."
+                'description' => "Totally new to coding? No problem! Attend this workshop and our Code Evangelists will walk you through creating your first game."
             ],
             (Object)[
                 'time' => 5,

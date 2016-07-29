@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+    <title>Front Plugin</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css' />
+    <style type="text/css">
+        html, * { box-sizing: border-box; }
+        h1 {
+            color: #424242;
+            font-family: Roboto;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .attendee-info { display: none; }
+        table th {
+            color: #153254;
+            font-family: Roboto;
+            font-weight: 300;
+            font-size: 12px;
+            text-align: right;
+            padding-bottom: 0.5rem;
+        }
+        table td {
+            color: #212121;
+            font-family: Roboto;
+            font-weight: 500;
+            font-size: 14px;
+            text-align: left;
+            padding-left: 1rem;
+            padding-bottom: 0.3rem;
+        }
+        .actions {
+            float: left;
+            height: 36px;
+            background: #FFF none repeat scroll 0% 0%;
+            border: 1px solid #DEE7EF;
+            box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.07);
+            border-radius: 4px;
+            padding: 0px;
+            font-size: 0px;
+        }
+        .actions a {
+            position: relative;
+            display: inline-block;
+            font-family: Roboto;
+            padding: 12px;
+            font-size: 12px;
+            overflow: hidden;
+            color: #7D8FA0;
+            text-decoration: none;
+        }
+        .actions a:not(:first-child):before {
+            content: "";
+            height: 22px;
+            width: 1px;
+            display: block;
+            position: absolute;
+            left: 0px;
+            top: 6px;
+            opacity: 0.26;
+            background-image: linear-gradient(0deg, #ADBFD0 0%, #4C5965 51%, #ADBFD0 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="attendee-info">
+        <h1>Attendee Info</h1>
+        <table><tbody>
+            <tr>
+                <th>First Name</th>
+                <td id="firstName"></td>
+            </tr>
+            <tr>
+                <th>Last Name</th>
+                <td id="lastName"></td>
+            </tr>
+            <tr>
+                <th>Ticket</th>
+                <td id="ticket"><span id="ticketId"></span> (<span id="ticketType"></span>)</td>
+            </tr>
+            <tr>
+                <th>Payment Info</th>
+                <td id="paymentInfo"></td>
+            </tr>
+            <tr>
+                <th>Parent Info</th>
+                <td id="parentInfo"><a id="parentName"></a><span id="parentPhone"></span></td>
+            </tr>
+        </tbody></table>
+        <div class="actions">
+            <a href="#" class="doCancel">Cancel &amp; Full Refund</a>
+            <a href="" class="moreInfo" target="_blank">More Info</a>
+        </div>
+    </div>
+    <script src="https://dl.frontapp.com/libs/frontjs.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        var attendee_id = null;
+        var event_id = null;
+        var getDataForEmail = function(email) {
+            $.ajax({
+                url: "/front-plugin-data",
+                method: "GET",
+                dataType: "json",
+                data: { "email": email },
+                success: function(response) {
+                    var most_recent = response.most_recent;
+                    var this_event = response.this_event;
+                    $('#firstName').text(most_recent.first_name);
+                    $('#lastName').text(most_recent.last_name);
+                    if (most_recent.parent_information_exempt) {
+                        $('#parentInfo').parent().css('display', 'none');
+                    } else if (most_recent.parent_name === null) {
+                        $('#parentInfo').parent().css('display', 'table-row');
+                        $('#parentName, #parentPhone').text('');
+                    } else {
+                        $('#parentInfo').parent().css('display', 'table-row');
+                        $('#parentName').text(most_recent.parent_name)
+                                        .attr('href', 'mailto:'+most_recent.parent_email);
+                        $('#parentPhone').text(most_recent.parent_phone);
+                    }
+                    
+                    if (this_event !== null) {
+                        $('#paymentInfo, #ticket, #id').parent().css('display', 'table-row');
+                        $('#ticketId').text(this_event.id);
+                        $('#ticketType').text(this_event.type);
+                        $('#paymentInfo').text('$'+this_event.amount_paid+' paid'
+                            + (this_event.amount_refunded > 0 ? ', $'+this_event.amount_refunded+' refunded' : ''));
+                        $('.moreInfo').attr('href', '/event/'+this_event.event.id+'/registrations/attendee/'+this_event.id);
+                        $('.actions').css('display', 'block');
+                        attendee_id = this_event.id;
+                        event_id = this_event.event.id;
+                    } else {
+                        $('#paymentInfo, #ticket, #id').parent().css('display', 'none');
+                        $('.actions').css('display', 'none');
+                        attendee_id = null;
+                        event_id = null;
+                    }
+
+
+                    $('.attendee-info').css('display', 'block');
+                },
+                error: function() {
+                    attendee_id = null;
+                    event_id = null;
+                    $('.attendee-info').css('display', 'none');
+                }
+            });
+        };
+
+        $('.doCancel').on('click', function() {
+            Front.confirm({
+                title: 'Cancel and refund user?',
+                message: 'This action cannot be undone.',
+                okTitle: 'Process Refund',
+                }, function (confirmed) {
+                    if (confirmed) {
+                       $.ajax({
+                            method: "POST",
+                            url: "/event/"+event_id+"/registrations/attendee/"+attendee_id+"/cancel",
+                            data: {
+                                "_token": "{{csrf_token|raw}}",
+                                "email": "1",
+                                "refund": "1"
+                            },
+                            error: function(){
+                                Front.reply({
+                                    text: "No problem, I've just processed the cancellation. Sorry to hear "+
+                                          "you won't be able to join us for this CodeDay; we hope to see "+
+                                          "you in the future.",
+                                });
+                            }
+                        });
+                    }
+                }
+            );
+        });
+
+        Front.on('conversation', function (data) {
+            getDataForEmail(data.contact.handle);
+        });
+    </script>
+</body>
+</html>
