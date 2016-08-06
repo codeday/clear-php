@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Http\Controllers\Manage\Event;
 
 use \CodeDay\Clear\Models;
+use \CodeDay\Clear\ModelContracts;
 
 class IndexController extends \CodeDay\Clear\Http\Controller {
     public function getIndex()
@@ -22,6 +23,7 @@ class IndexController extends \CodeDay\Clear\Http\Controller {
         if ($event->venue) {
             $event->allow_registrations = \Input::get('allow_registrations');
             \Session::flash('status_message', 'Event '.($event->allow_registrations ? 'enabled' : 'disabled'));
+            \Event::fire('registration.'.($event->allow_registrations ? 'open' : 'close'), ModelContracts\Event::Model($event, ['internal', 'admin']));
         } else {
             $event->allow_registrations = false;
             if (\Input::get('allow_registrations')) {
