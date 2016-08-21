@@ -1771,7 +1771,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/0865efd9099baf3e6162fb0962f4a9712108ed23",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/2ebcac34b287bfc017b13c6fecb6a7dbb96f1e7b",
                 "reference": "ab77a057b656ace011b2033833d566f7e62666bf",
                 "shasum": ""
             },
@@ -2955,16 +2955,16 @@
         },
         {
             "name": "tylermenezes/legalesign-php",
-            "version": "v0.9.1",
+            "version": "0.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tylermenezes/Legalesign-PHP.git",
-                "reference": "592e717807e0d04cc99abf07f940dcc5cc4e1bc3"
+                "reference": "eada9e55f8fcfaca4f34f440e02b972595454f3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tylermenezes/Legalesign-PHP/zipball/592e717807e0d04cc99abf07f940dcc5cc4e1bc3",
-                "reference": "592e717807e0d04cc99abf07f940dcc5cc4e1bc3",
+                "url": "https://api.github.com/repos/tylermenezes/Legalesign-PHP/zipball/eada9e55f8fcfaca4f34f440e02b972595454f3d",
+                "reference": "eada9e55f8fcfaca4f34f440e02b972595454f3d",
                 "shasum": ""
             },
             "require": {
@@ -2988,7 +2988,7 @@
                 }
             ],
             "description": "Library for working with the Legalesign API.",
-            "time": "2016-03-05 01:24:58"
+            "time": "2016-08-21 23:03:53"
         },
         {
             "name": "vlucas/phpdotenv",

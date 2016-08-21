@@ -16,6 +16,10 @@ class IndexController extends \CodeDay\Clear\Http\Controller {
     public function getParent(){
         $registration = Models\Batch\Event\Registration::where('id', '=', \Input::get('r'))->firstOrFail();
 
+        if (($registration->parent_email || $registration->parent_no_info) && !isset($registration->waiver_signing_id)) {
+            Services\Waiver::send($registration);
+        }
+
         return \View::make('email-pages/parent', [
             'registration' => $registration
         ]);

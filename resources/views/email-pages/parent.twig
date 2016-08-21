@@ -1,17 +1,23 @@
 {% extends 'email-pages/template' %}
 {% block title %}Parent Info{% endblock %}
+{% block class %}{% if registration.parent_no_info %}esign{% endif %}{% endblock %}
 {% block content %}
-    {% if registration.parent_email or registration.parent_no_info %}
+    {% if registration.parent_email or registration.waiver_signing_link %}
         <h1>Finalizing {{ registration.first_name }}'s Registration</h1>
         
         {% if success %}
           <p class="success">Parent info updated.</p>
         {% endif %}
-
         <p class="why">One last thing: we need {% if registration.parent_no_info %}you{% else %}your parent{% endif %} to sign a
            waiver. Our e-signing partner, <a href="https://legalesign.com/">Legalesign</a>, sent an email to
           {% if registration.parent_no_info %}{{ registration.email }}{% else %}{{ registration.parent_email }}{% endif %}
           with the link. If that email is incorrect, please contact us.</p>
+    {# {% elseif registration.parent_no_info %}
+        <h1>Signing Liability Waiver</h1>
+        {% if success %}
+          <p class="success">Parent info updated.</p>
+        {% endif %}
+        <iframe src="{{ registration.waiver_signing_link }}?hidetext=1&hidenav=1"></iframe> #}
     {% else %}
         <h1>{{ registration.first_name }}'s Parent Info</h1>
         <p class="why">If you're under 18, we need to know your parent's contact information so we can get in touch in

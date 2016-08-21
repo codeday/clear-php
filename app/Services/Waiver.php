@@ -46,9 +46,22 @@ class Waiver {
             ->name('CodeDay Waiver')
             ->group(config('legalesign.group'))
             ->addSigner($signer)
+            ->requestSignerLinks()
             ->sendWithTemplatePdf($waiver);
-
+        
         $reg->waiver_signing_id = $document->id;
+        $reg->waiver_signing_link = $document->signingUrls->signer_0;
+
+        Services\Email::SendOnQueue(
+            'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
+            $toFirst.' '.$toLast, $toEmail,
+            'CodeDay Waiver',
+            \View::make('emails/registration/waiver', [
+                'parent' => $reg->parent_email ? true : false,
+                'waiver' => $reg->waiver_signing_link
+            ])
+        );
+
         $reg->save();
     }
 

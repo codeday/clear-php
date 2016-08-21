@@ -21,6 +21,16 @@
             padding: 1rem;
         }
 
+        body.esign .wrap {
+            max-width: 1024px;
+        }
+
+        body.esign .wrap iframe {
+            width: 100%;
+            height: 80rem;
+            border: 0;
+        }
+
         h1, h2 {
             text-align: center;
         }
@@ -111,7 +121,7 @@
         }
     </style>
 </head>
-<body>
+<body class="{{ block('class') }}">
     <script src="https://use.typekit.net/jzm7jeq.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>    <div class="wrap">
         {{ block('content') }}

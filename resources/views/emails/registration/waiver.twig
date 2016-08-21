@@ -1,0 +1,15 @@
+{% extends "emails/template_transactional.twig" %}
+{% block why %}You received this email because your student registered for CodeDay.{% endblock %}
+{% block body %}
+    <p>Hello there!</p>
+
+    {% if parent %}
+        <p>Your student has registered for CodeDay, and listed you as their parent or guardian. Before your student
+           will be able to attend, you'll need to sign our waiver.</p>
+    {% else %}
+        <p>CodeDay is coming up soon, and we're excited to meet you in person. Before you can attend, you'll need to
+           sign our waiver.</p>
+    {% endif %}
+
+    <p>You can sign the waiver here: <a href="{{ waiver }}">{{ waiver }}</a></p>
+{% endblock %}
