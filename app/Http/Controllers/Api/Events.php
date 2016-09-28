@@ -29,6 +29,13 @@ class Events extends ApiController {
         return json_encode($response);
     }
 
+    public function getRegistrations()
+    {
+      $this->requirePermission(['admin']);
+      $event = \Route::input('event');
+      return json_encode(ModelContracts\Registration::Collection($event->registrationsSortedBy("first_name", "asc"), $this->permissions));
+    }
+
     public function getManagedBy()
     {
         $this->requirePermission(['internal']);
