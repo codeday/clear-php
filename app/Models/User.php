@@ -55,9 +55,7 @@ class User extends \Eloquent {
     public function getTokenJsonAttribute()
     {
         return json_encode((object)[
-            'eventId' => getDayOfEvent()->id,
-            'eventName' => getDayOfEvent()->fullName,
-            'token' => Models\User::me()->token
+            'token' => $this->token
         ]);
     }
 
