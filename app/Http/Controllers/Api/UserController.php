@@ -6,6 +6,8 @@ use \CodeDay\Clear\ModelContracts;
 
 // This method requires authentication with a `token`
 class UserController extends ApiController {
+  public $requiresApplication = false;
+  
   public function __construct() {
       if (\Input::get('token')) {
         $user = Models\User::fromToken(\Input::get('token'));
