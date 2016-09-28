@@ -3,6 +3,7 @@ namespace CodeDay\Clear\Http\Controllers\Api;
 
 use \CodeDay\Clear\Models;
 use \CodeDay\Clear\ModelContracts;
+use \CodeDay\Clear\Services;
 
 class Events extends ApiController {
     public function getIndex()
