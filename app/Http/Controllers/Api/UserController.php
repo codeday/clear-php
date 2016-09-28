@@ -7,24 +7,13 @@ use \CodeDay\Clear\ModelContracts;
 // This method requires authentication with a `token`
 class UserController extends ApiController {
   public $requiresApplication = false;
-  
+
   public function __construct() {
       if (\Input::get('token')) {
         $user = Models\User::fromToken(\Input::get('token'));
 
         if (!isset($user)) {
             \App::abort(403);
-        }
-
-        if (!isset($event)) {
-            \App::abort(404);
-        }
-
-        if ($user->username != $event->manager_username
-            && $user->username != $event->evangelist_username
-            && !$event->isUserAllowed($user)
-            && !$user->is_admin) {
-                \App::abort(403);
         }
 
         $this->permissions = ['admin'];
