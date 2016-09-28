@@ -25,7 +25,7 @@
     \Route::post('promotions/delete', 'PromotionsController@postDelete');
     \Route::get('promotion/{promotion}', 'Promotions@getPromotion');
     
-    \Route::get('token/{token}', 'TokenController@getToken');
+    \Route::get('token', 'TokenController@getToken');
 
     \Route::get('/i/{class}/{id}_{imagesize}.jpg', 'ImageController@redirectPhoto');
     \Route::get('/i/{class}/{id}_{imagesize}/{timestamp}.jpg', 'ImageController@showPhoto');
