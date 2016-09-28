@@ -14,7 +14,7 @@
     \Route::controller('events', 'Events');
     // TODO normalize "-" and "_", just need to make sure other things don't get confused.
     \Route::get('event/{event}', 'Events@getEvent');
-    \Route::get('event/{event}/registrations', 'Events@getRegistrations')
+    \Route::get('event/{event}/registrations', 'Events@getRegistrations');
     \Route::get('events/managed-by/{username}', 'Events@getManagedBy');
     \Route::get('events/volunteered-for', 'Events@getVolunteeredFor');
 
