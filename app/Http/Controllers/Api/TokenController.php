@@ -7,7 +7,7 @@ use \CodeDay\Clear\ModelContracts;
 class TokenController extends ApiController {
     public function getToken()
     {
-    	$user = Models\User::fromToken(\Route::input('token'));
+    	$user = Models\User::fromToken(\Input::get('token'));
         
         if(isset($user)){
         	return json_encode(ModelContracts\Registration::Model($user, ["internal"]));
