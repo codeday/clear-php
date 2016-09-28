@@ -12,7 +12,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function __construct(){
-      if(isset(Models\User::me())){
+      if(Models\User::me() !== null){
         $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
 
         $token_json = strtr(rawurlencode(json_encode((object)[
