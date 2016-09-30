@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Http\Controllers\Manage\Event;
 
 use \CodeDay\Clear\Models;
+use \CodeDay\Clear\ModelContracts;
 use \CodeDay\Clear\Services;
 
 class RegistrationsController extends \CodeDay\Clear\Http\Controller {
