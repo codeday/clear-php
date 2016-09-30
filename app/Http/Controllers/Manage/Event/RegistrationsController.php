@@ -261,7 +261,7 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
       $registration = \Route::input('registration');
       $hook = \Input::get('hook_event');
 
-      \Event::fire($hook, [$registration]);
+      \Event::fire($hook, [ModelContracts\Registration::Model($registration, ['admin', 'internal'])]);
       \Session::flash('status_message', $hook.' hook queued for '.$registration->name);
       return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
     }
