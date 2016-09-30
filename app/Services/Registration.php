@@ -4,6 +4,7 @@ namespace CodeDay\Clear\Services;
 use \Carbon\Carbon;
 use \CodeDay\Clear\Models;
 use \CodeDay\Clear\Services;
+use \CodeDay\Clear\ModelContracts;
 
 /**
  * Registration CRUD interface for front-end registration flows.
@@ -28,7 +29,7 @@ class Registration {
         $reg->type = $type;
         $reg->save();
 
-        \Event::fire('registration.register', [$reg]);
+        \Event::fire('registration.register', [ModelContracts\Registration::Model($reg, ['admin', 'internal'])]);
 
         return $reg;
     }
