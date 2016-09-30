@@ -28,7 +28,7 @@ class Registration {
         $reg->type = $type;
         $reg->save();
 
-        \Event::fire('registration.register', [$reg]);
+        \Event::fire('registration.register', $reg);
 
         return $reg;
     }
