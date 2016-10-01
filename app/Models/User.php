@@ -52,6 +52,13 @@ class User extends \Eloquent {
         return base64_encode(implode('$', [$this->username, $sign]));
     }
 
+    public function getTokenJsonAttribute()
+    {
+        return json_encode((object)[
+            'token' => $this->token
+        ]);
+    }
+
     public function forget()
     {
         \Session::forget('s5_username');

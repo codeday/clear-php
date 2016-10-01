@@ -14,6 +14,9 @@
     \Route::controller('events', 'Events');
     // TODO normalize "-" and "_", just need to make sure other things don't get confused.
     \Route::get('event/{event}', 'Events@getEvent');
+    \Route::get('event/{event}/registrations', 'Events@getRegistrations');
+    \Route::get('event/{event}/registrations/new', 'Events@postRegistrations');
+    \Route::post('event/{event}/registrations', 'Events@postRegistrations');
     \Route::get('events/managed-by/{username}', 'Events@getManagedBy');
     \Route::get('events/volunteered-for', 'Events@getVolunteeredFor');
 
@@ -25,9 +28,12 @@
     \Route::post('promotions/delete', 'PromotionsController@postDelete');
     \Route::get('promotion/{promotion}', 'Promotions@getPromotion');
 
+    \Route::get('token/{token}', 'TokenController@getToken');
+
     \Route::get('/i/{class}/{id}_{imagesize}.jpg', 'ImageController@redirectPhoto');
     \Route::get('/i/{class}/{id}_{imagesize}/{timestamp}.jpg', 'ImageController@showPhoto');
 
     \Route::controller('notify', 'Notify');
     \Route::controller('batches', 'Batches');
+    \Route::controller('user', 'UserController');
 });
