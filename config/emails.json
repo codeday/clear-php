@@ -20,15 +20,6 @@
         
         "student": [
             {
-                "id":       "student_postreg",
-                "subject":  "CodeDay",
-                "from":     "Tyler Menezes",
-                "from_e":   "menezest@codeday.org",
-                "text":     "emails/registration/student_postreg_text",
-                "when":     "+1d",
-                "work":     true
-            },
-            {
                 "id":   "student_preevent",
                 "subject": "CodeDay is Shortly Upon Us",
                 "html": "emails/preevent/student_html",
