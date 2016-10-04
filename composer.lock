@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a30a39b62f03da09723ed8366069eb33",
-    "content-hash": "eec15fe7850fa0dec3b12e84d0b91d25",
+    "hash": "00a850bb610aff247550590565a19041",
+    "content-hash": "ec027a983c9cad4274991d80bb37def7",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1771,7 +1771,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/2ebcac34b287bfc017b13c6fecb6a7dbb96f1e7b",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/3ea451d6d829915d78a97de187934f43916f718b",
                 "reference": "ab77a057b656ace011b2033833d566f7e62666bf",
                 "shasum": ""
             },
@@ -2989,6 +2989,56 @@
             ],
             "description": "Library for working with the Legalesign API.",
             "time": "2016-08-21 23:03:53"
+        },
+        {
+            "name": "userscape/customerio",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/UserScape/php-customerio.git",
+                "reference": "150cbac5d435486f401261c7030c6cae3664babf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/UserScape/php-customerio/zipball/150cbac5d435486f401261c7030c6cae3664babf",
+                "reference": "150cbac5d435486f401261c7030c6cae3664babf",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "6.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.5.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Customerio": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "fideloper",
+                    "email": "fideloper@gmail.com"
+                }
+            ],
+            "description": "PHP API for Customer.io",
+            "keywords": [
+                "Customerio",
+                "customer.io",
+                "php customer.io",
+                "php customerio"
+            ],
+            "time": "2016-09-27 14:41:59"
         },
         {
             "name": "vlucas/phpdotenv",

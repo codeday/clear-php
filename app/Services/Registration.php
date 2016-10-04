@@ -28,6 +28,17 @@ class Registration {
         $reg->email = $email;
         $reg->type = $type;
         $reg->save();
+    
+        try {
+            (new \Customerio\Api(\config('customerio.site'), \config('customerio.secret'), new \Customerio\Request))
+                ->createCustomer($reg->email, $reg->email, [
+                    'type' => $reg->type,
+                    'first_name' => $reg->first_name,
+                    'last_name' => $reg->last_name,
+                    'city' => $event->name,
+                    'season' => $event->batch->name
+                ]);
+        } catch (\Exception $ex) {}
 
         \Event::fire('registration.register', [ModelContracts\Registration::Model($reg, ['admin', 'internal'])]);
 
