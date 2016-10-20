@@ -179,12 +179,11 @@
                 }, 5000);
             });
         </script>
-
-        <script type="text/javascript">
-          rg4js('apiKey', '{{ raygun_api_key }}');
-          rg4js('enablePulse', true);
-          rg4js('enableCrashReporting', false);
-        </script>
     {% endif %}
+    <script type="text/javascript">
+      rg4js('apiKey', '{{ raygun_api_key }}');
+      rg4js('enablePulse', true);
+      rg4js('enableCrashReporting', false);
+    </script>
 </body>
 </html>
