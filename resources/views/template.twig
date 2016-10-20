@@ -89,6 +89,11 @@
         })();
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      !function(a,b,c,d,e,f,g){a.RaygunObject=e,a[e]=a[e]||function(){
+      (a[e].o=a[e].o||[]).push(arguments)},f=b.createElement(c),g=b.getElementsByTagName(c)[0],
+      f.async=1,f.src=d,g.parentNode.insertBefore(f,g)}(window,document,"script","//cdn.raygun.io/raygun4js/raygun.min.js","rg4js");
+    </script>
 </head>
 <body class="{{ block('section') }}">
     {% if status_message %}
@@ -173,6 +178,12 @@
                     $('body > .info').animate({'height': 'toggle', 'opacity': 'toggle'});
                 }, 5000);
             });
+        </script>
+
+        <script type="text/javascript">
+          rg4js('apiKey', '{{ raygun_api_key }}');
+          rg4js('enablePulse', true);
+          rg4js('enableCrashReporting', false);
         </script>
     {% endif %}
 </body>
