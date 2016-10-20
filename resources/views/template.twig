@@ -187,11 +187,11 @@
 
       {% if me %}
         rg4js('setUser', {
-          identifier: {{ me.id|json_encode() }},
+          identifier: {{ me.id|json_encode()|raw }},
           isAnonymous: false,
-          email: {{ me.email|json_encode() }},
-          firstName: {{ me.first_name|json_encode() }},
-          fullName: {{ me.name|json_encode() }}
+          email: {{ me.email|json_encode()|raw }},
+          firstName: {{ me.first_name|json_encode()|raw }},
+          fullName: {{ me.name|json_encode()|raw }}
         });
       {% endif %}
     </script>
