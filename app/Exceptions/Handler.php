@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
         try{
           if(Models\User::me()){
             $user = Models\User::me();
-            $raygun->SetUser($user->id, $user->first_name, $user->name, $user->email, false);
+            $raygun->SetUser($user->username, $user->first_name, $user->name, $user->email, false);
           }
         }catch(Exception $e2){
           // an exception while reporting an exception...
