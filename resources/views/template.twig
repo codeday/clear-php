@@ -183,11 +183,11 @@
     <script type="text/javascript">
       rg4js('apiKey', '{{ raygun_api_key }}');
       rg4js('enablePulse', true);
-      rg4js('enableCrashReporting', false);
+      rg4js('enableCrashReporting', true);
 
       {% if me %}
         rg4js('setUser', {
-          identifier: {{ me.id|json_encode()|raw }},
+          identifier: {{ me.username|json_encode()|raw }},
           isAnonymous: false,
           email: {{ me.email|json_encode()|raw }},
           firstName: {{ me.first_name|json_encode()|raw }},
