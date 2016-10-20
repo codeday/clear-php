@@ -23,6 +23,8 @@ class Handler extends ExceptionHandler
         ValidationException::class,
     ];
 
+    $raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
+
     /**
      * Report or log an exception.
      *
@@ -34,6 +36,7 @@ class Handler extends ExceptionHandler
     public function report(Exception $e)
     {
         parent::report($e);
+        $raygun->SendException($e);
     }
 
     /**
