@@ -27,7 +27,8 @@
         "soundasleep/html2text": "^0.3.1",
         "jbdemonte/barcode": "^2.1",
         "eo/passbook": "^1.3",
-        "mindscape/raygun4php": "1.*"
+        "mindscape/raygun4php": "1.*",
+        "userscape/customerio": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

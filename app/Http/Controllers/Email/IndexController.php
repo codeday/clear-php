@@ -37,6 +37,22 @@ class IndexController extends \CodeDay\Clear\Http\Controller {
 
         $registration->save();
 
+        try {
+            list($fname, $lname) = preg_split('/\s+/', $registration->parent_name, 2);
+            (new \Customerio\Api(\config('customerio.site'), \config('customerio.secret'), new \Customerio\Request))
+                ->createCustomer($registration->parent_email, $registration->parent_email, [
+                    'type' => 'parent',
+                    'first_name' => $fname,
+                    'last_name' => $lname,
+                    'city' => $registration->event->name,
+                    'season' => $registration->event->batch->name,
+                    'student_first_name' => $registration->first_name,
+                    'student_last_name' => $registration->last_name,
+                ]);
+        } catch (\Exception $ex) {}
+
+
+
         if ($registration->parent_email || $registration->parent_no_info) {
             Services\Waiver::send($registration);
         }
