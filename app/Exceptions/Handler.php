@@ -35,8 +35,8 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        parent::report($e);
         $raygun->SendException($e);
+        parent::report($e);
     }
 
     /**
