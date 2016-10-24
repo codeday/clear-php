@@ -12,7 +12,7 @@ class Waiver {
         $waiver = null;
         if ($reg->parent_email) {
             $toEmail = $reg->parent_email;
-            $parts = preg_split('/\s/', $reg->parent_name);
+            $parts = preg_split('/\s/', trim($reg->parent_name));
             if (count($parts) == 0) {
                 $toFirst = 'Parent of';
                 $toLast = $reg->first_name;
