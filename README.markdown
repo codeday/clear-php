@@ -19,3 +19,8 @@ Tasks on Clear largely fall into two categories: changing event configuration, a
 - Composer
 - Memcached
 - Beanstalk
+- A Raygun account (optional, used for error reporting)
+
+<a href="https://raygun.com/products/crash-reporting/">Error and crash reporting software</a> provided by <a href="https://raygun.com/">Raygun</a>
+
+<img width="200" src="http://i.imgur.com/yuoIAvf.png"></img>
