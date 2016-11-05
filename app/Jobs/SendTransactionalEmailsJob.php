@@ -14,7 +14,8 @@ class SendTransactionalEmailsJob extends Job
             try{
             	$this->sendEmailsForRegistration($registration);
             }catch(Exception $ex){
-            	// TODO send raygun the error
+            	$raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
+            	$raygun->SendException($ex, ["SendTransactionalEmailsJob"]);
             }
         }
     }
