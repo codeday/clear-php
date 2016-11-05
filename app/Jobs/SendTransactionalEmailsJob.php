@@ -22,7 +22,12 @@ class SendTransactionalEmailsJob extends Job
 
     private function sendEmailsForRegistration(Models\Batch\Event\Registration $registration)
     {
-        $allEmails = $this->getEmailsForRegistration($registration);
+    	try{
+	    	$allEmails = $this->getEmailsForRegistration($registration);
+	    }catch(Exception $ex){
+	    	$raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
+	    	$raygun->SendException($ex, ["SendTransactionalEmailsJob"]);
+	    }
         $sentEmails = Models\TransactionalEmail::where('batches_events_registration_id', '=', $registration->id)->get();
         $sentEmailIds = array_map(function($a){ return $a->email_id; }, iterator_to_array($sentEmails));
 
