@@ -13,7 +13,7 @@ class SendTransactionalEmailsJob extends Job
         foreach (Models\Batch::Loaded()->registrations as $registration) {
             try{
             	$this->sendEmailsForRegistration($registration);
-            }catch(Exception $ex){
+            }catch(\Exception $ex){
             	$raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
             	$raygun->SendException($ex, ["SendTransactionalEmailsJob"]);
             }
@@ -24,7 +24,7 @@ class SendTransactionalEmailsJob extends Job
     {
     	try{
 	    	$allEmails = $this->getEmailsForRegistration($registration);
-	    }catch(Exception $ex){
+	    }catch(\Exception $ex){
 	    	$raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
 	    	$raygun->SendException($ex, ["SendTransactionalEmailsJob"]);
 	    }
