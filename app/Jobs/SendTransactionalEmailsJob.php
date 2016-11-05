@@ -11,8 +11,12 @@ class SendTransactionalEmailsJob extends Job
     public function handle()
     {
         foreach (Models\Batch::Loaded()->registrations as $registration) {
-            $this->sendEmailsForRegistration($registration);
-        }           
+            try{
+            	$this->sendEmailsForRegistration($registration);
+            }catch(Exception $ex){
+            	// TODO send raygun the error
+            }
+        }
     }
 
     private function sendEmailsForRegistration(Models\Batch\Event\Registration $registration)
