@@ -70,7 +70,15 @@ class SendTransactionalEmailsJob extends Job
     {
         $config = $this->getEmailsJson()->registration;
         $type = $registration->type;
-        $relevantConfig = array_merge($config->all, $config->$type);
+        if (!$type) throw new \Exception("Ticket type is not set for ".$registration->email);
+        
+        $relevantConfig = null;
+        if (isset($config->$type)) {
+        	$relevantConfig = array_merge($config->all, $config->$type);
+        } else {
+        	$relevantConfig = $config->all;
+        }
+        
         $allEmails = [];
 
         foreach ($relevantConfig as $emailConfig) {
