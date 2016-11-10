@@ -7,8 +7,10 @@
     <p>Thanks for registering for CodeDay {{ registration.event.name }}. Your tickets are confirmed, and we are
         excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.</p>
     <p>If you have any questions about the event or your ticket, just reply to this email.</p>
-    <p>As soon as you have a chance, please fill out the
-        <a href="https://clear.codeday.org/e/parent?r={{ registration.id }}">parent info form.</a></p>
+    {% if registration.type == 'student' or registration.type == 'volunteer' %}
+        <p>As soon as you have a chance, please fill out the
+            <a href="https://codeday.vip/{{ registration.id }}">parent info form.</a></p>
+    {% endif %}
     <p>You should also <a href="https://clear.codeday.org/e/ticket?r={{ registration.id }}">print your ticket</a> to
        speed up check-in on the day-of.</p>
 
@@ -38,13 +40,13 @@
                         <td style="font-weight: bold; border-top: 1px solid #565656">{{ registration.order_amount_paid|number_format(2) }}</td>
                     </tr>
                 </table>
-                <p><img src="https://clear.codeday.org/e/ticket/barcode?r={{ registration.id }}" /></p>
+                <p><img src="https://codeday.vip/{{ registration.id }}/ticket/barcode" /></p>
                 <p>
-                    <a href="https://clear.codeday.org/e/ticket/apple?r={{ registration.id }}">
-                        <img src="https://clear.codeday.org/assets/img/ticket-apple.png" />
+                    <a href="https://codeday.vip/{{ registration.id }}">
+                        <img src="https://codeday.vip/assets/img/ticket-print.png" />
                     </a>
-                    <a href="https://clear.codeday.org/e/ticket?r={{ registration.id }}">
-                        <img src="https://clear.codeday.org/assets/img/ticket-print.png" />
+                    <a href="https://codeday.vip/{{ registration.id }}">
+                        <img src="https://codeday.vip/assets/img/ticket-apple.png" />
                     </a>
                 </p>
 
@@ -52,7 +54,11 @@
 
                 <p>
                     <strong>CodeDay {{ registration.event.name }}</strong><br />
-                    {{ registration.event.starts_at|date('F j, Y') }}, noon-noon<br />
+                    {% if registration.type == 'judge' %}
+                        {{ registration.event.ends_at|date('F j, Y') }}, 9am<br />
+                    {% else %}
+                        {{ registration.event.starts_at|date('F j, Y') }}, noon-noon<br />
+                    {% endif %}
                     {% if registration.event.venue %}
                         Hosted at {{ registration.event.venue.name }}<br />
                         {{ registration.event.venue_address_1 }}<br />
