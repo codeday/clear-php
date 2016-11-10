@@ -42,7 +42,7 @@
         </nav>
 
         <section class="info registration menu-info">
-                <p>Registered on {{ registration.created_at|date('F j, Y g:i A') }} (<a href="/e/ticket?r={{ registration.id }}" target="_blank">ticket</a>, <a href="/e/ticket/receipt?r={{ registration.id }}" target="_blank">receipt</a>)</p>
+                <p>Registered on {{ registration.created_at|date('F j, Y g:i A') }} (<a href="https://codeday.vip/{{ registration.id }}" target="_blank">ticket</a>)</p>
 <form method="post" class="info">
                 <div class="attendee">
                     <h4>Attendee Info</h4>
