@@ -9,6 +9,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use \CodeDay\Clear\Models;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -33,6 +35,19 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
+        $raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
+
+        try{
+          if(Models\User::me()){
+            $user = Models\User::me();
+            $raygun->SetUser($user->username, $user->first_name, $user->name, $user->email, false);
+          }
+        }catch(Exception $e2){
+          // an exception while reporting an exception...
+          $raygun->SendException($e2);
+        }
+
+        $raygun->SendException($e);
         parent::report($e);
     }
 

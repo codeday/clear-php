@@ -89,6 +89,11 @@
         })();
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      !function(a,b,c,d,e,f,g){a.RaygunObject=e,a[e]=a[e]||function(){
+      (a[e].o=a[e].o||[]).push(arguments)},f=b.createElement(c),g=b.getElementsByTagName(c)[0],
+      f.async=1,f.src=d,g.parentNode.insertBefore(f,g)}(window,document,"script","//cdn.raygun.io/raygun4js/raygun.min.js","rg4js");
+    </script>
 </head>
 <body class="{{ block('section') }}">
     {% if status_message %}
@@ -158,7 +163,7 @@
     </div>
 
     <footer>
-        Copyright &copy; 2014-{{ 'now' | date('Y') }} StudentRND.
+        Copyright &copy; 2014-{{ 'now' | date('Y') }} StudentRND. <a href="https://raygun.com/products/crash-reporting/">Error and crash reporting software</a> provided by <a href="https://raygun.com/">Raygun</a>.
     </footer>
 
     {% include "widgets/new.twig" %}
@@ -175,5 +180,20 @@
             });
         </script>
     {% endif %}
+    <script type="text/javascript">
+      rg4js('apiKey', '{{ raygun_api_key }}');
+      rg4js('enablePulse', true);
+      rg4js('enableCrashReporting', true);
+
+      {% if me %}
+        rg4js('setUser', {
+          identifier: {{ me.username|json_encode()|raw }},
+          isAnonymous: false,
+          email: {{ me.email|json_encode()|raw }},
+          firstName: {{ me.first_name|json_encode()|raw }},
+          fullName: {{ me.name|json_encode()|raw }}
+        });
+      {% endif %}
+    </script>
 </body>
 </html>

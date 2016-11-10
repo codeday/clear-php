@@ -33,7 +33,7 @@ class PreeventController extends \CodeDay\Clear\Http\Controller {
         $from = '"CodeDay '.$reg->event->name.'" <'.$reg->event->webname.'@codeday.org>';
         $to = '"'.$reg->name.'" <'.$reg->email.'>';
         $subject = 'CodeDay is Shortly Upon Us';
-        $body = \View::make('emails/preevent_text', ['registration' => ModelContracts\Registration::Model($reg, ['internal'])])->render();
+        $body = \View::make('emails/preevent/student_text', ['registration' => ModelContracts\Registration::Model($reg, ['internal'])])->render();
 
         $contents= "To: $to\nFrom: $from\nSubject: $subject\n\n$body";
 

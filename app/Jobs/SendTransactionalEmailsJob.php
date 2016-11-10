@@ -11,13 +11,23 @@ class SendTransactionalEmailsJob extends Job
     public function handle()
     {
         foreach (Models\Batch::Loaded()->registrations as $registration) {
-            $this->sendEmailsForRegistration($registration);
-        }           
+            try{
+            	$this->sendEmailsForRegistration($registration);
+            }catch(\Exception $ex){
+            	$raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
+            	$raygun->SendException($ex, ["SendTransactionalEmailsJob"]);
+            }
+        }
     }
 
     private function sendEmailsForRegistration(Models\Batch\Event\Registration $registration)
     {
-        $allEmails = $this->getEmailsForRegistration($registration);
+    	try{
+	    	$allEmails = $this->getEmailsForRegistration($registration);
+	    }catch(\Exception $ex){
+	    	$raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
+	    	$raygun->SendException($ex, ["SendTransactionalEmailsJob"]);
+	    }
         $sentEmails = Models\TransactionalEmail::where('batches_events_registration_id', '=', $registration->id)->get();
         $sentEmailIds = array_map(function($a){ return $a->email_id; }, iterator_to_array($sentEmails));
 
@@ -60,7 +70,15 @@ class SendTransactionalEmailsJob extends Job
     {
         $config = $this->getEmailsJson()->registration;
         $type = $registration->type;
-        $relevantConfig = array_merge($config->all, $config->$type);
+        if (!$type) throw new \Exception("Ticket type is not set for ".$registration->email);
+        
+        $relevantConfig = null;
+        if (isset($config->$type)) {
+        	$relevantConfig = array_merge($config->all, $config->$type);
+        } else {
+        	$relevantConfig = $config->all;
+        }
+        
         $allEmails = [];
 
         foreach ($relevantConfig as $emailConfig) {

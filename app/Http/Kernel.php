@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \CodeDay\Clear\Http\Middleware\ShareSessionErrors::class,
+        \CodeDay\Clear\Http\Middleware\ShareRaygunApiKey::class,
         \CodeDay\Clear\Http\Middleware\ShareBatch::class
     ];
 
