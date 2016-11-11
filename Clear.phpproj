@@ -5930,6 +5930,7 @@
     <Compile Include=".git\index" />
     <Compile Include=".git\ORIG_HEAD" />
     <Compile Include=".git\sourcetreeconfig" />
+    <Compile Include="app\Console\Commands\SyncPhotosCommand.php" />
     <Compile Include="app\Console\Commands\Jobs\SendEvangelistInfoReminderJob.php" />
     <Compile Include="app\Console\Commands\Jobs\SendEvangelistSmsJob.php" />
     <Compile Include="app\Console\Commands\Jobs\SendParentInfoReminderJob.php" />
@@ -6044,6 +6045,7 @@
     <Compile Include="app\Jobs\Job.php" />
     <Compile Include="app\Jobs\SendParentInfoRemindersJob.php" />
     <Compile Include="app\Jobs\SendTransactionalEmailsJob.php" />
+    <Compile Include="app\Jobs\SyncProfileImageJob.php" />
     <Compile Include="app\Jobs\SyncWaiverForJob.php" />
     <Compile Include="app\Listeners\.gitkeep" />
     <Compile Include="app\Markdown\markdown.php" />
@@ -6092,6 +6094,7 @@
     <Compile Include="app\Providers\AuthServiceProvider.php" />
     <Compile Include="app\Providers\EventServiceProvider.php" />
     <Compile Include="app\Providers\RouteServiceProvider.php" />
+    <Compile Include="app\Services\FullContact.php" />
     <Compile Include="app\Services\Telephony\Sms.php" />
     <Compile Include="app\Services\Telephony\Voice.php" />
     <Compile Include="app\Services\Email.php" />
@@ -6119,6 +6122,7 @@
     <Compile Include="config\customerio.php" />
     <Compile Include="config\database.php" />
     <Compile Include="config\emails.json" />
+    <Compile Include="config\fullcontact.php" />
     <Compile Include="config\legalesign.php" />
     <Compile Include="config\local.json" />
     <Compile Include="config\local.sample.json" />
@@ -6208,6 +6212,7 @@
     <Compile Include="database\migrations\2016_03_05_080317_fix-waivers-nullable.php" />
     <Compile Include="database\migrations\2016_06_04_104702_add-region-images.php" />
     <Compile Include="database\migrations\2016_08_21_151355_track-waiver-signing-link.php" />
+    <Compile Include="database\migrations\2016_11_11_081916_add-profile-image.php" />
     <Compile Include="database\seeds\data\regions.csv" />
     <Compile Include="database\seeds\.gitkeep" />
     <Compile Include="database\seeds\DatabaseSeeder.php" />

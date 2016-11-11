@@ -10,10 +10,12 @@ class FullContact
 
     public static function getDataFor(Event\Registration $registration)
     {
-        $response = self::$client->get('https://api.fullcontact.com/v2/person.json', ['query' => [
-            'email' => $registration->email,
-            'apiKey' => \Config::get('fullcontact.api_key')
-        ]]);
+        try {
+            $response = self::$client->get('https://api.fullcontact.com/v2/person.json', ['query' => [
+                'email' => $registration->email,
+                'apiKey' => \Config::get('fullcontact.api_key')
+            ]]);
+        } catch (\Exception $ex) { return null; }
 
         if ($response->getStatusCode() == 202) {
             return false;

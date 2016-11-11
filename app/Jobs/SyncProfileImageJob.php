@@ -22,15 +22,15 @@ class SyncProfileImageJob extends Job
     {
         $fc_response = Services\FullContact::getDataFor($this->reg);
 
-        if (!isset($fc_response)) return; // No data
         if ($fc_response === false) {     // Data crawl in progress
             $s = new self($this->reg);
             $s->delay(60*60*6);
             $this->dispatch($s);
             return;
         }
+        if (!isset($fc_response) || !isset($fc_response->photos)) return; // No data
 
-        if ($fc_response->likelihood < 0.75) return;
+        if ($fc_response->likelihood < 0.6) return;
 
         $primary_photo = null;
         foreach ($fc_response->photos as $photo) {

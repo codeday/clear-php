@@ -110,7 +110,7 @@ class Registration extends \Eloquent {
     {
         return isset($this->profile_image)
                 ? $this->profile_image
-                : 'http://www.gravatar.com/avatar/'.hash('md5', $this->email).'?s=200&amp;d=mm';
+                : 'http://www.gravatar.com/avatar/'.hash('md5', $this->email).'?s=300&d=mm';
     }
 
     protected static function boot()

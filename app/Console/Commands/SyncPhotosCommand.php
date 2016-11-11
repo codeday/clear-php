@@ -22,6 +22,7 @@ class SyncPhotosCommand extends Command {
                     try {
                         (new Jobs\SyncProfileImageJob($reg))->handle();
                     } catch (\Exception $ex) { echo $ex->getMessage(); }
+                    usleep(250000);
                 }
             }
         }
