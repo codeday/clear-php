@@ -7,7 +7,7 @@
         <div class="checkin-registrations">
             {% for registration in event.registrations %}
                 <div class="registration {{ registration.type }} {% if (registration.type == 'student' or registration.type == 'volunteer') and (not registration.age or not (registration.parent_no_info or registration.parent_name) or not registration.waiver_pdf_link) %}missing{% endif %} {% if registration.checked_in_at %}checked-in{% else %}checked-out{% endif %}">
-                    <img src="{{ registration.profile_image_safe }}" />
+                    <span class="img" style="background-image: url({{ registration.profile_image_safe }})"></span>
                     <span class="name"><a href="/event/{{ registration.event.id }}/registrations/attendee/{{ registration.id }}" target="_blank">{{ registration.name }}</a></span>
                     <span class="email">{{ registration.email }}</span>
                     <span class="id">{{ registration.id }}</span>
