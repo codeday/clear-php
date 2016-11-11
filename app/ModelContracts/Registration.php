@@ -30,6 +30,13 @@ class Registration extends ModelContract
                 'value'         => function($model) { return $model->type; }
             ],
 
+            'profile_image' => [
+                'name'          => 'Profile Image',
+                'description'   => 'URL of the registration\'s profile image.',
+                'example'       => 'http://.../somerandomstring.jpg',
+                'value'         => function($model) { return $model->profile_image_safe; }
+            ],
+
             /* Name-Related Properties */
             'name' => [
                 'name'          => 'Full Name',

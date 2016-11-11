@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\ClearBeanstalkdQueueCommand::class,
         Commands\DispatchTransactionalEmailsCommand::class,
         Commands\DispatchWaiverSyncCommand::class,
+        Commands\SyncPhotosCommand::class,
         Commands\CronCommand::class
     ];
 

@@ -3,6 +3,8 @@ namespace CodeDay\Clear\Models\Batch\Event;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use CodeDay\Clear\Services;
+use CodeDay\Clear\Jobs;
+use Illuminate\Support\Facades\Bus;
 
 class Registration extends \Eloquent {
     protected $table = 'batches_events_registrations';
@@ -104,6 +106,13 @@ class Registration extends \Eloquent {
         return $this->hasOne('\CodeDay\Clear\Models\Batch\Event\Promotion', 'id', 'batches_events_promotion_id');
     }
 
+    public function getProfileImageSafeAttribute()
+    {
+        return isset($this->profile_image)
+                ? $this->profile_image
+                : 'http://www.gravatar.com/avatar/'.hash('md5', $this->email).'?s=200&amp;d=mm';
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -115,6 +124,8 @@ class Registration extends \Eloquent {
             } while (self::where('id', '=', $id)->exists());
 
             $model->{$model->getKeyName()} = $id;
+
+            Bus::dispatch(new Jobs\SyncProfileImageJob($model));
         });
     }
 
