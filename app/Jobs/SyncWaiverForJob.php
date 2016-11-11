@@ -22,9 +22,5 @@ class SyncWaiverForJob extends Job
     public function handle()
     {
         Services\Waiver::sync($this->reg);
-
-        if (!$this->reg->waiver_pdf_link && ($this->reg->updated_at->diffInDays() % 4 === 2)) {
-            Services\Waiver::resend($this->reg);
-        }
     }
 }

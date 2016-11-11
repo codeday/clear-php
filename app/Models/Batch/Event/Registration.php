@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Models\Batch\Event;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use CodeDay\Clear\Services;
 
 class Registration extends \Eloquent {
     protected $table = 'batches_events_registrations';
@@ -27,6 +28,11 @@ class Registration extends \Eloquent {
     public function getNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
+    }
+
+    public function getWaiverAttribute()
+    {
+        return Services\Waiver::get($this);
     }
 
     public function getRelatedRegistrationsAttribute()

@@ -56,13 +56,11 @@
 
                 <div class="parent">
                     <h4>Parent Info</h4>
-                    {% if registration.parent_no_info %}
-                        <p>(Over 18)</p>
-                        <input type="hidden" name="parent_name" value="{{ registration.parent_name }}" />
-                        <input type="hidden" name="parent_email" value="{{ registration.parent_email }}"/>
-                        <input type="hidden" name="parent_phone" value="{{ registration.parent_phone }}" />
-                        <input type="hidden" name="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
-                    {% else %}
+                    <div class="field">
+                        <label for="age">Age</label>
+                        <input type="number" name="age" id="age" value="{{ registration.age }}" />
+                    </div>
+                    {% registration.age < 18 %}
                         <div class="field">
                             <label for="parent_name">Name</label>
                             <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />

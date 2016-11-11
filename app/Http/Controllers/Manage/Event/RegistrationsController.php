@@ -96,14 +96,29 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
             \App::abort(404);
         }
 
+        $registration->email = \Input::get('email');
         $registration->first_name = \Input::get('first_name');
         $registration->last_name = \Input::get('last_name');
         $registration->type = \Input::get('type');
-        $registration->parent_name = \Input::get('parent_name');
-        $registration->parent_email = \Input::get('parent_email');
-        $registration->parent_phone = \Input::get('parent_phone');
-        $registration->parent_secondary_phone = \Input::get('parent_secondary_phone');
-        $registration->email = \Input::get('email');
+
+        if (\Input::get('age')) {
+            $registration->age = \Input::get('age');
+        }
+        if ($registration->age) {
+            $registration->parent_no_info = $registration->age >= 18;
+            if ($registration->parent_no_info) {
+                $registration->parent_name = null;
+                $registration->parent_email = null;
+                $registration->parent_phone = null;
+                $registration->parent_secondary_phone = null;
+            } else {
+                $registration->parent_name = \Input::get('parent_name');
+                $registration->parent_email = \Input::get('parent_email');
+                $registration->parent_phone = \Input::get('parent_phone');
+                $registration->parent_secondary_phone = \Input::get('parent_secondary_phone');
+                
+            }
+        }
         $registration->save();
 
         \Session::flash('status_message', $registration->name.' updated');
@@ -134,30 +149,11 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
         return \Redirect::to('/event/'.$event->id.'/registrations');
     }
 
-    public function postWaiver()
+    public function getWaiver()
     {
         $event = \Route::input('event');
         $registration = \Route::input('registration');
-        switch (\Input::get('action')) {
-            case 'resend':
-                Services\Waiver::resend($registration);
-                \Session::flash('status_message', 'Waiver signing request resent.');
-                break;
-            case 'cancel':
-                Services\Waiver::cancel($registration);
-                \Session::flash('status_message', 'Waiver signing request cancelled.');
-                break;
-            case 'send':
-                Services\Waiver::send($registration);
-                \Session::flash('status_message', 'Waiver sent.');
-                break;
-            case 'sync':
-                Services\Waiver::sync($registration);
-                \Session::flash('status_message', 'Waiver sync complete.');
-                break;
-        }
-
-        return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
+        return "One-time use only! ".$registration->waiver->signers[0]->getLink();
     }
 
 

@@ -22,6 +22,9 @@
 
     \Route::get('registration/by-email/{email}', 'Registrations@getByEmail');
     \Route::get('registration/{registration}', 'Registrations@getRegistration');
+    \Route::get('registration/{registration}/sign', 'Registrations@getSign');
+    \Route::get('registration/{registration}/sync-waiver', 'Registrations@getSyncWaiver');
+    \Route::post('registration/{registration}/parent-info', 'Registrations@postParentInfo');
 
     \Route::controller('promotions', 'Promotions');
     \Route::post('promotions/new', 'PromotionsController@postNew');

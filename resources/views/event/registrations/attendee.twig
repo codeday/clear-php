@@ -73,13 +73,11 @@
 
                 <div class="parent">
                     <h4>Parent Info</h4>
-                    {% if registration.parent_no_info %}
-                        <p>(Over 18)</p>
-                        <input type="hidden" name="parent_name" value="{{ registration.parent_name }}" />
-                        <input type="hidden" name="parent_email" value="{{ registration.parent_email }}"/>
-                        <input type="hidden" name="parent_phone" value="{{ registration.parent_phone }}" />
-                        <input type="hidden" name="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
-                    {% else %}
+                    <div class="field">
+                        <label for="age">Age</label>
+                        <input type="number" name="age" id="age" value="{{ registration.age }}" />
+                    </div>
+                    {% if registration.age < 18 %}
                         <div class="field">
                             <label for="parent_name">Name</label>
                             <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
@@ -198,24 +196,8 @@
         <section class="waiver menu-waiver">
             {% if registration.waiver_pdf_link %}
                 <a href="{{ registration.waiver_pdf_link }}">Download</a>
-            {% elseif registration.waiver_signing_id %}
-                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
-                    <input type="hidden" name="action" value="resend" />
-                    <input type="submit" value="Resend waiver signing request" />
-                {{ csrf|raw }}</form>
-                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
-                    <input type="hidden" name="action" value="cancel" />
-                    <input type="submit" value="Cancel waiver signing request" />
-                {{ csrf|raw }}</form>
-                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
-                    <input type="hidden" name="action" value="sync" />
-                    <input type="submit" value="Force re-check for signature" />
-                {{ csrf|raw }}</form>
-            {% elseif registration.parent_email or registration.parent_no_info %}
-                <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" method="POST">
-                    <input type="hidden" name="action" value="send" />
-                    <input type="submit" value="Send waiver signing request" />
-                {{ csrf|raw }}</form>
+            {% elseif registration.parent_no_info or (registration.parent_name and registration.parent_email) %}
+                <a href="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" target="_blank">Waiver Signing URL (will invalidate past URLs)</a>
             {% else %}
                 <p>Parent information not yet captured.</p>
             {% endif %}

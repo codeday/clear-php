@@ -95,6 +95,13 @@ class Registration extends ModelContract
                 'value'         => function($model) { return floatval($model->age); }
             ],
 
+            'waiver_pdf' => [
+                'name'          => 'Waiver PDF',
+                'description'   => 'The PDF of the completed, signed waiver.',
+                'example'       => 'https://.../longid.pdf',
+                'value'         => function($model) { return $model->waiver_pdf_link; }
+            ],
+
             /* Price-Related Properties */
             'amount_paid' => [
                 'name'          => 'Amount Paid',

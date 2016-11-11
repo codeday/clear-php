@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Http\Controllers\Api;
 
 use \CodeDay\Clear\Models;
+use CodeDay\Clear\Services;
 use \CodeDay\Clear\ModelContracts;
 
 class Registrations extends ApiController {
@@ -25,5 +26,47 @@ class Registrations extends ApiController {
         "latest_registration" => ModelContracts\Registration::Model($latest),
         "all_registrations" => ModelContracts\Registration::Collection($registrations)
     ]);
+  }
+
+  public function postParentInfo()
+  {
+    $this->requirePermission(['admin']);
+    $registration = \Route::input('registration');
+
+    if (\Input::get('age')) {
+        $registration->age = \Input::get('age');
+        if ($registration->age >= 18) {
+            $registration->parent_no_info = true;
+            $registration->parent_name = null;
+            $registration->parent_email = null;
+            $registration->parent_phone = null;
+            $registration->parent_secondary_phone = null;
+        }
+    }
+
+    if (\Input::get('parent_name') || \Input::get('parent_email')) {
+        $registration->parent_no_info = false;
+        $registration->parent_name = \Input::get('parent_name');
+        $registration->parent_email = \Input::get('parent_email');
+        $registration->parent_phone = \Input::get('parent_phone');
+        $registration->parent_secondary_phone = \Input::get('parent_secondary_phone');
+    }
+    $registration->save();
+    return json_encode(ModelContracts\Registration::Model($registration, $this->permissions));
+  }
+
+  public function getSign()
+  {
+    $this->requirePermission(['internal']);
+    $registration = \Route::input('registration');
+    Services\Waiver::sync($registration);
+    return json_encode(['url' => $registration->waiver->signers[0]->getLink()]);
+  }
+
+  public function getSyncWaiver()
+  {
+    $this->requirePermission(['internal']);
+    $registration = \Route::input('registration');
+    Services\Waiver::sync($registration);
   }
 }

@@ -4,10 +4,11 @@ namespace CodeDay\Clear\Services;
 use \Carbon\Carbon;
 use \CodeDay\Clear\Models\Batch\Event;
 use \CodeDay\Clear\Services;
+use CodeDay\Clear\Models;
 use Legalesign;
 
 class Waiver {
-    public static function send(Event\Registration $reg)
+    public static function create(Event\Registration $reg)
     {
         $waiver = null;
         if ($reg->parent_email) {
@@ -50,31 +51,16 @@ class Waiver {
             ->sendWithTemplatePdf($waiver);
         
         $reg->waiver_signing_id = $document->id;
-        $reg->waiver_signing_link = $document->signingUrls->signer_0;
-
-        Services\Email::SendOnQueue(
-            'CodeDay '.$reg->event->name, $reg->event->webname.'@codeday.org',
-            $toFirst.' '.$toLast, $toEmail,
-            'CodeDay Waiver',
-            \View::make('emails/registration/waiver', [
-                'parent' => $reg->parent_email ? true : false,
-                'waiver' => $reg->waiver_signing_link
-            ])
-        );
 
         $reg->save();
     }
 
-    public static function resend(Event\Registration $reg)
+    public static function get(Models\Batch\Event\Registration $reg)
     {
         if (!$reg->waiver_signing_id) {
-            throw new \Exception('No outstanding waiver');
+            self::create($reg);
         }
-
-        $document = Legalesign\Document::find($reg->waiver_signing_id);
-        foreach ($document->signers as $signer) {
-            $signer->remind();
-        }
+        return Legalesign\Document::find($reg->waiver_signing_id);
     }
 
     public static function cancel(Event\Registration $reg)
