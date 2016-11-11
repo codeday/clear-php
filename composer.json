@@ -21,7 +21,7 @@
         "twilio/sdk": "~4.2",
         "aws/aws-sdk-php": "3.*",
         "tecnickcom/TCPDF": "6.2.*",
-        "tylermenezes/legalesign-php": "^0.9",
+        "tylermenezes/legalesign-php": "0.9.3",
         "sendgrid/sendgrid": "^4.0",
         "tijsverkoyen/css-to-inline-styles": "^1.5",
         "soundasleep/html2text": "^0.3.1",
