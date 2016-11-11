@@ -116,7 +116,6 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
                 $registration->parent_email = \Input::get('parent_email');
                 $registration->parent_phone = \Input::get('parent_phone');
                 $registration->parent_secondary_phone = \Input::get('parent_secondary_phone');
-                
             }
         }
         $registration->save();

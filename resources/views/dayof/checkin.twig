@@ -4,61 +4,32 @@
 {% block subnav %}{% include "dayof/subnav.twig" %}{% endblock %}
 {% block content %}
         <input type="text" id="search" placeholder="Search by name or email" value="" autocomplete="off" />
-        <style type="text/css">
-            .checked-in td {
-                text-decoration: line-through;
-                opacity: 0.3;
-            }
+        <div class="checkin-registrations">
+            {% for registration in event.registrations %}
+                <div class="registration {{ registration.type }} {% if (registration.type == 'student' or registration.type == 'volunteer') and (not registration.age or not (registration.parent_no_info or registration.parent_name) or not registration.waiver_pdf_link) %}missing{% endif %} {% if registration.checked_in_at %}checked-in{% else %}checked-out{% endif %}">
+                    <img src="{{ registration.profile_image_safe }}" />
+                    <span class="name"><a href="/event/{{ registration.event.id }}/registrations/attendee/{{ registration.id }}" target="_blank">{{ registration.name }}</a></span>
+                    <span class="email">{{ registration.email }}</span>
+                    <span class="id">{{ registration.id }}</span>
+                    <span class="info">{{ registration.type }}: <a href="https://codeday.vip/{{ registration.id }}" target="_blank">{{ registration.id }}</a></span>
+                    {% if registration.type == 'student' or registration.type == 'volunteer' %}
+                        <span class="age">Age: {% if registration.age %}{{ registration.age }}{% else %}<span class="missing">missing</span>{% endif %}</span>
+                        <span class="parent">Parent: {% if registration.parent_no_info %}(exempt){% elseif not registration.parent_name %}<span class="missing">missing</span>{% else %}{{ registration.parent_name }}{% endif %}</span>
+                        <span class="waiver">Waiver: {% if registration.waiver_pdf_link %}<a href="{{ registration.waiver_pdf_link }}" target="_blank">ok</a>{% else %}<span class="missing">missing</span>{% endif %}</span>
+                    {% else %}
+                        <span class="age">Age: (exempt)</span>
+                        <span class="age">Parent: (exempt)</span>
+                        <span class="age">Waiver: (exempt)</span>
+                    {% endif %}
 
-            #search {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 2rem;
-            }
-
-            #registrants {
-                width: 100%;
-            }
-        </style>
-        <table id="registrants" class="checkin">
-            <thead>
-                <tr>
-                    <th class="name">Name</th>
-                    <th class="email">Email</th>
-                    <th class="id">Ticket</th>
-                    <th class="type">Type</th>
-                    <th class="missing">Missing</th>
-                    <th class="action">Check In?</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for registration in event.registrations %}
-                    <tr class="type-{{ registration.type }}
-                        {% if registration.checked_in_at %}checked-in{% endif %}
-                        ">
-                        <td class="name">{{ registration.name }}</td>
-                        <td class="email">{{ registration.email }}</td>
-                        <td class="id">{{ registration.id }}</td>
-                        <td class="type">{{ registration.type }}</td>
-                        <td class="missing">
-                            {% if not registration.parent_email and not registration.parent_no_info %}
-                                <a href="/e/parent?r={{ registration.id }}" target="_blank">parent info</a>{% if not registration.waiver_pdf_link %},{% endif %}
-                            {% endif %}
-                            {% if not registration.waiver_pdf_link and (registration.type == 'student' or registration.type == 'volunteer')%}
-                                waiver
-                            {% endif %}
-                        </td>
-                        <td class="action">
-                            <form class="checkin" method="post">
-                                <input type="hidden" name="id" value="{{ registration.id }}" />
-                                <input type="hidden" name="action" value="{% if registration.checked_in_at %}out{% else %}in{% endif %}"/>
-                                <input type="submit" value="{% if registration.checked_in_at %}Undo{% else %}Checkin{% endif %}" />
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    <form class="checkin" method="post">
+                        <input type="hidden" name="id" value="{{ registration.id }}" />
+                        <input type="hidden" name="action" value="{% if registration.checked_in_at %}out{% else %}in{% endif %}"/>
+                        <input type="submit" value="{% if registration.checked_in_at %}Check Out{% else %}Check In{% endif %}" />
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
 {% endblock %}
 {% block scripts %}
     <script type="application/javascript">
@@ -68,7 +39,7 @@
 
             var search = $(this).val();
 
-            $('#registrants tr').each(function(i, elem) {
+            $('.checkin-registrations .registration').each(function(i, elem) {
                 var name = "" + $(elem).children('.name').text();
                 var email = "" + $(elem).children('.email').text();
                 var id = "" + $(elem).children('.id').text();
@@ -77,15 +48,15 @@
                         || email.toUpperCase().indexOf(search.toUpperCase()) >= 0
                         || id.toUpperCase().indexOf(search.toUpperCase()) >= 0
                     || search == "") {
-                    $(this).css('display', 'table-row');
+                    $(this).css('display', 'inline-block');
                 } else {
                     $(this).css('display', 'none');
                 }
             });
 
             if (e.which == 13) {
-                if ($('#registrants tr:visible').length === 1) {
-                    $('#registrants tr:visible input[type="submit"]').click();
+                if ($('.checkin-registrations .registration:visible').length === 1) {
+                    $('.checkin-registrations .registration:visible input[type="submit"]').click();
                 }
             }
 
@@ -99,6 +70,12 @@
             var id = $(this).children('input[name="id"]').val();
             var action = $(this).children('input[name="action"]').val();
 
+            try {
+                var soundSuccess = new Audio('/assets/mp3/success.mp3');
+                var soundFailure = new Audio('/assets/mp3/failure.mp3');
+                var soundCheckout = new Audio('/assets/mp3/checkout.mp3');
+            } catch(e) {}
+
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -110,15 +87,26 @@
                 },
                 success: function(data) {
                     if (action == 'in') {
-                        _this.parent().parent().addClass('checked-in');
+                        _this.parent('.registration').addClass('checked-in');
+                        _this.parent('.registration').removeClass('checked-out');
                         _this.children('input[name="action"]').val('out');
-                        _this.children('input[type="submit"]').val('Undo');
+                        _this.children('input[type="submit"]').val('Check Out');
                     } else {
-                        _this.parent().parent().removeClass('checked-in');
+                        _this.parent('.registration').addClass('checked-out');
+                        _this.parent('.registration').removeClass('checked-in');
                         _this.children('input[name="action"]').val('in');
-                        _this.children('input[type="submit"]').val('Checkin');
+                        _this.children('input[type="submit"]').val('Check In');
                     }
                     $('#search').val('').trigger('keyup').focus();
+
+                    if (_this.parent('.registration').is('.missing') && action == 'in') {
+                        window.open('https://codeday.vip/'+_this.children('input[name="id"]').val(), '_blank').focus();
+                        soundFailure.play();
+                    } else if (action == 'in') {
+                        soundSuccess.play();
+                    } else {
+                        soundCheckout.play();
+                    }
                 },
                 error: function(error) {
                     swal({
@@ -126,6 +114,7 @@
                         text: error,
                         type: 'error'
                     });
+                    soundFailure.play();
                 }
             });
 

@@ -2,18 +2,67 @@ body.dayof
     .switcher
         text-align: center
 
-    .checkin
-        .type-teacher
-            color: $color-blue
-            font-weight: bold
-
-        .type-volunteer
-            color: $color-green
-            font-weight: bold
-
-        .type-sponsor
-            color: $color-red
-            font-weight: bold
+    #search
+        width: 100%
+        text-align: center
+        padding: 0.5rem 1rem
+        font-size: 1.2rem
+        border: 1px solid $foreground-color-light
+        border-radius: 2px
+        -moz-border-radius: 2px
+        -webkit-border-radius: 2pm
+    .checkin-registrations
+        margin-left: -1rem
+        .registration
+            display: inline-block
+            width: 100%
+            max-width: 29.25rem
+            height: 13rem
+            padding: 1rem
+            margin: 1rem 0 0 1rem
+            border: 1px solid $foreground-color-light
+            border-left:
+                color: $color-red
+                width: 5px
+            border-radius: 2px
+            -moz-border-radius: 2px
+            -webkit-border-radius: 2pm
+            &.checked-in
+                opacity: 0.4
+            &.volunteer
+                border-left-color: $color-green
+            &.teacher, &.mentor
+                border-left-color: $color-blue
+            &.vip, &.press, &.sponsor, &.judge
+                border-left-color: $foreground-color
+            img 
+                width: 30%
+                height: auto
+                float: left
+                margin-right: 1rem
+            & > span
+                display: block
+                white-space: nowrap
+                &.name
+                    font-size: 1.3rem
+                &.email
+                    display: none
+                &.id
+                    display: none
+                &.info
+                    font-size: 0.8rem
+                    text-transform: uppercase
+                    padding-bottom: 1rem
+                .missing
+                    font-weight: bold
+                    color: $color-red
+                    text-transform: uppercase
+            form input[type="submit"]
+                float: none
+                width: 30%
+                padding: 1rem
+                min-width: 0
+                clear: both
 
     .parent, .student
         width: 48%

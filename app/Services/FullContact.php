@@ -26,7 +26,6 @@ class FullContact
         }
     }
 
-
     public static function booting()
     {
         self::$client = new GuzzleHttp\Client([]);
