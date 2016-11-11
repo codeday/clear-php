@@ -100,7 +100,9 @@
                     $('#search').val('').trigger('keyup').focus();
 
                     if (_this.parent('.registration').is('.missing') && action == 'in') {
-                        window.open('https://codeday.vip/'+_this.children('input[name="id"]').val(), '_blank').focus();
+                        try {
+                            window.open('https://codeday.vip/'+_this.children('input[name="id"]').val(), '_blank').focus();
+                        } catch (ex) { alert("Missing parent info. Please disable your popup blocker, then check the attendee out/in."); }
                         soundFailure.play();
                     } else if (action == 'in') {
                         soundSuccess.play();
