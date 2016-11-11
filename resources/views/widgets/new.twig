@@ -201,7 +201,7 @@
 
     // # Process Payments
     Stripe.setPublishableKey('{{ stripe_pk }}');
-    $('.new-registration form #register-form').submit(function(e){
+    $('.new-registration #register-form').submit(function(e){
         if ($(".new-registration form #amount").val() == 0) {
             return;
         }
@@ -229,7 +229,7 @@
             } else {
                 var token = response.id;
                 $('.new-registration form #token').val(token);
-                $('.new-registration form #register-form').off().submit();
+                $('.new-registration #register-form').off().submit();
             }
         });
     });
