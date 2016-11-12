@@ -97,7 +97,9 @@
                         _this.children('input[name="action"]').val('in');
                         _this.children('input[type="submit"]').val('Check In');
                     }
-                    $('#search').val('').trigger('keyup').focus();
+					setTimeout(function(){
+						$('#search').val('').trigger('keyup').focus();
+					}, 2500);
 
                     if (_this.parent('.registration').is('.missing') && action == 'in') {
                         try {
