@@ -72,6 +72,8 @@
 
             try {
                 var soundSuccess = new Audio('/assets/mp3/success.mp3');
+                var soundStaff = new Audio('/assets/mp3/staff.mp3');
+                var soundVip = new Audio('/assets/mp3/vip.mp3');
                 var soundFailure = new Audio('/assets/mp3/failure.mp3');
                 var soundCheckout = new Audio('/assets/mp3/checkout.mp3');
             } catch(e) {}
@@ -107,7 +109,10 @@
                         } catch (ex) { alert("Missing parent info. Please disable your popup blocker, then check the attendee out/in."); }
                         soundFailure.play();
                     } else if (action == 'in') {
-                        soundSuccess.play();
+                        if (_this.parent('.registration').hasClass('vip')) soundVip.play();
+                        else if (_this.parent('.registration').hasClass('press')) soundVip.play();
+                        else if (_this.parent('.registration').hasClass('student')) soundSuccess.play();
+                        else soundStaff.play();
                     } else {
                         soundCheckout.play();
                     }
