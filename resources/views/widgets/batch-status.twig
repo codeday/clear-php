@@ -33,7 +33,7 @@
         {% for event in managed_batch.events %}
             <tr>
                 <th><a href="/event/{{ event.id }}">{{ event.name }}</a></th>
-                <td>{{ event.manager.name }}</td>
+                <td><a href="https://s5.srnd.org/user/{{ event.manager_username }}" target="_blank">{{ event.manager.name }}</a></td>
                 <td {% if event.manager_username %}class="okay"{% endif %}><span><span></span></span></td>
                 <td {% if event.venue %}class="okay"{% endif %}><span><span></span></span></td>
                 <td {% if event.allow_registrations %}class="okay"{% endif %}><span><span></span></span></td>
