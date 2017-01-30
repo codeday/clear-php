@@ -60,7 +60,7 @@
                         <label for="age">Age</label>
                         <input type="number" name="age" id="age" value="{{ registration.age }}" />
                     </div>
-                    {% registration.age < 18 %}
+                    {% if registration.age < 18 %}
                         <div class="field">
                             <label for="parent_name">Name</label>
                             <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
