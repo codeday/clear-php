@@ -26,9 +26,9 @@ class IncomingSupportController extends \CodeDay\Clear\Http\Controller {
 
         $xml = '<Response>';
         $xml .= '<Gather numDigits="1" action="/phone/support/region" method="GET">';
-        $xml .= '<Play>/assets/mp3/phonetimezones.mp3</Play>';
+        $xml .= '<Play>/assets/mp3/phone/support_open.mp3</Play>';
         $xml .= '<Pause length="4" />';
-        $xml .= '<Play>/assets/mp3/phonetimezones.mp3</Play>';
+        $xml .= '<Play>/assets/mp3/phone/timezones.mp3</Play>';
         $xml .= '</Gather>';
         $xml .= '</Response>';
 
@@ -51,7 +51,7 @@ class IncomingSupportController extends \CodeDay\Clear\Http\Controller {
         // Check if the region was valid
         if ($region_index < 1 || $region_index > count($regions)) {
             $response = \Response::make(
-                '<Response><Say voice="alice">Please select from one of the region options.</Say>'
+                '<Response><Play>/assets/mp3/phone/invalid.mp3</Play>'
                 .'<Redirect method="GET">/phone/support</Redirect></Response>', 200);
             $response->header('Content-type', 'text/xml');
             return $response;
@@ -65,10 +65,9 @@ class IncomingSupportController extends \CodeDay\Clear\Http\Controller {
         $i = 0;
         foreach ($events as $event) {
             $i++;
-            $xml .= '<Play>/assets/mp3/phonespeakto.mp3</Play>';
-            $xml .= '<Say voice="alice">'.$event->name.'</Say>';
-            $xml .= '<Play>/assets/mp3/phonepress.mp3</Play>';
-            $xml .= '<Say voice="alice">'.$i.'</Say>';
+            $xml .= '<Play>/assets/mp3/phone/codeday_pre.mp3</Play>';
+            $xml .= '<Say>'.$event->name.'</Say>';
+            $xml .= '<Play>/assets/mp3/phone/press_'.$i.'.mp3</Play>';
             $xml .= '<Pause length="1" />';
         }
 
@@ -97,7 +96,7 @@ class IncomingSupportController extends \CodeDay\Clear\Http\Controller {
         // Check if the event was valid
         if (!$event_index || !isset($events[$event_index - 1])) {
             $response = \Response::make(
-                '<Response><Say voice="alice">Please select from one of the event options.</Say>'
+                '<Response><Play>/assets/mp3/phone/invalid.mp3</Play>'
                 . '<Redirect method="GET">/phone/support/region?Digits=' . $region_index . '</Redirect></Response>', 200);
             $response->header('Content-type', 'text/xml');
             return $response;
@@ -128,6 +127,7 @@ class IncomingSupportController extends \CodeDay\Clear\Http\Controller {
 
 
         $xml = '<Response>';
+        $xml .= '<Play>/assets/mp3/phone/connecting.mp3</Play>';
         if (strpos($routeTo->phone, '@') !== false) {
             $xml .= '<Sip>'.$routeTo->phone.'</Sip>';
         } else {
