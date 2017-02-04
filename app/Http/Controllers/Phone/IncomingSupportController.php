@@ -20,8 +20,7 @@ class IncomingSupportController extends \CodeDay\Clear\Http\Controller {
     {
         if (Models\Batch::Loaded()->starts_at->isFuture()) {
             $xml = '<Response>';
-            $xml .= '<Say>Sorry, we aren\'t able to offer phone support this far in advance. This number will connect you with your local event staff on CodeDay.</Say>';
-            //$xml .= '<Play>/assets/mp3/phone/support_closed.mp3</Play>';
+            $xml .= '<Play>/assets/mp3/phone/support_closed.mp3</Play>';
             $xml .= '<Hangup />';
             $xml .= '</Response>';
 
