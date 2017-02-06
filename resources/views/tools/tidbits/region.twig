@@ -60,8 +60,9 @@
         <article class="event-tidbits">
             <header>
                 <h3>{{ event.name }} {{ event.batch.name }}</h3>
-                <p>An event hosted {{ event.starts_at|date('F j, Y') }} with {{ event.registrations|length }}
-                   registrants, {{ event.attendees_here|length }} of which attended.</p>
+                <p>An event hosted {{ event.starts_at|date('F j, Y') }} with
+                   <a href="/tools/tidbits/{{ region.webname }}/{{ event.id }}.csv">{{ event.registrations|length }}
+                   registrants,</a> {{ event.attendees_here|length }} of which attended.</p>
             </header>
             <section class="directory">
                 <h3>Directory Listing</h3>

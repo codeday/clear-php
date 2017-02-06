@@ -167,4 +167,45 @@ class Registration {
             ])
         );
     }
+
+    public static function GetCsv(Models\Batch\Event $event)
+    {
+        $registrations = iterator_to_array($event->registrations);
+
+        // First, sort the registrations:
+        usort($registrations, function($a, $b) {
+            $typeSort = strcmp($a->type, $b->type);
+            $lnameSort = strcmp($a->last_name, $b->last_name);
+            $fnameSort = strcmp($b->first_name, $b->first_name);
+
+            return $typeSort != 0 ? $typeSort : ($lnameSort != 0 ? $lnameSort : $fnameSort);
+        });
+
+        // Generate the file
+        $content = implode("\n",
+            array_map(function($reg) {
+                return implode(',', [$reg->type, $reg->last_name, $reg->first_name, $reg->email,
+                    ($reg->promotion ? $reg->promotion->code : ''), $reg->amount_paid,
+                    $reg->parent_name, $reg->parent_email, $reg->parent_phone, $reg->parent_secondary_phone,
+                    $reg->checked_in_at, $reg->created_at]);
+            }, array_merge(
+                [(object)[
+                    'type' => 'type',
+                    'last_name' => 'lastname',
+                    'first_name' => 'firstname',
+                    'email' => 'email',
+                    'promotion' => (object)['code' => 'promocode'],
+                    'amount_paid' => 'paid',
+                    'parent_name' => 'parentname',
+                    'parent_email' => 'parentemail',
+                    'parent_phone' => 'parentphone',
+                    'parent_secondary_phone' => 'parentphonealt',
+                    'checked_in_at' => 'checkedin',
+                    'created_at' => 'created']],
+                $registrations
+            ))
+        );
+
+        return $content;
+    }
 }

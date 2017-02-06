@@ -4,6 +4,7 @@
     \Route::get('', function(){ return \Redirect::to('/tools/tidbits'); });
 
     \Route::get('/tidbits/{region}', 'TidbitsController@getRegion');
+    \Route::get('/tidbits/{region}/{event}.csv', 'TidbitsController@getCsv');
     \Route::controller('/tidbits', 'TidbitsController');
 
     \Route::post('/applications/new', 'ApplicationsController@postNew');
