@@ -13,6 +13,8 @@ return [
     'env' => 'production',
     'manifest' => storage_path().'/meta',
     'log' => $config['app']['debug'] ? 'single' : 'syslog',
+    'price_earlybird' => $config['app']['price_earlybird'] ?? 10,
+    'price_regular' => $config['app']['price_regular'] ?? 20,
     'providers' => [
 
         /*

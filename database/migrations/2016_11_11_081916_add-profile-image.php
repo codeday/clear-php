@@ -25,7 +25,7 @@ class AddProfileImage extends Migration
     public function down()
     {
         \Schema::table('batches_events_registrations', function(Blueprint $table) {
-            $table->string('profile_image')->nullable();
+            $table->dropColumn('profile_image');
         });
     }
 }

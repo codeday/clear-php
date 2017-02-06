@@ -20,6 +20,8 @@ class SpecialController extends \CodeDay\Clear\Http\Controller {
         $event->abbr_override = \Input::get('abbr_override') ? \Input::get('abbr_override') : null;
         $event->waiver_id = \Input::get('waiver_id') ? \Input::get('waiver_id') : null;
         $event->webname_override = \Input::get('webname_override') ? \Input::get('webname_override') : null;
+        $event->price_earlybird = \Input::get('price_earlybird') ?? 10;
+        $event->price_regular = \Input::get('price_regular') ?? 20;
         $event->save();
 
         return \Redirect::to('/event/'.$event->id.'/special');

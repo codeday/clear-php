@@ -203,9 +203,9 @@ class Event extends \Eloquent {
     public function getCostAttribute()
     {
         if ($this->is_early_bird_pricing) {
-            return 10;
+            return $this->price_earlybird;
         } else {
-            return 20;
+            return $this->price_regular;
         }
     }
 
@@ -260,7 +260,8 @@ class Event extends \Eloquent {
     public function getIsEarlyBirdPricingAttribute()
     {
         return $this->early_bird_ends_at->isFuture()
-            && $this->registrations->count() <= $this->early_bird_max_registrations;
+            && $this->registrations->count() <= $this->early_bird_max_registrations
+            && $this->price_earlybird < $this->price_regular;
     }
 
     public function getEarlyBirdEndsAtAttribute()
@@ -829,6 +830,8 @@ class Event extends \Eloquent {
 
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = str_random(12);
+            $model->price_earlybird = config('app.price_earlybird');
+            $model->price_regular = config('app.price_regular');
         });
     }
 }

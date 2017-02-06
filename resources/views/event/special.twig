@@ -58,6 +58,20 @@
             <span class="help">Changes the webname used on the site, while still keeping the same region.</span>
         </div>
 
+        <div class="field">
+            <label for="price_earlybird">Earlybird Price</label>
+            <input type="text" id="price_earlybird" name="price_earlybird" value="{{ event.price_earlybird }}" />
+            <span class="help">Earlybird (<40% and before the week-of) price. If this is the same as the regular
+                               price, earlybird pricing will not apply.</span>
+        </div>
+
+        <div class="field">
+            <label for="price_regular">Regular Price</label>
+            <input type="text" id="price_regular" name="price_regular" value="{{ event.price_regular }}" />
+            <span class="help">Regular price.</span>
+        </div>
+
+
         <input type="submit" value="Save" />
     {{ csrf|raw }}</form>
 
