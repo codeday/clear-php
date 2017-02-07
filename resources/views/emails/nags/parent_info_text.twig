@@ -3,13 +3,15 @@ Hi {{ registration.first_name }},
 
 Thanks for registering for CodeDay {{ registration.event.name }}. {{ registration.event.starts_at|date('F jS') }} is fast approaching, and we want to make sure you're ready to attend.
 
-Before you can attend CodeDay, we need your parent contact info. We'll use this to get in touch with them in case anything goes wrong during the event (unlikely), and to let them know what cool things you made at CodeDay (way more likely).
+Before you attend, we need a little more information:
 
-Can you fill out your parent information here: https://codeday.vip/{{ registration.id }}
+  - Your age
+  - If you're under 18, your parent contact info
+  - A signed waiver
 
-It'll only take a second. Thanks!
+You'll also need to print your ticket.
 
-(If you're over 18 and not living with your parents, you'll be able to indicate that on that page, instead.)
+You can complete these final steps in about a minute right here: https://codeday.vip/{{ registration.id }}
 
 Cheers!
 The CodeDay Team

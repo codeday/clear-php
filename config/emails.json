@@ -29,7 +29,7 @@
             },
             {
                 "id":   "student_slack",
-                "subject": "Invitation to Join the CodeDay Chat",
+                "subject": "Invitation to the CodeDay Community",
                 "html": "emails/slack/student_html",
                 "when": "+0"
             },
@@ -54,32 +54,34 @@
                 "id":   "volunteer_preevent",
                 "subject": "It's almost CodeDay",
                 "html": "emails/preevent/staff_html",
-                "when": "-3d",
-                "work": true
+                "when": "-3d"
             },
             {
                 "id":   "volunteer_slack",
-                "subject": "Invitation to Join the StudentRND Slack",
+                "subject": "Please Join the StudentRND Slack",
                 "html": "emails/slack/volunteer_html",
-                "when": "+5d",
-                "work": true
+                "when": "+1d"
             }
         ],
         
         "mentor": [
             {
+                "id":   "mentor_confirm",
+                "subject": "Confirmed: Mentoring at CodeDay",
+                "html": "emails/registration/mentor_html",
+                "when": "+0"
+            },
+            {
                 "id":   "mentor_preevent",
                 "subject": "Mentors: What to know for CodeDay",
                 "html": "emails/preevent/mentor_html",
-                "when": "-3d",
-                "work": true
+                "when": "-3d"
             },
             {
-                "id":   "volunteer_slack",
-                "subject": "Invitation to Join the StudentRND Slack",
+                "id":   "mentor_slack",
+                "subject": "Please Join the StudentRND Slack",
                 "html": "emails/slack/volunteer_html",
-                "when": "+5d",
-                "work": true
+                "when": "-2d"
             }
         ],
         
@@ -105,11 +107,16 @@
         
         "judge": [
             {
+                "id":   "judge_confirm",
+                "subject": "Confirmed: Judging at CodeDay",
+                "html": "emails/registration/judge_html",
+                "when": "+0"
+            },
+            {
                 "id":   "judge_preevent",
                 "subject": "Information for CodeDay Judges",
                 "html": "emails/preevent/judge_html",
-                "when": "-3d",
-                "work": true
+                "when": "-3d"
             }
         ],
 
