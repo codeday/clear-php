@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder {
 						$present_batch = new Models\Batch;
 						$present_batch->starts_at = time() + (60 * 60 * 24 * 365 * 10);
 						$present_batch->name = "Far Future";
-						$present_batch->is_loaded = true;
+                        $present_batch->is_loaded = true;
+                        $present_batch->allow_registrations = true;
 						$present_batch->save();
 						
             $past_batch = new Models\Batch;
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder {
         // Add regions
         $regions = explode("\n", file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'regions.csv'));
         foreach ($regions as $region) {
+            if (rand(0,10) < 6) continue;
             list($name, $webname, $abbr, $timezone, $lat, $lng) = explode(',', $region);
             if (!Models\Region::find($webname)) {
                 $region = new Models\Region;
@@ -52,7 +54,34 @@ class DatabaseSeeder extends Seeder {
                 $event->batch_id = $batch->id;
                 $event->manager_username = null;
                 $event->registration_estimate = 100;
+                $event->venue_name = "StudentRND";
+                $event->venue_address_1 = "425 15th Ave E";
+                $event->venue_city = "Seattle";
+                $event->venue_state = "WA";
+                $event->venue_postal = "98102";
+                $event->venue_country = "US";
+                $event->venue_contact_first_name = "Tyler";
+                $event->venue_contact_last_name = "Menezes";
+                $event->venue_contact_email = "tylermenezes@srnd.org";
+                $event->venue_contact_phone = "1886077763";
+                $event->max_registrations = 100;
+                $event->allow_registrations = rand(0,10) < 8;
                 $event->save();
+
+                if ($event->allow_registrations) {
+                    $attendees = rand(10,100);
+                    for($i = 0; $i < $attendees; $i++) {
+                        $attendee = new Models\Batch\Event\Registration;
+                        $attendee->id = \str_random(10);
+                        $attendee->first_name = ucfirst($this->randWord());
+                        $attendee->last_name = ucfirst($this->randWord());
+                        $attendee->amount_paid = 10;
+                        $attendee->email = "null@localhost.localhost";
+                        $attendee->type = array_rand(['student', 'student', 'student', 'student', 'student', 'student', 'student', 'volunteer', 'mentor', 'judge']);
+                        $attendee->batches_event_id = $event->id;
+                        $attendee->save();
+                    }
+                }
             }
         }
 
@@ -72,7 +101,30 @@ class DatabaseSeeder extends Seeder {
             $app->private = 'testtesttesttesttesttest';
             $app->save();
         }
+    }
 
-	}
+    private function randWord() {
+        $handle = @fopen("/usr/share/dict/words", "r");
+        if ($handle) {
+            $random_line = null;
+            $line = null;
+            $count = 0;
+            while (($line = fgets($handle, 4096)) !== false) {
+                $count++;
+                // P(1/$count) probability of picking current line as random line
+                if(rand() % $count == 0) {
+                  $random_line = $line;
+                }
+            }
+            if (!feof($handle)) {
+                echo "Error: unexpected fgets() fail\n";
+                fclose($handle);
+                return null;
+            } else {
+                fclose($handle);
+            }
+            return $random_line;
+        }
+    }
 
 }
