@@ -78,6 +78,15 @@
                 var soundCheckout = new Audio('/assets/mp3/checkout.mp3');
             } catch(e) {}
 
+
+            if (_this.parent('.registration').is('.missing') && action == 'in') {
+                soundFailure.play();
+                setTimeout(function(){
+                    $('#search').val('').trigger('keyup').focus();
+                }, 2500);
+                return false;
+            }
+
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -103,12 +112,7 @@
 						$('#search').val('').trigger('keyup').focus();
 					}, 2500);
 
-                    if (_this.parent('.registration').is('.missing') && action == 'in') {
-                        try {
-                            window.open('https://codeday.vip/'+_this.children('input[name="id"]').val(), '_blank').focus();
-                        } catch (ex) { alert("Missing parent info. Please disable your popup blocker, then check the attendee out/in."); }
-                        soundFailure.play();
-                    } else if (action == 'in') {
+                    if (action == 'in') {
                         if (_this.parent('.registration').hasClass('vip')) soundVip.play();
                         else if (_this.parent('.registration').hasClass('press')) soundVip.play();
                         else if (_this.parent('.registration').hasClass('student')) soundSuccess.play();
