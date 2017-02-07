@@ -22,7 +22,7 @@ abstract class ModelContract implements \Serializable, \IteratorAggregate, \Json
         return new static($model, $permissions, $sparse);
     }
 
-    public static function Collection($collection, $permissions = [], $contract_name = null)
+    public static function Collection($collection, $permissions = [], $contract_name = null, $sparse = true)
     {
         $models = [];
         foreach ($collection as $model) {
@@ -30,7 +30,7 @@ abstract class ModelContract implements \Serializable, \IteratorAggregate, \Json
                 $reflector = new \ReflectionObject($model);
                 $contract_name = '\\CodeDay\\Clear\\ModelContracts\\'.$reflector->getShortName();
             }
-            $models[] = $contract_name::Model($model, $permissions, true);
+            $models[] = $contract_name::Model($model, $permissions, $sparse);
         }
         return $models;
     }
