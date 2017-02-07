@@ -69,7 +69,7 @@ class DatabaseSeeder extends Seeder {
                 $event->save();
 
                 if ($event->allow_registrations) {
-                    $attendees = rand(10,100);
+                    $attendees = rand(60,100);
                     for($i = 0; $i < $attendees; $i++) {
                         $attendee = new Models\Batch\Event\Registration;
                         $attendee->id = \str_random(10);
@@ -77,7 +77,20 @@ class DatabaseSeeder extends Seeder {
                         $attendee->last_name = ucfirst($this->randWord());
                         $attendee->amount_paid = 10;
                         $attendee->email = "null@localhost.localhost";
-                        $attendee->type = array_rand(['student', 'student', 'student', 'student', 'student', 'student', 'student', 'volunteer', 'mentor', 'judge']);
+                        $attendee->type = rand(0,10) < 7 ? 'student' : array_rand(['volunteer', 'mentor', 'judge', 'vip']);
+                        if (rand(0,10) < 8) {
+                            $attendee->age = rand(15,30);
+                            if ($attendee->age >= 18) {
+                                $attendee->parent_no_info = true;
+                            } else {
+                                $attendee->parent_name = "Tyler Menezes";
+                                $attendee->parent_email = "null@localhost.localhost";
+                                $attendee->parent_phone = "2067394741";
+                            }
+                            if (rand(0,10) < 5) {
+                                $attendee->waiver_pdf_link = "https://example.com/";
+                            }
+                        }
                         $attendee->batches_event_id = $event->id;
                         $attendee->save();
                     }
