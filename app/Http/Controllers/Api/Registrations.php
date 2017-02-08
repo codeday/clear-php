@@ -21,10 +21,12 @@ class Registrations extends ApiController {
       return json_encode(['latest_registration' => null, 'all_registrations' => []]);
     }
 
+    $sparse = (\Input::get('sparse') == "true" ? true : false);
+    
     $latest = $registrations[0];
     return json_encode([
-        "latest_registration" => ModelContracts\Registration::Model($latest),
-        "all_registrations" => ModelContracts\Registration::Collection($registrations)
+        "latest_registration" => ModelContracts\Registration::Model($latest, ["admin"]),
+        "all_registrations" => ModelContracts\Registration::Collection($registrations, ["admin"], null, $sparse)
     ]);
   }
 
