@@ -282,7 +282,7 @@ class Email {
                     return [
                         (object)[
                             'name' => Models\User::me()->name,
-                            'email' => Models\User::me()->username.'@studentrnd.org',
+                            'email' => Models\User::me()->username.'@srnd.org',
                             'registration' => ModelContracts\Registration::Model(
                                 Models\Batch\Event\Registration::orderByRaw('RAND()')->first()
                             , ['internal'])

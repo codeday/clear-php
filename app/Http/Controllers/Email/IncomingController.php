@@ -32,7 +32,7 @@ class IncomingController extends \CodeDay\Clear\Http\Controller {
             ->first();
 
         $forwardTo = (isset($event) && $event->support_destination)
-            ? $event->support_destination : 'support@studentrnd.org';
+            ? $event->support_destination : 'support@srnd.org';
 
         $messageUrl = \Input::get('message-url');
 

@@ -40,8 +40,8 @@ class SendRMEventStatusJob {
         foreach ($emailEvents as $event) {
             echo "Sending email to ".$event->manager->name."\n";
             Services\Email::SendOnQueue(
-                'StudentRND Happy Robot', 'contact@studentrnd.org',
-                $event->manager->name, $event->manager->username.'@studentrnd.org',
+                'StudentRND Happy Robot', 'contact@srnd.org',
+                $event->manager->name, $event->manager->username.'@srnd.org',
                 ucfirst($interval).' Event Update For '.date('l, F j'),
                 null,
                 \View::make('emails/rm_event_status_html', [

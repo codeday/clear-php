@@ -22,7 +22,7 @@ class SendEvangelistInfoReminderJob {
             foreach ($evangelistsWithMissingInformation as $evangelist) {
                 echo "Queuing reminder for {$evangelist->name}\n";
                 Services\Email::SendOnQueue(
-                    'StudentRND Robot', 'contact@studentrnd.org',
+                    'StudentRND Robot', 'contact@srnd.org',
                     $evangelist->name, $evangelist->email,
                     'Phone Number Required For CodeDay',
                     null,

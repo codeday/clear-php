@@ -27,8 +27,8 @@ class SendRMInfoReminderJob {
             foreach ($eventsWithMissingInformation as $event) {
                 echo "Queuing reminder for {$event->name}\n";
                 Services\Email::SendOnQueue(
-                    'StudentRND Robot', 'contact@studentrnd.org',
-                    $event->manager->name, $event->manager->username.'@studentrnd.org',
+                    'StudentRND Robot', 'contact@srnd.org',
+                    $event->manager->name, $event->manager->username.'@srnd.org',
                     'Missing Event Info Reminder For '.date('l, F j'),
                     null,
                     \View::make('emails/nags/rm_info_html', ['user' => $event->manager])

@@ -9,15 +9,15 @@
                 {% if event %}
                     {% if event.manager %}
                         <option value="manager">{{ event.manager.name }}
-                            &lt;{{ event.manager.username }}@studentrnd.org&gt;</option>
+                            &lt;{{ event.manager.username }}@srnd.org&gt;</option>
                     {% endif %}
                     {% if not event.manager or me.username != event.manager.username %}
-                        <option value="me">{{ me.name }} &lt;{{ me.username }}@studentrnd.org&gt;</option>
+                        <option value="me">{{ me.name }} &lt;{{ me.username }}@srnd.org&gt;</option>
                     {% endif %}
                     <option value="codeday">CodeDay {{ event.name }} &lt;{{ event.webname }}@codeday.org&gt;</option>
                 {% else %}
-                    <option value="manager">Event Manager &lt;manager@studentrnd.org&gt;</option>
-                    <option value="me">{{ me.name }} &lt;{{ me.username }}@studentrnd.org&gt;</option>
+                    <option value="manager">Event Manager &lt;manager@srnd.org&gt;</option>
+                    <option value="me">{{ me.name }} &lt;{{ me.username }}@srnd.org&gt;</option>
                     <option value="codeday">Event Alias &lt;event@codeday.org&gt;</option>
                 {% endif %}
             </select>

@@ -146,7 +146,7 @@ class User extends \Eloquent {
 
     public function getInternalEmailAttribute()
     {
-        return $this->username.'@studentrnd.org';
+        return $this->username.'@srnd.org';
     }
 
     public function managedEvents()

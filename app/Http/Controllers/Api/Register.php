@@ -174,7 +174,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
                     'message' => $ban->reason_text
                         . ($ban->expires_at ? '<br /><br />You will be able to register again after '
                             .date('F j, Y', $ban->expires_at->timestamp).'.' : '')
-                        . '<br /><br />You must <a href="mailto:contact@studentrnd.org">contact us</a> if believe this'
+                        . '<br /><br />You must <a href="mailto:contact@srnd.org">contact us</a> if believe this'
                         . ' is incorrect; if you register under a different name or email you will be turned away at'
                         . ' the door without a refund.'
                 ];

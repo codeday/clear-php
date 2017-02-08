@@ -92,12 +92,12 @@ class EmailsController extends \CodeDay\Clear\Http\Controller {
             case "me":
                 return (object)[
                     'name' => Models\User::me()->name,
-                    'email' => Models\User::me()->username.'@studentrnd.org'
+                    'email' => Models\User::me()->username.'@srnd.org'
                 ];
             case "manager":
                 return (object)[
                     'name' => $event->manager->name,
-                    'email' => $event->manager->username.'@studentrnd.org'
+                    'email' => $event->manager->username.'@srnd.org'
                 ];
             case "codeday":
                 return (object)[
