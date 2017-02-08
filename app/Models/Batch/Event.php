@@ -493,7 +493,7 @@ class Event extends \Eloquent {
             $entry = $standard_schedule[$i];
 
             $timestamp = $this->batch->starts_at->copy()->addHours(12)->addMinutes($entry->time * 60);
-            $day = $timestamp->format('l');
+            $day = $timestamp->format('l, F j');
             if (floor($this->time) != $this->time) {
                 $hour = $timestamp->format('g:ia');
             } else {
@@ -534,7 +534,7 @@ class Event extends \Eloquent {
         }
 
         // Sort by date
-        $days = ['Saturday' => [], 'Sunday' => []];
+        $days = [];
         foreach ($unified_schedule as $entry) {
             $days[$entry->day][] = $entry;
         }
