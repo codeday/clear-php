@@ -516,8 +516,8 @@ class Event extends \Eloquent {
                 'description' => $activity->description,
                 'timestamp' => $activity->timestamp,
                 'hour' => $activity->hour,
-                'day' => $activity->day
-            ];
+                'day' => $activity->day == 'Saturday' ? $this->starts_at->format('l, F j') : $this->ends_at->format('l, F j');
+            ]; // HACK
         }
 
         // Build the unified schedule
