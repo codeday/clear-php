@@ -267,6 +267,12 @@ class Event extends ModelContract
                 }
             ],
 
+            'has_related_events' => [
+                'name'          => 'Has Related Events',
+                'description'   => 'True if the event has related events. Available in sparse calls.',
+                'value'         => function($model, $permissions, $sparse) { return count($model->related_events) > 0; }
+            ],
+
             'related_events' => [
                 'name'          => 'Related Events',
                 'description'   => 'An array of events taking place in the same region.',
