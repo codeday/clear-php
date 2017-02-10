@@ -168,7 +168,7 @@ class Registration {
         );
     }
 
-    public static function GetCsv(Models\Batch\Event $event)
+    public static function GetCsv(Models\Batch\Event $event, $printHeader = true)
     {
         $registrations = iterator_to_array($event->registrations);
 
@@ -181,31 +181,45 @@ class Registration {
             return $typeSort != 0 ? $typeSort : ($lnameSort != 0 ? $lnameSort : $fnameSort);
         });
 
+        // Generate the header
+        $header = [];
+        if ($printHeader) {
+            $header = [(object)[
+                        'type' => 'type',
+                        'last_name' => 'lastname',
+                        'first_name' => 'firstname',
+                        'email' => 'email',
+                        'promotion' => (object)['code' => 'promocode'],
+                        'amount_paid' => 'paid',
+                        'parent_name' => 'parentname',
+                        'parent_email' => 'parentemail',
+                        'parent_phone' => 'parentphone',
+                        'parent_secondary_phone' => 'parentphonealt',
+                        'checked_in_at' => 'checkedin',
+                        'created_at' => 'created',
+                        'event'     => (object)['webname' => 'event']]];
+        }
+
         // Generate the file
         $content = implode("\n",
             array_map(function($reg) {
-                return implode(',', [$reg->type, $reg->last_name, $reg->first_name, $reg->email,
+                return str_replace("\n", "", implode(',', [$reg->event->webname, $reg->type, $reg->last_name, $reg->first_name, $reg->email,
                     ($reg->promotion ? $reg->promotion->code : ''), $reg->amount_paid,
                     $reg->parent_name, $reg->parent_email, $reg->parent_phone, $reg->parent_secondary_phone,
-                    $reg->checked_in_at, $reg->created_at]);
-            }, array_merge(
-                [(object)[
-                    'type' => 'type',
-                    'last_name' => 'lastname',
-                    'first_name' => 'firstname',
-                    'email' => 'email',
-                    'promotion' => (object)['code' => 'promocode'],
-                    'amount_paid' => 'paid',
-                    'parent_name' => 'parentname',
-                    'parent_email' => 'parentemail',
-                    'parent_phone' => 'parentphone',
-                    'parent_secondary_phone' => 'parentphonealt',
-                    'checked_in_at' => 'checkedin',
-                    'created_at' => 'created']],
-                $registrations
-            ))
+                    $reg->checked_in_at, $reg->created_at]));
+            }, array_merge($header, $registrations))
         );
 
         return $content;
+    }
+
+    public static function GetCsvMultiple($events)
+    {
+        $out = '';
+        foreach ($events as $event) {
+            $out .= self::GetCsv($event, strlen($out) === 0)."\n";
+        }
+
+        return $out;
     }
 }

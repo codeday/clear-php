@@ -15,5 +15,6 @@
         \Route::controller('shipments', 'ShipmentController');
         \Route::controller('send-sms', 'SendSmsController');
         \Route::controller('news', 'NewsController');
+        \Route::controller('csv', 'CsvController');
     });
 });
