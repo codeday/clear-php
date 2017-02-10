@@ -8,6 +8,10 @@ class CsvController extends \CodeDay\Clear\Http\Controller {
 
     public function getIndex()
     {
-        return Services\Registration::GetCsvMultiple(Models\Batch::Managed()->events);
+        $content = Services\Registration::GetCsvMultiple(Models\Batch::Managed()->events);
+
+        return (new \Illuminate\Http\Response($content, 200))
+            ->header('Content-type', 'text/csv')
+            ->header('Content-disposition', 'attachment;filename=all-attendees-'.time().'.csv');
     }
 } 
