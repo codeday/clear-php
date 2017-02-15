@@ -385,21 +385,25 @@ class Event extends \Eloquent {
 
     public function getScheduleAttribute()
     {
+        // TODO get rid of this and add a proper dynamic implementation
+        // thanks snail!
+        $hour_modifier = ($this->id == "CeyUkiIak5GW" ? 1 : 0);
+
         $standard_schedule = [
             (Object)[
-                'time' => -1,
+                'time' => -1 + $hour_modifier,
                 'title' => 'Doors open',
                 'type' => 'event',
                 'description' => "Please don't show up earlier, you'll be waiting outside!"
             ],
             (Object)[
-                'time' => 0,
+                'time' => 0 + $hour_modifier,
                 'title' => 'Kickoff & Pitches',
                 'type' => 'event',
                 'description' => "Not sure what you want to work on? Our Code Evangelists will help you get some ideas and form a team."
             ],
             (Object)[
-                'time' => 1,
+                'time' => 1 + $hour_modifier,
                 'title' => 'Start Coding!',
                 'type' => 'event',
                 'description' => "After forming teams, it's time to get to work on your project! Our Code Evangelists and other mentors will be helping teams throughout the event."
