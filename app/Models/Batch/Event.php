@@ -461,7 +461,7 @@ class Event extends \Eloquent {
                 'description' => "All food is included with your ticket!"
             ],
             (Object)[
-                'time' => 7,
+                'time' => 6,
                 'title' => 'Dinner',
                 'type' => 'event',
                 'description' => "All food is included with your ticket!"
