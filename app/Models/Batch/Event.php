@@ -512,6 +512,7 @@ class Event extends \Eloquent {
         // Get activities
         $activities = [];
         foreach ($this->activities as $activity) {
+            $activity->timestamp->tz = $this->region->timezone;
             $activities[] = (object)[
                 'time' => $activity->time,
                 'title' => $activity->title,
@@ -532,6 +533,7 @@ class Event extends \Eloquent {
 
         // Make sure getters are gotten
         for ($i = 0; $i < count($unified_schedule); $i++) {
+            $unified_schedule[$i]->timestamp->timezone = $this->region->timezone;
             $unified_schedule[$i]->timestamp = $unified_schedule[$i]->timestamp;
             $unified_schedule[$i]->hour = $unified_schedule[$i]->hour;
             $unified_schedule[$i]->day = $unified_schedule[$i]->day;
