@@ -533,8 +533,9 @@ class Event extends \Eloquent {
 
         // Make sure getters are gotten
         for ($i = 0; $i < count($unified_schedule); $i++) {
+            $offset = $unified_schedule[$i]->timestamp->offset;
             $unified_schedule[$i]->timestamp->timezone = $this->region->timezone;
-            $unified_schedule[$i]->timestamp = $unified_schedule[$i]->timestamp;
+            $unified_schedule[$i]->timestamp->addSeconds($offset - $unified_schedule[$i]->timestamp->offset);
             $unified_schedule[$i]->hour = $unified_schedule[$i]->hour;
             $unified_schedule[$i]->day = $unified_schedule[$i]->day;
         }
