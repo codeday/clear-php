@@ -79,8 +79,9 @@
             } catch(e) {}
 
 
-            if (_this.parent('.registration').is('.missing') && action == 'in') {
+            if (_this.parent('.registration').is('.missing') && action == 'in' && _this.find('input[type="submit"]').val() != 'Force') {
                 soundFailure.play();
+                _this.find('input[type="submit"]').val('Force');
                 setTimeout(function(){
                     $('#search').val('').trigger('keyup').focus();
                 }, 2500);
