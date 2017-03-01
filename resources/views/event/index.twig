@@ -3,11 +3,6 @@
 {% block section %}event{% endblock %}
 {% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
 {% block content %}
-    {% if event.allow_registrations_calculated %}
-        <div id="registrations-over-time" style="width:50%"></div>
-        <div id="age-bins" style="width: 50%"></div>
-    {% endif %}
-
     <section class="status">
         {% set attendance_goal = ((event.previous_event.registrations|length)*1.1)|number_format(0) %}
         {% if attendance_goal < 60 %}{% set attendance_goal = 60 %}{% endif %}
@@ -19,7 +14,7 @@
                 "goal": "By "~(event.starts_at.addMonths(-2).timestamp|date('F j'))
             },
             {
-                "label": "Sponsorship Revenue",
+                "label": "Sponsorship",
                 "value": "$"~(event.sponsor_revenue|number_format(0)),
                 "goal": "$750",
                 "success": event.sponsor_revenue > 750
@@ -28,7 +23,7 @@
                 "label": "Attendees",
                 "value": event.registrations|length,
                 "goal": attendance_goal,
-                "success": (event.registration|length) > attendance_goal
+                "success": (event.registrations|length) > attendance_goal
             }
         ] %}
         <ul class="kpis">
@@ -39,25 +34,28 @@
                     {% if kpi.goal %}<span class="goal">{{ kpi.goal }}</span>{% endif %}
                 </li>
             {% endfor %}
+            <li class="{% if event.allow_registrations %}success{% else %}failure{% endif %}">
+                <span class="label">Event Live?</span>
+                <span class="value">
+                    <form method="post" action="/event/{{ event.id }}/update-registration-status">
+                        <div class="switch enableddisabled">
+                            <input type="checkbox" name="allow_registrations" id="allow_registrations" value="1"
+                                   {% if event.allow_registrations %}checked{% endif %}
+                                   {% if not event.venue or not event.max_registrations or not event.venue_contact_email %}disabled{% endif %} />
+                            <label for="allow_registrations">
+                                <span class="inner"></span>
+                                <span class="switch">&#10005;</span>
+                            </label>
+                        </div>
+                    {{ csrf|raw }}</form>
+                </span>
+            </li>
         </ul>
-        <section class="toggles">
-            <form method="post" action="/event/{{ event.id }}/update-registration-status">
-                <div class="switch enableddisabled">
-                    <input type="checkbox" name="allow_registrations" id="allow_registrations" value="1"
-                           {% if event.allow_registrations %}checked{% endif %}
-                           {% if not event.venue or not event.max_registrations or not event.venue_contact_email %}disabled{% endif %} />
-                    <label for="allow_registrations">
-                        <span class="inner"></span>
-                        <span class="switch">&#10005;</span>
-                    </label>
-                    <span class="label
-                        {% if event.allow_registrations %}on{% endif %}
-                        ">Registrations Live?</span>
-                </div>
-            {{ csrf|raw }}</form>
-        </section>
     </section>
-
+    {% if event.allow_registrations_calculated %}
+        <div id="registrations-over-time"></div>
+        <div id="age-breakdown"></div>
+    {% endif %}
     <form action="/event/{{ event.id }}/notes" method="post" class="notes">
         <h3>Notes</h3>
         <div class="field">
@@ -102,12 +100,57 @@
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
     <script type="text/javascript">
+        var elem = $('#age-breakdown');
+
+        var margin = {top: 0, right: 0, bottom: 0, left: 0},
+                width = elem.width() - margin.left - margin.right,
+                height = elem.width() - margin.top - margin.bottom,
+                radius = Math.min(width, height) / 2;
+
+        var color = d3.scale.ordinal()
+            .range(["#cb7972", "#e9e9ef", "#72cb99", "#cfeddc", "#edd2cf"]);
+
+        var arc = d3.svg.arc()
+            .outerRadius(radius)
+            .innerRadius(0);
+
+        var labelArc = d3.svg.arc()
+            .outerRadius(radius - 40)
+            .innerRadius(radius - 40);
+
+        var pie = d3.layout.pie()
+            .sort(null)
+            .value(function(d) { return d.count; });
+
+        var svgAge = d3.select("#age-breakdown").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        d3.csv("/event/{{ event.id }}/agedata.csv", function(error, data) {
+            var g = svgAge.selectAll(".arc")
+                .data(pie(data))
+                .enter().append("g")
+                .attr("class", "arc");
+
+            g.append("path")
+                .attr("d", arc)
+                .style("fill", function(d) { return color(d.data.age); });
+
+            g.append("text")
+                .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+                .attr("dy", ".35em")
+                .text(function(d) { if (d.data.count > 0) return d.data.age; });
+        });
+    </script>
+    <script type="text/javascript">
 
         var elem = $('#registrations-over-time');
 
         var margin = {top: 20, right: 20, bottom: 30, left: 50},
                 width = elem.width() - margin.left - margin.right,
-                height = (elem.width() * 0.7) - margin.top - margin.bottom;
+                height = (elem.width() * 0.5) - margin.top - margin.bottom;
 
         var parseDate = d3.time.format("%d-%b-%y").parse;
 
@@ -119,6 +162,7 @@
 
         var xAxis = d3.svg.axis()
                 .scale(x)
+                .tickFormat(d3.time.format('%-m/%-d'))
                 .orient("bottom");
 
         var yAxis = d3.svg.axis()

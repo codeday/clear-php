@@ -62,10 +62,38 @@ class IndexController extends \CodeDay\Clear\Http\Controller {
         return \Redirect::to('/event/'.$event->id);
     }
 
+    public function getAgedata()
+    {
+        $event = \Route::input('event');
+
+        $ageGroups = [0, 10, 14, 19, 22];
+        $ageLabels = ["Elementary", "Middle", "High", "College", "Post-College"];
+        $ageBins = [0, 0, 0, 0, 0];
+        $registrations = Models\Batch\Event\Registration
+            ::where('batches_event_id', '=', $event->id)
+            ->where('type', '=', 'student')
+            ->orderBy('created_at', 'ASC')
+            ->get();
+        foreach ($registrations as $registration) {
+            $age = $registration->age;
+            for ($i = 0; $i < count($ageGroups); $i++) {
+                if ($age >= $ageGroups[$i] && (!isset($ageGroups[$i+1]) || $age < $ageGroups[$i+1])) {
+                    $ageBins[$i]++;
+                    break;
+                }
+            }
+        }
+
+        $result = array_map(null, $ageLabels, $ageBins);
+        return "age,count\n".implode("\n", array_map(function($bin) { return implode(",", $bin); }, $result));
+
+    }
+
     public function getChartdata()
     {
         $event = \Route::input('event');
-        $first_registration = Models\Batch\Event\Registration::where('batches_event_id', '=', $event->id)
+        $first_registration = Models\Batch\Event\Registration
+            ::where('batches_event_id', '=', $event->id)
             ->orderBy('created_at', 'ASC')
             ->first();
 
