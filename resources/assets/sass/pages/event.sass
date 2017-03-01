@@ -8,32 +8,36 @@ body.event
             clear: both
             width: 0
             height: 0
-        .hud
+        .kpis
             width: 30%
             float: left
             +mobile
                 width: 100%
                 float: none
-            ul
-                padding: 0
-                margin: 0
-                li
-                    list-style-type: none
-                    padding: 0.2rem 0
-                    .label
-                        display: inline-block
-                        width: 7rem
-                        padding-right: 1rem
-                        font-size: 0.8rem
-                        text-transform: uppercase
-                        text-align: right
-                    .value
-                        font-size: 0.9rem
-                    .status
-                        &.success
-                            color: $color-green
-                        &.failure
-                            color: $color-red
+            li
+                list-style-type: none
+                padding: 0.2rem 0
+                display: block
+                text-align: center
+                border: 2px solid $foreground-color-lighter
+                margin: 1rem
+                span
+                    display: block
+                .label
+                    text-transform: uppercase
+                .value
+                    font-size: 1.9rem
+                .goal
+                    &:before
+                        content: "(Goal: "
+                    &:after
+                        content: ")"
+                &.success
+                    background-color: $color-green
+                    border-color: lighten($color-green, 25)
+                &.failure
+                    background-color: $color-red
+                    border-color: lighten($color-red, 25)
         .toggles
             width: 70%
             float: right

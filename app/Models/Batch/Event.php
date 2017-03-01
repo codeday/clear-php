@@ -33,6 +33,19 @@ class Event extends \Eloquent {
         return $this->batch->name;
     }
 
+    public function getPreviousEventAttribute()
+    {
+
+        return Models\Batch\Event
+                ::select('batches_events.*')
+                ->join('batches', 'batches_events.batch_id', '=', 'batches.id')
+                ->where('batches.starts_at', '<', $this->batch->starts_at)
+                ->where('batches_events.region_id', '=', $this->region_id)
+                ->where('batches_events.allow_registrations', '=', true)
+                ->orderBy('batches.starts_at', 'DESC')
+                ->first();
+    }
+
     //Calculates the average age of an attendee as long as they're within the 'scope'
     public function getAvgAgeAttribute()
     {
