@@ -67,7 +67,7 @@ class IndexController extends \CodeDay\Clear\Http\Controller {
         $event = \Route::input('event');
 
         $ageGroups = [0, 10, 14, 19, 22];
-        $ageLabels = ["Elementary", "Middle", "High", "College", "Post-College"];
+        $ageLabels = ["Younger", "Middle", "High", "College", "Older"];
         $ageBins = [0, 0, 0, 0, 0];
         $registrations = Models\Batch\Event\Registration
             ::where('batches_event_id', '=', $event->id)
