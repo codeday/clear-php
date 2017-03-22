@@ -1,0 +1,35 @@
+body.csv-landing
+    text-align: center
+    header
+        h1
+            font-weight: 500
+            font-size: 2.5rem
+            padding-bottom: 0
+
+    .notice
+        text-align: center
+        &:before, &:after
+            content: ""
+            display: block
+            border-top: 1px solid $foreground-color-light
+        &:before
+            margin: 2rem 0 0
+            padding: 0 0 2rem
+        &:after
+            margin: 2rem 0
+
+        .primary
+            font-size: 2rem
+            margin: 0
+            strong
+                color: $color-red
+    .download
+        a
+            background-color: $color-green
+            color: $background-color
+            text-decoration: none
+            border: 1px solid $color-green
+            padding: 1rem
+            &:hover
+                background-color: $background-color
+                color: $foreground-color

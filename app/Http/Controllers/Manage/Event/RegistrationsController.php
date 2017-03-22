@@ -26,6 +26,16 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
             \App::abort(403);
         }
 
+        return \View::make('csv-landing', ['signature' => $this->getListSignature()]);
+    }
+
+    public function getDownloadcsv()
+    {
+        $event = \Route::input('event');
+        if (\Input::get('signature') != $this->getListSignature()) {
+            \App::abort(403);
+        }
+
         $content = Services\Registration::GetCsv($event);
 
         return (new \Illuminate\Http\Response($content, 200))
