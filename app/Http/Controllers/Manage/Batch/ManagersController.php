@@ -31,6 +31,18 @@ class ManagersController extends \CodeDay\Clear\Http\Controller {
                 $event->manager_username = null;
             }
 
+            if ($settings['coach_username']) {
+                $user = Models\User::fromS5Username($settings['coach_username']);
+
+                if ($user->username) {
+                    $event->coach_username = $user->username;
+                } else {
+                    $event->coach_username = null;
+                }
+            } else {
+                $event->coach_username = null;
+            }
+
             $event->registration_estimate = $settings['registration_estimate'];
 
             if (isset($settings['agreement']) && $settings['agreement']) {

@@ -1,0 +1,13 @@
+{% extends "template.twig" %}
+{% block section %}help{% endblock %}
+{% block content %}
+    {% for event in me.current_managed_events %}
+        <h2>{{ event.full_name }}</h2>
+        <p>Your StudentRND contact is <strong>{{ event.coach.name }}:</strong><br />
+           <a href="tel:{{ event.coach.phone }}">{{ event.coach.phone }}</a><br />
+           <a href="mailto:{{ event.coach.email }}">{{ event.coach.email }}</a><br />
+           <a href="https://studentrnd.slack.com/messages/{{ event.coach.username }}/">@{{ event.coach.username }}</a>
+        </p>
+        <p>Call, text, email, or message {{ event.coach.first_name }} with any questions! We're here to support you!</p>
+    {% endfor %}
+{% endblock %}

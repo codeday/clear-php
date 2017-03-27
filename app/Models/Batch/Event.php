@@ -176,6 +176,11 @@ class Event extends \Eloquent {
         return $this->belongsTo('\CodeDay\Clear\Models\User', 'manager_username', 'username');
     }
 
+    public function coach()
+    {
+        return $this->belongsTo('\CodeDay\Clear\Models\User', 'coach_username', 'username');
+    }
+
     public function evangelist()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\User', 'evangelist_username', 'username');
