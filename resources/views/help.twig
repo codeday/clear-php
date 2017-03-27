@@ -1,13 +1,14 @@
 {% extends "template.twig" %}
 {% block section %}help{% endblock %}
 {% block content %}
+    <h2>Need Help?</h2>
+    <p>If you're not sure what to do, don't worry! Call, text, email, or Slack us, we're here to help!</p>
     {% for event in me.current_managed_events %}
-        <h2>{{ event.full_name }}</h2>
+        <h3>{{ event.full_name }}</h3>
         <p>Your StudentRND contact is <strong>{{ event.coach.name }}:</strong><br />
            <a href="tel:{{ event.coach.phone }}">{{ event.coach.phone }}</a><br />
-           <a href="mailto:{{ event.coach.email }}">{{ event.coach.email }}</a><br />
+           <a href="mailto:{{ event.coach.username }}@srnd.org">{{ event.coach.username }}@srnd.org</a><br />
            <a href="https://studentrnd.slack.com/messages/{{ event.coach.username }}/">@{{ event.coach.username }}</a>
         </p>
-        <p>Call, text, email, or message {{ event.coach.first_name }} with any questions! We're here to support you!</p>
     {% endfor %}
 {% endblock %}
