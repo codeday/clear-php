@@ -5,7 +5,7 @@
 {% import "widgets/attendees.twig" as a %}
 {% block content %}
     <header class="registration details">
-        <h2>{{ registration.name }}</h2>
+        <h2>{{ registration.name }} <span class="confidential">Confidential</span></h2>
         {% if registration.previous_registrations|length > 0 %}
             <section class="previous">
                 <h3>Previous Attendance:</h3>

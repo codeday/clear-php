@@ -5,7 +5,7 @@
 {% import "widgets/attendees.twig" as a %}
 {% block content %}
     <header>
-        <h2>Registrations</h2>
+        <h2>Registrations <span class="confidential">Confidential</span></h2>
         <p>If the venue requires an attendance list, they can download an up-to-date one
             <a href="/event/{{ event.id }}/registrations/csv?signature={{ signature }}">here.</a></p>
     </header>

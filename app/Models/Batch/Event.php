@@ -33,6 +33,19 @@ class Event extends \Eloquent {
         return $this->batch->name;
     }
 
+    public function getPreviousEventAttribute()
+    {
+
+        return Models\Batch\Event
+                ::select('batches_events.*')
+                ->join('batches', 'batches_events.batch_id', '=', 'batches.id')
+                ->where('batches.starts_at', '<', $this->batch->starts_at)
+                ->where('batches_events.region_id', '=', $this->region_id)
+                ->where('batches_events.allow_registrations', '=', true)
+                ->orderBy('batches.starts_at', 'DESC')
+                ->first();
+    }
+
     //Calculates the average age of an attendee as long as they're within the 'scope'
     public function getAvgAgeAttribute()
     {
@@ -161,6 +174,11 @@ class Event extends \Eloquent {
     public function manager()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\User', 'manager_username', 'username');
+    }
+
+    public function coach()
+    {
+        return $this->belongsTo('\CodeDay\Clear\Models\User', 'coach_username', 'username');
     }
 
     public function evangelist()
@@ -385,21 +403,25 @@ class Event extends \Eloquent {
 
     public function getScheduleAttribute()
     {
+        // TODO get rid of this and add a proper dynamic implementation
+        // thanks snail!
+        $hour_modifier = ($this->id == "CeyUkiIak5GW" ? 1 : 0);
+
         $standard_schedule = [
             (Object)[
-                'time' => -1,
+                'time' => -1 + $hour_modifier,
                 'title' => 'Doors open',
                 'type' => 'event',
                 'description' => "Please don't show up earlier, you'll be waiting outside!"
             ],
             (Object)[
-                'time' => 0,
+                'time' => 0 + $hour_modifier,
                 'title' => 'Kickoff & Pitches',
                 'type' => 'event',
                 'description' => "Not sure what you want to work on? Our Code Evangelists will help you get some ideas and form a team."
             ],
             (Object)[
-                'time' => 1,
+                'time' => 1 + $hour_modifier,
                 'title' => 'Start Coding!',
                 'type' => 'event',
                 'description' => "After forming teams, it's time to get to work on your project! Our Code Evangelists and other mentors will be helping teams throughout the event."
@@ -461,7 +483,7 @@ class Event extends \Eloquent {
                 'description' => "All food is included with your ticket!"
             ],
             (Object)[
-                'time' => 7,
+                'time' => 6,
                 'title' => 'Dinner',
                 'type' => 'event',
                 'description' => "All food is included with your ticket!"
@@ -508,6 +530,7 @@ class Event extends \Eloquent {
         // Get activities
         $activities = [];
         foreach ($this->activities as $activity) {
+            $activity->timestamp->tz = $this->region->timezone;
             $activities[] = (object)[
                 'time' => $activity->time,
                 'title' => $activity->title,
@@ -528,7 +551,9 @@ class Event extends \Eloquent {
 
         // Make sure getters are gotten
         for ($i = 0; $i < count($unified_schedule); $i++) {
-            $unified_schedule[$i]->timestamp = $unified_schedule[$i]->timestamp;
+            $offset = $unified_schedule[$i]->timestamp->offset;
+            $unified_schedule[$i]->timestamp->timezone = $this->region->timezone;
+            $unified_schedule[$i]->timestamp->addSeconds($offset - $unified_schedule[$i]->timestamp->offset);
             $unified_schedule[$i]->hour = $unified_schedule[$i]->hour;
             $unified_schedule[$i]->day = $unified_schedule[$i]->day;
         }

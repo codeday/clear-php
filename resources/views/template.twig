@@ -144,8 +144,8 @@
                     {% endif %}
                     {% if me.is_admin %}
                         <li {% if block('section') == 'settings' %}class="active"{% endif %}><a href="/settings">Settings</a></li>
-                        <li {% if block('section') == 'debug' %}class="active"{% endif %}><a href="/debug">Debug</a></li>
                     {% endif %}
+                    <li class="help"><a href="/help">Help</a></li>
                 </ul>
             </section>
         </section>

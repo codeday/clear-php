@@ -20,6 +20,7 @@ use \CodeDay\Clear\Models;
     \View::share('me', Models\User::me());
     if (Models\User::me()->username != \Route::input('event')->manager_username
         && Models\User::me()->username != \Route::input('event')->evangelist_username
+        && Models\User::me()->username != \Route::input('event')->coach_username
         && !\Route::input('event')->isUserAllowed(Models\User::me())
         && !Models\User::me()->is_admin) {
         \App::abort(401);

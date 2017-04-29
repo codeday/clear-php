@@ -22,6 +22,11 @@ class Registration extends \Eloquent {
         return $this->hasMany('\CodeDay\Clear\Models\TransactionalEmail', 'batches_events_registration_id', 'id');
     }
 
+    public function devices()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\Registration\Device', 'batches_events_registration_id', 'id');
+    }
+
     public function getEmailMd5Attribute()
     {
         return hash('md5', $this->email);

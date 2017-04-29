@@ -311,22 +311,14 @@ class Email {
                 'id' => 'nonreturning-attendees',
                 'name' => "Attendees Of The Last Event Who Haven't Re-Registered",
                 'lambda' => function($event) use ($compare_registration) {
-                    $previous_event = Models\Batch\Event
-                        ::select('batches_events.*')
-                        ->join('batches', 'batches_events.batch_id', '=', 'batches.id')
-                        ->where('batches.starts_at', '<', $event->batch->starts_at)
-                        ->where('batches_events.region_id', '=', $event->region_id)
-                        ->orderBy('batches.starts_at', 'DESC')
-                        ->first();
-
-                    if (!$previous_event) {
+                    if (!$event->previous_event) {
                         return [];
                     }
 
                     $twice_attendees = array_uintersect(iterator_to_array($event->registrations),
-                        iterator_to_array($previous_event->registrations), $compare_registration);
+                        iterator_to_array($event->previous_event->registrations), $compare_registration);
 
-                    $nonreturning_attendees = array_udiff( iterator_to_array($previous_event->registrations),
+                    $nonreturning_attendees = array_udiff( iterator_to_array($event->previous_event->registrations),
                         $twice_attendees, $compare_registration);
 
                     return array_map(function($user){

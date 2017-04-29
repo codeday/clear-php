@@ -1,52 +1,47 @@
 body.event
+    #registrations-over-time
+        display: inline-block
+        width: 65%
+    #age-breakdown
+        display: inline-block
+        width: 32%
+        vertical-align: top
+        .arc text
+            text-anchor: middle
+            z-index: 100
     .content > .status
-        border: 1px solid $foreground-color-lighter
-        padding: 1rem 0
-        &:after
-            content: ""
-            display: block
-            clear: both
-            width: 0
-            height: 0
-        .hud
-            width: 30%
-            float: left
-            +mobile
-                width: 100%
-                float: none
-            ul
-                padding: 0
-                margin: 0
-                li
-                    list-style-type: none
-                    padding: 0.2rem 0
-                    .label
-                        display: inline-block
-                        width: 7rem
-                        padding-right: 1rem
-                        font-size: 0.8rem
-                        text-transform: uppercase
-                        text-align: right
-                    .value
-                        font-size: 0.9rem
-                    .status
-                        &.success
-                            color: $color-green
-                        &.failure
-                            color: $color-red
-        .toggles
-            width: 70%
-            float: right
-            +mobile
-                width: 100%
-                float: none
-            margin-top: 1.8rem
-            text-align: center
-            form
+        .kpis
+            li
+                vertical-align: top
+                list-style-type: none
+                padding: 1rem 0
                 display: inline-block
-                margin-right: 2rem
-                .label.on
+                width: 22%
+                height: 7rem
+                text-align: center
+                border: 2px solid $foreground-color-lighter
+                margin: 1%
+                span
+                    display: block
+                .label
+                    text-transform: uppercase
+                    padding-bottom: 0.25rem
+                .value
+                    font-size: 1.9rem
+                .goal
+                    padding-top: 0.25rem
+                    &:before
+                        content: "(Goal: "
+                    &:after
+                        content: ")"
+                form
+                    display: inline-block
+                &.success
                     color: $color-green
+                    border-color: lighten($color-green, 25)
+                &.failure
+                    color: $color-red
+                    border-color: lighten($color-red, 25)
 
     form.notes
         .field

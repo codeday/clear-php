@@ -30,6 +30,11 @@ class DashboardController extends \CodeDay\Clear\Http\Controller {
         return \View::make('dashboard', ['recent_registrations' => $recentRegistrations, 'leaderboard' => $leaderboard]);
     }
 
+    public function getHelp()
+    {
+        return \View::make('help');
+    }
+
     public function getUpdates()
     {
         if (Models\User::me()->is_admin) {

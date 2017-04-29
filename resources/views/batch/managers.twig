@@ -15,6 +15,7 @@
                 <td>City</td>
                 <td>Reg Est</td>
                 <td>Manager</td>
+                <td>Coach</td>
                 <td>Agreement</td>
             </tr>
             </thead>
@@ -27,6 +28,9 @@
                     <td><input type="text" name="id[{{ event.id }}][manager_username]"
                                value="{{ event.manager_username }}"
                                {% if event.previous %}placeholder="{{ event.previous.manager_username }}"{% endif %}/></td>
+                    <td><input type="text" name="id[{{ event.id }}][coach_username]"
+                               value="{{ event.coach_username }}"
+                               {% if event.previous %}placeholder="{{ event.previous.coach_username }}"{% endif %}/></td>
                     <td>
                         {% if event.agreement_signed_url %}
                             <a href="{{ event.agreement_signed_url }}" target="_blank">{{ event.agreement.name }}</a>

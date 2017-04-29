@@ -177,7 +177,8 @@ class User extends \Eloquent {
                         ->where(function($query) {
                             $query->where('users_grants.username', '=', $this->username)
                                 ->orWhere('batches_events.manager_username', '=', $this->username)
-                                ->orWhere('batches_events.evangelist_username', '=', $this->username);
+                                ->orWhere('batches_events.evangelist_username', '=', $this->username)
+                                ->orWhere('batches_events.coach_username', '=', $this->username);
                         })
                         ->groupBy('batches_events.id')
                         ->get();

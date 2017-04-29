@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+    <title>CSV Download</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="csv-landing">
+    <div class="wrap">
+        <div class="confidential">
+            <div class="notice">
+                <p class="primary"><strong>Confidential.</strong> For your eyes only. Do not distribute.</p>
+                <p class="details">You may use this list only for security or reporting purposes. You may not share it except for those purposes.</p>
+            </div>
+        </div>
+        <header>
+            <h1>Current Attendees: {{ event.full_name }}</h1>
+        </header>
+
+        <section class="download">
+            <a href="/event/{{ event.id }}/registrations/downloadcsv?signature={{ signature }}" class="real">Download CSV</a>
+        </section>
+    </div>
+</body>
+</html>
