@@ -76,6 +76,33 @@ class FlyerController extends \CodeDay\Clear\Http\Controller
             ->header('Content-Disposition', 'inline; filename="'.$filename.'"');
     }
 
+    public function getJpg()
+    {
+        $cacheKey = md5(\Request::fullUrl());
+        $img = null;
+        if (!\Cache::has($cacheKey)) {
+            $pdfTmp = tempnam(sys_get_temp_dir(), 'clear-poster-').'.pdf';
+            $jpgTmp = tempnam(sys_get_temp_dir(), 'clear-poster-').'.jpg';
+            $posterPdf = $this->getPoster()->content();
+            file_put_contents($pdfTmp, $posterPdf);
+
+            $pdf = new \Spatie\PdfToImage\Pdf($pdfTmp);
+            $pdfImg = $pdf->getImageData($jpgTmp);
+            if (\Input::has('r')) {
+                $pdfImg->resampleImage(\Input::get('r', 72), \Input::get('r', 72), \Imagick::FILTER_LANCZOS, 1);
+            }
+            $pdfImg->setImageFormat('jpeg');
+
+            $img = $pdfImg->getImageBlob();
+            unlink($pdfTmp);
+            \Cache::put($cacheKey, $img, 60*60*24);
+        } else {
+            $img = \Cache::get($cacheKey);
+        }
+        return response($img)
+            ->header('Content-type', 'image/png');
+    }
+
     public function getHandout()
     {
         $event = \Route::input('event');
