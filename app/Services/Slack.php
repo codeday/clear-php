@@ -26,7 +26,7 @@ class Slack {
      */
     public static function SendPayloadToUrl($payload, $url)
     {
-        $payload = array_merge(self::$defaults, $payload);
+        // $payload = array_merge(self::$defaults, $payload);
 
         \Queue::push(function($job) use ($payload, $url)
         {

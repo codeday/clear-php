@@ -9,8 +9,7 @@ use \CodeDay\Clear\Services;
         .' registered for CodeDay '.$reg->event->name);
 });
 
-\Event::listen('registration.register', function($reg)
-{
+\Event::listen('registration.register', function($reg){
   \Event::fire('slack.registration.register', $reg);
 });
 
