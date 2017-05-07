@@ -12,3 +12,7 @@ use \CodeDay\Clear\Services;
 \Event::listen('registration.*', function($data){
   \CodeDay\Clear\Models\Application\Webhook::Fire(\Event::firing(), $data);
 });
+
+\Event::listen('slack.registration.register', function($data){
+  \CodeDay\Clear\Models\Application\Webhook::FireSlack(\Event::firing(), $data);
+});

@@ -19,6 +19,29 @@ class Slack {
     ];
 
     /**
+     * Sends a payload (asynchronously) to a certain URL on the Slack API.
+     *
+     * @param array $payload    Associative array containing the payload data.
+     * @param string $url       The URL to send the payload to.
+     */
+    public static function SendPayloadToUrl($payload, $url)
+    {
+        $payload = array_merge(self::$defaults, $payload);
+
+        \Queue::push(function($job) use ($payload, $url)
+        {
+            $ch = \curl_init($url);
+            \curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            \curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+            \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            \curl_exec($ch);
+            \curl_close($ch);
+
+            $job->delete();
+        });
+    }
+
+    /**
      * Sends a payload (asynchronously) to the Slack servers.
      *
      * A payload is a low-level Slack API object which contains data about an action to be performed. See the Slack

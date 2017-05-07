@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Models\Application;
 
 use Illuminate\Database\Eloquent;
+use \CodeDay\Clear\Services;
 
 class Webhook extends \Eloquent {
     protected $table = 'applications_webhooks';
@@ -39,6 +40,17 @@ class Webhook extends \Eloquent {
       $all_hooks = self::where('event', '=', $event)->get();
       foreach ($all_hooks as $hook) {
         $hook->Execute($data);
+      }
+    }
+
+    public static function FireSlack($event, $data){
+      $all_hooks = self::where('event', '=', $event)->get();
+      foreach ($all_hooks as $hook) {
+        Services\Slack::SendPayloadToUrl([
+          'icon_url' => "https://clear.codeday.org/assets/img/logo-square.png",
+          'username' => "Clear",
+          'text' => "<https://clear.codeday.org/event/".$data->event->id."/dataistrations/attendee/".$data->id."|".$data->name.">"." dataistered for CodeDay ".$data->event->name
+        ]);
       }
     }
 
