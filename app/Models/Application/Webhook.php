@@ -50,7 +50,7 @@ class Webhook extends \Eloquent {
           'icon_url' => "https://clear.codeday.org/assets/img/logo-square.png",
           'username' => "Clear",
           'text' => "<https://clear.codeday.org/event/".$data->event->id."/dataistrations/attendee/".$data->id."|".$data->name.">"." dataistered for CodeDay ".$data->event->name
-        ]);
+        ], $hook->url);
       }
     }
 
