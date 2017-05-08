@@ -24,15 +24,13 @@ class Slack {
 
     public static function GetOauthAccess($code)
     {
-        $params = [
-            'client_id' => \Config::get('slack.client_id'),
-            'client_secret' => \Config::get('slack.client_secret'),
-            'redirect_uri' => "https://clear.codeday.org/api/slack/oauth",
-            'code' => $code
-        ];
-
         try {
-            $response = self::$client->get('https://slack.com/api/oauth.access', [ 'query' => $params ]);
+            $response = self::$client->get('https://slack.com/api/oauth.access', [ 'query' => [
+                'client_id' => \Config::get('slack.client_id'),
+                'client_secret' => \Config::get('slack.client_secret'),
+                'redirect_uri' => "https://clear.codeday.org/api/slack/oauth",
+                'code' => $code
+            ]]);
         } catch (\Exception $ex) { return null; }
 
         if ($response->getStatusCode() == 202) {
