@@ -11,6 +11,7 @@ use \CodeDay\Clear\Services;
 
 \Event::listen('registration.register', function($reg){
   \Event::fire('slack.registration.register', $reg);
+  \Event::fire('slack.registration.register.'.$reg->event->id, $reg);
 });
 
 \Event::listen('registration.*', function($data){
@@ -18,5 +19,9 @@ use \CodeDay\Clear\Services;
 });
 
 \Event::listen('slack.registration.register', function($data){
+  \CodeDay\Clear\Models\Application\Webhook::FireSlack(\Event::firing(), $data);
+});
+
+\Event::listen('slack.registration.register.*', function($data){
   \CodeDay\Clear\Models\Application\Webhook::FireSlack(\Event::firing(), $data);
 });

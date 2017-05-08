@@ -1,6 +1,8 @@
 <?php
 namespace CodeDay\Clear\Services;
 
+use GuzzleHttp;
+
 /**
  * Supports sending messages to Slack.
  *
@@ -17,6 +19,30 @@ class Slack {
         'channel' => '#events',
         'username' => 'clear'
     ];
+
+    protected static $client;
+
+    public static function GetOauthAccess($code)
+    {
+        $params = [
+            'client_id' => \Config::get('slack.client_id'),
+            'client_secret' => \Config::get('slack.client_secret'),
+            'redirect_uri' => \Config::get('app.url')."api/slack/oauth",
+            'code' => $code
+        ];
+
+        try {
+            $response = self::$client->get('https://slack.com/api/oauth.access', $params);
+        } catch (\Exception $ex) { return null; }
+
+        if ($response->getStatusCode() == 202) {
+            return false;
+        } elseif ($response->getStatusCode() != 200) {
+            return null;
+        } else {
+            return json_decode($response->getBody());
+        }
+    }
 
     /**
      * Sends a payload (asynchronously) to a certain URL on the Slack API.
@@ -88,4 +114,11 @@ class Slack {
 
         self::SendPayload($payload);
     }
+
+    public static function booting()
+    {
+        self::$client = new GuzzleHttp\Client([]);
+    }
 }
+
+Slack::booting();
