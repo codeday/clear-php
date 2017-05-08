@@ -23,10 +23,10 @@ class SlackOauthController extends \CodeDay\Clear\Http\Controller {
       ], $oauth_data->incoming_webhook->url);
 
       \Session::flash('status_message', 'Connected to Slack! We sent a test message, go look for it.');
+      \Redirect::to('/event/' . $event->id . '/slack');
     }else{
       \Session::flash('error', 'Could not authorize you with Slack. Please try again.');
+      \Redirect::to('/');
     }
-
-    \Redirect::to('/event/' . $event->id . '/slack');
   }
 }
