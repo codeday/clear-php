@@ -1,5 +1,5 @@
 <?php
-namespace CodeDay\Clear\Http\Controllers\Manage\Event;
+namespace CodeDay\Clear\Http\Controllers\Api;
 
 use \CodeDay\Clear\Models;
 use \CodeDay\Clear\Services;
