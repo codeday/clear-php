@@ -24,7 +24,7 @@ class SlackController extends \CodeDay\Clear\Http\Controller {
       $webhook->save();
 
       Services\Slack::SendPayloadToUrl([
-        'text' => ":wave: Hello! If you see this, that means your Clear integration is working. Try registering someone through Clear!";
+        'text' => ":wave: Hello! If you see this, that means your Clear integration is working. Try registering someone through Clear!"
       ], $oauth_data['incoming_webhook']['url']);
 
       \Session::flash('status_message', 'Connected to Slack! We sent a test message, go look for it.');
