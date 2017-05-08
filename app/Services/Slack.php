@@ -32,7 +32,7 @@ class Slack {
         ];
 
         try {
-            $response = self::$client->get('https://slack.com/api/oauth.access', $params);
+            $response = self::$client->get('https://slack.com/api/oauth.access', [ 'query' => $params ]);
         } catch (\Exception $ex) { return null; }
 
         if ($response->getStatusCode() == 202) {
