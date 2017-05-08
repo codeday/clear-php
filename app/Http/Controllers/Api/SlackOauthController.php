@@ -11,7 +11,7 @@ class SlackOauthController extends \CodeDay\Clear\Http\Controller {
     $event = Models\User::me()->current_managed_events->sortBy('date_created')->last();
     $oauth_data = Services\Slack::GetOauthAccess($code);
 
-    if($oauth_data != null && $oauth_data != false && $event){
+    if($oauth_data != null && $oauth_data != false && $event && $oauth_data->ok == true){
       $webhook = new Models\Application\Webhook;
       $webhook->url = $oauth_data->incoming_webhook->url;
       $webhook->event = "slack.registration.register.".$event->id;

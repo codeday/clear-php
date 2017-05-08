@@ -27,7 +27,7 @@ class Slack {
         $params = [
             'client_id' => \Config::get('slack.client_id'),
             'client_secret' => \Config::get('slack.client_secret'),
-            'redirect_uri' => \Config::get('app.url')."api/slack/oauth",
+            'redirect_uri' => "https://clear.codeday.org/api/slack/oauth",
             'code' => $code
         ];
 
