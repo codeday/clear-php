@@ -3,7 +3,7 @@
 \Route::group(['namespace' => 'Api', 'prefix' => 'api', 'middleware' => ['api']], function() {
     \Route::get('stats', 'Stats@getIndex');
 
-    \Route::get('slack/oauth', 'SlackController@getOauth');
+    \Route::get('slack/oauth', 'SlackOauthController@getOauth');
 
     \Route::get('application/', 'Application@getApplication');
 

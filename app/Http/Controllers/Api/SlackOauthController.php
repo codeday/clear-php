@@ -4,7 +4,7 @@ namespace CodeDay\Clear\Http\Controllers\Manage\Event;
 use \CodeDay\Clear\Models;
 use \CodeDay\Clear\Services;
 
-class SlackController extends \CodeDay\Clear\Http\Controller {
+class SlackOauthController extends \CodeDay\Clear\Http\Controller {
   public function getOauth()
   {
     $code = \Input::get('code');
