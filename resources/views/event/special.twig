@@ -120,4 +120,11 @@
             <input type="submit" value="Create Related Event"/>
         {{ csrf|raw }}</form>
     {% endif %}
+
+    <header>
+        <h2>Delete</h2>
+    </header>
+    <form action="/event/{{ event.id }}/special/delete" method="post">
+        <input type="submit" value="Yes, Delete it!" />
+    {{ csrf|raw }}</form>
 {% endblock %}

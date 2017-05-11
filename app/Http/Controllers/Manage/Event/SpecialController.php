@@ -54,6 +54,15 @@ class SpecialController extends \CodeDay\Clear\Http\Controller {
         return \Redirect::to('/event/'.$event->id.'/special');
     }
 
+    public function postDelete()
+    {
+        $event = \Route::input('event');
+        $event->delete();
+
+        \Session::flash('success_message', 'Event removed');
+        return \Redirect::to('/');
+    }
+
     public function postOverflow()
     {
         $currentEvent = \Route::input('event');
