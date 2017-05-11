@@ -20,6 +20,7 @@ class Ship {
     public static function To($id, $email, $name, $company, $street_1, $street_2, $city, $state, $postal, $country,
                               $phone, $isResidential, $items)
     {
+        if (!$country || strtolower($country) == 'Un') { $country = 'US'; }
         $address = [
             'name' => $name,
             'company' => $company,
