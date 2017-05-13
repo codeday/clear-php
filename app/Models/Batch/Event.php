@@ -284,7 +284,7 @@ class Event extends \Eloquent {
 
     public function getEarlyBirdEndsAtAttribute()
     {
-        return $this->batch->starts_at->subWeek()->addDays(2);
+        return $this->batch->starts_at->subWeek()->addDays(4);
     }
 
     public function getRemainingRegistrationsAttribute()
@@ -472,7 +472,14 @@ class Event extends \Eloquent {
                 'type' => 'workshop',
                 'url' => 'https://blog.srnd.org/making-better-games-with-splunk-975cd2a605ce',
                 'description' => 'Learn how others play your game and use that knowledge to make it more fun with minimal work.'
-            ]
+            ],
+            (Object)[
+                'time' => 6 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
+                'title' => 'CodeCup',
+                'type' => 'workshop',
+                'url' => 'https://cup.codeday.org/',
+                'description' => 'Work with other attendees to make your city #1 nationwide!'
+            ],
         ];
 
         $meals = [
@@ -565,6 +572,10 @@ class Event extends \Eloquent {
         }
 
         return $days;
+    }
+
+    private function getTimezoneOffset($region) {
+        return timezone_offset_get(new \DateTimeZone($region), Carbon::createFromTimestamp($this->starts_at, $region))/(60*60);
     }
 
     public function getManifestGeneratedAttribute()
