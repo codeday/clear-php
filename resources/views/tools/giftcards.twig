@@ -8,6 +8,16 @@
         <p>This tool lets you issue new giftcards.</p>
     </header>
 
+    <h3>Generate Codes</h3>
+    <form method="post">
+        <div class="field">
+            <label for="count">Number to Generate</label>
+            <input name="count" id="count" />
+        </div>
+        <input type="submit" value="Issue" />
+    {{ csrf|raw }}</form>
+
+    <h3>Upload a List</h3>
     <form method="post">
         <div class="field">
             <label for="codes">Codes</label>
