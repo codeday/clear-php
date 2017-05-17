@@ -460,7 +460,7 @@ class Event extends \Eloquent {
 
         $workshops = [
             (Object)[
-                'time' => 2,
+                'time' => 1,
                 'title' => 'Beginner: Intro to coding',
                 'type' => 'workshop',
                 'url' => 'https://blog.srnd.org/jumping-over-chairs-and-learning-to-make-a-game-with-construct-2-a796f4def9e9#.v37wzagti',
