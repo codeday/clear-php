@@ -3,6 +3,7 @@
 use CodeDay\Clear\Models;
 
 \Route::get('event/{event}/registrations/csv', 'Manage\Event\RegistrationsController@getCsv');
+\Route::get('event/{event}/registrations/downloadcsv', 'Manage\Event\RegistrationsController@getDownloadcsv');
 
 \Route::any('event/my/{path}', 'Manage\Event\IndexController@getMyEvent')->where('path', '.+');
 
