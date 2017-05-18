@@ -5,6 +5,7 @@
     <section class="registration activities">
         <nav>
             <button data-for-menu="info">Info</button>
+            <button data-for-menu="notes">Notes</button>
             <button data-for-menu="transfer">Transfer</button>
             {% if registration.amount_paid > 0 %}
                 <button data-for-menu="refund">Refund</button>
@@ -81,6 +82,18 @@
                             <input type="phone" name="parent_secondary_phone" id="parent_secondary_phone" value="{{ registration.parent_secondary_phone }}" />
                         </div>
                     {% endif %}
+                </div>
+                <input type="submit" value="Save" />
+            {{ csrf|raw }}</form>
+        </section>
+
+        <section class="notes menu-notes">
+            <h4>Notes</h4>
+            <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/notes" method="post">
+                <div class="field">
+                    <label for="notes">Notes</label>
+                    <textarea name="notes" id="notes">{{ registration.notes }}</textarea>
+                    <span class="help">Notes related to this attendee; shown during checkin and in the dashboard.</span>
                 </div>
                 <input type="submit" value="Save" />
             {{ csrf|raw }}</form>
