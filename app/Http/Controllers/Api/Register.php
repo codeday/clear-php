@@ -168,6 +168,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
         foreach ($registrants as $registrant) {
             $ban = Models\Ban::GetBannedReasonOrNull($registrant->email);
             if ($ban) {
+                Services\Slack::Message(sprintf("%s tried to register while banned.", $ban->name), "#staff-policy");
                 return [
                     'status' => 500,
                     'error' => 'banned',
