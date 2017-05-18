@@ -114,6 +114,22 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
         return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
     }
 
+    public function postNotes()
+    {
+        $event = \Route::input('event');
+        $registration = \Route::input('registration');
+        if ($registration->batches_event_id != $event->id) {
+            \App::abort(404);
+        }
+
+        $registration->notes = \Input::get('notes') ? \Input::get('notes') : null;
+        $registration->save();
+
+        \Session::flash('status_message', $registration->name."'s notes were updated.");
+
+        return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
+    }
+
     public function postCancel()
     {
         $event = \Route::input('event');

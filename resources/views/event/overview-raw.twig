@@ -69,6 +69,15 @@
     {% if not event.notes %}
       <i>No event notes</i>
     {% endif %}
+
+    {% if regNotes|length > 0 %}
+        <br /><br /><b>Registrant Notes</b>
+        <ul>
+            {% for reg in regNotes %}
+                <li>{{ reg.name }}: {{ reg.notes }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
   </div>
 
   <br>

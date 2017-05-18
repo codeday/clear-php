@@ -73,6 +73,14 @@
         </div>
         <input type="submit" value="Save"/>
     {{ csrf|raw }}</form>
+    {% if regNotes|length > 0 %}
+        <h3>Attendee Notes</h3>
+        <ul>
+            {% for reg in regNotes %}
+                <li>{{ reg.name }}: {{ reg.notes }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript">

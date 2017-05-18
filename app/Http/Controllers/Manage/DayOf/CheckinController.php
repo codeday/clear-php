@@ -34,7 +34,7 @@ class CheckinController extends \CodeDay\Clear\Http\Controller {
             \Event::fire('registration.checkout', \DB::table('batches_events_registrations')->where('id', '=', $attendee_id)->get()[0]);
         }
 
-        return json_encode((object)['status' => 200]);
+        return json_encode((object)['status' => 200, 'notes' => $attendee->notes]);
     }
 
     public function getConfiguration()

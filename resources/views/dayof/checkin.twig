@@ -115,10 +115,10 @@
 					}, 2500);
 
                     if (action == 'in') {
-
-                        if (_this.parent('.registration').has('.warning').length > 0 && action == 'in') soundFailure.play();
-                        else if (_this.parent('.registration').hasClass('vip')) soundVip.play();
-                        else if (_this.parent('.registration').hasClass('press')) soundVip.play();
+                        if (data.notes) { soundVip.play(); alert("Attendee notes: " + data.notes); }
+                        else if (_this.parent('.registration').has('.warning').length > 0 && action == 'in') soundFailure.play();
+                        else if (_this.parent('.registration').hasClass('vip')) { soundVip.play(); alert("Please provide VIP info booklet."); }
+                        else if (_this.parent('.registration').hasClass('press')) { soundVip.play(); alert("Please provide VIP info booklet."); }
                         else if (_this.parent('.registration').hasClass('student')) soundSuccess.play();
                         else soundStaff.play();
                     } else {
