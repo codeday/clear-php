@@ -10,6 +10,7 @@
 
     <section class="new">
         <h3>New Ban</h3>
+        <p>This <strong>will not</strong> notify the banned student, which you must do by other means.</p>
         <form method="post">
             <div class="field">
                 <label for="first_name">Name</label>
@@ -32,10 +33,10 @@
                     <option value="next-season" selected>This season and next season</option>
                     <option value="year">This year</option>
                     <option value="2year">Two years</option>
-                    <option value="forever">Forever</option>
+                    {% if me.is_admin %}<option value="forever">Forever</option>{% endif %}
                 </select>
-                <span class="help">How long the person will be banned from registering. Prefer two years over forever
-                    except for very serious violations.</span>
+                <span class="help">How long the person will be banned from registering. Contact an administrator if
+                    you think a ban should be forever.</span>
             </div>
             <div class="field">
                 <label for="reason">Reason</label>
@@ -61,7 +62,7 @@
             <div class="field">
                 <label for="details">Details</label>
                 <textarea name="details" id="details" class="markdown" required></textarea>
-                <span class="help">Provide all details supporting the ban. Only for internal use; never public.</span>
+                <span class="help">Provide all supporting details for internal use. Please be as detailed as possible.</span>
             </div>
             <input type="submit" value="Ban" />
         {{ csrf|raw }}</form>
@@ -72,46 +73,50 @@
         <table class="banlist">
             <tbody>
                 {% for ban in banlist %}
-                    <tr class="info {% if not ban.is_enforced %}expired{% endif %}"
-                        title="Created {{ ban.created_at.timestamp|date('F j, Y') }}">
-                        <th>
-                            <span class="name">{{ ban.name }}</span>
-                            <span class="email">{{ ban.email }}</span>
-                        </th>
-                        <td class="enforcement">
-                            {% if ban.is_enforced %}
-                            Banned
-                            {% else %}
-                                Was banned
-                            {% endif %}
-                            {% if ban.expires_at %}
-                                until {{ ban.expires_at.timestamp|date('F j, Y') }}
-                            {% else %}
-                                <em>forever</em>
-                            {% endif %}
-                            by {{ ban.created_by.name }}
-                        </td>
-                        <td rowspan="2" class="actions">
-                            <form action="/tools/banlist/period" method="post">
-                                <input type="hidden" name="id" value="{{ ban.id }}" />
-                                <button type="submit" name="period" value="void">Void</button>
+                    {% if ban.creator.username == me.username or me.is_admin %}
+                        <tr class="info {% if not ban.is_enforced %}expired{% endif %}"
+                            title="Created {{ ban.created_at.timestamp|date('F j, Y') }}">
+                            <th>
+                                <span class="name">{{ ban.name }}</span>
+                                <span class="email">{{ ban.email }}</span>
+                            </th>
+                            <td class="enforcement">
                                 {% if ban.is_enforced %}
-                                    <button type="submit" name="period" value="now">End Now</button>
+                                Banned
+                                {% else %}
+                                    Was banned
                                 {% endif %}
                                 {% if ban.expires_at %}
-                                    <button type="submit" name="period" value="extend">Extend 1 Year</button>
-                                    <button type="submit" name="period" value="forever">Make Permanent</button>
+                                    until {{ ban.expires_at.timestamp|date('F j, Y') }}
+                                {% else %}
+                                    <em>forever</em>
                                 {% endif %}
-                            {{ csrf|raw }}</form>
-                        </td>
-                    </tr>
-                    <tr class="details {% if not ban.is_enforced %}expired{% endif %}">
-                        <td>&nbsp;</td>
-                        <td>
-                            <strong>{{ ban.reason_name }} Violation</strong>
-                            {{ ban.details|markdown|raw }}
-                        </td>
-                    </tr>
+                                by {{ ban.creator.name }}
+                            </td>
+                            <td rowspan="2" class="actions">
+                                {% if me.is_admin %}
+                                    <form action="/tools/banlist/period" method="post">
+                                        <input type="hidden" name="id" value="{{ ban.id }}" />
+                                        <button type="submit" name="period" value="void">Void</button>
+                                        {% if ban.is_enforced %}
+                                            <button type="submit" name="period" value="now">End Now</button>
+                                        {% endif %}
+                                        {% if ban.expires_at %}
+                                            <button type="submit" name="period" value="extend">Extend 1 Year</button>
+                                            <button type="submit" name="period" value="forever">Make Permanent</button>
+                                        {% endif %}
+                                    {{ csrf|raw }}</form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr class="details {% if not ban.is_enforced %}expired{% endif %}">
+                            <td>&nbsp;</td>
+                            <td>
+                                <strong>{{ ban.reason_name }} Violation</strong>
+                                {{ ban.details|markdown|raw }}
+                            </td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>

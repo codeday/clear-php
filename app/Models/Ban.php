@@ -79,7 +79,7 @@ class Ban extends \Eloquent {
             ->first();
     }
 
-    public function createdBy()
+    public function creator()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\User', 'created_by_username', 'username');
     }

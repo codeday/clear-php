@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Http\Controllers\Manage\Tools;
 
 use \CodeDay\Clear\Models;
+use \CodeDay\Clear\Services;
 use \Carbon\Carbon;
 
 class BanlistController extends \CodeDay\Clear\Http\Controller {
@@ -53,6 +54,7 @@ class BanlistController extends \CodeDay\Clear\Http\Controller {
                 $ban->expires_at = Carbon::now()->addYears(2);
                 break;
             case "forever":
+                if (!Models\User::me()->is_admin) \App::abort(401);
                 $ban->expires_at = null;
                 break;
             default:
@@ -60,12 +62,20 @@ class BanlistController extends \CodeDay\Clear\Http\Controller {
         }
         $ban->save();
 
+        Services\Slack::Message(sprintf("<!channel> %s <https://clear.codeday.org/tools/banlist|banned> %s for %s until %s:\n>>>%s",
+            $ban->creator->name,
+            $ban->name,
+            $ban->reason_name,
+            $ban->expires_at->toDateString(),
+            $ban->details), "#staff-policy");
+
         \Session::flash('status_message', 'Ban created.');
         return \Redirect::to('/tools/banlist');
     }
 
     public function postPeriod()
     {
+        if (!Models\User::me()->is_admin) \App::abort(401);
         $ban = Models\Ban::where('id', '=', \Input::get('id'))->firstOrFail();
 
         if (!Models\User::me()->is_admin && $ban->created_by_username != Models\User::me()->username) {
@@ -74,21 +84,31 @@ class BanlistController extends \CodeDay\Clear\Http\Controller {
 
         switch (\Input::get('period')) {
             case "void":
+                $action = "voided";
                 $ban->delete();
                 break;
             case "now":
+                $action = "ended";
                 $ban->expires_at = Carbon::now();
                 $ban->save();
                 break;
             case "extend":
+                $action = "extended";
                 $ban->expires_at = $ban->expires_at->addYear();
                 $ban->save();
                 break;
             case "forever";
+                $action = "made forever";
                 $ban->expires_at = null;
                 $ban->save();
                 break;
         }
+
+
+        Services\Slack::Message(sprintf("<!channel> %s %s %s's <https://clear.codeday.org/tools/banlist|ban>",
+            Models\User::Me()->name,
+            $action,
+            $ban->name), "#staff-policy");
 
         \Session::flash('status_message', 'Ban updated.');
         return \Redirect::to('/tools/banlist');

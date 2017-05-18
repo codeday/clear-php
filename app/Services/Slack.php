@@ -107,7 +107,7 @@ class Slack {
             'text' => $text
         ];
         if (isset($to)) {
-            $payload['to'] = $to;
+            $payload['channel'] = $to;
         }
 
         self::SendPayload($payload);
