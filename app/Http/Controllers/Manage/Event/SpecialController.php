@@ -54,6 +54,21 @@ class SpecialController extends \CodeDay\Clear\Http\Controller {
         return \Redirect::to('/event/'.$event->id.'/special');
     }
 
+    public function postClearwaivers()
+    {
+        $event = \Route::input('event');
+
+        foreach ($event->registrations as $registration) {
+            $registration->waiver_signing_id = null;
+            $registration->waiver_signing_link = null;
+            $registration->waiver_pdf_link = null;
+            $registration->save();
+        }
+
+        \Session::flash('success_message', 'Waivers cleared');
+        return \Redirect::to('/event/'.$event->id.'/special');
+    }
+
     public function postDelete()
     {
         $event = \Route::input('event');

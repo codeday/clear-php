@@ -122,6 +122,13 @@
     {% endif %}
 
     <header>
+        <h2>Clear Waivers</h2>
+    </header>
+    <form action="/event/{{ event.id }}/special/clearwaivers" method="post">
+        <input type="submit" value="Yes, clear them!" />
+    {{ csrf|raw }}</form>
+
+    <header>
         <h2>Delete</h2>
     </header>
     <form action="/event/{{ event.id }}/special/delete" method="post">
