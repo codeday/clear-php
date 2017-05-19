@@ -474,7 +474,7 @@ class Event extends \Eloquent {
                 'description' => 'Learn how others play your game and use that knowledge to make it more fun with minimal work.'
             ],
             (Object)[
-                'time' => 6 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
+                'time' => 6.5 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
                 'title' => 'CodeCup',
                 'type' => 'workshop',
                 'url' => 'https://cup.codeday.org/',
