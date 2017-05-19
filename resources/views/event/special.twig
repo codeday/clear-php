@@ -124,14 +124,22 @@
     <header>
         <h2>Clear Waivers</h2>
     </header>
-    <form action="/event/{{ event.id }}/special/clearwaivers" method="post">
+    <form action="/event/{{ event.id }}/special/clearwaivers" method="post" class="dangerous">
         <input type="submit" value="Yes, clear them!" />
+    {{ csrf|raw }}</form>
+
+
+    <header>
+        <h2>Cancel/Refund All</h2>
+    </header>
+    <form action="/event/{{ event.id }}/special/cancel" method="post" class="dangerous">
+        <input type="submit" value=":(" />
     {{ csrf|raw }}</form>
 
     <header>
         <h2>Delete</h2>
     </header>
-    <form action="/event/{{ event.id }}/special/delete" method="post">
+    <form action="/event/{{ event.id }}/special/delete" method="post" class="dangerous">
         <input type="submit" value="Yes, Delete it!" />
     {{ csrf|raw }}</form>
 {% endblock %}

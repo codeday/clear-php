@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Http\Controllers\Manage\Event;
 
 use \CodeDay\Clear\Models;
+use \CodeDay\Clear\Services;
 
 class SpecialController extends \CodeDay\Clear\Http\Controller {
     public function getIndex()
@@ -66,6 +67,18 @@ class SpecialController extends \CodeDay\Clear\Http\Controller {
         }
 
         \Session::flash('success_message', 'Waivers cleared');
+        return \Redirect::to('/event/'.$event->id.'/special');
+    }
+
+    public function postCancel()
+    {
+        $event = \Route::input('event');
+        foreach ($event->registrations as $reg) {
+            Services\Registration::SendCancelEmail($reg, true);
+            Services\Registration::CancelRegistration($reg, true, false);
+        }
+
+        \Session::flash('success_message', 'Tickets Cancelled');
         return \Redirect::to('/event/'.$event->id.'/special');
     }
 
