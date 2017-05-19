@@ -523,11 +523,7 @@ class Event extends \Eloquent {
 
             $timestamp = $this->batch->starts_at->copy()->addHours(12)->addMinutes($entry->time * 60);
             $day = $timestamp->format('l, F j');
-            if (floor($this->time) != $this->time) {
-                $hour = $timestamp->format('g:ia');
-            } else {
-                $hour = $timestamp->format('ga');
-            }
+            $hour = $timestamp->format('g:ia');
 
             $standard_schedule[$i]->timestamp = $timestamp;
             $standard_schedule[$i]->hour = $hour;
