@@ -11,7 +11,7 @@
             <h3>On Break</h3>
             <div class="break">
                 {% for registration in on_break %}
-                        <div class="registration on-break">
+                        <div class="registration {% if registration.age > 18 %}no-parent-confirm{% else %}parent-confirm{% endif %}">
                             <span class="name">{{ registration.name }}</span>
                             <span class="age">Age: {{ registration.age }}{% if not registration.age %}unknown{% endif %}</span>
                             <span class="parent-phone">Parent Phone: {{ registration.parent_phone }}{% if not registration.parent_phone %}none{% endif %}</span>
