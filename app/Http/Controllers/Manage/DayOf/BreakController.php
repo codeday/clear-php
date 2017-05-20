@@ -9,8 +9,9 @@ class BreakController extends \CodeDay\Clear\Http\Controller {
 
     public function getIndex()
     {
-        $onBreak = Models\Batch\Event\Registration::whereNotNull('break_started_at')->orderBy('break_started_at', 'ASC')->get();
-        $offBreak = Models\Batch\Event\Registration::whereNull('break_started_at')->get();
+        $event = getDayOfEvent();
+        $onBreak = Models\Batch\Event\Registration::whereNotNull('break_started_at')->where('batches_event_id', '=', $event->id)->orderBy('break_started_at', 'ASC')->get();
+        $offBreak = Models\Batch\Event\Registration::whereNull('break_started_at')->where('batches_event_id', '=', $event->id)->get();
         return \View::make('dayof/break', ['on_break' => $onBreak, 'off_break' => $offBreak]);
     }
 
