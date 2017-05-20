@@ -25,6 +25,7 @@ use \CodeDay\Clear\Models;
 
 
     \Route::controller('/checkin', 'CheckinController');
+    \Route::controller('/break', 'BreakController');
     \Route::controller('/deck', 'DeckController');
     \Route::controller('/emergency', 'EmergencyController');
     \Route::controller('/support-calls', 'SupportCallsController');

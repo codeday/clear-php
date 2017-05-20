@@ -1,95 +1,105 @@
 body.dayof
-    .switcher
-        text-align: center
+  .switcher
+    text-align: center
 
-    #search
-        width: 100%
-        text-align: center
-        padding: 0.5rem 1rem
-        font-size: 1.2rem
-        border: 1px solid $foreground-color
-        border-radius: 2px
-        -moz-border-radius: 2px
-        -webkit-border-radius: 2pm
-    .checkin-registrations
-        margin-left: -1rem
-        .registration
-            display: inline-block
-            width: 45%
-            height: 13rem
-            padding: 1rem
-            margin: 1rem 0 0 1rem
-            border: 1px solid $foreground-color-light
-            border-left:
-                color: $color-red
-                width: 5px
-            border-radius: 2px
-            -moz-border-radius: 2px
-            -webkit-border-radius: 2pm
-            &.checked-in
-                opacity: 0.4
-            &.volunteer
-                border-left-color: $color-green
-            &.teacher, &.mentor
-                border-left-color: $color-blue
-            &.vip, &.press, &.sponsor, &.judge
-                border-left-color: $foreground-color
-            .img 
-                width: 30%
-                padding: 30% 0 0 0
-                float: left
-                margin-right: 1rem
-                background:
-                    repeat: no-repeat
-                    position: 50% 50%
-                    size: cover
-            & > span
-                display: block
-                white-space: nowrap
-                &.name
-                    font-size: 1.3rem
-                &.email
-                    display: none
-                &.id
-                    display: none
-                &.info
-                    font-size: 0.8rem
-                    text-transform: uppercase
-                    padding-bottom: 1rem
-                .missing
-                    font-weight: bold
-                    color: $color-red
-                    text-transform: uppercase
-                .warning
-                    font-weight: bold
-                    color: $color-red
-                    text-transform: uppercase
-            form input[type="submit"]
-                float: none
-                width: 30%
-                padding: 1rem
-                min-width: 0
-                clear: both
+  #search
+    width: 100%
+    text-align: center
+    padding: 0.5rem 1rem
+    font-size: 1.2rem
+    border: 1px solid $foreground-color
+    border-radius: 2px
+    -moz-border-radius: 2px
+    -webkit-border-radius: 2pm
+  .checkin-registrations, .break
+    margin-left: -1rem
+    .registration
+      display: inline-block
+      width: 45%
+      height: 13rem
+      padding: 1rem
+      margin: 1rem 0 0 1rem
+      border: 1px solid $foreground-color-light
+      border-left:
+        color: $color-red
+        width: 5px
+      border-radius: 2px
+      -moz-border-radius: 2px
+      -webkit-border-radius: 2pm
+      &.checked-in
+        opacity: 0.4
+      &.volunteer
+        border-left-color: $color-green
+      &.teacher, &.mentor
+        border-left-color: $color-blue
+      &.vip, &.press, &.sponsor, &.judge
+        border-left-color: $foreground-color
+      &.on-break
+        border-left-color: $color-blue
+      &.parent-confirm
+        border-left-color: $color-red
+      &.no-parent-confirm
+        border-left-color: $color-green
+      .img 
+        width: 30%
+        padding: 30% 0 0 0
+        float: left
+        margin-right: 1rem
+        background:
+          repeat: no-repeat
+          position: 50% 50%
+          size: cover
+      & > span
+        display: block
+        white-space: nowrap
+        &.name
+          font-size: 1.3rem
+        &.email
+          display: none
+        &.id
+          display: none
+        &.counter
+          font-size: 1.4rem
+          font-weight: bold
+          margin: 1rem 0
+        &.info
+          font-size: 0.8rem
+          text-transform: uppercase
+          padding-bottom: 1rem
+        .missing
+          font-weight: bold
+          color: $color-red
+          text-transform: uppercase
+        .warning
+          font-weight: bold
+          color: $color-red
+          text-transform: uppercase
+      form input[type="submit"]
+        float: none
+        width: 30%
+        padding: 1rem
+        min-width: 0
+        clear: both
 
+  .parent, .student
+    width: 48%
+    display: inline-block
+
+  .parent
+    padding-left: 2%
+
+  .student
+    padding-right: 2%
+
+  +mobile
+    .checkin-registrations .registration
+      width: 100%
     .parent, .student
-        width: 48%
-        display: inline-block
+      width: 100%
+      padding: 0
+      display: block
+    .group input
+      width: 35%
 
-    .parent
-        padding-left: 2%
-
-    .student
-        padding-right: 2%
-
-    +mobile
-        .checkin-registrations .registration
-            width: 100%
-        .parent, .student
-            width: 100%
-            padding: 0
-            display: block
-        .group input
-            width: 35%
-
-        td.email, th.email, td.id, th.id
-            display: none
+    td.email, th.email, td.id, th.id
+      display: none

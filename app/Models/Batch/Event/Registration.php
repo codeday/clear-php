@@ -103,7 +103,7 @@ class Registration extends \Eloquent {
 
     public function getDates()
     {
-        return ['created_at', 'updated_at', 'checked_in_at'];
+        return ['created_at', 'updated_at', 'checked_in_at', 'break_started_at'];
     }
 
     public function promotion()

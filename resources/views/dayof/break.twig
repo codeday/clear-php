@@ -1,0 +1,60 @@
+{% extends "template.twig" %}
+{% block title %}Break{% endblock %}
+{% block section %}dayof{% endblock %}
+{% block subnav %}{% include "dayof/subnav.twig" %}{% endblock %}
+{% block content %}
+        <header>
+            <h2>Break Checkout</h2>
+            <p>This will allow you to temporarily check out students, and see how long they've been gone. If the student is under 18 (red), please call their parent to confirm first, and enter their phone number.</p>
+        </header>
+        {% if on_break|length > 0 %}
+            <h3>On Break</h3>
+            <div class="break">
+                {% for registration in on_break %}
+                        <div class="registration on-break">
+                            <span class="name">{{ registration.name }}</span>
+                            <span class="age">Age: {{ registration.age }}{% if not registration.age %}unknown{% endif %}</span>
+                            <span class="parent-phone">Parent Phone: {{ registration.parent_phone }}{% if not registration.parent_phone %}none{% endif %}</span>
+                            <span class="phone">Student Phone: {{ registration.phone }}{% if not registration.phone %}none{% endif %}</span>
+                            <span class="counter" data-timestamp="{{ registration.break_started_at.timestamp }}"></span>
+                            <form action="/dayof/break/end" method="post">
+                                <input type="hidden" name="id" value="{{ registration.id }}" />
+                                <input type="submit" value="Off Break" />
+                            {{ csrf|raw }}</form>
+                        </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if off_break|length > 0 %}
+            <h3>Off Break</h3>
+            <div class="break">
+                {% for registration in off_break %}
+                    <div class="registration {% if registration.age > 18 %}no-parent-confirm{% else %}parent-confirm{% endif %}">
+                        <span class="name">{{ registration.name }}</span>
+                        <span class="age">Age: {{ registration.age }}{% if not registration.age %}unknown{% endif %}</span>
+                        <span class="parent-phone">Parent Phone: {{ registration.parent_phone }}{% if not registration.parent_phone %}none{% endif %}</span>
+                        <form action="/dayof/break/start" method="post">
+                            <input type="hidden" name="id" value="{{ registration.id }}" />
+                            <span class="phone">Student Phone: </span><input type="text" name="phone" value="{{ registration.phone }}" placeholder="Student Phone" />
+                            <input type="submit" value="On Break" />
+                        {{ csrf|raw }}</form>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        var update = function(){
+            $('.on-break .counter').each(function(i, elem) {
+                var $this = $(elem);
+                var timestamp = $this.data('timestamp');
+                var newTimestamp = (new Date()).getTime()/1000;
+                var diffMinutes = Math.round((newTimestamp - timestamp)/60);
+                $this.text(diffMinutes + " minutes");
+            });
+        };
+        setInterval(update, 5000);
+        update();
+    </script>
+{% endblock %}
