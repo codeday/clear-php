@@ -1,5 +1,4 @@
 <?php
-\Route::get('/health', function(){ return "ok"; });
 \Route::group(['namespace' => 'Manage', 'before' => 's5_manage_events', 'middleware' => ['web']], function() {
     \Route::get('/', 'DashboardController@getIndex');
     \Route::get('/help', 'DashboardController@getHelp');
