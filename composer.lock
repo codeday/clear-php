@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "59ff59d1797d2acc83c90802f59f27c2",
+    "content-hash": "090f6c9fc23a75909d571c75f1b709d9",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -2130,11 +2130,11 @@
         },
         {
             "name": "studentrnd/s5laravel",
-            "version": "v1.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/srnd/s5laravel.git",
-                "reference": "20f0766b0aade21a54bc7223e47118b6c5198620"
+                "reference": "7897ac0f8d5c4998056f5ece08d0a427d881cf10"
             },
             "require": {
                 "php": ">=5.5.0"
@@ -2159,7 +2159,7 @@
                 "s5",
                 "studentrnd"
             ],
-            "time": "2017-07-14T17:21:40+00:00"
+            "time": "2017-07-14T18:32:46+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2607,16 +2607,16 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v2.7.31",
+            "version": "v2.7.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "67247e4b5fa37404126a0bae9cda74de2fd9e259"
+                "reference": "b93ba999fedbcef22154f5a4b65572944be62810"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/67247e4b5fa37404126a0bae9cda74de2fd9e259",
-                "reference": "67247e4b5fa37404126a0bae9cda74de2fd9e259",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/b93ba999fedbcef22154f5a4b65572944be62810",
+                "reference": "b93ba999fedbcef22154f5a4b65572944be62810",
                 "shasum": ""
             },
             "require": {
@@ -2627,8 +2627,7 @@
                 "symfony/http-foundation": "~2.7.20|^2.8.13"
             },
             "conflict": {
-                "symfony/config": "<2.7",
-                "twig/twig": "<1.34|<2.4,>=2"
+                "symfony/config": "<2.7"
             },
             "require-dev": {
                 "symfony/browser-kit": "~2.3",
@@ -2686,7 +2685,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-05T07:16:12+00:00"
+            "time": "2017-05-29T19:04:18+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -3214,39 +3213,34 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.4.3",
+            "version": "v1.30.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "eab7c3288ae6603d7d6f92b531626af2b162d1f2"
+                "reference": "c6ff71094fde15d12398eaba029434b013dc5e59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/eab7c3288ae6603d7d6f92b531626af2b162d1f2",
-                "reference": "eab7c3288ae6603d7d6f92b531626af2b162d1f2",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/c6ff71094fde15d12398eaba029434b013dc5e59",
+                "reference": "c6ff71094fde15d12398eaba029434b013dc5e59",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0",
-                "symfony/polyfill-mbstring": "~1.0"
+                "php": ">=5.2.7"
             },
             "require-dev": {
-                "psr/container": "^1.0",
                 "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~3.3@dev"
+                "symfony/phpunit-bridge": "~3.2@dev"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "1.30-dev"
                 }
             },
             "autoload": {
                 "psr-0": {
                     "Twig_": "lib/"
-                },
-                "psr-4": {
-                    "Twig\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3276,7 +3270,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-06-07T18:47:58+00:00"
+            "time": "2016-12-23T11:06:22+00:00"
         },
         {
             "name": "twilio/sdk",
