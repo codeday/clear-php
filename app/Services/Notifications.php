@@ -15,10 +15,28 @@ class Notifications {
       foreach($devices as $device) {
         switch($device->service) {
           case "messenger":
-            FacebookMessenger::SendMessage("An announcement from the CodeDay organizers:\n\n" . $announcement->body, $device->token);
+            if($announcement->urgency >= 2) {
+              if($announcement->link && $announcement->cta) {
+                FacebookMessenger::SendMessageWithButtons("An announcement from the CodeDay organizers:\n\n" . $announcement->body, $device->token, [
+                  [
+                    'type' => 'web_url',
+                    'url' => $announcement->link,
+                    'title' => $announcement->cta
+                  ]
+                ]);
+              } else {
+                FacebookMessenger::SendMessage("An announcement from the CodeDay organizers:\n\n" . $announcement->body, $device->token);
+              }
+            }
             break;
           case "sms":
-            Telephony\Sms::send($device->token, "CodeDay Announcement: " . $announcement->body);
+            if($announcement->urgency == 3) {
+              if($announcement->link && $announcement->cta) {
+                Telephony\Sms::send($device->token, "CodeDay Announcement: " . $announcement->body . "\n\n" . $announcement->cta . ": " . $announcement->link);
+              } else {
+                Telephony\Sms::send($device->token, "CodeDay Announcement: " . $announcement->body);
+              }
+            }
             break;
           case "app":
             // TODO companion implementation

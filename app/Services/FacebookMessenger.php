@@ -54,4 +54,24 @@ class FacebookMessenger {
 
     self::Post('me/messages', $payload);
   }
+
+  public static function SendMessageWithButtons($text, $to, $buttons) {
+    $payload = [
+      'recipient' => [
+        'id' => $to
+      ],
+      'message' => [
+        'attachment' => [
+          'type' => 'template',
+          'payload' => [
+            'template_type' => 'button',
+            'text' => $text,
+            'buttons' => $buttons
+          ]
+        ]
+      ]
+    ];
+
+    self::Post('me/messages', $payload);
+  }
 }
