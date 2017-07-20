@@ -57,6 +57,37 @@ class Registrations extends ApiController {
     return json_encode(ModelContracts\Registration::Model($registration, $this->permissions));
   }
 
+  public function postDevices() {
+    $this->requirePermission(['internal']);
+
+    $registration = \Route::input('registration');
+    $service = strtolower(trim(\Input::get('service')));
+    $token = \Input::get('device_token');
+
+    $allowed_services = [
+      "messenger",
+      "sms",
+      "app"
+    ];
+
+    if(!in_array($service, $allowed_services)) {
+      return json_encode([
+        'ok' => false,
+        'error' => 'service must be one of (messenger, sms, app)'
+      ]);
+    }
+
+    $device = new Models\Batch\Event\Registration\Device;
+    $device->batches_events_registration_id = $registration->id;
+    $device->service = $service;
+    $device->token = $token;
+    $device->save();
+
+    return json_encode([
+      'ok' => true
+    ]);
+  }
+
   public function getSign()
   {
     $this->requirePermission(['internal']);

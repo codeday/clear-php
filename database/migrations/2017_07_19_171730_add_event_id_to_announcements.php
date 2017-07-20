@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPhone extends Migration
+class AddEventIdToAnnouncements extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddPhone extends Migration
      */
     public function up()
     {
-        \Schema::table('batches_events_registrations', function(Blueprint $table) {
-            $table->text('phone')->nullable();
+        Schema::table('batches_events_announcements', function (Blueprint $table) {
+            $table->string('batches_events_id');
         });
     }
 
@@ -24,8 +24,8 @@ class AddPhone extends Migration
      */
     public function down()
     {
-        \Schema::table('batches_events_registrations', function(Blueprint $table) {
-            $table->dropColumn('phone');
+        Schema::table('batches_events_announcements', function (Blueprint $table) {
+            $table->dropColumn('batches_events_id');
         });
     }
 }

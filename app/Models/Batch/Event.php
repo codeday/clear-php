@@ -799,6 +799,10 @@ class Event extends \Eloquent {
         return $this->region->simple_timezone;
     }
 
+    public function announcements()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\Announcement', 'batches_event_id', 'id');
+    }
 
     // ## Contracts
 

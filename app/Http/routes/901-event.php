@@ -25,6 +25,7 @@ use CodeDay\Clear\Models;
         \Route::controller('/venue', 'VenueController');
         \Route::controller('/shipping', 'ShippingController');
         \Route::controller('/promotions', 'PromotionsController');
+        \Route::controller('/announcements', 'AnnouncementsController');
         \Route::controller('/emails', 'EmailsController');
         \Route::controller('/subusers', 'SubusersController');
         \Route::controller('/preevent', 'PreeventController');

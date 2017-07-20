@@ -33,7 +33,8 @@
         "setasign/fpdi-fpdf": "1.6.1",
         "spatie/pdf-to-image": "^1.3",
         "predis/predis": "^1.1",
-        "studentrnd/s5laravel": "^1.0"
+        "studentrnd/s5laravel": "^1.0",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -27,6 +27,7 @@
     \Route::get('registration/{registration}/sign', 'Registrations@getSign');
     \Route::get('registration/{registration}/sync-waiver', 'Registrations@getSyncWaiver');
     \Route::post('registration/{registration}/parent-info', 'Registrations@postParentInfo');
+    \Route::post('registration/{registration}/devices', 'Registrations@postDevices');
 
     \Route::controller('promotions', 'Promotions');
     \Route::post('promotions/new', 'PromotionsController@postNew');

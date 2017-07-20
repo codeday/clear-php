@@ -87,7 +87,7 @@
         }
     },
 
-    "s5": { /* Required for logins to work. You can get on on s5. */
+    "s5": { /* Required for logins to work. You can get one on s5. */
         "token": "",
         "secret": "",
         "invite_link": "https://s5.studentrnd.org/invite/", /* Invite link to add to the RM group on s5. Optional. */
