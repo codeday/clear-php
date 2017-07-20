@@ -12,6 +12,8 @@ use GuzzleHttp;
  * @license     Perl Artistic License 2.0
  */
 class FacebookMessenger {
+  protected static $client;
+
   public static function Post($endpoint, $payload)
   {
     $url = "https://graph.facebook.com/v2.6/" . $endpoint . "?access_token=" . \Config::get('messenger.access_token');
@@ -55,6 +57,36 @@ class FacebookMessenger {
     self::Post('me/messages', $payload);
   }
 
+  public static function SendMessageUserRef($text, $to, $quick_replies = null) {
+    $payload = [
+      'recipient' => [
+        'user_ref' => $to
+      ],
+      'message' => [
+        'text' => $text
+      ]
+    ];
+
+    if(isset($quick_replies)) {
+      $payload['message']['quick_replies'] = $quick_replies;
+    }
+
+    try{
+      $response = self::$client->post("https://graph.facebook.com/v2.6/me/messages", [
+        'json' => $payload,
+        'query' => [ 'access_token' => \Config::get('messenger.access_token') ]
+      ]);
+    } catch (\Exception $ex) { return null; }
+
+    if ($response->getStatusCode() == 202) {
+      return false;
+    } elseif ($response->getStatusCode() != 200) {
+      return null;
+    } else {
+      return json_decode($response->getBody());
+    }
+  }
+
   public static function SendMessageWithButtons($text, $to, $buttons) {
     $payload = [
       'recipient' => [
@@ -74,4 +106,10 @@ class FacebookMessenger {
 
     self::Post('me/messages', $payload);
   }
+
+  public static function booting() {
+    self::$client = new GuzzleHttp\Client([]);
+  }
 }
+
+FacebookMessenger::booting();

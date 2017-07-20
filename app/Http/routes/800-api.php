@@ -11,6 +11,7 @@
 
     \Route::controller('regions', 'Regions');
     \Route::controller('checkin', 'Checkin');
+    \Route::controller('messenger', 'MessengerHook');
     \Route::get('region/{region}', 'Regions@getRegion');
 
     \Route::controller('events', 'Events');
