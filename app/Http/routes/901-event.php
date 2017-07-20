@@ -39,6 +39,7 @@ use CodeDay\Clear\Models;
         \Route::post('/registrations/attendee/{registration}/refund', 'RegistrationsController@postRefund');
         \Route::post('/registrations/attendee/{registration}/transfer', 'RegistrationsController@postTransfer');
         \Route::post('/registrations/attendee/{registration}/webhook', 'RegistrationsController@postWebhook');
+        \Route::post('/registrations/attendee/{registration}/removedevices', 'RegistrationsController@postRemovedevices');
         \Route::post('/registrations/attendee/{registration}/resend', 'RegistrationsController@postResend');
         \Route::post('/registrations/attendee/{registration}/notes', 'RegistrationsController@postNotes');
         \Route::get('/registrations/attendee/{registration}/waiver', 'RegistrationsController@getWaiver');
