@@ -160,7 +160,7 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
         $registration = \Route::input('registration');
 
         if(Models\User::me()->is_admin) {
-            foreach($device as $registration->devices) {
+            foreach($registration->devices as $device) {
                 $device->delete();
             }
 
