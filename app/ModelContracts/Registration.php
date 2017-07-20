@@ -171,7 +171,7 @@ class Registration extends ModelContract
                 'description'   => 'The attendee\'s devices.',
                 'type'          => 'Device',
                 'value'         => function($model, $permissions) {
-                    return new Device::Collection($model->devices, $permissions);
+                    return Device::Collection($model->devices, $permissions);
                 }
             ],
         ];
