@@ -26,7 +26,5 @@ class Notifications {
         }
       }
     }
-
-    $job->delete();
   }
 }
