@@ -6,6 +6,7 @@ use \CodeDay\Clear\ModelContracts;
 
 class Regions extends ApiController {
     protected $requiresApplication = false;
+    
     public function getNearby()
     {
         $lat = \Input::get('lat');

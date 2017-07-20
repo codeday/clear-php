@@ -55,6 +55,12 @@ class Events extends ApiController {
       return json_encode(ModelContracts\Registration::Model($registration, $this->permissions));
     }
 
+    public function getAnnouncements()
+    {
+        $event = \Route::input('event');
+        return json_encode(ModelContracts\Announcement::Collection($event->announcements, $this->permissions));
+    }
+
     public function getManagedBy()
     {
         $this->requirePermission(['internal']);

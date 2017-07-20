@@ -21,6 +21,7 @@
     \Route::get('event/{event}/registrations/new', 'Events@postRegistrations');
     \Route::post('event/{event}/registrations', 'Events@postRegistrations');
     \Route::get('events/managed-by/{username}', 'Events@getManagedBy');
+    \Route::get('event/{event}/announcements', 'Events@getAnnouncements');
     \Route::get('events/volunteered-for', 'Events@getVolunteeredFor');
 
     \Route::get('registration/by-email/{email}', 'Registrations@getByEmail');

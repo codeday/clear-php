@@ -9,10 +9,10 @@ abstract class ApiController extends \CodeDay\Clear\Http\Controller {
 
     public function __construct()
     {
+        header("Content-Type: application/json");
         if (!isset($this->requiresApplication) || $this->requiresApplication) {
             $this->setApplicationOrFail();
         }
-
     }
 
     protected function setApplicationOrFail()
