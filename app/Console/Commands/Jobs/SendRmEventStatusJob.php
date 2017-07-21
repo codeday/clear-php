@@ -8,6 +8,7 @@ use \CodeDay\Clear\Services;
 
 class SendRMEventStatusJob {
     public $interval = '1 day';
+    
     public function fire()
     {
         if (Models\Batch::Loaded()->starts_at->isPast()) { return; } // Don't send emails once the event has started

@@ -8,6 +8,7 @@ use \CodeDay\Clear\Services;
 
 class SendParentInfoReminderJob {
     public $interval = '1 week';
+    
     public function fire()
     {
         // Only send the reminders if we're within three weeks of the event

@@ -8,6 +8,7 @@ use \CodeDay\Clear\Services;
 
 class SendEvangelistInfoReminderJob {
     public $interval = '3 days';
+    
     public function fire()
     {
         if (Carbon::now()->gte(Models\Batch::Loaded()->starts_at->addWeeks(-3))) {

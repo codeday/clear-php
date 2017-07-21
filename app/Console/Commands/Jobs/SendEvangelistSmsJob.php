@@ -8,6 +8,7 @@ use \CodeDay\Clear\Services;
 
 class SendEvangelistSmsJob {
     public $interval = 'always';//'6 minutes';
+    
     public function fire()
     {
         foreach (Models\Batch::Loaded()->events as $event) {

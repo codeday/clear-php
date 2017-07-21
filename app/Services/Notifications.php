@@ -45,4 +45,44 @@ class Notifications {
       }
     }
   }
+
+  public static function SendNotificationsForActivity($activity, $event) {
+    $registrations = $event->registrations;
+    
+    foreach($registrations as $registration) {
+      $devices = $registration->devices;
+
+      foreach($devices as $device) {
+        switch($device->service) {
+          case "messenger":
+            $messageBody = "Reminder: " . $activity->title . " is starting in thirty minutes!\n\n" . ($activity->description ? $activity->description : "");
+
+            if(isset($activity->url) && $activity->url != null) {
+              FacebookMessenger::SendMessageWithButtons($messageBody, $device->token, [
+                [
+                  'type' => 'web_url',
+                  'url' => $activity->url,
+                  'title' => "More Info"
+                ]
+              ]);
+            } else {
+              FacebookMessenger::SendMessage($messageBody, $device->token);
+            }
+            break;
+          case "sms":
+            $messageBody = "CodeDay Reminder: " . $activity->title . " is starting in thirty minutes!";
+
+            if(isset($activity->url) && $activity->url != null) {
+              Telephony\Sms::send($device->token, $messageBody . "\n\nMore Info: " . $activity->url);
+            } else {
+              Telephony\Sms::send($device->token, $messageBody);
+            }
+            break;
+          case "app":
+            // TODO companion implementation
+            break;
+        }
+      }
+    }
+  }
 }

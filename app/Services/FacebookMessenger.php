@@ -17,27 +17,20 @@ class FacebookMessenger {
   public static function Post($endpoint, $payload)
   {
     $url = "https://graph.facebook.com/v2.6/" . $endpoint . "?access_token=" . \Config::get('messenger.access_token');
-    
-    // $ch = \curl_init($url);
-    // \curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-    // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
-    // \curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-    // \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    // \curl_exec($ch);
-    // \curl_close($ch);
 
-    \Queue::push(function($job) use ($payload, $url)
-    {
-      $ch = \curl_init($url);
-      \curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
-      \curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-      \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      \curl_exec($ch);
-      \curl_close($ch);
+    $opts = ['http' => ['method'  => 'POST']];
 
-      $job->delete();
-    });
+    $opts['http']['header'] = 'Content-type: application/json';
+    $opts['http']['content'] = json_encode($payload);
+
+    try {
+      \Queue::push(function ($job) use ($opts, $url) {
+        $context = stream_context_create($opts);
+        @file_get_contents($url, false, $context);
+
+        $job->delete();
+      });
+    } catch (\Exception $ex) {}
   }
 
   public static function SendMessage($text, $to, $quick_replies = null) {
