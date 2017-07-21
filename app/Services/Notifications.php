@@ -16,7 +16,7 @@ class Notifications {
         switch($device->service) {
           case "messenger":
             if($announcement->urgency >= 2) {
-              if($announcement->link && $announcement->cta) {
+              if($announcement->link != null && $announcement->cta != null) {
                 FacebookMessenger::SendMessageWithButtons("An announcement from the CodeDay organizers:\n\n" . $announcement->body, $device->token, [
                   [
                     'type' => 'web_url',
@@ -31,7 +31,7 @@ class Notifications {
             break;
           case "sms":
             if($announcement->urgency == 3) {
-              if($announcement->link && $announcement->cta) {
+              if($announcement->link != null && $announcement->cta != null) {
                 Telephony\Sms::send($device->token, "CodeDay Announcement: " . $announcement->body . "\n\n" . $announcement->cta . ": " . $announcement->link);
               } else {
                 Telephony\Sms::send($device->token, "CodeDay Announcement: " . $announcement->body);
