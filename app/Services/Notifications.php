@@ -46,6 +46,35 @@ class Notifications {
     }
   }
 
+  public static function SendCheckinNotification($registration) {
+    $devices = $registration->devices;
+    $event = $registration->event;
+
+    foreach($devices as $device) {
+      switch($device->service) {
+        case "messenger":
+          $messageBody = "Welcome to CodeDay " . $event->name . ", " . $registration->first_name . "! Find a place to set yourself up, kickoff will start at noon. Now's also a good time to look over the schedule to see which activities and workshops you'd like to attend.";
+
+          FacebookMessenger::SendMessageWithButtons($messageBody, $device->token, [
+            [
+              'type' => 'web_url',
+              'url' => "https://codeday.org/" . $event->webname,
+              'title' => "Event Schedule"
+            ]
+          ]);
+          break;
+        case "sms":
+          $messageBody = "Welcome to CodeDay " . $event->name . ", " . $registration->first_name . "! Take some time and look over the schedule to see what activities interest you: https://codeday.org/" . $event->webname;
+
+          Telephony\Sms::send($device->token, $messageBody);
+          break;
+        case "app":
+          // TODO companion implementation
+          break;
+      }
+    }
+  }
+
   public static function SendNotificationsForActivity($activity, $event) {
     $registrations = $event->registrations;
     

@@ -4,6 +4,7 @@ namespace CodeDay\Clear\Http\Controllers\Manage\DayOf;
 use JBDemonte\Barcode;
 use \CodeDay\Clear\Models;
 use \CodeDay\Clear\ModelContracts;
+use \CodeDay\Clear\Services;
 
 class CheckinController extends \CodeDay\Clear\Http\Controller {
 
@@ -28,6 +29,7 @@ class CheckinController extends \CodeDay\Clear\Http\Controller {
             $attendee->checked_in_at = \Carbon\Carbon::now();
             $attendee->save();
             \Event::fire('registration.checkin', \DB::table('batches_events_registrations')->where('id', '=', $attendee_id)->get()[0]);
+            Services\Notifications::SendCheckinNotification($attendee);
         } else {
             $attendee->checked_in_at = null;
             $attendee->save();
