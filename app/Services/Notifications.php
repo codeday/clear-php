@@ -39,7 +39,11 @@ class Notifications {
             }
             break;
           case "app":
-            // TODO companion implementation
+            if($announcement->link != null && $announcement->cta != null) {
+              Firebase::SendClickableNotification("CodeDay Announcement", $announcement->body, $announcement->link, $device->token);
+            } else {
+              Firebase::SendNotification("CodeDay Announcement", $announcement->body, $device->token);
+            }
             break;
         }
       }
@@ -69,7 +73,7 @@ class Notifications {
           Telephony\Sms::send($device->token, $messageBody);
           break;
         case "app":
-          // TODO companion implementation
+          Firebase::SendClickableNotification("Welcome to CodeDay, " . $registration->first_name . "!", "Take some time and look over the schedule to see what activities interest you.", "https://codeday.org/" . $event->webname, $device->token);
           break;
       }
     }
@@ -108,7 +112,11 @@ class Notifications {
             }
             break;
           case "app":
-            // TODO companion implementation
+            if(isset($activity->url) && $activity->url != null) {
+              Firebase::SendClickableNotification("Activity Reminder", $activity->title . " is starting in thirty minutes! Tap for more details.", $activity->url, $device->token);
+            } else {
+              Firebase::SendNotification("Activity Reminder", $activity->title . " is starting in thirty minutes!", $device->token);
+            }
             break;
         }
       }
