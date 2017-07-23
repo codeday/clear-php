@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "02764b7105658a02a24a955a4d4583c6",
+    "content-hash": "5e21644c0058326128dd3a1544502668",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1561,6 +1561,40 @@
                 "psr-3"
             ],
             "time": "2017-06-19T01:22:40+00:00"
+        },
+        {
+            "name": "morrislaptop/laravel-queue-clear",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/morrislaptop/laravel-queue-clear.git",
+                "reference": "027691d85e64d94bc04c3dd44aa9c6e90c1d8554"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/morrislaptop/laravel-queue-clear/zipball/027691d85e64d94bc04c3dd44aa9c6e90c1d8554",
+                "reference": "027691d85e64d94bc04c3dd44aa9c6e90c1d8554",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=5.0.0",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Morrislaptop\\LaravelQueueClear\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Craig Morris",
+                    "email": "craig.michael.morris@gmail.com"
+                }
+            ],
+            "description": "Command for wiping your queues clear",
+            "time": "2015-05-25T16:58:10+00:00"
         },
         {
             "name": "mtdowling/cron-expression",
