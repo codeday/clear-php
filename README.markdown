@@ -1,5 +1,7 @@
 # Clear
 
+[![Deployment status from DeployBot](https://srnd.deploybot.com/badge/66802254112581/110470.svg)](http://deploybot.com)
+
 Named for its function as a clearinghouse for event-related data, Clear is largely a glorified database frontend with features specifically designed to reduce the amount of busywork involved in managing your event.
 
 Tasks on Clear largely fall into two categories: changing event configuration, and managing attendees. Some example tasks:
