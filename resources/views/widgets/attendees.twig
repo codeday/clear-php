@@ -30,6 +30,13 @@
                     <span class="event">{{ attendee.event.webname }} </span>
                 {% endif %}
             </span>
+            <span class="devices">
+                {% for deviceType in ["sms", "messenger", "app"] %}
+                    {% if attendee.hasDeviceType(deviceType) %}
+                        <span class="device device-{{ deviceType }}" title="Attendee subscribed to notifications via {{ deviceType }}"></span>
+                    {% endif %}
+                {% endfor %}
+            </span>
         </a>
     </li>
 {% endmacro %}

@@ -5,6 +5,7 @@
         width: 15rem
         margin: 0 0.75rem 0.75rem 0
         display: inline-block
+        position: relative
 
         border: 1px solid $foreground-color-lighter
         border-left: none
@@ -35,6 +36,24 @@
                     display: block
                     text-align: right
                     height: 50%
+            
+            .devices
+                    display: block
+                    float: right
+                    position: absolute
+                    right: 5px
+                    bottom: 1px
+                    .device
+                        display: inline-block
+                        background-size: 15px 15px
+                        width: 15px
+                        height: 15px
+                        &.device-messenger
+                            background-image: url("/assets/img/devices/messenger.svg")
+                        &.device-sms
+                            background-image: url("/assets/img/devices/sms.png")
+                        &.device-app
+                            background-image: url("/assets/img/logo-square.png")
 
         &.volunteer a
             border-left-color: $color-green
