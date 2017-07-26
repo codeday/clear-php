@@ -10,6 +10,7 @@ use Illuminate\Foundation\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 use \CodeDay\Clear\Models;
+use \CodeDay\Clear\Services;
 
 class Handler extends ExceptionHandler
 {
@@ -37,7 +38,7 @@ class Handler extends ExceptionHandler
     {
         if (!\Config::get('app.debug')) {
             $raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
-            $raygun->SetVersion(\CodeDay\Clear\Services::getVersion());
+            $raygun->SetVersion(Services\GitRepository::getVersion());
 
             try{
                 if(Models\User::me()){
