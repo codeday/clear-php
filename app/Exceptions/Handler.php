@@ -37,6 +37,7 @@ class Handler extends ExceptionHandler
     {
         if (!\Config::get('app.debug')) {
             $raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
+            $raygun->SetVersion(\CodeDay\Clear\Services::getVersion());
 
             try{
                 if(Models\User::me()){
