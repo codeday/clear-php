@@ -37,7 +37,7 @@ class GitRepository {
     public static function getVersion()
     {
         try {
-            return file_get_contents(implode(DIRECTORY_SEPARATOR, [dirname(dirname(__DIR__)), '.version']));
+            return trim(file_get_contents(implode(DIRECTORY_SEPARATOR, [dirname(dirname(__DIR__)), '.version'])));
         } catch (\Exception $ex) {
             return null;
         }
