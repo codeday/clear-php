@@ -154,6 +154,23 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
         return \Redirect::to('/event/'.$event->id.'/registrations');
     }
 
+    public function postRemovedevices()
+    {
+        $event = \Route::input('event');
+        $registration = \Route::input('registration');
+
+        if(Models\User::me()->is_admin) {
+            foreach($registration->devices as $device) {
+                $device->delete();
+            }
+
+            \Session::flash('status_message', 'Devices removed');
+            return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
+        } else {
+            \App::abort(401);
+        }
+    }
+
     public function getWaiver()
     {
         $event = \Route::input('event');

@@ -110,6 +110,7 @@ class Registration extends ModelContract
             ],
 
             /* Price-Related Properties */
+
             'amount_paid' => [
                 'name'          => 'Amount Paid',
                 'description'   => 'The amount the registrant paid for this registration, including any refunds.',
@@ -162,6 +163,15 @@ class Registration extends ModelContract
                 'type'          => 'Event',
                 'value'         => function($model, $permissions) {
                     return new Event($model->event, $permissions);
+                }
+            ],
+
+            'devices' => [
+                'name'          => 'Devices',
+                'description'   => 'The attendee\'s devices.',
+                'type'          => 'Device',
+                'value'         => function($model, $permissions) {
+                    return Device::Collection($model->devices, $permissions);
                 }
             ],
         ];

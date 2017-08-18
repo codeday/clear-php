@@ -37,7 +37,7 @@ class GitRepository {
     public static function getVersion()
     {
         try {
-            return static::getGitCommit('HEAD');
+            return trim(file_get_contents(implode(DIRECTORY_SEPARATOR, [dirname(dirname(__DIR__)), '.version'])));
         } catch (\Exception $ex) {
             return null;
         }
@@ -123,7 +123,7 @@ class GitRepository {
 
     private static function getGitBase()
     {
-        return implode(DIRECTORY_SEPARATOR, [dirname(dirname(__DIR__)), '.git']);
+        return implode(DIRECTORY_SEPARATOR, [dirname(dirname(__DIR__)), '.version']);
     }
 
 }

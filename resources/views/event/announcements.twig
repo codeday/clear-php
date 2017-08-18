@@ -1,0 +1,61 @@
+{% extends "template.twig" %}
+{% block title %}Announcements // {{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Announcements</h2>
+        <p>
+          You can notify all subscribed attendees via SMS, Facebook Messenger, and the CodeDay Companion app
+          about important things.
+        </p>
+    </header>
+
+    <form action="/event/{{ event.id }}/announcements" method="post">
+        <h3>Post Announcement</h3>
+
+        <div class="field">
+            <label for="text">Announcement Text</label>
+            <textarea name="text" id="text" required></textarea>
+            <span class="help">The text of the announcement to be displayed.</span>
+        </div>
+
+        <div class="field">
+            <label for="link">Link URL</label>
+            <input type="url" name="link" id="link"></textarea>
+            <span class="help">The link to be attached to this announcement. If this field is set, <strong>you must</strong> set the "Link Text" field below.</span>
+        </div>
+
+        <div class="field">
+            <label for="cta">Link Text</label>
+            <input type="text" name="cta" id="cta"></textarea>
+            <span class="help">The text to be displayed for the link. If this field is set, <strong>you must</strong> set the "Link URL" field above.</span>
+        </div>
+
+        <div class="field">
+            <label for="urgency">Urgency</label>
+            <select name="urgency" id="urgency">
+              <option value="1" selected>Low - Pushes announcement to Companion app</option>
+              <option value="2">Medium - Pushes announcement to Facebook Messenger and Companion app</option>
+              <option value="3">High - Pushes announcement everywhere (SMS, Messenger, Companion)</option>
+            </select>
+            <span class="help">The urgency of the announcement will determine which platforms will get notified.</span>
+        </div>
+
+        <input type="submit" value="Post Announcement"/>
+
+        {{ csrf|raw }}
+    </form>
+
+    <h3>Previous Announcements</h3>
+
+    <ul class="sent-emails">
+        {% for announcement in event.announcements %}
+            <li>
+                <span class="to">Urgency: {{ announcement.urgency }}</span>
+                <span class="time">Posted by {{ announcement.creator_username }}</span>
+                <span class="subject">{{ announcement.body }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

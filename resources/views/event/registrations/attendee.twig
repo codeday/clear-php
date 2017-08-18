@@ -31,6 +31,7 @@
             <button data-for-menu="emails">Re-send Emails</button>
             <button data-for-menu="waiver">Waiver</button>
             {% if me.is_admin %}
+                <button data-for-menu="devices">Devices</button>
                 <button data-for-menu="webhooks">Fire Webhooks</button>
             {% endif %}
 
@@ -218,6 +219,15 @@
         </section>
 
         {% if me.is_admin %}
+            <section class="waiver menu-devices">
+                <form method="post" class="small dangerous" action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/removedevices">
+                    <input type="submit" value="Remove All Devices" />
+                {{ csrf|raw }}</form>
+                {% for device in registration.devices %}
+                    <p>{{ device.service }}: {{ device.token }}</p>
+                {% endfor %}
+            </section>
+
             <section class="webhooks menu-webhooks">
                 <h4>Fire Webhooks Manually</h4>
                 <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/webhook" method="post">

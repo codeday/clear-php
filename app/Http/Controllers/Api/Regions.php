@@ -6,6 +6,7 @@ use \CodeDay\Clear\ModelContracts;
 
 class Regions extends ApiController {
     protected $requiresApplication = false;
+    
     public function getNearby()
     {
         $lat = \Input::get('lat');
@@ -114,7 +115,7 @@ class Regions extends ApiController {
 
     public function getIndex()
     {
-        return json_encode(ModelContracts\Region::Collection(Models\Region::with('events')->all(), $this->permissions));
+        return json_encode(ModelContracts\Region::Collection(Models\Region::with('events')->get(), $this->permissions));
     }
 
     public function getRegion()

@@ -719,6 +719,7 @@ class Event extends \Eloquent {
     public function registrationsSortedBy($column, $order = 'desc')
     {
       return Event\Registration::where('batches_event_id', '=', $this->id)
+        ->with("devices")
         ->orderBy($column, $order)
         ->get();
     }
@@ -799,6 +800,10 @@ class Event extends \Eloquent {
         return $this->region->simple_timezone;
     }
 
+    public function getAnnouncementsAttribute()
+    {
+        return Models\Batch\Event\Announcement::where("batches_event_id", "=", $this->id)->orderBy("created_at", "desc")->get();
+    }
 
     // ## Contracts
 

@@ -12,6 +12,10 @@ class Registration extends \Eloquent {
 
     use SoftDeletes;
 
+    public function hasDeviceType($type) {
+        return ($this->devices->where('service', $type)->count() > 0);
+    }
+
     public function event()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\Batch\Event', 'batches_event_id', 'id');

@@ -11,6 +11,7 @@
 
     \Route::controller('regions', 'Regions');
     \Route::controller('checkin', 'Checkin');
+    \Route::controller('messenger', 'MessengerHook');
     \Route::get('region/{region}', 'Regions@getRegion');
 
     \Route::controller('events', 'Events');
@@ -20,6 +21,7 @@
     \Route::get('event/{event}/registrations/new', 'Events@postRegistrations');
     \Route::post('event/{event}/registrations', 'Events@postRegistrations');
     \Route::get('events/managed-by/{username}', 'Events@getManagedBy');
+    \Route::get('event/{event}/announcements', 'Events@getAnnouncements');
     \Route::get('events/volunteered-for', 'Events@getVolunteeredFor');
 
     \Route::get('registration/by-email/{email}', 'Registrations@getByEmail');
@@ -27,6 +29,7 @@
     \Route::get('registration/{registration}/sign', 'Registrations@getSign');
     \Route::get('registration/{registration}/sync-waiver', 'Registrations@getSyncWaiver');
     \Route::post('registration/{registration}/parent-info', 'Registrations@postParentInfo');
+    \Route::post('registration/{registration}/devices', 'Registrations@postDevices');
 
     \Route::controller('promotions', 'Promotions');
     \Route::post('promotions/new', 'PromotionsController@postNew');
