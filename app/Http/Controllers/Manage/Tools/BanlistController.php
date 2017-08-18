@@ -9,6 +9,10 @@ class BanlistController extends \CodeDay\Clear\Http\Controller {
 
     public function getIndex()
     {
+        if (!Models\User::me()->is_admin) {
+            return \Redirect::to('https://srnd.wufoo.com/forms/incident-report/');
+        }
+
         $banlist = Models\Ban
             ::selectRaw('*, expires_at IS NOT NULL as does_expire')
             ->orderBy('does_expire')->orderBy('expires_at', 'DESC');
@@ -29,6 +33,8 @@ class BanlistController extends \CodeDay\Clear\Http\Controller {
 
     public function postIndex()
     {
+        if (!Models\User::me()->is_admin) \App::abort(401);
+
         $ban = new Models\Ban;
         $ban->first_name = \Input::get('first_name');
         $ban->last_name = \Input::get('last_name');
