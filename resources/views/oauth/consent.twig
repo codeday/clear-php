@@ -1,0 +1,29 @@
+{% extends "template.twig" %}
+{% block section %}oauth{% endblock %}
+{% block content %}
+    <header>
+        <h2>Allow {{ application.name }} to access your account?</h2>
+    </header>
+
+    <p>
+        {{ application.name }} by <a href="https://s5.studentrnd.org/user/{{ application.admin_username }}">{{application.admin_username}}</a>
+        is requesting permission to:
+    </p>
+
+    <ul>
+        {% for scope in scopes %}
+            <li>{{ scope }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>If you trust this application and want to give it access to the data above, press "Authorize". Otherwise, press "Cancel".</p>
+
+    <form method="post" action="/oauth/consent">
+        <input type="hidden" name="application" value="{{ application.public }}">
+        <input type="hidden" name="scope" value="{{ rawScopes }}">
+        <input type="hidden" name="redirect_uri" value="{{ redirectUri }}">
+        <input type="submit" style="float: left; margin-right: 20px" value="Authorize" />
+        {{ csrf|raw }}</form>
+
+    <a href="/" class="action" style="float: left; text-decoration: none">Cancel</a>
+{% endblock %}

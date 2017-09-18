@@ -96,6 +96,16 @@ class User extends \Eloquent {
         } else return null;
     }
 
+    public static function fromOAuthToken($token) {
+        $token = User\OAuthToken::where('access_token', '=', $token)->first();
+
+        if(null == $token) {
+            return null;
+        } else {
+            return $token->user;
+        }
+    }
+
     public static function fromS5Username($username)
     {
         $user = self::find($username);
