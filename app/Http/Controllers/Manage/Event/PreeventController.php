@@ -30,7 +30,7 @@ class PreeventController extends \CodeDay\Clear\Http\Controller {
     {
         $event = \Route::input('event');
         $reg = $event->registrations->first();
-        $body = \View::make('emails/preevent/student_html', ['registration' => ModelContracts\Registration::Model($reg, ['internal'])])->render();
+        $body = \View::make('emails/preevent/student_html', ['registration' => $reg])->render();
 
         return $body;
     }
