@@ -1,9 +1,27 @@
 {% extends "emails/template_transactional.twig" %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}Thanks for attending CodeDay! What did you think?{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-team.jpg{% endblock %}
+{% block title %}CodeDay is over :({% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
+{% block sign_name %}John Peter{% endblock %}
+{% block sign_title %}Official srnd.org Human{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}
+
 {% block body %}
-    <p>Hi {{ registration.first_name }},</p>
+    <p>Hey {{registration.first_name }},</p>
 
-    <p>Thank you for attending CodeDay this weekend! We hope we lived up to your expectations!</p>
+    <p>Thanks for coming to CodeDay! Did you have a good time? I had a great time, as I am a real authentic human and
+       therefore capable of attending events in the real world.</p>
 
-    <p><a href="https://codeday.vip/{{ registration.id }}/feedback">Would you be willing to share your experience with us?</a> Your feedback helps us make future CodeDays even better!</p>
+    <p>{{ registration.first_name }}, you had a good time, right? Hello?</p>
 
+    <p>Oh right. I can't actually hear you because <span style="text-decoration: line-through">I'm a robot</span>
+       ...uh... reasons.</p>
+
+    <p><a href="https://codeday.vip/{{ registration.id }}/feedback">Could you tell me your thoughts in the form of a
+       2-minute online survey?</a><p>
+
+    <p>You're the best, {{ registration.first_name }}.</p>
 {% endblock %}

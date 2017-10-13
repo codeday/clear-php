@@ -47,7 +47,7 @@ class TasksController extends \CodeDay\Clear\Http\Controller {
 
 
         Services\Email::SendToBatch(
-            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
+            'Tyler Menezes', 'tylermenezes@srnd.org',
             Models\Batch::Managed(), 'venues',
             'How did we do?',
             null,
@@ -69,9 +69,9 @@ class TasksController extends \CodeDay\Clear\Http\Controller {
         $batch->save();
 
         Services\Email::SendToBatch(
-            'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
+            'John Peter', '{{ event.webname }}@codeday.org',
             Models\Batch::Managed(), 'attendees',
-            'How was CodeDay?',
+            '#CodeDay #SoLastSeason',
             null,
             \View::make('emails/postevent/survey_html'),
             []
