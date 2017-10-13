@@ -5,16 +5,16 @@
                 "id":   "ticket",
                 "subject": "Your CodeDay Ticket",
                 "html": "emails/registration/ticket_html",
-                "text": "emails/registration/ticket_text",
-                "when": "+0"               
+                "when": "+0",
+                "from_n": "John Peter"
             },
             {
                 "id":   "ticket_reminder",
                 "subject": "Reminder: CodeDay",
                 "html": "emails/preevent/reminders/reg_html",
                 "when": "-1d",
-                "work": true,
-                "late": false
+                "late": false,
+                "from_n": "John Peter"
             }
         ],
         
@@ -23,29 +23,41 @@
                 "id":   "student_preevent",
                 "subject": "CodeDay is Shortly Upon Us",
                 "html": "emails/preevent/student_html",
-                "text": "emails/preevent/student_text",
                 "when": "-3d",
-                "work": true
+                "work": true,
+                "from_n": "John Peter"
             },
             {
                 "id":   "student_slack",
                 "subject": "Invitation to the CodeDay Community",
                 "html": "emails/slack/student_html",
-                "when": "+0"
+                "when": "+0",
+                "from_n": "John Peter"
+            },
+            {
+                "id":   "student_promo_1",
+                "subject": "CodeDay request from authentic human",
+                "html": "emails/preevent/student_promote_1",
+                "when": "+2d",
+                "from_n": "Tyler Menezes",
+                "from_e": "tylermenezes@srnd.org",
+                "marketing": true
             },
             {
                 "id":   "parent_preevent",
                 "subject": "Your student is attending CodeDay",
                 "html": "emails/preevent/parent_html",
                 "when": "-3d",
-                "work": true,
-                "target": "parent"
+                "target": "parent",
+                "from_n": "Tyler Menezes",
+                "from_e": "tylermenezes@srnd.org"
             },
             {
                 "id":   "student_resources",
                 "subject": "CodeDay Resources",
                 "html": "emails/preevent/student_resources",
-                "when": "-1h"
+                "when": "-1h",
+                "from_n": "John Peter"
             }
         ],
         
@@ -54,13 +66,16 @@
                 "id":   "volunteer_preevent",
                 "subject": "It's almost CodeDay",
                 "html": "emails/preevent/staff_html",
-                "when": "-3d"
+                "when": "-3d",
+                "from_n": "Tyler Menezes",
+                "from_e": "volunteer@srnd.org"
             },
             {
                 "id":   "volunteer_slack",
-                "subject": "Please Join the StudentRND Slack",
-                "html": "emails/slack/volunteer_html",
-                "when": "+1d"
+                "subject": "Please Join the CodeDay Slack",
+                "html": "emails/slack/student_html",
+                "when": "+0",
+                "from_n": "John Peter"
             }
         ],
         
@@ -69,19 +84,17 @@
                 "id":   "mentor_confirm",
                 "subject": "Confirmed: Mentoring at CodeDay",
                 "html": "emails/registration/mentor_html",
-                "when": "+0"
+                "when": "+0",
+                "from_n": "Tyler Menezes",
+                "from_e": "volunteer@srnd.org"
             },
             {
                 "id":   "mentor_preevent",
                 "subject": "Mentors: What to know for CodeDay",
                 "html": "emails/preevent/mentor_html",
-                "when": "-3d"
-            },
-            {
-                "id":   "mentor_slack",
-                "subject": "Please Join the StudentRND Slack",
-                "html": "emails/slack/volunteer_html",
-                "when": "-2d"
+                "when": "-3d",
+                "from_n": "Tyler Menezes",
+                "from_e": "volunteer@srnd.org"
             }
         ],
         
@@ -91,17 +104,29 @@
                 "subject": "Teachers: What to know for CodeDay",
                 "html": "emails/preevent/teacher_html",
                 "when": "-3d",
-                "work": true
+                "work": true,
+                "from_n": "Tyler Menezes",
+                "from_e": "tylermenezes@srnd.org"
             }
         ],
         
         "sponsor": [
             {
+                "id":   "sponsor_confirm",
+                "subject": "CodeDay Sponsorship",
+                "html": "emails/registration/sponsor_html",
+                "when": "+0",
+                "from_n": "Tyler Menezes",
+                "from_e": "tylermenezes@srnd.org"
+            },
+            {
                 "id":   "sponsor_preevent",
                 "subject": "Information for CodeDay Sponsors",
                 "html": "emails/preevent/sponsor_html",
                 "when": "-3d",
-                "work": true
+                "work": true,
+                "from_n": "Tyler Menezes",
+                "from_e": "tylermenezes@srnd.org"
             }
         ],
         
@@ -110,13 +135,17 @@
                 "id":   "judge_confirm",
                 "subject": "Confirmed: Judging at CodeDay",
                 "html": "emails/registration/judge_html",
-                "when": "+0"
+                "when": "+0",
+                "from_n": "Tyler Menezes",
+                "from_e": "tylermenezes@srnd.org"
             },
             {
                 "id":   "judge_preevent",
                 "subject": "Information for CodeDay Judges",
                 "html": "emails/preevent/judge_html",
-                "when": "-3d"
+                "when": "-3d",
+                "from_n": "Tyler Menezes",
+                "from_e": "tylermenezes@srnd.org"
             }
         ],
 

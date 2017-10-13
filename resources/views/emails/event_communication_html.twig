@@ -1,11 +1,12 @@
 {% extends "emails/template_transactional.twig" %}
-{% block unsubscribe %}
-    {% if is_marketing %}
-        You can <a href="--unsubscribe--">unsubscribe</a> from emails like this.
-    {% else %}
-        <!-- --unsubscribe-- -->
-    {% endif %}
-{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-team.jpg{% endblock %}
+{% block title %}{{ subject }}{% endblock %}
 {% block body %}
     {{ include(template_from_string(content))|markdown|raw }}
+{% endblock %}
+{% block unsubscribe %}
+    You got this email because you registered for CodeDay.
+    {% if is_marketing %}
+        You can <a href="--unsubscribe--">unsubscribe</a> from emails like this.
+    {% endif %}
 {% endblock %}

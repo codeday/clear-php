@@ -1,0 +1,31 @@
+{% extends "emails/template_transactional.twig" %}
+{% block sign_img %}https://srnd-cdn.net/emails/sign-tyler.png{% endblock %}
+{% block sign_name %}Authentic Tyler Menezes{% endblock %}
+{% block sign_title %}Executive Director{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-tyler.png{% endblock %}
+{% block body %}
+    <p>Hi {{ registration.first_name }},</p>
+
+    <p>It's me, completely not-automated Tyler Menezes, the head of srnd.org. (We're the nonprofit behind CodeDay.)
+       I have a quick request for you.</p>
+
+    <p>We think CodeDay is pretty cool. Ok, so we're a little biased because we made CodeDay, but we made it
+       <em>specifically to be pretty cool,</em> so. <span style="background-color: yellow">Here's what's up: we're
+       trying to make sure lots of people locally know about CodeDay. Could you help?</span></p>
+
+    <p>(We're a non-profit, and we actually lose money for every person who attends CodeDay, so I'm not asking out of
+        financial self-interest.)</p>
+
+    <p>&nbsp;</p>
+
+    <p>As a non-automated human, I use Twitter, so here's a link to post about it there. (And, hey, even if I were
+       automated, it's not like Twitter isn't full of bots already...)</p>
+
+    <div class="cta"><a href="https://twitter.com/intent/tweet?url=https://codeday.org/{{ registration.event.webname }}&related=studentrnd&text=I%27m%20super%20excited%20to%20make%20something%20fun%20at">Tweet about CodeDay!</a></div>
+
+    <p>And, hey, as long as you're using social media, would you consider posting something on Facebook too?</p>
+
+    <div class="cta"><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//codeday.org/{{ registration.event.webname }}">Facebook about CodeDay!</a></div>
+
+    <p>{{ registration.first_name }}, you're the best!</p>
+{% endblock %}

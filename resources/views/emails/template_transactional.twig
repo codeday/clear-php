@@ -1,127 +1,67 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+{# 
+    Blocks:
+        -preview
+        -img
+        -title
+        -body
+        -sign_img, sign_name, sign_title, sign_picture
+#}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" style="background-color: #fff; font-size: 11pt; overflow-x: hidden; margin: 0 auto !important; padding: 0 !important; height: 100% !important; width: 100% !important;">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title></title>
-    <style></style>
-</head>
-<body>
-<style type="text/css">
-    #emailHeader tr td img{
-        height:auto !important;
-        width: 100% !important;
-        max-width: 600px !important;
-    }
-
-    #emailHeaderLogo tr td img {
-        height:50px !important;
-        width: auto !important;
-    }
-
-    #emailHeaderLogo {
-        width: 100%;
-        padding-bottom: 14px;
-        margin-bottom: 14px;
-        border-bottom: 1px solid #ccc;
-        text-align: left;
-    }
-
-    #emailContainer, #emailHeader, #emailBody, #emailFooter {
-        color: #565656;
-        font-family: "Helvetica", "Arial", "Verdana", sans-serif;
-        font-size: 16px;
-        line-height: 24px;
-        width: 100% !important;
-        max-width: 600px !important;
-    }
-
-    #emailBody {
-        padding: 14px 0;
-    }
-
-    h1, h2, h3, h4 {
-        text-align: center;
-        margin-top: 2em;
-    }
-
-    #emailFooter {
-        margin-top: 14px;
-        padding-top: 14px;
-        border-top: 1px solid #ccc;
-    }
-
-    #emailFooter, #emailFooter a {
-        font-size: 11px;
-        color: #9a9a9a;
-        text-align: left;
-    }
-
-    hr {
-        border: none;
-        border-top: 1px solid #ccc;
-        width: 40%;
-        margin: 30px auto;
-    }
-
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(2),u=e(3),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}finally{f.emit("fn-end",[c.now()],t)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now()])}},{}],2:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],3:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],4:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=m(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){v[e]=m(e).concat(n)}function m(e){return v[e]||[]}function w(e){return p[e]=p[e]||o(t)}function g(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var v={},y={},b={on:l,emit:t,get:w,listeners:m,context:n,buffer:g,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(2),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!x++){var e=h.info=NREUM.info,n=d.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+h.offset],null,"api");var t=d.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===d.readyState&&i()}function i(){f("mark",["domContent",a()+h.offset],null,"api")}function a(){return E.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-h.offset}var u=(new Date).getTime(),f=e("handle"),c=e(2),s=e("ee"),p=window,d=p.document,l="addEventListener",m="attachEvent",w=p.XMLHttpRequest,g=w&&w.prototype;NREUM.o={ST:setTimeout,SI:p.setImmediate,CT:clearTimeout,XHR:w,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var v=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1059.min.js"},b=w&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),h=n.exports={offset:u,now:a,origin:v,features:{},xhrWrappable:b};e(1),d[l]?(d[l]("DOMContentLoaded",i,!1),p[l]("load",r,!1)):(d[m]("onreadystatechange",o),p[m]("onload",r)),f("mark",["firstbyte",u],null,"api");var x=0,E=e(4)},{}]},{},["loader"]);</script>
+<meta name="x-apple-disable-message-reformatting">
+<title></title>
+<!--[if mso]><style>* { font-family: "Helvetica", "Arial", sans-serif !important; }</style><![endif]--><!--[if !mso]><!--><link rel="stylesheet" href="https://srnd.org/assets/fonts/avenir-next.css" type="text/css">
+<!--<![endif]--><style type="text/css">html,body{background-color:#fff;font-size:11pt;overflow-x:hidden}p,li,span,div,blockquote,a,input,label,textarea,select{font-family:"Avenir Next","Helvetica","Arial",sans-serif;color:#484848}h1,h2,h3,h4,h5,h6{font-family:"Avenir Next","Helvetica","Arial",sans-serif;font-weight:700;color:#484848}a,a:hover,a:active,a:visited{color:#484848}h1{font-size:26.054523407pt;margin-bottom:26.054523407pt}h2{font-size:19.545779pt;margin-bottom:19.545779pt}h3{font-size:14.663pt;margin-bottom:11pt}h4,h5,h6{font-size:11pt}p,li,blockquote{font-size:11pt}a.cta,.cta a{-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px}a.cta,.cta a{padding:.5rem 1rem;display:inline-block;cursor:pointer;-ms-touch-action:manipulation;touch-action:manipulation;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;transition:all .2s ease-in-out;border:1px solid transparent}a.cta:hover,.cta a:hover{box-shadow:0 0 2px rgba(189,189,189,0.5),0 2px 2px rgba(189,189,189,0.5);background-color:#f9f9f9}a.cta:active:hover,.cta a:active:hover{box-shadow:0 0 4px rgba(189,189,189,0.5),1px 3px 4px rgba(189,189,189,0.5)}a.cta:active,.cta a:active{background-color:#f9f9f9}@media (hover: none){a.cta,.cta a{box-shadow:0 0 4px rgba(189,189,189,0.5),1px 3px 4px rgba(189,189,189,0.5)}}a.cta,.cta a{text-decoration:none;border-color:#e6e6e6}a.cta:active,.cta a:active{background-color:#e6e6e6}a.cta,.cta a{text-decoration:none;background-color:#ff686b;color:#fff;border-color:#ff686b}a.cta:hover,.cta a:hover{background-color:#ff777a}a.cta:active,.cta a:active{background-color:#ff8c8e}a.cta,.cta a{padding:1rem 2rem}img{-ms-interpolation-mode:bicubic}body *{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}.a6S{display:none !important;opacity:.01 !important}*[x-apple-data-detectors],.x-gmail-data-detectors,.x-gmail-data-detectors *,.aBn{border-bottom:0 !important;cursor:default !important;color:inherit !important;text-decoration:none !important;font-size:inherit !important;font-family:inherit !important;font-weight:inherit !important;line-height:inherit !important}a.cta,.cta a{text-decoration:none !important}html,body{margin:0 auto !important;padding:0 !important;height:100% !important;width:100% !important}div[style*="margin: 16px 0"]{margin:0 !important}table{border-spacing:0 !important;border-collapse:collapse !important;table-layout:fixed !important;margin:0 auto !important}table table table{table-layout:auto}table,td{mso-table-lspace:0pt !important;mso-table-rspace:0pt !important}@media only screen and (min-device-width: 375px) and (max-device-width: 413px){.email-container{min-width:375px !important}}.wrap{margin:11pt auto;padding:0 10px;width:100%;max-width:550px}.hide{display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;color:#fff}.header{margin-bottom:8.2520630158pt}.header a{text-decoration:none}.header a img{border:none;max-width:500px}.hero h1{margin:8.2520630158pt 0 0}.cta{margin:19.545779pt 0;text-align:center}.signature{margin-top:19.545779pt}.signature .sign{margin-left:14.663pt}.footer{margin:19.545779pt 0}.footer p,.footer a{color:#bdbdbd;font-size:8.2520630158pt}.footer p a{text-decoration:underline}.content p a, .content li a{text-decoration:underline !important;color: #ff686b !important;}
+/*# sourceMappingURL=email.css.map */
 </style>
-<table border="0" cellpadding="10" cellspacing="0" height="100%" width="100%" id="bodyTable">
-    <tr>
-        <td align="center" valign="top">
-            <table border="0" cellpadding="0" cellspacing="0" width="600" id="emailContainer">
-                <tr>
-                    <td align="center" valign="top">
-                        {% if block('header') %}
-                            <table border="0" cellpadding="0" cellspacing="0" width="600" id="emailHeader">
-                                <tr>
-                                    <td align="center" valign="top">
-                                        {{ block('header') }}
-                                    </td>
-                                </tr>
-                            </table>
-                        {% else %}
-                            <table border="0" cellpadding="0" cellspacing="0" id="emailHeaderLogo">
-                                <tr>
-                                    <td valign="top">
-                                        <img src="https://studentrnd.org/assets/img/press/assets/brand/codeday_logo.png" width="260" height="50" />
-                                    </td>
-                                </tr>
-                            </table>
-                        {% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center" valign="top">
-                        <table border="0" cellpadding="0" cellspacing="0" width="600" id="emailBody">
-                            <tr>
-                                <td align="left" valign="top">
-                                    {{ block('body')}}
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center" valign="top">
-                        <table border="0" cellspacing="0" width="600" id="emailFooter">
-                            <tr>
-                                <td valign="top">
-                                    <p>
-                                        {% block why %}
-                                            You received this email because you registered for CodeDay.
-                                        {% endblock %}
-                                        {% block unsubscribe %}
-                                            You can
-                                            <a href="--unsubscribe--">unsubscribe from emails like this.</a>
-                                        {% endblock %}<br />
-                                    Our mailing address is: StudentRND, 505 Broadway E #141, Seattle, WA 98102</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-</body>
+<!--[if gte mso 9]><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]--><style type="text/css"></style>
+</head>
+<body width="100%" bgcolor="#ffffff" style="margin: 0 auto !important; mso-line-height-rule: exactly; background-color: #fff; font-size: 11pt; overflow-x: hidden; padding: 0 !important; height: 100% !important; width: 100% !important;">
+<!--[if mso]><center><table role="presentation" cellspacing="0" cellpadding="0" border="0" width="500" align="center"><tr><td><![endif]-->
+<div class="wrap" style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; color: #484848; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; margin: 11pt auto; padding: 0 10px; width: 100%; max-width: 550px;'>
+<div class="hide" style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; color: #fff; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all;'>
+{{ block('preview') }}
+</div>
+<div class="header" style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; color: #484848; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; margin-bottom: 8.2520630158pt;'>
+<a href="https://srnd.org" target="_blank" style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; color: #484848; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; text-decoration: none;'>
+<img src="https://srnd.org/assets/img/logo.png" alt="srnd.org" height="25" style="-ms-interpolation-mode: bicubic; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; border: none; max-width: 500px;"></a>
+</div>
+<div class="hero" style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; color: #484848; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;'>
+<img src="{% if block('img') %}{{ block('img') }}{% else %}https://assets.srnd.org/emails/header-team.jpg{% endif %}" alt="" width="500" style="width: 100%; height: auto; -ms-interpolation-mode: bicubic; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">{% if block('title') %}<h1 style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; font-weight: 700; color: #484848; font-size: 26.054523407pt; margin-bottom: 26.054523407pt; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; margin: 8.2520630158pt 0 0;'>{{ block('title') }}</h1>
+<img src="https://srnd.org/assets/img/wave-short.png" alt="" style="height: 13px; width: auto; -ms-interpolation-mode: bicubic; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" height="13">{% endif %}
+</div>
+<div class="content" style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; color: #484848; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;'>
+{{ block('body') }}
+</div>
+{% if block('sign_name') and block('sign_title') and block('sign_picture') and block('sign_img') %}
+<div class="signature" style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; color: #484848; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; margin-top: 19.545779pt;'>
+<table width="100%" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; border-spacing: 0 !important; border-collapse: collapse !important; table-layout: fixed !important; margin: 0 auto !important; mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important;"><tr style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+<td width="75" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important;">
+<img src="{{ block('sign_picture') }}" width="75" style="margin-left: 5px; -ms-interpolation-mode: bicubic; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+</td>
+<td style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important;">
+<div class="sign" style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; color: #484848; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; margin-left: 14.663pt;'>
+<img src="{{ block('sign_img') }}" style="-ms-interpolation-mode: bicubic; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"><br style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+{{ block('sign_name') }}<br style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+{{ block('sign_title') }}
+</div>
+</td>
+</tr></table>
+</div>
+{% endif %}
+<div class="footer" style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; color: #484848; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; margin: 19.545779pt 0;'>
+<p style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; color: #bdbdbd; font-size: 8.2520630158pt; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;'>
+Our mailing address is 340 S Lemon Ave #7763, Walnut, CA 91789.
+{% if block('unsubscribe') %}<!-- --unsubscribe-- -->{{ block('unsubscribe') }}{% else %}If you don't want to receive emails like this anymore,
+<a href="--unsubscribe--" style='font-family: "Avenir Next","Helvetica","Arial",sans-serif; color: #bdbdbd; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-size: 8.2520630158pt; text-decoration: underline;'>click to unsubscribe.</a>{% endif %}
+</p>
+</div>
+</div>
+<!--[if mso]></td></tr></table></center>-->
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"2262bc0ac1","applicationID":"60099602","transactionName":"ZANWYUMHWEpXWkBYWl1JdVZFD1lXGWpARFFWCEBnfyJqcUJNRG12XAhAR14KWlxESmhwUV4PWml0C1dQWnpbX0FBCVhZVBR2SVlKQHhbVwNM","queueTime":0,"applicationTime":630,"atts":"SERVFwsdS0Q=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
 </html>

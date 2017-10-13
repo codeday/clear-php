@@ -1,15 +1,19 @@
 {% extends "emails/template_transactional.twig" %}
-{% block why %}You received this email because you manage a CodeDay.{% endblock %}
 {% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
-{% block header %}
-    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
-{% endblock %}
+{% block preview %}Your CodeDay supplies are crying alone in a warehouse.{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-staff.jpg{% endblock %}
+{% block title %}Hey! Listen!{% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
+{% block sign_name %}John Peter{% endblock %}
+{% block sign_title %}Official srnd.org Human{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}
+
 {% block body %}
     <p>Hi {{ user.first_name }},</p>
 
-   <p>CodeDay is fast-approaching, and in order to successfully host your
-       event{% if user.loaded_managed_events|length > 1 %}s{% endif %}, we need some more information from you. Please fill
-       in the following information by
+   <p>I'm supposed to send out your event supplies soon, but I don't know where I'm sending them :/</p>
+   <p>I need your shipping address by
        <strong>{{ loaded_batch.starts_at.addDays(-8).timestamp|date('l, F j') }}</strong>. If this information is
        not entered by then, you will be missing critical event supplies.</p>
     
@@ -18,12 +22,6 @@
             {% if not event.ship_address_1 %}
                 <li><a href="https://clear.codeday.org/event/{{ event.id }}/shipping">{{ event.name }} Shipping Info</a></li>
             {% endif %}
-            {% if not event.venue_contact_email %}
-                <li><a href="https://clear.codeday.org/event/{{ event.id }}/venue">{{ event.name }} Venue Contact</a></li>
-            {% endif %}
         {% endfor %}
     </ul>
-
-    <p>Cheers!<br />
-    The StudentRND Team</p>
 {% endblock %}

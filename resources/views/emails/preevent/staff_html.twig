@@ -1,20 +1,31 @@
 {% extends "emails/template_transactional.twig" %}
-{% block header %}
-    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
-{% endblock %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}It's almost CodeDay! Here's what you need to know for this weekend.{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-judges.jpg{% endblock %}
+{% block title %}It's almost CodeDay!{% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-tyler.png{% endblock %}
+{% block sign_name %}Tyler Menezes{% endblock %}
+{% block sign_title %}Executive Director, srnd.org{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-tyler.png{% endblock %}
 {% block body %}
-    <p>Hi there {{ registration.first_name }}!</p>
-    <p>I know what you're thinking &mdash; &ldquo;is it really that time?&rdquo;</p>
+    <p>{{ registration.first_name }}, thank you for your help at CodeDay this weekend.</p>
+
+    <p><strong>Wait, what? CodeDay is this weekend!?</strong></p>
+
     <p>Yes, yes it is. Dearest staff, it is almost time for CodeDay. At 11am on Saturday, participants will start
        wandering in for a weekend of fun, and it's only possible with your help.</p>
+
     <p>This email will give you all the information you will need for this weekend.</p>
 
-    <h2>Training</h2>
-    <p><a href="https://codeday.training.srnd.org/" target="_blank">Please read the full CodeDay event staff guide
-       before you arrive this weekend!</a></p>
-    <p>In your role as event staff, you will be directly responsible for whether students leave the event excited about
-       coding, or totally turned off from the work forever. It's a serious responsibility, so it's important that you
-       understand what you're doing.</p>
+    <h2>Be Ready: This is Important</h2>
+
+    <p>If the event goes well, most students will leave excited about coding. If it goes poorly, you might actually
+       convince many to hate coding for the rest of their lives. <strong>You have an important job.</strong></p>
+
+    <p style="background-color: yellow;">
+       <a href="https://codeday.training.srnd.org/" target="_blank">{{ registration.first_name }}, please please please
+       read the full CodeDay event staff guide!</a></p>
 
     <h2>Useful Tools</h2>
     <ul>
@@ -32,38 +43,23 @@
     {% endif %}
     
     {% if registration.event.notes %}
-        <hr />
         {{ registration.event.notes|markdown|raw }}
     {% endif %}
 
-    <hr />
     <h2>More Details</h2>
 
     <h3>The Venue</h3>
-    <table width="100%">
-        <tr>
-            <td align="center">
-                <p>
-                    <strong>Hosted at {{ registration.event.venue.name }}</strong><br />
-                    {{ registration.event.venue_address_1 }}<br />
-                    {% if registration.event.venue_address_2 %}
-                        {{ registration.event.venue_address_2 }}<br />
-                    {% endif %}
-                    {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
-                </p>
-                {% if registration.event.venue_contact_first_name %}
-                    <p>
-                        If you have any problems, contact
-                        <a href="mailto:{{ registration.event.venue_contact_email }}">{{ registration.event.venue_contact_first_name }}
-                            {{ registration.event.venue_contact_last_name }}</a>
-                        {% if registration.event.venue_contact_phone %}
-                            at <a href="tel:{{ registration.event.venue_contact_phone }}">{{ registration.event.venue_contact_phone }}</a>
-                        {% endif %}
-                    </p>
-                {% endif %}
-            </td>
-        </tr>
-    </table>
+    <p>
+        <strong>CodeDay {{ registration.event.name }}</strong><br />
+        {% if registration.event.venue %}
+            Hosted at {{ registration.event.venue.name }}<br />
+            {{ registration.event.venue_address_1 }}<br />
+            {% if registration.event.venue_address_2 %}
+                {{ registration.event.venue_address_2 }}<br />
+            {% endif %}
+            {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
+        {% endif %}
+    </p>
 
     {% if registration.event.sponsors|length > 0 %}
         <h3>Sponsors</h3>

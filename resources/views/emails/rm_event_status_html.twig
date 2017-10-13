@@ -1,11 +1,12 @@
 {% extends "emails/template_transactional.twig" %}
-{% block why %}You received this email because you manage a CodeDay.{% endblock %}
 {% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
-{% block header %}{% endblock %}
+{% block preview %}Do you know how your CodeDay is doing? I do, and I'm judging you.!{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-staff.jpg{% endblock %}
+{% block title %}Update!{% endblock %}
 {% block body %}
     <p>Hi {{ user.first_name }},</p>
 
-    <p>This is your {{ interval }} CodeDay update!</p>
+    <p>It's me, John, with your {{ interval }} CodeDay update!</p>
     {% if interval == 'daily' %}
         <p>(Because we're getting close to CodeDay, you're getting this daily.)</p>
     {% endif %}
@@ -78,7 +79,8 @@
             {% endfor %}
         </ol>
     {% endif %}
-
-    <p>Cheers!<br />
-    The StudentRND Team</p>
 {% endblock %}
+{% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
+{% block sign_name %}John Peter{% endblock %}
+{% block sign_title %}Official srnd.org Human{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}

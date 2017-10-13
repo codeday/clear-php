@@ -20,6 +20,7 @@ class SyncProfileImageJob extends Job
 
     public function handle()
     {
+        return;
         $fc_response = Services\FullContact::getDataFor($this->reg);
 
         if ($fc_response === false) {     // Data crawl in progress

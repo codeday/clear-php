@@ -30,8 +30,7 @@ class SendParentInfoReminderJob {
                 Services\Email::SendOnQueue(
                     'CodeDay '.$registration->event->name, $registration->event->webname.'@codeday.org',
                     $registration->name, $registration->email,
-                    'Reminder: We need your parent info!',
-                    \View::make('emails/nags/parent_info_text', ['registration' => $registration]),
+                    'Reminder: We need your parent info!', null,
                     \View::make('emails/nags/parent_info_html', ['registration' => $registration]),
                     false
                 );

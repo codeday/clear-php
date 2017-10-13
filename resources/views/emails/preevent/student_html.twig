@@ -1,96 +1,86 @@
 {% extends "emails/template_transactional.twig" %}
-{% block header %}
-    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
-{% endblock %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}I can't believe it... it's almost CodeDay! Here's what you'll need to know for this weekend.{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-line.jpg{% endblock %}
+{% block title %}It's almost CodeDay!{% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
+{% block sign_name %}John Peter{% endblock %}
+{% block sign_title %}100% Authentic Human{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}
 {% block body %}
     <p>Is it really that time?</p>
-    <p>Yes, yes it is. Dearest attendees, it is almost time for CodeDay. Grab your friends, grab your laptops, and grab
-        a ride, because it all starts this Saturday at noon.</p>
-    <p>This email will tell you everything you need to know about CodeDay. If you have any other questions, you can
-        reply to this email.</p>
 
-    <h2>What to Bring</h2>
-    <p>You don't need much, but you do need these things:</p>
-    <ul>
-        <li>Laptop (or desktop with wifi card)</li>
-        <li>Any software you need. If you're a beginner using Windows, we recommend you download the free edition of
-            <a href="https://www.scirra.com/construct2">Construct 2</a>.</li>
-        <li>Sleeping bag if you plan on sleeping</li>
-        <li>Ideas (optional, but strongly recommended)</li>
-        <li><a href="https://clear.codeday.org/e/ticket?r={{ registration.id }}">Your ticket</a></li>
-    </ul>
+    <p>Yes, yes it is. Dearest friends, it's almost time for CodeDay! Grab your friends, grab your laptops, and grab
+        a ride. It all starts this Saturday at 11am.</p>
 
-    <h2>What to Use</h2>
-    <ul>
-        <li>Beginner teams: We strongly recommend making a game in Construct 2. There are lots of beginner-friendly
-            tutorials online. Plus, we'll be hosting workshops to help you get started.</li>
-        <li>Advanced teams: Use whatever you want. There aren't any limits on the technology or what you can build.
-            Just remember, if you use something really odd, there's very little chance anyone on-hand will be able to
-            help you.</li>
-    </ul>
+    <p style="text-align: center">
+        <strong>CodeDay {{ registration.event.name }}</strong><br />
+        {% if registration.event.venue %}
+            Hosted at {{ registration.event.venue.name }}<br />
+            {{ registration.event.venue_address_1 }}<br />
+            {% if registration.event.venue_address_2 %}
+                {{ registration.event.venue_address_2 }}<br />
+            {% endif %}
+            {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
+        {% endif %}
+    </p>
 
-    <h2>Where to Go</h2>
-    <table width="100%">
-        <tr>
-            <td align="center">
-                <p>
-                    <strong>CodeDay {{ registration.event.name }}</strong><br />
-                    {{ registration.event.starts_at|date('F j, Y') }}, noon-noon<br />
-                    Hosted at {{ registration.event.venue.name }}<br />
-                    {{ registration.event.venue.address.line_1 }}<br />
-                    {% if registration.event.venue.address.line_2 %}
-                        {{ registration.event.venue.address.line_2 }}<br />
-                    {% endif %}
-                    {{ registration.event.venue.address.city }} {{ registration.event.venue.address.state }} {{ registration.event.venue.address.postal }}
-                </p>
-            </td>
-        </tr>
-    </table>
-
-    <h2>Check-in</h2>
-    <p>Check-in starts at 11am. Please arrive before the start of CodeDay at noon. Please bring a printed copy of
-       <a href="https://clear.codeday.org/e/ticket?r={{ registration.id }}">your ticket</a> to speed up checkin.</p>
-    <p>If you gave your tickets to someone else, please reply to this email posthaste so we can get him or her a proper
-       badge.</p>
+    <p style="text-align: center"><img src="https://codeday.vip/{{ registration.id }}/ticket/barcode" /></p>
     <p style="text-align:center">
-        <a href="https://clear.codeday.org/e/ticket/apple?r={{ registration.id }}">
-            <img src="https://clear.codeday.org/assets/img/ticket-apple.png" />
+        <a href="https://codeday.vip/{{ registration.id }}">
+            <img src="https://codeday.vip/assets/img/ticket-print.png" />
         </a>
-        <a href="https://clear.codeday.org/e/ticket?r={{ registration.id }}">
-            <img src="https://clear.codeday.org/assets/img/ticket-print.png" />
+        <a href="https://codeday.vip/{{ registration.id }}">
+            <img src="https://codeday.vip/assets/img/ticket-apple.png" />
         </a>
     </p>
-    <h2>Conduct</h2>
-    <p>CodeDay is a place to learn something new and build something fun. All participants are expected to follow these
-       three principles:</p>
-    <ol>
-        <li>Act in a way that displays yourself as a positive role model.</li>
-        <li>Be humble, even when you're successful.</li>
-        <li>Be friendly and welcoming. Respect, encourage, and support other students.</li>
-    </ol>
-    <p>More specifically, you will be expected to:</p>
+
+    <h2>Here's what to bring:</h2>
     <ul>
-        <li>Be welcoming to new people joining your team.</li>
-        <li>Help clean up after yourself and others.</li>
-        <li>Ensure the safety of yourself and other participants.</li>
-        <li>Not carry guns, knives, or other weapons.</li>
-        <li>Abstain from using or being under the influence of alcohol, marijuana, illicit substances, and recreational
-            drugs.</li>
-        <li>Not insult or harass other students.</li>
-        <li>Abstain from using offensive language referring to people's gender, sexual orientation, religion, race,
-            ethnicity, or age.</li>
-        <li>Abstain from using sexual language or imagery.</li>
+        <li>Laptop (recommended), desktop computer with wifi, or tablet</li>
+        <li>Toothbrush and toothpaste (recommended)</li>
+        <li>Pillow and sleeping bag or blanket (recommended)</li>
     </ul>
+    <p>You can use any programming language you'd like, but if you're new to this, I recommend the free version of
+       <a href="https://www.construct.net/">Construct 3,</a> which runs on any modern computer or tablet.</p>
+
+    <h2>This is going to be fun!</h2>
+    <p>CodeDay is a friendly and fun place; here's what you should expect, and what we expect from you.</p>
+    <ul>
+        <li><strong>We're friendly.</strong> Please respect and encourage others. Be humble.</li>
+        <li><strong>We're nice and reasonably professional.</strong> Don't use offensive language about someone's
+            gender/race/etc. Also, don't used sexualized language or content, and don't "hit on" other attendees.</li>
+        <li><strong>CodeDay is safe and legal.</strong> No knives, weapons, alcohol, marijuana, or illegal drugs. Be
+            careful and keep yourself and others safe.</li>
+    </ul>
+    <p><a href="https://srnd.org/conduct">Read our full code of conduct</a> (and the
+       <a href="https://codeday.org/rules">CodeDay-specific rules</a>) when you can.</p>
 
     {% if registration.event.preevent_additional %}
-        <h2>More Details</h2>
-        <p>{{ registration.event.preevent_additional|nl2br }}</p>
+        <h2>Some other things to know.</h2>
+        <p>{{ registration.event.preevent_additional|markdown|raw }}</p>
+        <p>&nbsp;</p>
     {% endif %}
 
-    <hr />
+    <h2>FAQs</h2>
+    <p><strong>I'm under 18; does my parent need to be there?</strong><br />
+       Not if you're staying the whole time and they filled out the waiver online.</p>
 
-    <p>We're looking forward to seeing you all this weekend. Don't hesitate to email if you have any questions.</p>
+    <p><strong>What if I gave my ticket to a friend?</strong><br />
+       Let me know ASAP so I can transfer it.</p>
 
-    <p>Cheers,<br />
-    The CodeDay Organizers</p>
+    <p><strong>Can I come late?</strong><br />
+       Yes, but it's better if you arrive on-time.</p>
+
+    <p><strong>Can I leave early?</strong><br />
+       Yes, but you might not be able to return until 9am. If you're under 18, have your parent write you a note saying
+       it's ok.</p>
+
+    <p><strong>Can go home to sleep?</strong><br />
+       Yes, but we don't recommend it. Also, see above about leaving early.</p>
+
+    <p><strong>You didn't answer my question!</strong><br />
+       Just reply and let me know your question :)</p>
+
 {% endblock %}

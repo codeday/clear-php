@@ -1,63 +1,52 @@
 {% extends "emails/template_transactional.twig" %}
-{% block header %}
-    <img src="https://clear.codeday.org/assets/img/email_confirm_header_01.jpg" alt="Your CodeDay Registration is Confirmed"/>
-{% endblock %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}Thanks for registering for CodeDay! Your ticket is confirmed.{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-team.jpg{% endblock %}
+{% block title %}You're going to CodeDay!{% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
+{% block sign_name %}John Peter{% endblock %}
+{% block sign_title %}Official srnd.org Human{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}
+
 {% block body %}
-    <p>Hi {{ registration.first_name }},</p>
-    <p>Thanks for registering for CodeDay {{ registration.event.name }}. Your tickets are confirmed, and we are
-        excited to meet you at noon on {{ registration.event.starts_at|date('F jS') }}.</p>
-    <p>If you have any questions about the event or your ticket, just reply to this email.</p>
-    {% if registration.type == 'student' or registration.type == 'volunteer' %}
-        <p>As soon as you have a chance, please fill out the
-            <a href="https://codeday.vip/{{ registration.id }}">parent info form.</a></p>
+    <p>Hey {{registration.first_name }},</p>
+    
+    {% if registration.type == 'student' %}
+        <p>Our servers just told me something amazing: you're going to CodeDay {{ registration.event.name }}!? I never
+           thought someone as cool as you would come to CodeDay!</p>
+
+        <p>I'm your totally-not-automated pal John. I work for srnd.org, the non-profit that puts on CodeDay, and I'm
+           here to help you make the most of your CodeDay experience. Did you have any questions I can answer?</p>
+    {% else %}
+        <p>Thanks for registering to help out at CodeDay {{ registration.event.name }}.</p>
+
+        <p>I'm your totally-not-automated pal John. I work for srnd.org, the non-profit that puts on CodeDay.</p>
+
+        <p>If you haven't already, expect to hear from other members of our team with more info about your role at the
+           event. In the meantime, Can I answer any questions?</p>
     {% endif %}
-    <p>You should also <a href="https://codeday.vip/{{ registration.id }}">print your ticket</a> to
-       speed up check-in on the day-of.</p>
 
-    <hr/>
+    {% if registration.type == 'student' or registration.type == 'volunteer' %}
+        <p><strong>I do have one favor to ask, {{ registration.first_name }}: can you enter your
+            <a href="https://codeday.vip/{{ registration.id }}">emergency contact?</a></strong></p>
+    {% endif %}
 
-    <table width="100%">
+    <p>&nbsp;</p>
+
+    <p>Before I go, the servers asked me to give you this receipt. (Those servers are so thoughtful.)</p>
+
+    <table width="400" style="width:400px; border: 1px solid #e6e6e6;margin-bottom: 2rem !important;margin-top: 2rem !important">
         <tr>
             <td align="center">
-                <h2>Receipt</h2>
-                <p>Order placed on {{ registration.created_at.timestamp|date('F j, Y') }}</p>
-                <table style="margin: 0 auto">
-                    <tr align="left">
-                        <th>Item</th>
-                        <th>Attendee</th>
-                        <th>Cost</th>
-                    </tr>
-                    {% for reg in registration.all_in_order %}
-                        <tr>
-                            <td style="padding-right: 1rem">CodeDay {{ reg.event.name }} Ticket</td>
-                            <td style="padding-right: 1rem">{{ reg.name }}</td>
-                            <td>{{ reg.amount_paid|number_format(2) }}</td>
-                        </tr>
-                    {% endfor %}
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td style="font-weight: bold; border-top: 1px solid #565656">{{ registration.order_amount_paid|number_format(2) }}</td>
-                    </tr>
-                </table>
-                <p><img src="https://codeday.vip/{{ registration.id }}/ticket/barcode" /></p>
-                <p>
-                    <a href="https://codeday.vip/{{ registration.id }}">
-                        <img src="https://codeday.vip/assets/img/ticket-print.png" />
-                    </a>
-                    <a href="https://codeday.vip/{{ registration.id }}">
-                        <img src="https://codeday.vip/assets/img/ticket-apple.png" />
-                    </a>
-                </p>
-
-                <hr/>
-
+                <h2 style="margin-bottom:0">Receipt</h2>
+                <p style="color: #bdbdbd;margin-bottom:1rem;margin-top:0">Order placed on {{ registration.created_at.timestamp|date('F j, Y') }}</p>
                 <p>
                     <strong>CodeDay {{ registration.event.name }}</strong><br />
                     {% if registration.type == 'judge' %}
                         {{ registration.event.ends_at|date('F j, Y') }}, 9am<br />
                     {% else %}
-                        {{ registration.event.starts_at|date('F j, Y') }}, noon-noon<br />
+                        {{ registration.event.starts_at|date('F j, Y') }}, 11am<br />
                     {% endif %}
                     {% if registration.event.venue %}
                         Hosted at {{ registration.event.venue.name }}<br />
@@ -68,7 +57,45 @@
                         {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
                     {% endif %}
                 </p>
+                <hr style="border:none;border-top:1px solid #e6e6e6" />
+                <table style="margin: 0 auto">
+                    <tr align="left">
+                        <th width="35%">Ticket</th>
+                        <th width="55%">Attendee</th>
+                        <th width="10%">Cost</th>
+                    </tr>
+                    {% for reg in registration.all_in_order %}
+                        <tr>
+                            <td style="padding-right: 1rem">{% if reg.type == 'vip' %}VIP{% else %}{{ reg.type|capitalize }}{% endif %}</td>
+                            <td style="padding-right: 1rem">{{ reg.name }}</td>
+                            <td>{{ reg.amount_paid|number_format(2) }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="font-weight: bold; border-top: 1px solid #565656">{{ registration.order_amount_paid|number_format(2) }}</td>
+                    </tr>
+                </table>
+                <hr style="border:none;border-top:1px solid #e6e6e6" />
+                <p><img src="https://codeday.vip/{{ registration.id }}/ticket/barcode" /></p>
+                <p>
+                    <a href="https://codeday.vip/{{ registration.id }}">
+                        <img src="https://codeday.vip/assets/img/ticket-print.png" />
+                    </a>
+                    <a href="https://codeday.vip/{{ registration.id }}">
+                        <img src="https://codeday.vip/assets/img/ticket-apple.png" />
+                    </a>
+                </p>
             </td>
         </tr>
     </table>
+    <p>See you 
+        {% if registration.type == 'judge' %}
+            {{ registration.event.ends_at|date('F j, Y') }} at 9am,
+        {% else %}
+            {{ registration.event.starts_at|date('F j, Y') }},
+        {% endif %}
+        {{ registration.first_name }}!
+    </p>
 {% endblock %}

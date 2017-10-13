@@ -1,14 +1,23 @@
 {% extends "emails/template_transactional.twig" %}
-{% block why %}You received this email because your student registered for CodeDay.{% endblock %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}You need to sign the CodeDay waiver. Here's how.{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-line.jpg{% endblock %}
+{% block title %}You're forgetting something.{% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
+{% block sign_name %}John Peter{% endblock %}
+{% block sign_title %}Official srnd.org Human{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}
+
 {% block body %}
     <p>Hello there!</p>
 
     {% if parent %}
         <p>Your student has registered for CodeDay, and listed you as their parent or guardian. Before your student
-           will be able to attend, you'll need to sign our waiver.</p>
+           will be able to attend, you'll need to sign a waiver.</p>
     {% else %}
-        <p>CodeDay is coming up soon, and we're excited to meet you in person. Before you can attend, you'll need to
-           sign our waiver.</p>
+        <p>CodeDay is coming up soon, and I'm excited to meet you in person (as I am totally a human and not a bot).
+           Before you can attend, you'll need to sign a waiver.</p>
     {% endif %}
 
     <p>You can sign the waiver here: <a href="{{ waiver }}">{{ waiver }}</a></p>

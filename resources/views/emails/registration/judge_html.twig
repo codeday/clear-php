@@ -1,4 +1,13 @@
 {% extends "emails/template_transactional.twig" %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}We're excited to have you join us for CodeDay. Here's some additional information about judging.{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-judges.jpg{% endblock %}
+{% block title %}Welcome CodeDay judges!{% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-tyler.png{% endblock %}
+{% block sign_name %}Tyler Menezes{% endblock %}
+{% block sign_title %}Executive Director, srnd.org{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-tyler.png{% endblock %}
 {% block body %}
     <p>Hi there {{ registration.first_name }}!</p>
 
@@ -6,8 +15,8 @@
        {{ registration.event.ends_at|date('F j, Y') }} at 9am.</p>
 
     <p>A few days before the event, you'll receive an email reminder with the address, arrival procedures, and contact
-       information. <a href="http://assets.srnd.org/codeday/judges.pdf">You can learn more about how judging works
-       here.</a></p>
+       information. <a href="https://srnd-cdn.net/codeday/judges.pdf">If you'd like, you can read how judging works
+       here,</a> although we're happy to explain when you arrive.</p>
 
-    <p>We're looking forward to seeing you soon! Please reply to this email if you have any questions.</p>
+    <p>We're looking forward to seeing you soon! Please let me know if you have any questions.</p>
 {% endblock %}

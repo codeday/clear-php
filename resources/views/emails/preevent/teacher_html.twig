@@ -1,55 +1,76 @@
 {% extends "emails/template_transactional.twig" %}
-{% block header %}
-    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
-{% endblock %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}It's almost CodeDay! Here's what you need to know for this weekend.{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-judges.jpg{% endblock %}
+{% block title %}It's almost CodeDay!{% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-tyler.png{% endblock %}
+{% block sign_name %}Tyler Menezes{% endblock %}
+{% block sign_title %}Executive Director, srnd.org{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-tyler.png{% endblock %}
 {% block body %}
-    <p>Hi there {{ registration.first_name }}!</p>
-    <p>You're registered for the upcoming CodeDay as a teacher; we're excited to have you join us this weekend! This
-       email will give you all the information you will need for this weekend.</p>
+    <p>{{ registration.first_name }}, it's almost CodeDay! Here's what you should expect.</p>
+    
+    <p style="text-align: center">
+        <strong>CodeDay {{ registration.event.name }}</strong><br />
+        {% if registration.event.venue %}
+            Hosted at {{ registration.event.venue.name }}<br />
+            {{ registration.event.venue_address_1 }}<br />
+            {% if registration.event.venue_address_2 %}
+                {{ registration.event.venue_address_2 }}<br />
+            {% endif %}
+            {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
+        {% endif %}
+    </p>
 
-    <h2>Event Information</h2>
-    {% if registration.event.evangelist %}
-        <p>Your primary contact this weekend will be {{ registration.event.evangelist.name }}, who can be reached at
-           {{ registration.event.evangelist.phone }} or {{ registration.event.evangelist.email }}.</p>
-        <p>If you hear from a parent who needs to reach a student, please give them the phone number (888) CODE-230,
-           rather than any staff numbers &mdash; this number will route to multiple staff until it reaches someone.</p>
-    {% endif %}
+    <p style="text-align: center"><img src="https://codeday.vip/{{ registration.id }}/ticket/barcode" /></p>
+    <p style="text-align:center">
+        <a href="https://codeday.vip/{{ registration.id }}">
+            <img src="https://codeday.vip/assets/img/ticket-print.png" />
+        </a>
+        <a href="https://codeday.vip/{{ registration.id }}">
+            <img src="https://codeday.vip/assets/img/ticket-apple.png" />
+        </a>
+    </p>
 
-    <table width="100%">
-        <tr>
-            <td align="center">
-                <p>
-                    <strong>CodeDay is hosted at {{ registration.event.venue.name }}</strong><br />
-                    {{ registration.event.venue_address_1 }}<br />
-                    {% if registration.event.venue_address_2 %}
-                        {{ registration.event.venue_address_2 }}<br />
-                    {% endif %}
-                    {{ registration.event.venue.city }} {{ registration.event.venue.state }} {{ registration.event.venue.postal }}
-                </p>
-            </td>
-        </tr>
-    </table>
-
-    <hr />
-
-    <h2>Teachers are Mentors at CodeDay, and Mentoring Isn't Teaching!</h2>
-    <p>Helping out at a CodeDay might not be quite what you're used to. This is in large part because <strong>we're not
-       trying to teach kids to program.</strong> We're trying to get kids to fall in love with programming, and show
-       them they're capable of doing things on their own!</p>
-    <p>This might seem like a small difference, but it makes a big difference in how you interact with students.</p>
-    <p>You're not here to be a teacher or lecturer, but to:</p>
+    <h2>What to Bring</h2>
     <ul>
-        <li>Have conversations with students, particularly ones stuck on a problem and getting frustrated.</li>
-        <li>Ask students leading questions to help them discover their own answers.</li>
-        <li>Only in rare occasions, give them an answer directly to get them unblocked.</li>
+        <li>Proof of teacher status. (School ID, staff directory listing your name, etc.)</li>
+        <li>Signed waivers, if you registered as a group and did not already submit them.</li>
+        <li>Laptops for your students, unless we've already notified you otherwise.</li>
+        <li>Recommended: printed tickets for your students, to speed up checkin.</li>
+    </ul>
+    <p>We encourage your students to bring sleeping bags/blankets, pillows, and toothbrushes/toothpaste.</p>
+
+    <h2>Teams</h2>
+    <p>We encourage students to form teams without regard to which school they attend; CodeDay is not generally
+       "school-vs-school". That said, you are free to require students to participate together if preferred.</p>
+    <p>All teams must pitch their ideas at the start of CodeDay, even if participating as a school group.</p>
+    <p>If a student from your school wins and you would like a copy of the trophy for display, contact us.</p>
+
+    <h2>Teachers at CodeDay</h2>
+    <p style="background-color:yellow">CodeDay intentionally provides less support to students than a traditional
+       classroom. Specifically, students are expected to conduct their own research to solve problems they haven't
+       seen before.</p>
+    <p>When helping your students, please teach research and problem-solving skills, rather than immediately teaching
+       concepts or providing answers. We always recommend starting by asking:</p>
+    <ul>
+        <li>Tell me how your code works.</li>
+        <li>What have you Googled?</li>
     </ul>
 
-    <p style="text-align: center"><strong><a href="http://wiki.studentrnd.org/display/CODEDAY/Information+For+Mentors">
-        See this page for more information on mentoring.</a></strong></p>
+    <h2>Parents</h2>
+    <p>Parents are encouraged to attend the presentations on Sunday at 10am. They may not be present during the event
+       unless they complete a background-check.</p>
 
-    <hr />
+    <h2>Code of Conduct and Rules</h2>
+    <p>Students are expected to follow our <a href="https://srnd.org/conduct">Code of Conduct.</a> If you see any
+       violations, please let a staff member know.</p>
+    <p>The CodeDay-specific rules are <a href="https://codeday.org/rules">here,</a> but not as big of a concern.</p>
 
-    <h3>Additional Contacts</h3>
+    <h2>Staff</h2>
+    <p>Event staff will be wearing srnd.org badges. Look for someone with a red badge if you have a problem (blue badges
+       are volunteers). Event contacts are below just in case:</p>
     <table class="directory">
         <tr class="event">
             <td>Emergency</td>
@@ -57,20 +78,20 @@
             <td><a href="mailto:contact@srnd.org">contact@srnd.org</a></td>
             <td><a href="tel:18882633230">(888) CODE-230</a></td>
         </tr>
-        <tr class="event">
-            <td>{{ registration.event.manager.name }}</td>
-            <td>Event Manager</td>
-            <td><a href="mailto:{{ registration.event.manager.email }}">{{ registration.event.manager.email }}</a></td>
-            <td><a href="tel:{{ registration.event.manager.phone }}">{{ registration.event.manager.phone }}</a></td>
-        </tr>
         {% if registration.event.evangelist %}
             <tr>
                 <td>{{ registration.event.evangelist.name }}</td>
-                <td>Lead Evangelist</td>
+                <td>Day-Of Manager</td>
                 <td><a href="mailto:{{ registration.event.evangelist.email }}">{{ registration.event.evangelist.email }}</a></td>
                 <td><a href="tel:{{ registration.event.evangelist.phone }}">{{ registration.event.evangelist.phone }}</a></td>
             </tr>
         {% endif %}
+        <tr class="event">
+            <td>{{ registration.event.manager.name }}</td>
+            <td>Operations Manager</td>
+            <td><a href="mailto:{{ registration.event.manager.email }}">{{ registration.event.manager.email }}</a></td>
+            <td><a href="tel:{{ registration.event.manager.phone }}">{{ registration.event.manager.phone }}</a></td>
+        </tr>
         {% for grant in registration.event.grants %}
             <tr>
                 <td>{{ grant.user.name }}</td>
@@ -80,4 +101,9 @@
             </tr>
         {% endfor %}
     </table>
+
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
+    <p>If you have any other questions, please let me know!</p>
 {% endblock %}

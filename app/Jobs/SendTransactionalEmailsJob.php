@@ -14,49 +14,46 @@ class SendTransactionalEmailsJob extends Job
             try{
             	$this->sendEmailsForRegistration($registration);
             }catch(\Exception $ex){
-            	$raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
-            	$raygun->SendException($ex, ["SendTransactionalEmailsJob"]);
+            	//$raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
+            	//$raygun->SendException($ex, ["SendTransactionalEmailsJob"]);
             }
         }
     }
 
     private function sendEmailsForRegistration(Models\Batch\Event\Registration $registration)
     {
-    	try{
-	    	$allEmails = $this->getEmailsForRegistration($registration);
-	    }catch(\Exception $ex){
-	    	$raygun = new \Raygun4php\RaygunClient(\Config::get("raygun.api_key"));
-	    	$raygun->SendException($ex, ["SendTransactionalEmailsJob"]);
-	    }
+        $allEmails = $this->getEmailsForRegistration($registration);
         $sentEmails = Models\TransactionalEmail::where('batches_events_registration_id', '=', $registration->id)->get();
         $sentEmailIds = array_map(function($a){ return $a->email_id; }, iterator_to_array($sentEmails));
 
         foreach ($allEmails as $email) {
-            // Has the email been sent?
-            if (in_array($email->id, $sentEmailIds)) continue;
+            try {
+                // Has the email been sent?
+                if (in_array($email->id, $sentEmailIds)) continue;
 
-            // Should the email be sent now? (Is the time in the past)?
-            if ($email->when->isFuture()) continue;
+                // Should the email be sent now? (Is the time in the past)?
+                if ($email->when->isFuture()) continue;
 
-            // Mark the email as sent.
-            $record = new Models\TransactionalEmail;
-            $record->batches_events_registration_id = $registration->id;
-            $record->email_id = $email->id;
-            $record->save();
+                // Mark the email as sent.
+                $record = new Models\TransactionalEmail;
+                $record->batches_events_registration_id = $registration->id;
+                $record->email_id = $email->id;
+                $record->save();
 
-            // Send the email
-            $contentText = null;
-            $contentHtml = null;
-            $tplBindings = ['registration' => $registration];
-            if (isset($email->text)) $contentText = \View::make($email->text, $tplBindings);
-            if (isset($email->html)) $contentHtml = \View::make($email->html, $tplBindings);
+                // Send the email
+                $contentText = null;
+                $contentHtml = null;
+                $tplBindings = ['registration' => $registration];
+                if (isset($email->text)) $contentText = \View::make($email->text, $tplBindings);
+                if (isset($email->html)) $contentHtml = \View::make($email->html, $tplBindings);
 
-            Services\Email::SendOnQueue(
-                $email->from, $email->from_e,
-                $email->to, $email->to_e,
-                $email->subject,
-                $contentText, $contentHtml, $email->marketing
-            );
+                Services\Email::SendOnQueue(
+                    $email->from, $email->from_e,
+                    $email->to, $email->to_e,
+                    $email->subject,
+                    $contentText, $contentHtml, $email->marketing
+                );
+            } catch (\Exception $ex) {}
         }
     }
 
@@ -112,8 +109,8 @@ class SendTransactionalEmailsJob extends Job
             ];
             if (isset($emailConfig->text)) $email['text'] = $emailConfig->text;
             if (isset($emailConfig->html)) $email['html'] = $emailConfig->html;
-            if (isset($emailConfig->from)) {
-                $email['from'] = $emailConfig->from;
+            if (isset($emailConfig->from_n)) {
+                $email['from'] = $emailConfig->from_n;
             } else {
                 $email['from'] = 'CodeDay '.$registration->event->name;
             }

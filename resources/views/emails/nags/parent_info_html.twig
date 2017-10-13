@@ -1,13 +1,19 @@
 {% extends "emails/template_transactional.twig" %}
-{% block header %}
-    <img src="https://clear.codeday.org/assets/img/email_confirm_header_01.jpg" alt="Your CodeDay Registration"/>
-{% endblock %}
-{% block unsubscribe %}{% endblock %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}You're not quite ready to attend CodeDay.{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-line.jpg{% endblock %}
+{% block title %}Only you can prevent lines.{% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
+{% block sign_name %}John Peter{% endblock %}
+{% block sign_title %}Official srnd.org Human{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}
+
 {% block body %}
     <p>Hi {{ registration.first_name }},</p>
 
     <p>Thanks for registering for CodeDay {{ registration.event.name }}. {{ registration.event.starts_at|date('F jS') }}
-        is fast approaching, and we want to make sure you're ready to attend.</p>
+        is fast approaching, and I have some important news: you're not quite ready!</p>
 
     <p>Before you attend, we need a little more information:<p>
     <ul>
@@ -18,7 +24,4 @@
     <p>You'll also need to print your ticket.</p>
 
     <p><a href="https://codeday.vip/{{ registration.id }}">You can complete these final steps by clicking here.</a> It'll only take a minute or two.</p>
-
-    <p>Cheers!<br />
-        The CodeDay Team</p>
 {% endblock %}

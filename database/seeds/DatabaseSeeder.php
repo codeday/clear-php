@@ -68,7 +68,7 @@ class DatabaseSeeder extends Seeder {
                 $event->allow_registrations = rand(0,10) < 8;
                 $event->save();
 
-                if ($event->allow_registrations) {
+                if ($event->allow_registrations && false) {
                     $attendees = rand(60,100);
                     for($i = 0; $i < $attendees; $i++) {
                         $attendee = new Models\Batch\Event\Registration;

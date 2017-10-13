@@ -76,7 +76,8 @@ class Email {
             $email = new \SendGrid\Email();
             $email
                 ->addTo($toEmail, $toName)
-                ->setFrom($fromEmail, $fromName)
+                ->setFrom($fromEmail)
+                ->setFromName($fromName)
                 ->setSubject($subject)
                 ->setAsmGroupId($isMarketing ? config('sendgrid.asm.marketing') : config('sendgrid.asm.transactional'))
                 ->setText($contentText)
@@ -140,12 +141,13 @@ class Email {
 
             foreach (Email::getToListFromType($event, $listType) as $to) {
                 try {
+                    $rSubject = Email::renderTemplateWithContext($subject, array_merge((array)$to, $additionalContext));
                     Email::SendOnQueue(
                         $fromName, $fromEmail,
                         $to->name, $to->email,
-                        Email::renderTemplateWithContext($subject, array_merge((array)$to, $additionalContext)),
-                        Email::renderTemplateWithContext($contentText, array_merge((array)$to, $additionalContext)),
-                        Email::renderTemplateWithContext($contentHtml, array_merge((array)$to, $additionalContext)),
+                        $rSubject,
+                        Email::renderTemplateWithContext($contentText, array_merge((array)$to, $additionalContext, ['subject' => $rSubject])),
+                        Email::renderTemplateWithContext($contentHtml, array_merge((array)$to, $additionalContext, ['subject' => $rSubject])),
                         $isMarketing
                     );
                 } catch (\Exception $ex) {}

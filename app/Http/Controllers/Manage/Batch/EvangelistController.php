@@ -34,8 +34,7 @@ class EvangelistController extends \CodeDay\Clear\Http\Controller {
                             Services\Email::SendOnQueue(
                                 'StudentRND Evangelism', 'evg@srnd.org',
                                 $user->name, $to,
-                                Models\Batch::Managed()->name.' Evangelism',
-                                \View::make('emails/evangelist_text', ['user' => $user]),
+                                Models\Batch::Managed()->name.' Evangelism', null,
                                 \View::make('emails/evangelist_html', ['user' => $user]),
                                 false
                             );

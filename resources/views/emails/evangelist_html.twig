@@ -1,47 +1,29 @@
 {% extends "emails/template_transactional.twig" %}
-{% block why %}You received this email because you were assigned as an Evangelist to a CodeDay.{% endblock %}
 {% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
-{% block header %}
-    <img src="https://clear.codeday.org/assets/img/email_preevent_header_01.jpg" alt="It's almost CodeDay"/>
-{% endblock %}
+{% block preview %}What you need to know as a Code Evangelist{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-staff.jpg{% endblock %}
+{% block title %}Hey! Ready for CodeDay?{% endblock %}
 {% block body %}
     <p>Hi {{ user.first_name }},</p>
 
-    <p>Thanks for joining us as an evangelist for CodeDay {{ managed_batch.name }}! You're in for a very rewarding and
-       very, very fun weekend. Before that happens, it's time to gear up!</p>
+    <p>Thanks for joining us as an evangelist for CodeDay {{ managed_batch.name }}! I'm your friendly human John Peter,
+        and I'm here to guide you through what needs to happen to make this a good event.</p>
 
-    <h2>Training</h2>
-    <p>One of the first things you'll need to do as an Evangelist is read our
-       <a href="https://code-evangelist.training.srnd.org/">Evangelism Guide</a>.</p>
+    <p><strong>First of all, you need to read the
+       <a href="https://code-evangelist.training.srnd.org/">Evangelism Guide</a>.</strong> Please also read the
+       <a href="https://codeday.training.srnd.org/">event guide</a> if you're new to volunteering
+        at CodeDay. You will be responsible for leading this format.</p>
 
-    <p><strong>You need to read through this document in full in the next week.</strong> This is one of the most
-       important resources for CodeDay evangelism: it's based on the notes of hundreds of past CodeDay Evangelists.
-       </p>
-
-    <h2>Tools</h2>
     <p>You already have an s5 account, so you're ready to log into all our internal tools. One of the tools you'll find
         most useful is <a href="https://clear.codeday.org/">Clear</a> -- the CodeDay management backend.</p>
 
-    <p>Another tool to pay attention to: your <a href="http://mail.srnd.org/">StudentRND email</a>. If you don't
-       think you'll be checking it often, be sure to set up forwarding! We'll send out all useful evangelism information
-       to this email.</p>
-
-    <h2>Flights</h2>
-    <p>If you'll be flying out to CodeDay, we'll follow-up in the next day or so to collect availability and traveller
-       information.</p>
-
-    <h2>Phone</h2>
     {% if not user.phone %}
-        <p>In order to successfully host the event, we need your contact phone number. On the day of the event, if any
-           parents need to reach event staff, it will be routed to you. (We will not give out this number directly; it
-            goes through our phone system.)</p>
-        <p>You can add your phone number on <a href="https://s5.studentrnd.org/me/edit">s5</a>.</p>
+        <p>Also, I don't want to sound like a stalker or anything, but...
+           <a href="https://s5.studentrnd.org/me/edit">what's your phone number?</a> You need to set it in your account
+           so we can reach you in case of an emergency.</p>
     {% endif %}
-
-    <h2>Let's Get Moving!</h2>
-    <p>There's not a lot of time, so you should get started on this right away!</p>
-    <p>Expect more information, including an invitation to a pre-CodeDay meeting, in the coming weeks!</p>
-
-    <p>Cheers!<br />
-    The StudentRND Team</p>
 {% endblock %}
+{% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
+{% block sign_name %}John Peter{% endblock %}
+{% block sign_title %}Official srnd.org Human{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}

@@ -1,24 +1,24 @@
 {% extends "emails/template_transactional.twig" %}
-{% block header %}
-    <img src="https://clear.codeday.org/assets/img/email_confirm_header_01.jpg" alt="Slack Invite"/>
-{% endblock %}
-{% block unsubscribe %}{% endblock %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}Will you join me and thousands of new CodeDay friends on our Slack?{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-community.jpg{% endblock %}
+{% block title %}Let's talk.{% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
+{% block sign_name %}John Peter{% endblock %}
+{% block sign_title %}Official srnd.org Human{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}
+
 {% block body %}
-    <p>Hey {{ registration.first_name }},</p>
+    <p>Hey {{ registration.first_name }}! It's me again, your friend John!</p>
 
     <p>By registering for CodeDay, you've not only signed up for a weekend of fun, you've also become part of a global
        community of students building cool things!</p>
 
-    <p>We'd like to invite you to join our community Slack (a popular chatroom service)! By joining our Slack, you'll
-       be able to talk with other students at your event and nationwide, mentors, and even some of the people on our
-       board of directors!</p>
+    <p>I'd like to invite you to join our community Slack! Slack is a popular chatroom service; by joining ours, you'll
+       be able to get help from mentors, meet other CodeDay students around the world, and talk to cool not-robots like
+       me!</p>
 
-    <p>If you'd like to join us, please register at
-       <a href="https://s5apps.studentrnd.org/slack">https://s5apps.studentrnd.org/slack</a>.</p>
-
-    <p>(You will need to register for a StudentRND s5 account, which will let you sign into any other StudentRND
-        services you might need in the future.)</p>
-
-    <p>Cheers!<br />
-        The CodeDay Team</p>
+    <p>To join, just <a href="https://account.srnd.org/">register for an srnd.org account</a> and
+       then click the Slack link when you're logged in.</p>
 {% endblock %}
