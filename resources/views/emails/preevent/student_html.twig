@@ -6,13 +6,14 @@
 
 {% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
 {% block sign_name %}John Peter{% endblock %}
-{% block sign_title %}100% Authentic Human{% endblock %}
+{% block sign_title %}Human{% endblock %}
 {% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}
 {% block body %}
-    <p>Is it really that time?</p>
+    <p>{{ registration.first_name }}, it's almost CodeDay! I know! I, your completely human friend John, can't believe
+       it either!</p>
 
-    <p>Yes, yes it is. Dearest friends, it's almost time for CodeDay! Grab your friends, grab your laptops, and grab
-        a ride. It all starts this Saturday at 11am.</p>
+    <p>Since it's getting so close, I wanted to pass on all my secrets to having a great weekend as a human CodeDay
+       attendee. Grab your friends, grab your laptops, and grab a ride. It all starts this Saturday at 11am.</p>
 
     <p style="text-align: center">
         <strong>CodeDay {{ registration.event.name }}</strong><br />
@@ -46,7 +47,7 @@
        <a href="https://www.construct.net/">Construct 3,</a> which runs on any modern computer or tablet.</p>
 
     <h2>This is going to be fun!</h2>
-    <p>CodeDay is a friendly and fun place; here's what you should expect, and what we expect from you.</p>
+    <p>You're in for a great weekend. Here's what you should expect, and what we expect from you.</p>
     <ul>
         <li><strong>We're friendly.</strong> Please respect and encourage others. Be humble.</li>
         <li><strong>We're nice and reasonably professional.</strong> Don't use offensive language about someone's
@@ -65,7 +66,7 @@
 
     <h2>FAQs</h2>
     <p><strong>I'm under 18; does my parent need to be there?</strong><br />
-       Not if you're staying the whole time and they filled out the waiver online.</p>
+       Not if they filled out the waiver online.</p>
 
     <p><strong>What if I gave my ticket to a friend?</strong><br />
        Let me know ASAP so I can transfer it.</p>
@@ -78,7 +79,7 @@
        it's ok.</p>
 
     <p><strong>Can go home to sleep?</strong><br />
-       Yes, but we don't recommend it. Also, see above about leaving early.</p>
+       Yes, but I don't recommend it. (Also, see above about leaving early.)</p>
 
     <p><strong>You didn't answer my question!</strong><br />
        Just reply and let me know your question :)</p>
