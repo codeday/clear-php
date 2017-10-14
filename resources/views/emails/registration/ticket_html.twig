@@ -21,10 +21,12 @@
     {% else %}
         <p>Thanks for registering to help out at CodeDay {{ registration.event.name }}.</p>
 
-        <p>I'm your totally-not-automated pal John. I work for srnd.org, the non-profit that puts on CodeDay.</p>
+        <p>I'm your <span style="text-decoration:line-through">robotic</span> totally-not-automated pal John. I work
+           for srnd.org, the non-profit that puts on CodeDay. I'm just writing to let you know it's official: you're
+           going to CodeDay!</p>
 
         <p>If you haven't already, expect to hear from other members of our team with more info about your role at the
-           event. In the meantime, Can I answer any questions?</p>
+           event. In the meantime, can we answer any questions?</p>
     {% endif %}
 
     {% if registration.type == 'student' or registration.type == 'volunteer' %}
