@@ -26,7 +26,7 @@ class TasksController extends \CodeDay\Clear\Http\Controller {
         Services\Email::SendToBatch(
             'CodeDay {{ event.name }}', '{{ event.webname }}@codeday.org',
             Models\Batch::Managed(), 'venues',
-            'Reminder: CodeDay {{ event.name }}',
+            'Reminder: {{ event.name }}',
             null,
             \View::make('emails/preevent/reminders/venue_html')
         );

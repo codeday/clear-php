@@ -32,7 +32,7 @@ class EvangelistController extends \CodeDay\Clear\Http\Controller {
                     if ($send_emails && ($event->evangelist_username != $user->username)) {
                         foreach ([$user->email, $user->internal_email] as $to) { // Send to personal AND corporate email
                             Services\Email::SendOnQueue(
-                                'StudentRND Evangelism', 'evg@srnd.org',
+                                'Code Evangelism', 'evg@srnd.org',
                                 $user->name, $to,
                                 Models\Batch::Managed()->name.' Evangelism', null,
                                 \View::make('emails/evangelist_html', ['user' => $user]),
