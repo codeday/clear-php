@@ -467,15 +467,8 @@ class Event extends \Eloquent {
                 'description' => "Totally new to coding? No problem! Attend this workshop and our Code Evangelists will walk you through creating your first game."
             ],
             (Object)[
-                'time' => 5,
-                'title' => 'Splunk: Make your game better with data',
-                'type' => 'workshop',
-                'url' => 'https://blog.srnd.org/making-better-games-with-splunk-975cd2a605ce',
-                'description' => 'Learn how others play your game and use that knowledge to make it more fun with minimal work.'
-            ],
-            (Object)[
                 'time' => 6.5 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
-                'title' => 'CodeCup',
+                'title' => 'CodeCup (presented by Splunk)',
                 'type' => 'workshop',
                 'url' => 'https://cup.codeday.org/',
                 'description' => 'Work with other attendees to make your city #1 nationwide!'
