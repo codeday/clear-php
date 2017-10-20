@@ -40,7 +40,8 @@ class Firebase {
       'notification' => [
         'title' => $title,
         'body' => $text,
-        'icon' => "https://clear.codeday.org/assets/img/logo-square.png"
+        'icon' => "https://clear.codeday.org/assets/img/logo-square.png",
+        'android_channel_id' => 'event_notifications'
       ],
       'to' => $to
     ];
@@ -54,7 +55,8 @@ class Firebase {
         'title' => $title,
         'body' => $text,
         'icon' => "https://clear.codeday.org/assets/img/logo-square.png",
-        'click_action' => $url
+        'click_action' => $url,
+        'android_channel_id' => 'event_notifications'
       ],
       'to' => $to
     ];
