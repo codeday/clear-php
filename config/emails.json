@@ -93,7 +93,7 @@
                 "id":   "mentor_confirm",
                 "subject": "Confirmed: Mentoring at CodeDay",
                 "html": "emails/registration/mentor_html",
-                "when": "+0",
+                "when": "+1h",
                 "from_n": "Tyler Menezes",
                 "from_e": "volunteer@srnd.org"
             },
@@ -124,7 +124,7 @@
                 "id":   "sponsor_confirm",
                 "subject": "CodeDay Sponsorship",
                 "html": "emails/registration/sponsor_html",
-                "when": "+0",
+                "when": "+1h",
                 "from_n": "Tyler Menezes",
                 "from_e": "tylermenezes@srnd.org"
             },
@@ -144,7 +144,7 @@
                 "id":   "judge_confirm",
                 "subject": "Confirmed: Judging at CodeDay",
                 "html": "emails/registration/judge_html",
-                "when": "+0",
+                "when": "+1h",
                 "from_n": "Tyler Menezes",
                 "from_e": "tylermenezes@srnd.org"
             },
