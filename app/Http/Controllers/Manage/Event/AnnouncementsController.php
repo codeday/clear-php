@@ -10,6 +10,20 @@ class AnnouncementsController extends \CodeDay\Clear\Http\Controller {
       return \View::make('event/announcements');
     }
 
+    public function postDelete()
+    {
+        if (Models\User::me()->is_admin) {
+          $event = \Route::input('event');
+          $event->announcements()->delete();
+
+          \Session::flash('status_message', 'Announcements deleted');
+
+          return \Redirect::to('/event/'.$event->id.'/announcements');
+        }else{
+          \App::abort(403);
+        }
+    }
+
     public function postIndex() {
       $text = trim(\Input::get('text'));
       $urgency = (int) \Input::get('urgency');

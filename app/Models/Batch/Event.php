@@ -344,6 +344,11 @@ class Event extends \Eloquent {
         }, iterator_to_array($this->grants));
     }
 
+    public function announcements()
+    {
+        return $this->hasMany('\CodeDay\Clear\Models\Batch\Event\Announcement', 'batches_event_id', 'id');
+    }
+
     public function emailsSent()
     {
         return $this->hasMany('\CodeDay\Clear\Models\EmailSent', 'batches_event_id', 'id');

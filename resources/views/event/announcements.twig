@@ -47,6 +47,12 @@
         {{ csrf|raw }}
     </form>
 
+    {% if me.is_admin %}
+    <form method="post" class="small dangerous" action="/event/{{ event.id }}/announcements/delete">
+        <input type="submit" value="Delete All Announcements" />
+    {{ csrf|raw }}</form>
+    {% endif %}
+
     <h3>Previous Announcements</h3>
 
     <ul class="sent-emails">
