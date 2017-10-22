@@ -47,7 +47,6 @@ class Checkin extends ApiController {
             ]);
         }
 
-
         if ($registration->batches_event_id !== $event->id) {
             return json_encode((object)[
                 'success' => false,
@@ -75,6 +74,7 @@ class Checkin extends ApiController {
             $registration->checked_in_at = \Carbon\Carbon::now();
             $registration->save();
             \Event::fire('registration.checkin', $registration);
+            Services\Notifications::SendCheckinNotification($registration);
             if (!$allowMissing && (!$hasParent || !$hasWaiver)) {
                 return json_encode((object)[
                     'success' => false,
