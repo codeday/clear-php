@@ -10,8 +10,8 @@
             <a href="/event/{{ event.id }}/registrations/csv?signature={{ signature }}">here.</a></p>
     </header>
 
-    {% if event.registrations|length > 0 %}
-        <section class="current registrations">
+    <section class="current registrations">
+        {% if event.registrations|length > 0 %}
             <h3>Current Attendees</h3>
             <p>Sort by:
               <a href="/event/{{ event.id }}/registrations?sort=id">ID</a>,
@@ -20,8 +20,8 @@
               <a href="/event/{{ event.id }}/registrations?sort=created_at&amp;order=desc">Date Registered</a> (default)
             </p>
             {{ a.attendees(registrations, true) }}
-            <a href="#" class="new-registration-button">New Registration</a>
-            <a href="/event/{{event.id}}/registrations/bulk">CSV Upload</a>
-        </section>
-    {% endif %}
+        {% endif %}
+        <a href="#" class="new-registration-button">New Registration</a>
+        <a href="/event/{{event.id}}/registrations/bulk">CSV Upload</a>
+    </section>
 {% endblock %}

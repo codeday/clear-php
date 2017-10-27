@@ -19,6 +19,9 @@
                     <option value="parent_email">Parent Email</option>
                     <option value="parent_phone">Parent Phone</option>
                     <option value="parent_secondary_phone">Parent Secondary Phone</option>
+                    {% if me.is_admin %}
+                        <option value="webname">Webname*</option>
+                    {% endif %}
                 </select>
             </div>
             {% set i = i+1 %}

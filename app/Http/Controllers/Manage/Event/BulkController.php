@@ -42,7 +42,7 @@ class BulkController extends \CodeDay\Clear\Http\Controller {
                 }
             }
 
-            if (!isset($registration->type)) {
+            if (!isset($registration->type) || !trim($registration->type)) {
                 $registration->type = 'student';
             }
 
@@ -50,7 +50,29 @@ class BulkController extends \CodeDay\Clear\Http\Controller {
                 $registration->parent_no_info = true;
             }
 
-            $registration->batches_event_id = $event->id;
+            if (Models\User::Me()->is_admin && isset($fields['webname'])) {
+                $webname = $line[intval($fields['webname'])];
+                // TODO: This isn't very efficient
+                try {
+                    $event = Models\Batch\Event
+                        ::where('batch_id', '=', Models\Batch::Managed()->id)
+                        ->where(function($w) use ($webname) {
+                            return $w
+                                ->where('webname_override', '=', $webname)
+                                ->orWhere(function($w2) use ($webname) {
+                                    return $w2
+                                        ->where('region_id', '=', $webname)
+                                        ->whereNull('webname_override');
+                                });
+                        })
+                        ->orderBy('webname_override')
+                        ->first();
+                    $registration->batches_event_id = $event->id;
+                } catch (\Exception $ex) { echo "No webname $webname"; } // TODO: Better error handling
+            } else {
+                $registration->batches_event_id = $event->id;
+            }
+
             $registration->save();
         }
 
