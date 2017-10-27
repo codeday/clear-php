@@ -189,6 +189,7 @@ class Registration {
                         'last_name' => 'lastname',
                         'first_name' => 'firstname',
                         'email' => 'email',
+                        'age' => 'age',
                         'promotion' => (object)['code' => 'promocode'],
                         'amount_paid' => 'paid',
                         'parent_name' => 'parentname',
@@ -203,7 +204,7 @@ class Registration {
         // Generate the file
         $content = implode("\n",
             array_map(function($reg) {
-                return str_replace("\n", "", implode(',', [$reg->event->webname, $reg->type, $reg->last_name, $reg->first_name, $reg->email,
+                return str_replace("\n", "", implode(',', [$reg->event->webname, $reg->type, $reg->last_name, $reg->first_name, $reg->email, $reg->age,
                     ($reg->promotion ? $reg->promotion->code : ''), $reg->amount_paid,
                     $reg->parent_name, $reg->parent_email, $reg->parent_phone, $reg->parent_secondary_phone,
                     $reg->checked_in_at, $reg->created_at]));
