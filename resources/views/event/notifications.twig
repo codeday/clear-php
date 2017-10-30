@@ -1,0 +1,45 @@
+{% extends "template.twig" %}
+{% block title %}Announcements // {{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Notifications</h2>
+        <p>
+          If you wish to push simple notifications to attendees, instead of full-blown <a href="/event/{{ event.id }}/announcements">announcements</a>,
+          you can use this tool.
+        </p>
+    </header>
+
+    <form action="/event/{{ event.id }}/notifications" method="post">
+        <h3>Push Notification</h3>
+
+        <div class="field">
+            <label for="text">Notification Text</label>
+            <textarea name="text" id="text" required></textarea>
+            <span class="help">The text of the notification to be displayed.</span>
+        </div>
+
+        <div class="field">
+            <label for="link">Link URL</label>
+            <input type="url" name="link" id="link"></textarea>
+            <span class="help">The link to be attached to this notification. If this field is set, <strong>you must</strong> set the "Link Text" field below.</span>
+        </div>
+
+        <div class="field">
+            <label for="cta">Link Text</label>
+            <input type="text" name="cta" id="cta"></textarea>
+            <span class="help">The text to be displayed for the link. If this field is set, <strong>you must</strong> set the "Link URL" field above.</span>
+        </div>
+
+        <div class="field">
+            <label for="urgency">Channels</label>
+            
+            <span class="help">Choose which channels you would like to get notified.</span>
+        </div>
+
+        <input type="submit" value="Post Announcement"/>
+
+        {{ csrf|raw }}
+    </form>
+{% endblock %}

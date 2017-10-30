@@ -53,6 +53,54 @@
     {{ csrf|raw }}</form>
     {% endif %}
 
+    <header>
+        <h3>Previews</h3>
+        <p>
+            See how your announcement will look across platforms.
+        </p>
+    </header>
+
+    <div class="announcement-previews">
+        <h4>Companion App</h4>
+
+        <div class="companion-preview">
+            <div class="title">Announcement</div>
+            <div class="body">Body</div>
+            <div class="divider"></div>
+            <div class="button">Button</div>
+        </div>
+
+        <h4>Facebook Messenger</h4>
+
+        <div class="messenger-preview">
+            <div class="fb-header">
+                <div class="name">CodeDay</div>
+                <div class="status">Active on Messenger</div>
+            </div>
+
+            <div class="picture">
+                <div class="profile-picture"></div>
+            </div>
+
+            <div class="message-bubble">
+                <div class="text-bubble">
+                    An announcement from the CodeDay organizers:
+                    <br><br>
+                    <span class="announcement-text"></span>
+                </div>
+
+                <div class="link">
+                    
+                </div>
+            </div>
+        </div>
+
+        <h4>SMS</h4>
+        
+        <div class="sms-preview">
+        </div>
+    </div>
+
     <h3>Previous Announcements</h3>
 
     <ul class="sent-emails">
@@ -64,4 +112,7 @@
             </li>
         {% endfor %}
     </ul>
+{% endblock %}
+{% block scripts %}
+    <script src="/assets/js/announcement-preview.js"></script>
 {% endblock %}
