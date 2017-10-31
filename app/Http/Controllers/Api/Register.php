@@ -203,23 +203,14 @@ class Register extends \CodeDay\Clear\Http\Controller {
             ];
         }
 
+        \DB::commit(); // Looks good
+
         // Charge the card
         if ($total_cost > 0) {
             try {
                 Services\Registration::ChargeCardForRegistrations($registrations, $total_cost, \Input::get('card_token'));
-            } catch(\Stripe\Error\Card $e) { // Stripe declined
-                $e_json = $e->getJsonBody();
-                $error = $e_json['error'];
-                \DB::rollBack();
-                return [
-                    'status' => 500,
-                    'error' => 'declined',
-                    'message' => $error['message']
-                ];
-            }
+            } catch(\Stripe\Error\Card $e) { } // If Stripe declines their card, we'll give them a free ticket anyway.
         }
-
-        \DB::commit(); // Looks good
 
         // Send the confirmation emails
         foreach ($registrations as $registration) {
