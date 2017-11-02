@@ -56,6 +56,7 @@ class Checkin extends ApiController {
 
         $check = \Input::get('check');
         $allowMissing = \Input::get('allow_missing') ? true : false;
+        $disallowMissingInfo = \Input::get('disallow_missing_info') ? true : false;
 
         $hasParent = isset($registration->parent_email) || $registration->parent_no_info;
         $hasWaiver = isset($registration->waiver_pdf_link) || $registration->type !== 'student';
@@ -71,16 +72,24 @@ class Checkin extends ApiController {
         }
 
         if ($check === 'in') {
-            $registration->checked_in_at = \Carbon\Carbon::now();
-            $registration->save();
-            \Event::fire('registration.checkin', $registration);
-            Services\Notifications::SendCheckinNotification($registration);
-            if (!$allowMissing && (!$hasParent || !$hasWaiver)) {
+            if($disallowMissingInfo && (!$hasWaiver || !$hasParent)) {
                 return json_encode((object)[
                     'success' => false,
-                    'error' => 'Checked in; missing '.(!$hasParent ? 'parent/waiver' : 'waiver').'.',
+                    'error' => 'Please fill out your parent info and sign the waiver before checking in.',
                     'registration' => ModelContracts\Registration::Model($registration, $this->permissions)
                 ]);
+            } else {
+                $registration->checked_in_at = \Carbon\Carbon::now();
+                $registration->save();
+                \Event::fire('registration.checkin', $registration);
+                Services\Notifications::SendCheckinNotification($registration);
+                if (!$allowMissing && (!$hasParent || !$hasWaiver)) {
+                    return json_encode((object)[
+                        'success' => false,
+                        'error' => 'Checked in; missing '.(!$hasParent ? 'parent/waiver' : 'waiver').'.',
+                        'registration' => ModelContracts\Registration::Model($registration, $this->permissions)
+                    ]);
+                }
             }
         } elseif ($check === 'out') {
             $registration->checked_in_at = null;
