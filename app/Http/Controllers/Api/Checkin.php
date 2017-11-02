@@ -67,6 +67,7 @@ class Checkin extends ApiController {
             return json_encode((object)[
                 'success' => false,
                 'error' => 'Already checked in',
+                'error_code' => 'MISSING_INFO',
                 'registration' => ModelContracts\Registration::Model($registration, $this->permissions)
             ]);
         }
@@ -87,6 +88,7 @@ class Checkin extends ApiController {
                     return json_encode((object)[
                         'success' => false,
                         'error' => 'Checked in; missing '.(!$hasParent ? 'parent/waiver' : 'waiver').'.',
+                        'error_code' => 'CHECKED_IN_MISSING_INFO',
                         'registration' => ModelContracts\Registration::Model($registration, $this->permissions)
                     ]);
                 }
