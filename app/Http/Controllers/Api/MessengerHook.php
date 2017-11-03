@@ -30,7 +30,7 @@ class MessengerHook extends ApiController {
                             $registration = Models\Batch\Event\Registration::where("id", "=", $event["optin"]["ref"])->firstOrFail();
 
                             if($registration->devices->where("service", "messenger")->count() == 0) {
-                                $msg_response = Services\FacebookMessenger::SendMessageUserRef("👋 Hey " . $registration->first_name . "! Thanks for registering for CodeDay. I'm here to remind you of important stuff. For example, during the event I will remind you of upcoming workshops, meals, and send you any important announcements from the organizers. Thanks again, and we hope you're super excited for the event! 😁", $event["optin"]["user_ref"]);
+                                $msg_response = Services\FacebookMessenger::SendMessageUserRef("👋 Hey " . $registration->first_name . "! Thanks for registering for CodeDay. I'm here to remind you of important stuff. For example, during the event I will remind you of upcoming workshops, meals, and send you any important announcements from the organizers. Thanks again, and we hope you're super excited for the event! 😁\n\nIn the meantime, you can view your ticket here: https://codeday.vip/$registration->id", $event["optin"]["user_ref"]);
 
                                 if(isset($msg_response) && $msg_response != false && $msg_response != null) {
                                     $device = new Models\Batch\Event\Registration\Device;
