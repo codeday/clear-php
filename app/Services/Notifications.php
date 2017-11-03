@@ -113,9 +113,9 @@ class Notifications {
             break;
           case "app":
             if(isset($activity->url) && $activity->url != null) {
-              Firebase::SendClickableNotification("Activity Reminder", $activity->title . " is starting in thirty minutes! Tap for more details.", $activity->url, $device->token);
+              Firebase::SendClickableNotification("Workshop Reminder", $activity->title . " is starting in thirty minutes! Tap for more details.", $activity->url, $device->token);
             } else {
-              Firebase::SendNotification("Activity Reminder", $activity->title . " is starting in thirty minutes!", $device->token);
+              Firebase::SendNotification("Workshop Reminder", $activity->title . " is starting in thirty minutes!", $device->token);
             }
             break;
         }
