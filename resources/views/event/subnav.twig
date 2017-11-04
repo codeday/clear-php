@@ -25,7 +25,7 @@
     <h3>Integrations</h3>
     <ul>
         <li><a href="/event/{{ event.id }}/slack">Slack</a></li>
-        <li><a href="/event/{{ event.id }}/spotify">Spotify</a></li>
+        <li><a href="/event/{{ event.id }}/spotify">Spotify{% if event.spotify_access_token %} ✓{% endif %}</a></li>
     </ul>
 </section>
 
