@@ -9,7 +9,6 @@
     Link your event to Spotify so attendees can see what
     song is currently playing through the CodeDay Companion
     app. You must have Spotify Premium to use this feature.
-    <a href="#" title="OwO">What's this?</a>
   </p>
 </header>
 
@@ -19,5 +18,13 @@
   {% else %}
     <a href="{{ oauth_uri }}">Link Spotify Account</a>
   {% endif %}
+</p>
+
+<p>
+  If you link your Spotify Premium account, attendees will see
+  what song is currently playing at your event. The card will
+  show up on CodeDay Companion, and looks something like this:
+  <br><br>
+  <img src="/assets/img/now_playing_card.png"/>
 </p>
 {% endblock %}
