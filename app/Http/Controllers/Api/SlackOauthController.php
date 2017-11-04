@@ -8,7 +8,16 @@ class SlackOauthController extends \CodeDay\Clear\Http\Controller {
   public function getOauth()
   {
     $code = \Input::get('code');
-    $event = Models\User::me()->current_managed_events->sortBy('date_created')->last();
+    $event = Models\Batch\Event::where("id", "=", \Input::get('state'))->firstOrFail();
+    
+    if (Models\User::me()->username != $event->manager_username
+        && Models\User::me()->username != $event->evangelist_username
+        && Models\User::me()->username != $event->coach_username
+        && !$event->isUserAllowed(Models\User::me())
+        && !Models\User::me()->is_admin) {
+        \App::abort(401);
+    }
+    
     $oauth_data = Services\Slack::GetOauthAccess($code);
 
     if($oauth_data != null && $oauth_data != false && $event && $oauth_data->ok == true){
