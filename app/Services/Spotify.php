@@ -57,7 +57,7 @@ class Spotify {
   }
 
   public static function GetUser($access_token) {
-    return self::GetAsUser("https://api.spotify.com/v1/me", "Asdasdasd");
+    return self::GetAsUser("https://api.spotify.com/v1/me", $access_token);
   }
 
   public static function ExchangeCode($code) {
