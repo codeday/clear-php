@@ -30,6 +30,51 @@ class Events extends ApiController {
         return json_encode($response);
     }
 
+    public function getNowPlaying() {
+        $event = \Route::input('event');
+        if($event->spotify_access_token) {
+            $now_playing = Services\Spotify::GetUserNowPlaying($event->spotify_access_token);
+
+            if($now_playing == false) {
+                $new_access_token = Services\Spotify::RefreshAccessToken($event->spotify_refresh_token);
+
+                if($new_access_token == false) {
+                    return json_encode([
+                        "spotify_linked" => false,
+                        "now_playing" => null,
+                        "error" => "Internal error: Could not refresh Spotify access token"
+                    ]);
+                } else {
+                    $access_token_res = json_decode($new_access_token);
+                    $event->spotify_access_token = $access_token_res->access_token;
+                    $event->save();
+
+                    $now_playing = Services\Spotify::GetUserNowPlaying($event->spotify_access_token);
+                }
+            }
+
+            $player_info = json_decode($now_playing);
+
+            return json_encode([
+                "spotify_linked" => true,
+                "now_playing" => $player_info->is_playing ? [
+                    "track" => $player_info->item->name,
+                    "artist" => $player_info->item->artists[0]->name,
+                    "album" => [
+                        "name" => $player_info->item->album->name,
+                        "image" => $player_info->item->album->images[0]->url
+                    ],
+                    "link" => $player_info->item->external_urls->spotify
+                ] : null
+            ]);
+        } else {
+            return json_encode([
+                "spotify_linked" => false,
+                "now_playing" => null
+            ]);
+        }
+    }
+
     public function getRegistrations()
     {
       $this->requirePermission(['admin']);

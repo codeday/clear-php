@@ -4,6 +4,7 @@
     \Route::get('stats', 'Stats@getIndex');
 
     \Route::get('slack/oauth', 'SlackOauthController@getOauth');
+    \Route::get('spotify/oauth', 'SpotifyOauthController@getOauth');
 
     \Route::get('application/', 'Application@getApplication');
 
@@ -19,6 +20,7 @@
     \Route::get('event/{event}', 'Events@getEvent');
     \Route::get('event/{event}/registrations', 'Events@getRegistrations');
     \Route::get('event/{event}/registrations/new', 'Events@postRegistrations');
+    \Route::get('event/{event}/now-playing', 'Events@getNowPlaying');
     \Route::post('event/{event}/registrations', 'Events@postRegistrations');
     \Route::get('events/managed-by/{username}', 'Events@getManagedBy');
     \Route::get('event/{event}/announcements', 'Events@getAnnouncements');

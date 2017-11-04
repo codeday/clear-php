@@ -1,0 +1,23 @@
+{% extends "template.twig" %}
+{% block title %}Spotify Integration // {{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+<header>
+  <h2>Spotify Integration</h2>
+  <p>
+    Link your event to Spotify so attendees can see what
+    song is currently playing through the CodeDay Companion
+    app. You must have Spotify Premium to use this feature.
+    <a href="#" title="OwO">What's this?</a>
+  </p>
+</header>
+
+<p>
+  {% if event.spotify_access_token %}
+    Connected to Spotify. <a href="spotify/unlink">Unlink account</a>
+  {% else %}
+    <a href="{{ oauth_uri }}">Link Spotify Account</a>
+  {% endif %}
+</p>
+{% endblock %}
