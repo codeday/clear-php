@@ -6,7 +6,19 @@ use \CodeDay\Clear\Models;
 class ActivitiesController extends \CodeDay\Clear\Http\Controller {
     public function getIndex()
     {
-        return \View::make('event/activities/index');
+        $event = \Route::input('event');
+        if (\Input::get('time_zulu')) {
+            $offset = (new \DateTimeZone($event->region->timezone))->getOffset(new \DateTime)/3600;
+            $time = \Input::get('time_zulu') + $offset;
+        }
+
+        return \View::make('event/activities/index', [
+            'default_time' => $time ?? \Input::get('time'),
+            'default_title' => \Input::get('title'),
+            'default_description' => \Input::get('description'),
+            'default_url' => \Input::get('url'),
+            'default_type' => \Input::get('type'),
+        ]);
     }
 
     public function postIndex()

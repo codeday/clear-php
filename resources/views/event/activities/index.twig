@@ -42,82 +42,41 @@
     <form method="post">
         <div class="field">
             <label for="title">Title</label>
-            <input type="text" name="title" id="title" required />
+            <input type="text" name="title" id="title" required value="{{ default_title }}" />
             <span class="help">The title of the activity.</span>
         </div>
         <div class="field">
             <label for="type">Type</label>
             <select name="type" id="type">
-                <option value="workshop" selected>Workshop</option>
-                <option value="speech">Speech</option>
-                <option value="event">Other Event</option>
+                <option value="workshop" {% if default_type == 'workshop' %}selected{% endif %}>Workshop</option>
+                <option value="speech" {% if default_type == 'speech' %}selected{% endif %}>Speech</option>
+                <option value="event" {% if default_type == 'event' %}selected{% endif %}>Other Event</option>
             </select>
             <span class="help">The type of event the activity represents.</span>
         </div>
         <div class="field">
             <label for="time">Time</label>
             <select name="time" id="time">
-                <option value="0">12pm</option>
-                <option value="0.5">12:30pm</option>
-                <option value="1">1pm</option>
-                <option value="1.5">1:30pm</option>
-                <option value="2">2pm</option>
-                <option value="2.5">2:30pm</option>
-                <option value="3">3pm</option>
-                <option value="3.5">3:30pm</option>
-                <option value="4" selected>4pm</option>
-                <option value="4.5">4:30pm</option>
-                <option value="5">5pm</option>
-                <option value="5.5">5:30pm</option>
-                <option value="6">6pm</option>
-                <option value="6.5">6:30pm</option>
-                <option value="7">7pm</option>
-                <option value="7.5">7:30pm</option>
-                <option value="8">8pm</option>
-                <option value="8.5">8:30pm</option>
-                <option value="9">9pm</option>
-                <option value="9.5">9:30pm</option>
-                <option value="10">10pm</option>
-                <option value="10.5">10:30pm</option>
-                <option value="11">11pm</option>
-                <option value="11.5">11:30pm</option>
-
-
-                <option value="12">12am</option>
-                <option value="12.5">12:30am</option>
-                <option value="13">1am</option>
-                <option value="13.5">1:30am</option>
-                <option value="14">2am</option>
-                <option value="14.5">2:30am</option>
-                <option value="15">3am</option>
-                <option value="15.5">3:30am</option>
-                <option value="16">4am</option>
-                <option value="16.5">4:30am</option>
-                <option value="17">5am</option>
-                <option value="17.5">5:30am</option>
-                <option value="18">6am</option>
-                <option value="18.5">6:30am</option>
-                <option value="19">7am</option>
-                <option value="19.5">7:30am</option>
-                <option value="20">8am</option>
-                <option value="20.5">8:30am</option>
-                <option value="21">9am</option>
-                <option value="21.5">9:30am</option>
-                <option value="22">10am</option>
-                <option value="22.5">10:30am</option>
-                <option value="23">11am</option>
-                <option value="23.5">11:30am</option>
+                {% for i in 0..23 %}
+                    {% set real_hour = i + 12 %}
+                    {% set period = 'pm' %}
+                    {% if i >= 12 %}
+                        {% set period = 'am' %}
+                    {% endif %}
+                    <option value="{{ i }}" {% if default_time == i %}selected{% endif %}>{{ real_hour }}{{ period }}</option>
+                    <option value="{{ i+0.5 }}" {% if default_time == i+0.5 %}selected{% endif %}>{{ real_hour }}:30{{ period }}</option>
+                {% endfor %}
             </select>
             <span class="help">The time the activity is being held.</span>
         </div>
         <div class="field">
             <label for="url">URL</label>
-            <input type="url" name="url" id="url" />
+            <input type="url" name="url" id="url" value="{{ default_url }}" />
             <span class="help">Optional, the URL to link to. If specified, generates a "more" link.</span>
         </div>
         <div class="field">
             <label for="description">Description</label>
-            <input type="text" name="description" id="description" />
+            <input type="text" name="description" id="description" value="{{ default_description }}" />
             <span class="help">Optional, a brief description to be shown on hover.</span>
         </div>
 
