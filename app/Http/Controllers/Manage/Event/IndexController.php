@@ -17,7 +17,7 @@ class IndexController extends \CodeDay\Clear\Http\Controller {
     public function getMyEvent()
     {
       $event = Models\User::me()->current_managed_events->sortBy('date_created')->last();
-      return \Redirect::to('/event/' . $event->id . '/' . \Route::input('path'));
+      return \Redirect::to('/event/' . $event->id . '/' . \Route::input('path').'?'.http_build_query(\Request::query()));
     }
 
     public function postUpdateRegistrationStatus()
