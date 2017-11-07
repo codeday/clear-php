@@ -58,10 +58,15 @@
             <label for="time">Time</label>
             <select name="time" id="time">
                 {% for i in 0..23 %}
-                    {% set real_hour = i + 12 %}
+                    {% set real_hour = i %}
                     {% set period = 'pm' %}
                     {% if i >= 12 %}
                         {% set period = 'am' %}
+                        {% set real_hour = i - 12 %}
+                    {% endif %}
+
+                    {% if i == 0 or i == 12 %}
+                        {% set real_hour = 12 %}
                     {% endif %}
                     <option value="{{ i }}" {% if default_time == i %}selected{% endif %}>{{ real_hour }}{{ period }}</option>
                     <option value="{{ i+0.5 }}" {% if default_time == i+0.5 %}selected{% endif %}>{{ real_hour }}:30{{ period }}</option>
