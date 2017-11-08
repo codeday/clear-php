@@ -21,24 +21,22 @@
         </div>
 
         <div class="field">
-            <label for="link">Link URL</label>
-            <input type="url" name="link" id="link"></textarea>
-            <span class="help">The link to be attached to this notification. If this field is set, <strong>you must</strong> set the "Link Text" field below.</span>
+            <label>Channels</label>
+            <span class="help">Choose which channels should receive this notification.</span>
+            <br/>
+            <div style="display: inline-block">
+                <input type="checkbox" name="send_app" id="send_app"/>
+                <label for="send_app">Companion App ({{ app_count }})</label>
+                <br/>
+                <input type="checkbox" name="send_messenger" id="send_messenger"/>
+                <label for="send_messenger">Facebook Messenger ({{ messenger_count }})</label>
+                <br/>
+                <input type="checkbox" name="send_sms" id="send_sms"/>
+                <label for="send_sms">SMS ({{ sms_count }})</label>
+            </div>
         </div>
 
-        <div class="field">
-            <label for="cta">Link Text</label>
-            <input type="text" name="cta" id="cta"></textarea>
-            <span class="help">The text to be displayed for the link. If this field is set, <strong>you must</strong> set the "Link URL" field above.</span>
-        </div>
-
-        <div class="field">
-            <label for="urgency">Channels</label>
-            
-            <span class="help">Choose which channels you would like to get notified.</span>
-        </div>
-
-        <input type="submit" value="Post Announcement"/>
+        <input type="submit" value="Push Notification"/>
 
         {{ csrf|raw }}
     </form>
