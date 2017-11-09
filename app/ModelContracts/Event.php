@@ -130,7 +130,8 @@ class Event extends ModelContract
                         'max' => $model->max_registrations,
                         'is_open' => $model->AllowRegistrationsCalculated,
                         'remaining' => $model->remaining_registrations,
-                        'is_earlybird_ending' => $model->is_earlybird_ending
+                        'is_earlybird_ending' => $model->is_earlybird_ending,
+                        'checked_in' => Models\Batch\Event\Registration::whereNotNull("checked_in_at")->where("batches_event_id", "=", $model->id)->count()
                     ];
                 }
             ],
