@@ -4,7 +4,7 @@
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
-  font-family: "Roboto", "Helvetica", sans-serif; }
+  font-family: "Avenir Next", "Roboto", "Helvetica", sans-serif; }
 
 span.confidential {
   font-size: 0.75rem;
@@ -23,7 +23,7 @@ a, a:hover, a:active, a:visited {
   color: #333; }
 
 h1, h2, h3, h4, h5, h6, input[type="submit"], button {
-  font-family: "Roboto", "Helvetica", sans-serif; }
+  font-family: "Avenir Next", "Roboto", "Helvetica", sans-serif; }
 
 .menu-handle {
   display: none; }
@@ -162,7 +162,7 @@ h1, h2, h3, h4, h5, h6, input[type="submit"], button {
           padding: 1rem 0; }
           body > div.wrap > section.subnav ul li a {
             display: inline !important;
-            font-weight: 300;
+            font-weight: 400;
             border-bottom: 1px dotted #EFDEDE !important; }
       body > div.wrap > section.subnav.on {
         left: 11rem;
@@ -190,7 +190,7 @@ body > div.wrap {
         font-size: 2.5rem;
         margin: 0; }
       body > div.wrap > section.content > header p {
-        font-weight: 300;
+        font-weight: 400;
         font-size: 0.75rem;
         max-width: 30rem; }
         body > div.wrap > section.content > header p:first-child {
@@ -228,7 +228,7 @@ body > footer {
   width: 100%;
   margin: 0 auto;
   max-width: 1024px;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 0.75rem;
   clear: both;
   padding: 1rem 0;
@@ -258,7 +258,7 @@ body > header {
         body > header nav ul li a, body > header section.batch ul li a, body > header section.other ul li a {
           text-decoration: none;
           margin-right: 1rem;
-          font-weight: 300;
+          font-weight: 400;
           border-bottom: 1px dotted #e9e9ef; }
           body > header nav ul li a:hover, body > header section.batch ul li a:hover, body > header section.other ul li a:hover {
             border-bottom-color: #cb7972; }
@@ -297,9 +297,9 @@ body > header {
       border: 1px solid #333;
       color: #333;
       background-color: #F8F8FA;
-      font-family: "Roboto", "Helvetica", sans-serif;
+      font-family: "Avenir Next", "Roboto", "Helvetica", sans-serif;
       font-size: 0.9rem;
-      font-weight: 300;
+      font-weight: 400;
       padding: 0.5rem 0.75rem; }
       body > header .search input[type="text"]::-webkit-input-placeholder {
         color: #333; }
@@ -456,7 +456,7 @@ body > header {
     float: right;
     text-align: left;
     font-size: 0.75rem;
-    font-weight: 300;
+    font-weight: 400;
     color: #333; }
 .wrap section.content > section.new {
   display: block;
@@ -513,7 +513,7 @@ ul.batches {
       display: block;
       text-transform: uppercase;
       text-align: center;
-      font-weight: 300;
+      font-weight: 400;
       padding: 0.1rem 0;
       font-size: 0.75rem;
       width: 100%;
@@ -533,7 +533,7 @@ ul.batches {
       text-align: center;
       font-size: 0.75rem;
       padding-top: 0.3rem;
-      font-weight: 300; }
+      font-weight: 400; }
       ul.batches li .events:after {
         content: "events";
         padding-left: 0.2rem; }
@@ -565,7 +565,7 @@ body > .info {
     color: #9d423a; }
 
 .shepherd-text {
-  font-family: "Roboto", "Helvetica", sans-serif; }
+  font-family: "Avenir Next", "Roboto", "Helvetica", sans-serif; }
 
 .announcement-previews .messenger-preview {
   margin-bottom: 10px;
@@ -668,10 +668,10 @@ body > .info {
 body.dashboard section.content > .countdown {
   padding: 0 0 2rem; }
   body.dashboard section.content > .countdown .active {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 2.5rem; }
   body.dashboard section.content > .countdown .details {
-    font-weight: 300;
+    font-weight: 400;
     font-size: 0.75rem;
     padding-top: 0.3rem; }
     body.dashboard section.content > .countdown .details .name:after {
@@ -1340,7 +1340,7 @@ body.csv-landing {
     .wrap .compose-email .field input, .wrap .compose-email .field textarea, .wrap .compose-email .field select {
       border: none;
       width: 90%;
-      font-family: "Roboto", "Helvetica", sans-serif !important;
+      font-family: "Avenir Next", "Roboto", "Helvetica", sans-serif !important;
       font-size: 1rem; }
 
 .send-email {
