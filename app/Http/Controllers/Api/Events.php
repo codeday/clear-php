@@ -55,18 +55,25 @@ class Events extends ApiController {
 
             $player_info = json_decode($now_playing);
 
-            return json_encode([
-                "spotify_linked" => true,
-                "now_playing" => $player_info->is_playing ? [
-                    "track" => $player_info->item->name,
-                    "artist" => $player_info->item->artists[0]->name,
-                    "album" => [
-                        "name" => $player_info->item->album->name,
-                        "image" => $player_info->item->album->images[0]->url
-                    ],
-                    "link" => $player_info->item->external_urls->spotify
-                ] : null
-            ]);
+            if(!isset($player_info->error) && isset($player_info->is_playing)) {
+                return json_encode([
+                    "spotify_linked" => true,
+                    "now_playing" => $player_info->is_playing ? [
+                        "track" => $player_info->item->name,
+                        "artist" => $player_info->item->artists[0]->name,
+                        "album" => [
+                            "name" => $player_info->item->album->name,
+                            "image" => $player_info->item->album->images[0]->url
+                        ],
+                        "link" => $player_info->item->external_urls->spotify
+                    ] : null
+                ]);
+            } else {
+                return json_encode([
+                    "spotify_linked" => true,
+                    "now_playing" => null
+                ]);
+            }
         } else {
             return json_encode([
                 "spotify_linked" => false,
