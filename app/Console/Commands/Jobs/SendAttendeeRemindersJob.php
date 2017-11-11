@@ -11,6 +11,7 @@ class SendAttendeeRemindersJob {
     
     public function fire()
     {
+        return;
         foreach (Models\Batch::Loaded()->events as $event) {
             foreach($event->schedule as $day) {
                 foreach($day as $activity){
