@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e21644c0058326128dd3a1544502668",
+    "content-hash": "e4fecc56f325eafc2aa8ca534c34bb0f",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -3891,6 +3891,40 @@
                 "environment"
             ],
             "time": "2015-05-30T15:59:26+00:00"
+        },
+        {
+            "name": "wildbit/postmark-php",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wildbit/postmark-php.git",
+                "reference": "f7902266519652288c1ffa9e2394b06503a9d82e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wildbit/postmark-php/zipball/f7902266519652288c1ffa9e2394b06503a9d82e",
+                "reference": "f7902266519652288c1ffa9e2394b06503a9d82e",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Postmark\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The officially supported client for Postmark (http://postmarkapp.com)",
+            "time": "2017-10-25T19:54:41+00:00"
         }
     ],
     "packages-dev": [

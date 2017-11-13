@@ -6,7 +6,8 @@
                 "subject": "Your CodeDay Ticket",
                 "html": "emails/registration/ticket_html",
                 "when": "+0",
-                "from_n": "John Peter"
+                "from_n": "CodeDay",
+                "from_e": "tickets@codeday.org"
             },
             {
                 "id":   "ticket_reminder",
@@ -25,13 +26,6 @@
                 "html": "emails/preevent/student_html",
                 "when": "-3d",
                 "work": true,
-                "from_n": "John Peter"
-            },
-            {
-                "id":   "student_slack",
-                "subject": "Invitation to the CodeDay Community",
-                "html": "emails/slack/student_html",
-                "when": "+0",
                 "from_n": "John Peter"
             },
             {
@@ -78,13 +72,6 @@
                 "when": "-3d",
                 "from_n": "Tyler Menezes",
                 "from_e": "volunteer@srnd.org"
-            },
-            {
-                "id":   "volunteer_slack",
-                "subject": "Please Join the CodeDay Slack",
-                "html": "emails/slack/student_html",
-                "when": "+0",
-                "from_n": "John Peter"
             }
         ],
         

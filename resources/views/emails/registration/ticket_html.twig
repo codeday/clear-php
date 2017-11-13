@@ -1,42 +1,79 @@
 {% extends "emails/template_transactional.twig" %}
-{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block unsubscribe %}You received this email because you registered for CodeDay.{% endblock %}
 {% block preview %}Thanks for registering for CodeDay! Your ticket is confirmed.{% endblock %}
 {% block img %}https://srnd-cdn.net/emails/header-team.jpg{% endblock %}
 {% block title %}You're going to CodeDay!{% endblock %}
 
-{% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
-{% block sign_name %}John Peter{% endblock %}
-{% block sign_title %}Official srnd.org Human{% endblock %}
-{% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}
+{% block json_ld %}
+{
+  "@context": "http://schema.org",
+  "@type": "EventReservation",
+  "reservationNumber": "{{ registration.id }}",
+  "reservationStatus": "http://schema.org/Confirmed",
+  
+  "underName": {
+    "@type": "Person",
+    "name": "{{ registration.name }}"
+  },
+
+
+  "reservationFor": {
+    "@type": "Event",
+    "name": "CodeDay {{ registration.event.name }}",
+    "url": "https://codeday.org/{{ registration.event.webname }}",
+    "performer": {
+      "@type": "Organization",
+      "name": "CodeDay {{ registration.event.name }}",
+      "image": "http://codeday.org/assets/img/og.jpg"
+    },
+    "startDate": "{{ registration.event.starts_at|date('c') }}",
+    "doorTime": "{{ (registration.event.starts_at-3600)|date('c') }}",
+    "endDate": "{{ registration.event.ends_at|date('c') }}",
+    "location": {
+      "@type": "Place",
+      "name": "{{ registration.event.venue.name }}",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{ registration.event.venue_address_1 }} {{ registration.event.venue_address_2 }}",
+        "addressLocality": "{{ registration.event.venue.city }}",
+        "addressRegion": "{{ registration.event.venue.state }}",
+        "postalCode": "{{ registration.event.venue.postal }}",
+        "addressCountry": "US"
+      }
+    }
+  },
+  "ticketToken": "qrCode:{{ registration.id }}",
+  "ticketNumber": "{{ registration.id }}",
+  "ticketDownloadUrl": "https://codeday.vip/{{ registration.id }}/ticket",
+  "ticketPrintUrl": "https://codeday.vip/{{ registration.id }}/ticket",
+  "modifyReservationUrl": "https://codeday.vip/{{ registration.id }}",
+  "modifiedTime": "{{ registration.modified_at.timestamp|date('c') }}",
+
+  "potentialAction": {
+    "@type": "ViewAction",
+    "url": "https://codeday.vip/{{ registration.id }}",
+    "target": "https://codeday.vip/{{ registration.id }}",
+    "name": "Sign Waiver"
+  }
+}
+{% endblock %}
 
 {% block body %}
-    <p>Hey {{registration.first_name }},</p>
-    
-    {% if registration.type == 'student' %}
-        <p>Our servers just told me something amazing: you're going to CodeDay {{ registration.event.name }}!? I never
-           thought someone as cool as you would come to CodeDay!</p>
-
-        <p>I'm your totally-not-automated pal John. I work for srnd.org, the non-profit that puts on CodeDay, and I'm
-           here to help you make the most of your CodeDay experience. Did you have any questions I can answer?</p>
-    {% else %}
-        <p>Thanks for registering to help out at CodeDay {{ registration.event.name }}.</p>
-
-        <p>I'm your <span style="text-decoration:line-through">robotic</span> totally-not-automated pal John. I work
-           for srnd.org, the non-profit that puts on CodeDay. I'm just writing to let you know it's official: you're
-           going to CodeDay!</p>
-
-        <p>If you haven't already, expect to hear from other members of our team with more info about your role at the
-           event. In the meantime, can we answer any questions?</p>
-    {% endif %}
-
+    <p>{{registration.first_name }}! Can it be true? We just heard you're going to CodeDay {{ registration.event.name }}!</p>
     {% if registration.type == 'student' or registration.type == 'volunteer' %}
-        <p><strong>I do have one favor to ask, {{ registration.first_name }}: can you enter your
-            <a href="https://codeday.vip/{{ registration.id }}">emergency contact?</a></strong></p>
+        <p><strong><a href="https://codeday.vip/{{ registration.id }}">There's just one last step: please sign your waiver.</a></strong></p>
     {% endif %}
+
+    <p>We're here to make sure the event is as fun as possible. If you have any questions, just hit reply. Otherwise,
+       we'll see you 
+        {% if registration.type == 'judge' %}
+            {{ registration.event.ends_at|date('F j, Y') }} at 9am!
+        {% else %}
+            {{ registration.event.starts_at|date('F j, Y') }}!
+        {% endif %}
+    </p>
 
     <p>&nbsp;</p>
-
-    <p>Before I go, the servers asked me to give you this receipt. (Those servers are so thoughtful.)</p>
 
     <table width="400" style="width:400px; border: 1px solid #e6e6e6;margin-bottom: 2rem !important;margin-top: 2rem !important">
         <tr>
@@ -80,24 +117,16 @@
                     </tr>
                 </table>
                 <hr style="border:none;border-top:1px solid #e6e6e6" />
-                <p><img src="https://codeday.vip/{{ registration.id }}/ticket/barcode" /></p>
+                <p><img src="https://codeday.vip/{{ registration.id }}/ticket/barcode" alt="Your ticket barcode" /></p>
                 <p>
                     <a href="https://codeday.vip/{{ registration.id }}">
-                        <img src="https://codeday.vip/assets/img/ticket-print.png" />
+                        <img src="https://codeday.vip/assets/img/ticket-print.png" alt="Print your ticket" />
                     </a>
                     <a href="https://codeday.vip/{{ registration.id }}">
-                        <img src="https://codeday.vip/assets/img/ticket-apple.png" />
+                        <img src="https://codeday.vip/assets/img/ticket-apple.png" alt="Add to Passbook" />
                     </a>
                 </p>
             </td>
         </tr>
     </table>
-    <p>See you 
-        {% if registration.type == 'judge' %}
-            {{ registration.event.ends_at|date('F j, Y') }} at 9am,
-        {% else %}
-            {{ registration.event.starts_at|date('F j, Y') }},
-        {% endif %}
-        {{ registration.first_name }}!
-    </p>
 {% endblock %}

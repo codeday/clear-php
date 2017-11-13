@@ -5,6 +5,7 @@ use \CodeDay\Clear\Models;
 use \CodeDay\Clear\ModelContracts;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 use Html2Text\Html2Text;
+use Postmark\PostmarkClient;
 
 /**
  * Helps with the sending of emails to individuals or groups.
@@ -72,18 +73,31 @@ class Email {
         // Submit for processing
         \Queue::push(function($job) use ($fromName, $fromEmail, $toName, $toEmail, $subject,
                                          $contentText, $contentHtml, $isMarketing) {
-            $sendgrid = new \SendGrid(config('sendgrid.api_key'));
-            $email = new \SendGrid\Email();
-            $email
-                ->addTo($toEmail, $toName)
-                ->setFrom($fromEmail)
-                ->setFromName($fromName)
-                ->setSubject($subject)
-                ->setAsmGroupId($isMarketing ? config('sendgrid.asm.marketing') : config('sendgrid.asm.transactional'))
-                ->setText($contentText)
-                ->setHtml($contentHtml);
+            if ($fromEmail !== 'tickets@codeday.org') {
+                $sendgrid = new \SendGrid(config('sendgrid.api_key'));
+                $email = new \SendGrid\Email();
+                $email
+                    ->addTo($toEmail, $toName)
+                    ->setFrom($fromEmail)
+                    ->setFromName($fromName)
+                    ->setSubject($subject)
+                    ->setAsmGroupId($isMarketing ? config('sendgrid.asm.marketing') : config('sendgrid.asm.transactional'))
+                    ->setText($contentText)
+                    ->setHtml($contentHtml);
 
-            $sendgrid->send($email);
+
+                $sendgrid->send($email);
+            } else {
+                $postmark = new PostmarkClient(config('postmark.api_key'));
+                $postmark->sendEmailBatch([[
+                    'To' => "$toName <$toEmail>",
+                    'From' => "$fromName <$fromEmail>",
+                    'TrackOpens' => false,
+                    'Subject' => $subject,
+                    'TextBody' => $contentText,
+                    'HtmlBody' => $contentHtml
+                ]]);
+            }
             $job->delete();
         });
     }

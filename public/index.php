@@ -7,6 +7,8 @@
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
 
+if (function_exists('newrelic_disable_autorum')) newrelic_disable_autorum();
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader

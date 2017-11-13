@@ -35,7 +35,8 @@
         "predis/predis": "^1.1",
         "studentrnd/s5laravel": "^1.0",
         "doctrine/dbal": "^2.5",
-        "morrislaptop/laravel-queue-clear": "^1.0"
+        "morrislaptop/laravel-queue-clear": "^1.0",
+        "wildbit/postmark-php": "^2.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
