@@ -133,8 +133,6 @@ class Registration extends \Eloquent {
             } while (self::where('id', '=', $id)->exists());
 
             $model->{$model->getKeyName()} = $id;
-
-            Bus::dispatch(new Jobs\SyncProfileImageJob($model));
         });
     }
 

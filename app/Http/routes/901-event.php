@@ -56,8 +56,7 @@ use CodeDay\Clear\Models;
         \Route::controller('/activities', 'ActivitiesController');
 
         \Route::get('/', 'IndexController@getIndex');
-        \Route::get('/agedata.csv', 'IndexController@getAgedata');
-        \Route::get('/chartdata.csv', 'IndexController@getChartdata');
+        \Route::get('/data.json', 'DataController@getIndex');
         \Route::post('/update-registration-status', 'IndexController@postUpdateRegistrationStatus');
         \Route::post('/update-waitlist-status', 'IndexController@postUpdateWaitlistStatus');
         \Route::post('/notes', 'IndexController@postNotes');

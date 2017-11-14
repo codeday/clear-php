@@ -11,7 +11,7 @@
                 "label": "Venue",
                 "value": event.venue ? "Secured" : "Missing",
                 "success": event.venue?true:false,
-                "goal": "By "~(event.starts_at.addMonths(-2).timestamp|date('F j'))
+                "goal": ((event.starts_at - 60*60*24*7*4*2)|date('M j'))
             },
             {
                 "label": "Sponsorship",
@@ -52,9 +52,10 @@
             </li>
         </ul>
     </section>
-    {% if event.allow_registrations_calculated %}
-        <div id="registrations-over-time"></div>
-        <div id="age-breakdown"></div>
+    {% if event.registrations|length > 0 %}
+        <div class="chart line" data-source="RegistrationsOverTime" data-colors="#ccc"><h3>Registrations</h3></div>
+        <div class="chart bar" data-source="AgeDistribution" data-colors="#ccc"><h3>Age Distribution</h3></div>
+        <div class="chart donut" data-source="WaiverStatus" data-colors="#fcf,#fdf,#cfc"><h3>Waiver Status</h3></div>
     {% endif %}
     <form action="/event/{{ event.id }}/notes" method="post" class="notes">
         <h3>Notes</h3>
@@ -88,150 +89,35 @@
             $(this).parents('form').submit();
         });
     </script>
-    <style type="text/css">
-        #registrations-over-time .axis path,
-        #registrations-over-time .axis line {
-            fill: none;
-            stroke: #000;
-            shape-rendering: crispEdges;
-        }
 
-        #registrations-over-time .line {
-            fill: none;
-            stroke: #000;
-            stroke-width: 2px;
-        }
-
-        #registrations-over-time rect {
-            fill: #ccc;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/britecharts@1/dist/bundled/britecharts.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/britecharts/dist/css/britecharts.min.css" type="text/css" />
     <script type="text/javascript">
-        var elem = $('#age-breakdown');
+        $('.chart').each(function(){
+            var chart = this;
+            var chartType;
+            if ($(chart).hasClass('donut')) chartType = britecharts.donut();
+            if ($(chart).hasClass('bar')) chartType = britecharts.bar();
+            if ($(chart).hasClass('line')) chartType = britecharts.line();
 
-        var margin = {top: 0, right: 0, bottom: 0, left: 0},
-                width = elem.width() - margin.left - margin.right,
-                height = elem.width() - margin.top - margin.bottom,
-                radius = Math.min(width, height) / 2;
+            chartType.colorSchema($(chart).data('colors').split(','));
 
-        var color = d3.scale.ordinal()
-            .range(["#cb7972", "#e9e9ef", "#72cb99", "#cfeddc", "#edd2cf"]);
+            var dataUrl = '/event/{{ event.id }}/data.json?chart=' + $(chart).data('source');
 
-        var arc = d3.svg.arc()
-            .outerRadius(radius)
-            .innerRadius(0);
+            var redraw = function() {
+                chartType.width(chart.offsetWidth).height(chart.offsetHeight - 40);
+                if ($(chart).hasClass('donut')) {
+                    chartType.externalRadius(chart.offsetWidth/2).internalRadius(chart.offsetWidth/4);
+                }
+                $.get(dataUrl, function(result){
+                    console.log(result);
+                    d3.select(chart).datum(result).call(chartType);
+                }, 'json');
+            }
 
-        var labelArc = d3.svg.arc()
-            .outerRadius(radius - 40)
-            .innerRadius(radius - 40);
-
-        var pie = d3.layout.pie()
-            .sort(null)
-            .value(function(d) { return d.count; });
-
-        var svgAge = d3.select("#age-breakdown").append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-        d3.csv("/event/{{ event.id }}/agedata.csv", function(error, data) {
-            var g = svgAge.selectAll(".arc")
-                .data(pie(data))
-                .enter().append("g")
-                .attr("class", "arc");
-
-            g.append("path")
-                .attr("d", arc)
-                .style("fill", function(d) { return color(d.data.age); });
-
-            g.append("text")
-                .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-                .attr("dy", ".35em")
-                .text(function(d) { if (d.data.count > 0) return d.data.age; });
+            window.addEventListener("resize", redraw);
+            redraw();
         });
-    </script>
-    <script type="text/javascript">
-
-        var elem = $('#registrations-over-time');
-
-        var margin = {top: 20, right: 20, bottom: 30, left: 50},
-                width = elem.width() - margin.left - margin.right,
-                height = (elem.width() * 0.5) - margin.top - margin.bottom;
-
-        var parseDate = d3.time.format("%d-%b-%y").parse;
-
-        var x = d3.time.scale()
-                .range([0, width]);
-
-        var y = d3.scale.linear()
-                .range([height, 0]);
-
-        var xAxis = d3.svg.axis()
-                .scale(x)
-                .tickFormat(d3.time.format('%-m/%-d'))
-                .orient("bottom");
-
-        var yAxis = d3.svg.axis()
-                .scale(y)
-                .orient("left");
-
-        var line = d3.svg.line()
-                .x(function(d) { return x(d.date); })
-                .y(function(d) { return y(d.registrations); });
-
-        var svg = d3.select("#registrations-over-time").append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        d3.csv("/event/{{ event.id }}/chartdata.csv", function(error, data) {
-            data.forEach(function(d) {
-                d.date = parseDate(d.date);
-                d.delta = +d.delta;
-                d.registrations = +d.registrations;
-            });
-
-            x.domain([
-                d3.min(data, function(d) { return d.date; }),
-                parseDate('{{ event.starts_at|date('j-M-y')|escape('js') }}')
-            ]);
-            y.domain([0, Math.max({{ event.max_registrations|escape('js') }}, d3.max(data, function(d) { return d.registrations; }))]);
-
-            var width = x(data[1].date) - x(data[0].date);
-
-            svg.selectAll('rect')
-                    .data(data)
-                    .enter()
-                    .append('rect')
-                    .attr('x', function(d) { return x(d.date) - width; })
-                    .attr('y', function(d) { return y(d.delta); })
-                    .attr("width", width)
-                    .attr("height", function(d) { return height - y(d.delta); });
-
-            svg.append("path")
-                    .datum(data)
-                    .attr("class", "line")
-                    .attr("d", line);
-
-
-            svg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(xAxis);
-
-            svg.append("g")
-                    .attr("class", "y axis")
-                    .call(yAxis)
-                    .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 6)
-                    .attr("dy", ".71em")
-                    .style("text-anchor", "end")
-                    .text("Registrations");
-        });
-
     </script>
 {% endblock %}

@@ -13,10 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\ClearBeanstalkdQueueCommand::class,
         Commands\DispatchTransactionalEmailsCommand::class,
         Commands\DispatchWaiverSyncCommand::class,
-        Commands\SyncPhotosCommand::class,
         Commands\CronCommand::class
     ];
 

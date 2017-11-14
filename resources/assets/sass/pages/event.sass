@@ -1,14 +1,14 @@
 body.event
-    #registrations-over-time
-        display: inline-block
-        width: 65%
-    #age-breakdown
-        display: inline-block
-        width: 32%
-        vertical-align: top
-        .arc text
-            text-anchor: middle
-            z-index: 100
+    .chart
+        height: 20rem
+        &[data-source="AgeDistribution"]
+            width: 70%
+            float: left
+            height: 15rem
+        &[data-source="WaiverStatus"]
+            width: 25%
+            float: left
+            height: 15rem
     .content > .status
         .kpis
             li
@@ -44,6 +44,8 @@ body.event
                     border-color: lighten($color-red, 25)
 
     form.notes
+        clear: both
+        padding-top: 2rem
         .field
             padding-bottom: 0
             label
