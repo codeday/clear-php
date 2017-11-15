@@ -3,7 +3,7 @@
         "all": [
             {
                 "id":   "ticket",
-                "subject": "Your CodeDay Ticket",
+                "subject": "Confirmed: Your CodeDay Ticket",
                 "html": "emails/registration/ticket_html",
                 "when": "+0",
                 "from_n": "CodeDay",
@@ -77,14 +77,6 @@
         
         "mentor": [
             {
-                "id":   "mentor_confirm",
-                "subject": "Confirmed: Mentoring at CodeDay",
-                "html": "emails/registration/mentor_html",
-                "when": "+1h",
-                "from_n": "Tyler Menezes",
-                "from_e": "volunteer@srnd.org"
-            },
-            {
                 "id":   "mentor_preevent",
                 "subject": "Mentors: What to know for CodeDay",
                 "html": "emails/preevent/mentor_html",
@@ -108,14 +100,6 @@
         
         "sponsor": [
             {
-                "id":   "sponsor_confirm",
-                "subject": "CodeDay Sponsorship",
-                "html": "emails/registration/sponsor_html",
-                "when": "+1h",
-                "from_n": "Tyler Menezes",
-                "from_e": "tylermenezes@srnd.org"
-            },
-            {
                 "id":   "sponsor_preevent",
                 "subject": "Information for CodeDay Sponsors",
                 "html": "emails/preevent/sponsor_html",
@@ -127,14 +111,6 @@
         ],
         
         "judge": [
-            {
-                "id":   "judge_confirm",
-                "subject": "Confirmed: Judging at CodeDay",
-                "html": "emails/registration/judge_html",
-                "when": "+1h",
-                "from_n": "Tyler Menezes",
-                "from_e": "tylermenezes@srnd.org"
-            },
             {
                 "id":   "judge_preevent",
                 "subject": "Information for CodeDay Judges",

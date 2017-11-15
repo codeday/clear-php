@@ -59,13 +59,26 @@
 {% endblock %}
 
 {% block body %}
-    <p>{{registration.first_name }}! Can it be true? We just heard you're going to CodeDay {{ registration.event.name }}!</p>
-    {% if registration.type == 'student' or registration.type == 'volunteer' %}
-        <p><strong><a href="https://codeday.vip/{{ registration.id }}">There's just one last step: please sign your waiver.</a></strong></p>
+    {% if registration.type == 'mentor' %}
+        {% include "emails/registration/parts/mentor.twig" %}
+    {% elseif registration.type == 'judge' %}
+        {% include "emails/registration/parts/judge.twig" %}
+    {% elseif registration.type == 'sponsor' %}
+        {% include "emails/registration/parts/sponsor.twig" %}
+    {% elseif registration.type == 'vip' %}
+        {% include "emails/registration/parts/vip.twig" %}
+    {% elseif registration.type == 'volunteer' %}
+        {% include "emails/registration/parts/volunteer.twig" %}
+    {% elseif registration.type == 'teacher' %}
+        {% include "emails/registration/parts/teacher.twig" %}
+    {% elseif registration.type == 'press' %}
+        {% include "emails/registration/parts/press.twig" %}
+    {% else %}
+        {% include "emails/registration/parts/student.twig" %}
     {% endif %}
 
     <p>We're here to make sure the event is as fun as possible. If you have any questions, just hit reply. Otherwise,
-       we'll see you 
+        we'll see you 
         {% if registration.type == 'judge' %}
             {{ registration.event.ends_at|date('F j, Y') }} at 9am!
         {% else %}
