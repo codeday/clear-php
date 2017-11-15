@@ -1,0 +1,14 @@
+{% extends "emails/template_transactional.twig" %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}You now have access to the CodeDay management system, Clear.{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-staff.jpg{% endblock %}
+{% block title %}CodeDay {{ event.name }} access approved.{% endblock %}
+{% block body %}
+    <p>Hi {{ user.first_name }},</p>
+
+    <p>{{ from.name }} has just granted you access to
+       <a href="https://clear.codeday.org/event/{{ event.id }}">{{ event.full_name }} on Clear.</a></p>
+
+    <p>Clear is the CodeDay management system. You're now able to create promo codes, set a venue, see the schedule,
+       check-in attendees, and more. Click the link above to start exploring.</p>
+{% endblock %}

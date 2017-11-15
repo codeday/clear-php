@@ -2,6 +2,7 @@
 namespace CodeDay\Clear\Http\Controllers\Manage\Event;
 
 use \CodeDay\Clear\Models;
+use CodeDay\Clear\Services;
 
 class SubusersController extends \CodeDay\Clear\Http\Controller {
     public function getIndex()
@@ -40,6 +41,14 @@ class SubusersController extends \CodeDay\Clear\Http\Controller {
             $grant->username = \Input::get('username');
             $grant->batches_event_id = $event->id;
             $grant->save();
+
+            Services\Email::SendOnQueue(
+                'CodeDay', 'codeday@srnd.org',
+                $user->name, $user->email,
+                'Clear Access Granted', null,
+                \View::make('emails/actions/subuser', ['user' => $user, 'event' => $event, 'from' => Models\User::me()]),
+                false
+            );
 
             return \Redirect::to('/event/'.$event->id.'/subusers');
         } else {
