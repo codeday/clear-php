@@ -57,31 +57,6 @@
         <div class="chart bar" data-source="AgeDistribution" data-colors="#ccc"><h3>Age Distribution</h3></div>
         <div class="chart donut" data-source="WaiverStatus" data-colors="#fcf,#fdf,#cfc"><h3>Waiver Status</h3></div>
     {% endif %}
-    <form action="/event/{{ event.id }}/notes" method="post" class="notes">
-        <h3>Notes</h3>
-        <div class="field">
-            <label for="notes">Notes</label>
-            <textarea name="notes" class="markdown">{{ event.notes }}</textarea>
-            <span class="help">(For your internal use. Will be shown in the <a href="/event/{{ event.id }}/overview">print-friendly overview</a>.)</span>
-        </div>
-        <input type="submit" value="Save"/>
-
-        <h3>Public Notes</h3>
-        <div class="field">
-            <label for="public_notes">Public Notes</label>
-            <textarea name="public_notes" class="markdown">{{ event.public_notes }}</textarea>
-            <span class="help">(This field will be <a href="/tools/tidbits/{{ event.region.id }}">shared with future RMs</a> in this region.)</span>
-        </div>
-        <input type="submit" value="Save"/>
-    {{ csrf|raw }}</form>
-    {% if regNotes|length > 0 %}
-        <h3>Attendee Notes</h3>
-        <ul>
-            {% for reg in regNotes %}
-                <li>{{ reg.name }}: {{ reg.notes }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript">

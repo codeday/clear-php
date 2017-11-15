@@ -1,51 +1,64 @@
 <h2>{{ event.name }} {{ event.batch.name }}</h2>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" />
 
 <section class="general">
     <ul>
         <li><a href="/event/{{ event.id }}">Overview</a></li>
-        <li><a href="/event/{{ event.id }}/overview">Print-Friendly Overview</a></li>
-        <li><a href="/event/{{ event.id }}/registrations">Registrations</a></li>
-        <li><a href="/event/{{ event.id }}/announcements">Announcements</a></li>
-        <li><a href="/event/{{ event.id }}/notifications">Notifications</a></li>
-        <li><a href="/event/{{ event.id }}/subscriptions">Subscriptions</a></li>
-        <li><a href="/event/{{ event.id }}/emails">Send Email</a></li>
+        <li><a href="/event/{{ event.id }}/overview">Run of Show</a></li>
     </ul>
 </section>
 
-<section class="website">
-    <h3>Website</h3>
+<section class="people">
+    <h3><i class="fi-torsos-all-female"></i> People</h3>
     <ul>
-        <li><a href="/event/{{ event.id }}/promotions">Promotion Codes</a></li>
-        <li><a href="/event/{{ event.id }}/venue">Venue Info</a></li>
-        <li><a href="/event/{{ event.id }}/sponsors">Sponsors</a></li>
-        <li><a href="/event/{{ event.id }}/activities">Schedule Activities</a></li>
+        <li><a href="/event/{{ event.id }}/registrations">Registrations</a></li>
+        <li><a href="/event/{{ event.id }}/subscriptions">Info Subscribers</a></li>
+        <li><a href="/event/{{ event.id }}/subusers">Subusers</a></li>
     </ul>
 </section>
+
+<section class="communication">
+    <h3><i class="fi-comments"></i> Communication</h3>
+    <ul>
+        <li><a href="/event/{{ event.id }}/announcements">Send Announcement</a></li>
+        <li><a href="/event/{{ event.id }}/emails">Send Email</a></li>
+        <li><a href="/event/{{ event.id }}/preevent">Auto Email</a></li>
+    </ul>
+</section>
+
+<section class="public">
+    <h3><i class="fi-ticket"></i> Public</h3>
+    <ul>
+        <li><a href="/event/{{ event.id }}/promotions">Promos</a></li>
+        <li><a href="/event/{{ event.id }}/sponsors">Sponsors</a></li>
+    </ul>
+</section>
+
+<section class="logistics">
+    <h3><i class="fi-clipboard-pencil"></i> Logistics</h3>
+    <ul>
+        <li><a href="/event/{{ event.id }}/notes">Show Notes</a></li>
+        <li><a href="/event/{{ event.id }}/activities">Schedule</a></li>
+        <li><a href="/event/{{ event.id }}/venue">Venue</a></li>
+        <li><a href="/event/{{ event.id }}/shipping">Shipping</a></li>
+    </ul>
+</section>
+
+{% if me.is_admin %}
+    <section class="admin">
+        <h3><i class="fi-shield"></i> Admin</h3>
+        <ul>
+            <li><a href="/event/{{ event.id }}/notifications">Send Notification</a></li>
+            <li><a href="/event/{{ event.id }}/supplies">Supplies</a></li>
+            <li><a href="/event/{{ event.id }}/special">Special</a></li>
+        </ul>
+    </section>
+{% endif %}
 
 <section class="integrations">
-    <h3>Integrations</h3>
+    <h3><i class="fi-arrows-out"></i> Integrations</h3>
     <ul>
         <li><a href="/event/{{ event.id }}/slack">Slack</a></li>
         <li><a href="/event/{{ event.id }}/spotify">Spotify{% if event.spotify_access_token %} ✓{% endif %}</a></li>
     </ul>
 </section>
-
-<section class="settings">
-    <h3>Settings</h3>
-    <ul>
-        <li><a href="/event/{{ event.id }}/subusers">Subusers</a></li>
-        <li><a href="/event/{{ event.id }}/shipping">Shipping</a></li>
-        {% if not event.batch.preevent_email_sent_at %}
-            <li><a href="/event/{{ event.id }}/preevent">Pre-Event Email</a></li>
-        {% endif %}
-        {% if me.is_admin %}
-            <li><a href="/event/{{ event.id }}/supplies">Supplies</a></li>
-            <li><a href="/event/{{ event.id }}/special">Special</a></li>
-        {% endif %}
-        {% if event.agreement_id and (me.is_admin or event.manager_username == me.username) %}
-            <li><a href="/event/{{ event.id }}/agreement">Agreement</a></li>
-        {% endif %}
-    </ul>
-</section>
-
-{# <p style="text-align:center;font-size:7px;text-transform:uppercase;"><img src="https://chart.googleapis.com/chart?cht=qr&chl={{ me.token_json }}&choe=UTF-8&chs=130x130" /><br />Your Login QR Code<br /><br />Use this to sign in on the Clear Android app</p> #}

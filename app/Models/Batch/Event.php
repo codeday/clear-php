@@ -406,27 +406,23 @@ class Event extends \Eloquent {
         return $plans;
     }
 
-    public function getScheduleAttribute()
+    public function getScheduleAttribute($includeInternal = false)
     {
-        // TODO get rid of this and add a proper dynamic implementation
-        // thanks snail!
-        $hour_modifier = ($this->id == "CeyUkiIak5GW" ? 1 : 0);
-
         $standard_schedule = [
             (Object)[
-                'time' => -1 + $hour_modifier,
+                'time' => -1,
                 'title' => 'Doors open',
                 'type' => 'event',
                 'description' => "Please don't show up earlier, you'll be waiting outside!"
             ],
             (Object)[
-                'time' => 0 + $hour_modifier,
+                'time' => 0,
                 'title' => 'Kickoff & Pitches',
                 'type' => 'event',
                 'description' => "Not sure what you want to work on? Our Code Evangelists will help you get some ideas and form a team."
             ],
             (Object)[
-                'time' => 1 + $hour_modifier,
+                'time' => 0.5,
                 'title' => 'Start Coding!',
                 'type' => 'event',
                 'description' => "After forming teams, it's time to get to work on your project! Our Code Evangelists and other mentors will be helping teams throughout the event."
@@ -507,12 +503,25 @@ class Event extends \Eloquent {
             ]
         ];
 
+        $internal = [
+            (Object)[
+                'time' => 0.25,
+                'title' => 'Sponsors',
+                'type' => 'internal',
+                'description' => ''
+            ]
+        ];
+
         if (!$this->hide_default_workshops) {
             $standard_schedule = array_merge($standard_schedule, $workshops);
         }
 
         if (!$this->hide_meals){
             $standard_schedule = array_merge($standard_schedule, $meals);
+        }
+
+        if ($includeInternal) {
+            $standard_schedule = array_merge($standard_schedule, $internal);
         }
 
         // Add timestamp/hour/day to generated array
@@ -531,6 +540,7 @@ class Event extends \Eloquent {
         // Get activities
         $activities = [];
         foreach ($this->activities as $activity) {
+            if ($activity->type == 'internal' && !$includeInternal) continue;
             $activity->timestamp->tz = $this->region->timezone;
             $activities[] = (object)[
                 'time' => $activity->time,

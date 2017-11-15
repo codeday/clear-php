@@ -1,15 +1,10 @@
 {% extends "template.twig" %}
-{% block title %}Print-Friendly Overview // {{ event.full_name }}{% endblock %}
+{% block title %}Run of Show // {{ event.full_name }}{% endblock %}
 {% block section %}event{% endblock %}
 {% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
 {% block content %}
 <header>
-  <h2>Print-Friendly Overview</h2>
-  <p>
-    An overview of your event. Your notes are
-    appended just before the emergency contact
-    info.<br>
-    <a href="https://gist.github.com/tjhorner/4c4cd686bd78d9e01dd4">Formatting Cheatsheet</a><br>
+  <h2>Run of Show</h2>
     <a href="#" onclick="printRaw()">Print</a> <a href="./overview/raw">Raw</a>
   </p>
 </header>

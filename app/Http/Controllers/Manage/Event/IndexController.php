@@ -54,16 +54,4 @@ class IndexController extends \CodeDay\Clear\Http\Controller {
         $event->save();
         return \Redirect::to('/event/'.$event->id);
     }
-
-    public function postNotes()
-    {
-        $event = \Route::input('event');
-
-        $event->notes = \Input::get('notes');
-        $event->public_notes = \Input::get('public_notes');
-        $event->save();
-
-        return \Redirect::to('/event/'.$event->id);
-    }
-
 }

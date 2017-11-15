@@ -48,6 +48,7 @@
         <div class="field">
             <label for="type">Type</label>
             <select name="type" id="type">
+                <option value="internal" {% if default_type == 'internal' %}selected{% endif %}>Internal (Not Shown)</option>
                 <option value="workshop" {% if default_type == 'workshop' %}selected{% endif %}>Workshop</option>
                 <option value="speech" {% if default_type == 'speech' %}selected{% endif %}>Speech</option>
                 <option value="event" {% if default_type == 'event' %}selected{% endif %}>Other Event</option>
@@ -57,19 +58,24 @@
         <div class="field">
             <label for="time">Time</label>
             <select name="time" id="time">
-                {% for i in 0..23 %}
+                {% for i in -4..23 %}
                     {% set real_hour = i %}
                     {% set period = 'pm' %}
                     {% if i >= 12 %}
                         {% set period = 'am' %}
                         {% set real_hour = i - 12 %}
+                    {% elseif i < 0 %}
+                        {% set period = 'am (pre)' %}
+                        {% set real_hour = 12 + i %}
                     {% endif %}
 
                     {% if i == 0 or i == 12 %}
                         {% set real_hour = 12 %}
                     {% endif %}
-                    <option value="{{ i }}" {% if default_time == i %}selected{% endif %}>{{ real_hour }}{{ period }}</option>
+                    <option value="{{ i }}" {% if default_time == i %}selected{% endif %}>{{ real_hour }}:00{{ period }}</option>
+                    <option value="{{ i+0.25 }}" {% if default_time == i+0.5 %}selected{% endif %}>{{ real_hour }}:15{{ period }}</option>
                     <option value="{{ i+0.5 }}" {% if default_time == i+0.5 %}selected{% endif %}>{{ real_hour }}:30{{ period }}</option>
+                    <option value="{{ i+0.75 }}" {% if default_time == i+0.5 %}selected{% endif %}>{{ real_hour }}:45{{ period }}</option>
                 {% endfor %}
             </select>
             <span class="help">The time the activity is being held.</span>

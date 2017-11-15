@@ -32,6 +32,7 @@ use CodeDay\Clear\Models;
         \Route::controller('/preevent', 'PreeventController');
         \Route::controller('/subscriptions', 'SubscriptionsController');
         \Route::controller('/overview', 'OverviewController');
+        \Route::controller('/notes', 'NotesController');
         \Route::controller('/slack', 'SlackController');
         \Route::controller('/spotify', 'SpotifyController');
 
@@ -59,7 +60,6 @@ use CodeDay\Clear\Models;
         \Route::get('/data.json', 'DataController@getIndex');
         \Route::post('/update-registration-status', 'IndexController@postUpdateRegistrationStatus');
         \Route::post('/update-waitlist-status', 'IndexController@postUpdateWaitlistStatus');
-        \Route::post('/notes', 'IndexController@postNotes');
 
         \Route::group(['before' => 's5_admin'], function () {
             \Route::controller('supplies', 'SuppliesController');

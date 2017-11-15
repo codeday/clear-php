@@ -1,0 +1,35 @@
+{% extends "template.twig" %}
+{% block title %}Show Notes // {{ event.full_name }}{% endblock %}
+{% block section %}event{% endblock %}
+{% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+    <h2>Show Notes</h2>
+    <p>
+        Show notes will be stored and rendered with your run of event. Pre-event, they're a good place to keep track
+        of any special considerations. At the event, this is a good place to store information like conduct warnings.
+    </p>
+    </header>
+
+    <form action="/event/{{ event.id }}/notes" method="post" class="notes" style="padding-top: 0">
+        <div class="field">
+            <textarea name="notes" class="markdown" style="height: 300px">{{ event.notes }}</textarea>
+        </div><br />
+        <input type="submit" value="Save"/>
+
+        <h3>Debrief Notes</h3>
+        <div class="field">
+            <textarea name="public_notes" class="markdown">{{ event.public_notes }}</textarea>
+            <span class="help">(<a href="/tools/tidbits/{{ event.region.id }}">Shared with future RMs.</a>)</span>
+        </div>
+        <input type="submit" value="Save"/>
+    {{ csrf|raw }}</form>
+    {% if regNotes|length > 0 %}
+        <h3>Attendee Notes</h3>
+        <ul>
+            {% for reg in regNotes %}
+                <li>{{ reg.name }}: {{ reg.notes }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

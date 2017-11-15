@@ -1,91 +1,102 @@
 <div id="overview">
   <div class="logo">
-    <img src="https://studentrnd.org/assets/img/press/assets/brand/codeday_logo.png">
+    <img src="https://srnd.org/assets/img/press/assets/brand/codeday_logo.png">
     <div class="float-right">
-      <!-- Hacky fix -->
       <span class="float-right">{{ event.name }}</span><br>
-      {{ event.starts_at|date('F j') }}-{{ event.ends_at|date('j') }}, noon-noon
+      Run of Show
     </div>
   </div>
-  <b>Venue</b>
-    {% if event.venue %}
-      <div class="indent-1">{{ event.venue.name }}</div>
-      <div class="indent-1">{{ event.venue.address_1 }}</div>
-      {% if event.venue.address_2 %}<div class="indent-1">{{ event.venue.address_2 }}</div>{% endif %}
-      <div class="indent-1">{{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.postal }}</div>
-      <br>
-      <div class="indent-1"><b>Venue Contact</b></div>
-        <div class="indent-2">{{ event.venue_contact_first_name }} {{ event.venue_contact_last_name }}</div>
-        <div class="indent-2"><a href="tel:{{ event.venue_contact_phone }}">{{ event.venue_contact_phone }}</a></div>
-        <div class="indent-2"><a href="mailto:{{ event.venue_contact_email }}">{{ event.venue_contact_email }}</a></div>
-    {% else %}
-      <div class="indent-1"><i>No venue... yet</i></div>
-    {% endif %}
 
-  <br>
-
-  <b>Sponsors</b>
-    {% for sponsor in event.sponsors %}
-      <div class="indent-1"><a href="{{ sponsor.url }}">{{ sponsor.name }}</a></div>
-      <div class="indent-1">{{ sponsor.blurb }}</div>
-      <div class="indent-1">{{ sponsor.description }}</div>
-    {% endfor %}
-    {% if event.sponsors|length < 1 %}
-      <div class="indent-1"><i>No sponsors</i></div>
-    {% endif %}
-  <br>
-
-  <b>Personnel</b>
-    <div class="indent-1"><b>Regional Manager</b></div>
-      <div class="indent-2">{{ event.manager.name }}</div>
-      <div class="indent-2"><a href="tel:{{ event.manager.phone }}">{{ event.manager.phone }}</a></div>
-      <div class="indent-2"><a href="mailto:{{ event.manager.email }}">{{ event.manager.email }}</a></div>
-      {% if not event.manager %}
-        <div class="indent-2"><i>No RM</i></div>
+  <div style="text-align: center; font-weight: 700;margin-top:2rem;margin-bottom:2rem">
+      {{ event.starts_at|date('F j, Y') }} @ 10am &mdash; {{ event.ends_at|date('F j, Y') }} @ 2pm<br />
+      {% if event.venue %}
+        At {{ event.venue.name }} {{ event.venue.address_1 }} {{ event.venue.address_2 }}
+        {{ event.venue.city }} {{ event.venue.state }} {{ event.venue.postal }}
       {% endif %}
-    <br>
-    <div class="indent-1"><b>Evangelist</b></div>
-      <div class="indent-2">{{ event.evangelist.name }}</div>
-      <div class="indent-2"><a href="tel:{{ event.evangelist.phone }}">{{ event.evangelist.phone }}</a></div>
-      <div class="indent-2"><a href="mailto:{{ event.evangelist.email }}">{{ event.evangelist.email }}</a></div>
-      {% if not event.evangelist %}
-        <div class="indent-2"><i>No evangelist</i></div>
-      {% endif %}
-    <br>
-    <div class="indent-1"><b>Volunteers</b></div>
-      {% for grant in event.grants %}
-        <div class="indent-2">{{ grant.user.name }}</div>
-        <div class="indent-2"><a href="tel:{{ grant.user.phone }}">{{ grant.user.phone }}</a></div>
-        <div class="indent-2"><a href="mailto:{{ grant.user.email }}">{{ grant.user.email }}</a></div>
-        <br>
-      {% endfor %}
-      {% if event.grants|length < 1 %}
-        <div class="indent-2"><i>No volunteers</i></div>
-        <br>
-      {% endif %}
+  </div>
 
-  <div class="overview-notes">
+  <h2>Directory</h2>
+    <style>
+        table { border-collapse: collapse; }
+        table td, table th { border: 1px solid #ccc; padding: 0.5rem; text-align: left }
+    </style>
+    <table>
+        <tbody>
+            <tr>
+                <th>General Public</th>
+                <td>Public Contact Number</td>
+                <td>888-CODE-230</td>
+            </tr>
+            <tr>
+                <th>Manager</th>
+                <td>{{ event.manager.name }}</td>
+                <td>{{ event.manager.phone }}</td>
+            </tr>
+            {% if event.manager_username != event.evangelist_username %}
+                <tr>
+                    <th>Day-Of Lead</th>
+                    <td>{{ event.evangelist.name }}</td>
+                    <td>{{ event.evangelist.phone }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <th>Venue</th>
+                <td>{{ event.venue_contact_first_name }} {{ event.venue_contact_last_name }}</td>
+                <td>{{ event.venue_contact_phone }}</td>
+            </tr>
+
+            {% for grant in event.grants %}
+                <tr>
+                    <th>Event Staff</th>
+                    <td>{{ grant.user.name }}</td>
+                    <td>{{ grant.user.phone }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+  {% if event.notes or regNotes|length > 0 %}
+    <h2>Show Notes</h2>
     {{ event.notes|markdown|raw }}
-    {% if not event.notes %}
-      <i>No event notes</i>
-    {% endif %}
 
     {% if regNotes|length > 0 %}
-        <br /><br /><b>Registrant Notes</b>
+        <h3>Attendee Notes</h3>
         <ul>
             {% for reg in regNotes %}
                 <li>{{ reg.name }}: {{ reg.notes }}</li>
             {% endfor %}
         </ul>
     {% endif %}
-  </div>
+  {% endif %}
 
-  <br>
+    <h2>Schedule</h2>
+    <table>
+        <tbody>
+            {% for day, schedule in event.getScheduleAttribute(true) %}
+                <tr><th colspan="4">{{ day }}</th></tr>
+                {% for activity in schedule %}
+                    <tr>
+                        <th>{{ (event.starts_at + (activity.time*60*60))|date('h:ia') }}</th>
+                        <th>{{ activity.title }}</th>
+                        <td>{% if activity.type == 'event' %}Public{% else %}{{ activity.type|title }}{% endif %}</td>
+                        <td>
+                            <p>{{ activity.description }}</p>
+                            {% if activity.type == 'internal' and activity.title == 'Sponsors' %}
+                                {% for sponsor in event.sponsors %}
+                                    <p><strong>{{ sponsor.name }}:</strong>
+                                    {{ sponsor.description }}</p>
+                                {% endfor %}
+                            {% endif %}
+                            {% if activity.url %}
+                                <p>{{ activity.url }}</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
 
-  <b class="emergency">Emergency Contact (for parents)</b>
-    <div class="indent-1">
-      <a href="tel:888CODE230" class="emergency">(888) CODE-230</a>
-    </div>
 
   <style>
     #overview{
