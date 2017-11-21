@@ -18,9 +18,7 @@ if (!\App::runningInConsole() ||
     \View::share('email_templates', Models\EmailTemplate::all());
     \View::share('email_list_types', Services\Email::GetToListTypes());
     \View::share('loaded_batch', Models\Batch::Loaded());
-    \View::share('all_batches', Models\Batch::orderBy('starts_at', 'ASC')->get());
     \View::share('all_regions', Models\Region::all());
-    \View::share('all_applications', Models\Application::all());
     \View::share('managed_batch', Models\Batch::Managed());
 }
 

@@ -124,6 +124,7 @@ class Event extends ModelContract
                 'name'          => 'Registration Info',
                 'description'   => 'Information about the state of registrations',
                 'example'       => '{ is_open: true }',
+                'rich'          => true,
                 'value'         => function ($model) {
                     return (object)[
                         'estimate' => $model->registration_estimate,
@@ -142,6 +143,7 @@ class Event extends ModelContract
                                  . ' though not always, be someone on-site, such as an Evangelist.',
                 'example'       => '15551231234',
                 'requires'      => ['internal'],
+                'rich'          => true,
                 'value'         => function ($model) { return $model->emergency_phone; }
             ],
 
@@ -158,6 +160,7 @@ class Event extends ModelContract
                 'description'   => 'Additional information included by the RM about the event',
                 'example'       => 'There is no parking on-site! We recommend taking a bus.',
                 'requires'      => ['internal'],
+                'rich'          => true,
                 'value'         => function($model) { return $model->preevent_additional; }
             ],
 
@@ -179,6 +182,7 @@ class Event extends ModelContract
             'is_early_bird_pricing' => [
                 'name'          => 'Is Early Bird Pricing',
                 'description'   => 'True if early bird pricing is in effect.',
+                'rich'          => true,
                 'value'         => function ($model) { return $model->is_early_bird_pricing; }
             ],
 
@@ -191,8 +195,8 @@ class Event extends ModelContract
             ],
 
             'sponsors' => [
-                'name'          => 'Custom CSS',
-                'description'   => 'Custom CSS for inclusion on the main site.',
+                'name'          => 'Sponsors',
+                'description'   => 'Per-event sponsors.',
                 'example'       => '{ ... }',
                 'rich'          => true,
                 'value'         => function ($model) { return $model->sponsors_info; }
@@ -202,8 +206,8 @@ class Event extends ModelContract
                 'name'          => 'Custom CSS',
                 'description'   => 'Custom CSS for inclusion on the main site.',
                 'requires'      => ['internal'],
-                'rich'          => true,
                 'example'       => '* { display: none; }',
+                'rich'          => true,
                 'value'         => function ($model) { return $model->custom_css; }
             ],
 
@@ -229,6 +233,7 @@ class Event extends ModelContract
                 'name'          => 'Cost',
                 'description'   => 'The price per ticket.',
                 'example'       => '10.00',
+                'rich'          => true,
                 'value'         => function ($model) { return $model->cost; }
             ],
 

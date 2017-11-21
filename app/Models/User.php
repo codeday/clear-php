@@ -69,23 +69,28 @@ class User extends \Eloquent {
         return \Session::has('s5_username');
     }
 
+    private static $_me = null;
     public static function me()
     {
-        if (!\Session::has('s5_username')) {
-            self::api()->RequireLogin(['extended']);
-            \Session::set('s5_username', self::api()->User->me()->username);
+        if (!isset(self::$_me)) {
+            if (!\Session::has('s5_username')) {
+                self::api()->RequireLogin(['extended']);
+                \Session::set('s5_username', self::api()->User->me()->username);
 
-            $me = self::fromS5Username(\Session::get('s5_username'));
-            if (!$me->logged_in_at) {
-                $me->wasFirstLogin = true;
+                $me = self::fromS5Username(\Session::get('s5_username'));
+                if (!$me->logged_in_at) {
+                    $me->wasFirstLogin = true;
+                }
+                $me->logged_in_at = Carbon::now();
+                $me->save();
+            } else {
+                $me = self::fromS5Username(\Session::get('s5_username'));
             }
-            $me->logged_in_at = Carbon::now();
-            $me->save();
-        } else {
-            $me = self::fromS5Username(\Session::get('s5_username'));
+
+            self::$_me = $me;
         }
 
-        return $me;
+        return self::$_me;
     }
 
     public static function fromToken($token)

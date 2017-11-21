@@ -7,6 +7,7 @@ class ApplicationsController extends \CodeDay\Clear\Http\Controller {
 
     public function getIndex()
     {
+        \View::share('all_applications', Models\Application::all());
         return \View::make('tools/applications/index');
     }
 

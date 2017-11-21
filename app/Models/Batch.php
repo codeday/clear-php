@@ -61,27 +61,35 @@ class Batch extends \Eloquent {
 
     public static function Loaded()
     {
-        return self::where('is_loaded', '=', true)->first();
+        return \Cache::remember('loaded', 60, function(){
+            return self::where('is_loaded', '=', true)->first();
+        });
     }
 
+    private static $_managed = null;
     public static function Managed()
     {
-        if (!\Session::get('managed_batch_id') ||
-            !self::where('id', '=', \Session::get('managed_batch_id'))->exists()) {
-            \Session::set('managed_batch_id', self::Loaded()->id);
+        if (!isset(self::$_managed)) {
+            if (!\Session::get('managed_batch_id') ||
+                !self::where('id', '=', \Session::get('managed_batch_id'))->exists()) {
+                \Session::set('managed_batch_id', self::Loaded()->id);
+            }
+
+            $batch = self::where('id', '=', \Session::get('managed_batch_id'))->with('events')->first();
+
+            if ((User::is_logged_in() && !User::me()->is_admin)
+                && count(User::me()->getManagedEvents($batch)) == 0
+                && count(User::me()->managed_batches) > 0) {
+                $batches = User::me()->managed_batches;
+                $most_recent_batch = $batches[count($batches) - 1];
+                \Session::set('managed_batch_id', $most_recent_batch->id);
+                $batch = self::where('id', '=', \Session::get('managed_batch_id'))->with('events')->first();
+            }
+
+            self::$_managed = $batch;
         }
 
-        $batch = self::find(\Session::get('managed_batch_id'));
-
-        if ((User::is_logged_in() && !User::me()->is_admin)
-            && count(User::me()->getManagedEvents($batch)) == 0
-            && count(User::me()->managed_batches) > 0) {
-            $batches = User::me()->managed_batches;
-            $most_recent_batch = $batches[count($batches) - 1];
-            \Session::set('managed_batch_id', $most_recent_batch->id);
-        }
-
-        return self::find(\Session::get('managed_batch_id'));
+        return self::$_managed;
     }
 
     public function manage()

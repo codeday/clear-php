@@ -93,9 +93,14 @@ class Event extends \Eloquent {
             ->first();
     }
 
+    protected $_overflowFor = null;
     public function getOverflowForAttribute()
     {
-        return self::where('id', '=', $this->overflow_for_id)->first();
+        if (!isset($this->_overflowFor)) {
+            $this->_overflowFor = self::where('id', '=', $this->overflow_for_id)->first();
+        }
+
+        return $this->_overflowFor;
     }
 
     public function overflowEvents()
@@ -189,6 +194,17 @@ class Event extends \Eloquent {
     public function region()
     {
         return $this->belongsTo('\CodeDay\Clear\Models\Region', 'region_id', 'id');
+    }
+
+    private static $_regions;
+    public function getRegionAttribute()
+    {
+        if (!isset(self::$_regions)) {
+            self::$_regions = Models\Region::get();
+        }
+
+        $regionId = $this->region_id;
+        return self::$_regions->filter(function($x) use ($regionId) { return $x->id == $regionId; })->values()[0];
     }
 
     public function specialLinks()
@@ -327,9 +343,12 @@ class Event extends \Eloquent {
         return $subtraction;
     }
 
-    public function batch()
+    public function getBatchAttribute()
     {
-        return $this->belongsTo('\CodeDay\Clear\Models\Batch', 'batch_id', 'id');
+        $batchId = $this->batch_id;
+        return \Cache::remember('batch_'.$this->batch_id, 30, function() use ($batchId) {
+            return Models\Batch::where('id', '=', $batchId)->firstOrFail();
+        });
     }
 
     public function grants()

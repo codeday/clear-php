@@ -58,15 +58,19 @@ class Region extends \Eloquent {
         }
     }
 
+    private static $_allEvents = null;
     public function getCurrentEventAttribute()
     {
+        if (!isset(self::$_allEvents)) {
+            self::$_allEvents = Batch\Event::where('batch_id', '=', Batch::Loaded()->id)
+                ->whereNull('overflow_for_id')
+                ->get();
+        }
         if ($this->_event_override) {
             return $this->_event_override;
         } else {
-            return Batch\Event::where('region_id', '=', $this->id)
-                ->where('batch_id', '=', Batch::Loaded()->id)
-                ->whereNull('overflow_for_id')
-                ->first();
+            $id = $this->id;
+            return self::$_allEvents->filter(function($x) use ($id) { return $x->region_id == $id; })->values()[0];
         }
     }
 }

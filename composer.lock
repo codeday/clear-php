@@ -2939,16 +2939,16 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v2.7.31",
+            "version": "v2.7.38",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "936529dea4ebedcfe577700b6079a75eb918d21f"
+                "reference": "d90987b0ee6b1fd03ee8237cc1aefe7b10c8e194"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/936529dea4ebedcfe577700b6079a75eb918d21f",
-                "reference": "936529dea4ebedcfe577700b6079a75eb918d21f",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/d90987b0ee6b1fd03ee8237cc1aefe7b10c8e194",
+                "reference": "d90987b0ee6b1fd03ee8237cc1aefe7b10c8e194",
                 "shasum": ""
             },
             "require": {
@@ -2984,7 +2984,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-01T20:44:56+00:00"
+            "time": "2017-10-29T09:49:53+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -3479,16 +3479,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v2.7.31",
+            "version": "v2.7.38",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "4ff94e7b24aef29d20e41d741f1ed7d507998455"
+                "reference": "2abb6f53d60463418461664cf5490b25a98a470d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/4ff94e7b24aef29d20e41d741f1ed7d507998455",
-                "reference": "4ff94e7b24aef29d20e41d741f1ed7d507998455",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/2abb6f53d60463418461664cf5490b25a98a470d",
+                "reference": "2abb6f53d60463418461664cf5490b25a98a470d",
                 "shasum": ""
             },
             "require": {
@@ -3537,7 +3537,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2017-06-14T16:20:11+00:00"
+            "time": "2017-11-07T14:04:08+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",

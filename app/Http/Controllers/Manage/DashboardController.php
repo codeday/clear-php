@@ -26,7 +26,6 @@ class DashboardController extends \CodeDay\Clear\Http\Controller {
             return count($b->registrations_this_week) - count($a->registrations_this_week);
         });
 
-
         return \View::make('dashboard', ['recent_registrations' => $recentRegistrations, 'leaderboard' => $leaderboard]);
     }
 
@@ -99,5 +98,4 @@ class DashboardController extends \CodeDay\Clear\Http\Controller {
         \Session::flash('status_message', 'Successfully registered.');
         return \Redirect::back();
     }
-
 }

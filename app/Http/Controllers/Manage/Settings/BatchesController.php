@@ -7,6 +7,7 @@ class BatchesController extends \CodeDay\Clear\Http\Controller {
 
     public function getIndex()
     {
+        \View::share('all_batches', Models\Batch::orderBy('starts_at', 'ASC')->get());
         return \View::make('settings/batches/index');
     }
 
