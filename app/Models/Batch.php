@@ -70,8 +70,7 @@ class Batch extends \Eloquent {
     public static function Managed()
     {
         if (!isset(self::$_managed)) {
-            if (!\Session::get('managed_batch_id') ||
-                !self::where('id', '=', \Session::get('managed_batch_id'))->exists()) {
+            if (!\Session::get('managed_batch_id')) {
                 \Session::set('managed_batch_id', self::Loaded()->id);
             }
 
@@ -83,10 +82,11 @@ class Batch extends \Eloquent {
                 $batches = User::me()->managed_batches;
                 $most_recent_batch = $batches[count($batches) - 1];
                 \Session::set('managed_batch_id', $most_recent_batch->id);
-                $batch = self::where('id', '=', \Session::get('managed_batch_id'))->with('events')->first();
+                $batch = $most_recent_batch;
             }
 
             self::$_managed = $batch;
+            \View::share('managed_batch', $batch); // HACK
         }
 
         return self::$_managed;
@@ -94,6 +94,7 @@ class Batch extends \Eloquent {
 
     public function manage()
     {
+        self::$_managed = $this;
         \Session::set('managed_batch_id', $this->id);
     }
 
