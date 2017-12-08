@@ -70,7 +70,12 @@ class Region extends \Eloquent {
             return $this->_event_override;
         } else {
             $id = $this->id;
-            return self::$_allEvents->filter(function($x) use ($id) { return $x->region_id == $id; })->values()[0];
+            $events = self::$_allEvents->filter(function($x) use ($id) { return $x->region_id == $id; })->values();
+            if(count($events) > 0) {
+                return $events[0];
+            } else {
+                return null;
+            }
         }
     }
 }
