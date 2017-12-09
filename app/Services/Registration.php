@@ -21,13 +21,30 @@ use \CodeDay\Clear\ModelContracts;
 class Registration {
     public static function CreateRegistrationRecord(Models\Batch\Event $event, $firstName, $lastName, $email, $type)
     {
+        $past_registrations = Models\Batch\Event\Registration::orderBy('created_at', 'desc')->where('email', $email)->get();
+        
         $reg = new Models\Batch\Event\Registration;
         $reg->batches_event_id = $event->id;
         $reg->first_name = $firstName;
         $reg->last_name = $lastName;
-        $reg->email = $email;
+        $reg->email = strtolower($email);
         $reg->type = $type;
         $reg->save();
+
+        if(count($past_registrations) > 0) {
+            foreach($previous_registration in $past_registrations) {
+                $devices = $previous_registration->devices;
+                
+                foreach($devices as $device) {
+                    if($device->service == "app") {
+                        Firebase::SendMessage([
+                            "type" => "sign_in",
+                            "id" => $reg->id
+                        ], $device->token);
+                    }
+                }
+            }
+        }
     
         try {
             (new \Customerio\Api(\config('customerio.site'), \config('customerio.secret'), new \Customerio\Request))
@@ -90,7 +107,7 @@ class Registration {
         $forDescriptor = implode(', ', array_map(function($reg) {
             return $reg->name;
         }, $registrations));
-        
+
         $forDescriptor = 'CodeDay '.$event->name. ' Registration: '.$forDescriptor;
 
         // Make the charge

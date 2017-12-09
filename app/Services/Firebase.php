@@ -35,6 +35,15 @@ class Firebase {
     } catch (\Exception $ex) {}
   }
 
+  public static function SendMessage($payload, $to) {
+    $payload = [
+      'data' => $payload,
+      'to' => $to
+    ];
+
+    self::Post('send', $payload);
+  }
+
   public static function SendNotification($title, $text, $to) {
     $payload = [
       'notification' => [
