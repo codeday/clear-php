@@ -82,6 +82,42 @@ class Registration {
         }
     }
 
+    public static function ChargeBitcoinSourceForRegistrations($registrations, $totalCost, $source)
+    {
+        $event = $registrations[0]->event;
+
+        // Build the description for Stripe
+        $forDescriptor = implode(', ', array_map(function($reg) {
+            return $reg->name;
+        }, $registrations));
+        
+        $forDescriptor = 'CodeDay '.$event->name. ' Registration: '.$forDescriptor;
+
+        // Make the charge
+        \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
+        $charge = \Stripe\Charge::create([
+            'currency' => 'usd',
+            'amount' => intval($totalCost * 100),
+            'source' => $source,
+            'description' => $forDescriptor,
+            'metadata' => [
+                'registrations_count' => count($registrations),
+                'region' => $event->webname
+            ]
+        ]);
+
+        $stripeFee = ($totalCost * 0.027) + 0.30;
+        $amountReceived = $totalCost - $stripeFee;
+
+        // Update the registrants' billing status
+        foreach ($registrations as $reg) {
+            $reg->stripe_id = $charge->id;
+            $reg->amount_paid = $totalCost / count($registrations);
+            $reg->is_earlybird_pricing = $reg->event->is_earlybird_pricing;
+            $reg->save();
+        }
+    }
+
     public static function CancelRegistration(Models\Batch\Event\Registration $registration,
                                               $andRefund = true, $cancelRelated = false)
     {

@@ -61,9 +61,10 @@ class Batch extends \Eloquent {
 
     public static function Loaded()
     {
-        return \Cache::remember('loaded', 60, function(){
-            return self::where('is_loaded', '=', true)->first();
-        });
+        return self::where('is_loaded', '=', true)->first();        
+        // return \Cache::remember('loaded', 60, function(){
+        //     return self::where('is_loaded', '=', true)->first();
+        // });
     }
 
     private static $_managed = null;
@@ -89,6 +90,7 @@ class Batch extends \Eloquent {
             \View::share('managed_batch', $batch); // HACK
         }
 
+        if(self::$_managed == null) self::$_managed = self::Loaded();
         return self::$_managed;
     }
 

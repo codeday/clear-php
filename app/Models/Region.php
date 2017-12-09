@@ -66,6 +66,7 @@ class Region extends \Eloquent {
                 ->whereNull('overflow_for_id')
                 ->get();
         }
+        
         if ($this->_event_override) {
             return $this->_event_override;
         } else {

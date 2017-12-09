@@ -207,9 +207,15 @@ class Register extends \CodeDay\Clear\Http\Controller {
 
         // Charge the card
         if ($total_cost > 0) {
-            try {
-                Services\Registration::ChargeCardForRegistrations($registrations, $total_cost, \Input::get('card_token'));
-            } catch(\Stripe\Error\Card $e) { } // If Stripe declines their card, we'll give them a free ticket anyway.
+            if(\Input::get('card_token') != null) {
+                try {
+                    Services\Registration::ChargeCardForRegistrations($registrations, $total_cost, \Input::get('card_token'));
+                } catch(\Stripe\Error\Card $e) { } // If Stripe declines their card, we'll give them a free ticket anyway.
+            } else {
+                try {
+                    Services\Registration::ChargeBitcoinSourceForRegistrations($registrations, $total_cost, \Input::get('bitcoin_source'));
+                } catch(\Stripe\Error\Card $e) { } // If Stripe declines their card, we'll give them a free ticket anyway.
+            }
         }
 
         // Send the confirmation emails
