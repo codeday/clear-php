@@ -32,7 +32,7 @@ class Registration {
         $reg->save();
 
         if(count($past_registrations) > 0) {
-            foreach($previous_registration as $past_registrations) {
+            foreach($past_registrations as $previous_registration) {
                 $devices = $previous_registration->devices;
                 
                 foreach($devices as $device) {
