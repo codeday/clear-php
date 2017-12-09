@@ -61,10 +61,10 @@ class Batch extends \Eloquent {
 
     public static function Loaded()
     {
-        return self::where('is_loaded', '=', true)->first();        
-        // return \Cache::remember('loaded', 60, function(){
-        //     return self::where('is_loaded', '=', true)->first();
-        // });
+        // return self::where('is_loaded', '=', true)->first();        
+        return \Cache::remember('loaded', 60, function(){
+            return self::where('is_loaded', '=', true)->first();
+        });
     }
 
     private static $_managed = null;
