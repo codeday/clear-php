@@ -118,6 +118,7 @@
                 <span class="region">{{ event.name }}</span>
             {% endif %}
         </h1>
+        <div id="updates"></div>
         <section class="menu off">
             <section class="batch">
                 <ul>
@@ -197,5 +198,12 @@
         });
       {% endif %}
     </script>
+    <script>
+        var HW_config = {
+            selector: "#updates",
+            account:  "xaBzA7"
+        }
+    </script>
+    <script async src="//cdn.headwayapp.co/widget.js"></script>
 </body>
 </html>

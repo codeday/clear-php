@@ -745,10 +745,17 @@ class Event extends \Eloquent {
 
     public function registrationsSortedBy($column, $order = 'desc')
     {
-      return Event\Registration::where('batches_event_id', '=', $this->id)
-        ->with("devices")
-        ->orderBy($column, $order)
-        ->get();
+        $q = Event\Registration::where('batches_event_id', '=', $this->id)
+            ->with("devices");
+
+        if ($column === "type")
+            $q->orderByRaw('FIELD(type, "student") ASC')->orderBy("type");
+        else
+          $q->orderBy($column, $order);
+
+        if ($column !== "created_at") $q->orderBy("created_at", "asc");
+
+        return $q->get();
     }
 
     public function getVenueAttribute()

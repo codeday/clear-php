@@ -14,10 +14,11 @@
         {% if event.registrations|length > 0 %}
             <h3>Current Attendees</h3>
             <p>Sort by:
+              <a href="/event/{{ event.id }}/registrations?sort=type">Type</a> (default),
               <a href="/event/{{ event.id }}/registrations?sort=id">ID</a>,
               <a href="/event/{{ event.id }}/registrations?sort=first_name">First Name</a>,
               <a href="/event/{{ event.id }}/registrations?sort=last_name">Last Name</a>,
-              <a href="/event/{{ event.id }}/registrations?sort=created_at&amp;order=desc">Date Registered</a> (default)
+              <a href="/event/{{ event.id }}/registrations?sort=created_at&amp;order=desc">Date Registered</a>
             </p>
             {{ a.attendees(registrations, true) }}
         {% endif %}

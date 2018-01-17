@@ -14,7 +14,7 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
           $order = \Input::get('order') == 'desc' ? 'desc' : 'asc';
           $registrations = $event->registrationsSortedBy($sort, $order);
         }else{
-          $registrations = $event->registrationsSortedBy("created_at");
+          $registrations = $event->registrationsSortedBy("type");
         }
         return \View::make('event/registrations/index', ['signature' => $this->getListSignature(), 'registrations' => $registrations]);
     }
