@@ -487,7 +487,7 @@ class Event extends \Eloquent {
                 'description' => "Totally new to coding? No problem! Attend this workshop and our Code Evangelists will walk you through creating your first game."
             ],
             (Object)[
-                'time' => 6.5 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
+                'time' => 7 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
                 'title' => 'CodeCup (presented by Splunk)',
                 'type' => 'workshop',
                 'url' => 'https://cup.codeday.org/',
