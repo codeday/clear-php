@@ -81,6 +81,25 @@ class Event extends \Eloquent {
         return $this->starts_at + (60 * 60 * 24);
     }
 
+    public function getAttendeesRequestingLoanersAttribute()
+    {
+        return \CodeDay\Clear\Models\Batch\Event\Registration::where('request_loaner', '=', true)
+            ->where('batches_event_id', '=', $this->id)
+            ->get();
+    }
+
+    public function getLoanersClaimedAttribute()
+    {
+        return \CodeDay\Clear\Models\Batch\Event\Registration::where('request_loaner', '=', true)
+            ->where('batches_event_id', '=', $this->id)
+            ->count();
+    }
+
+    public function getLoanersUnclaimedAttribute()
+    {
+        return max($this->loaners_available - $this->loaners_claimed, 0);
+    }
+
     public function getPreviousAttribute()
     {
         if (!$this->batch->previous) {

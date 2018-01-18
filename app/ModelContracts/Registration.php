@@ -102,6 +102,13 @@ class Registration extends ModelContract
                 'value'         => function($model) { return floatval($model->age); }
             ],
 
+            'request_loaner' => [
+                'name'          => 'Request Loaner?',
+                'description'   => 'If true, the person is requesting a loaner laptop.',
+                'example'       => 'true',
+                'value'         => function($model) { return boolval($model->request_loaner); }
+            ],
+
             'waiver_pdf' => [
                 'name'          => 'Waiver PDF',
                 'description'   => 'The PDF of the completed, signed waiver.',

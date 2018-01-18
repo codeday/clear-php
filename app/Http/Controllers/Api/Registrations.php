@@ -53,6 +53,8 @@ class Registrations extends ApiController {
         $registration->parent_phone = \Input::get('parent_phone');
         $registration->parent_secondary_phone = \Input::get('parent_secondary_phone');
     }
+
+    $registration->request_loaner = \Input::get('request_loaner') ? true : false;
     $registration->save();
     return json_encode(ModelContracts\Registration::Model($registration, $this->permissions));
   }

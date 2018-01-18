@@ -96,6 +96,18 @@ class Event extends ModelContract
                     }
             ],
 
+            'loaners' => [
+                'name'          => 'Loaner Computers',
+                'description'   => 'The total and available supply of loaner computers.',
+                'example'       => '{"total": 100, "unclaimed": 10}',
+                'value'         => function ($model) {
+                    return (object)[
+                        'total' => $model->loaners_available,
+                        'available' => $model->loaners_unclaimed
+                    ];
+                }
+            ],
+
             /* People */
             'manager' => [
                 'name'          => 'Manager',

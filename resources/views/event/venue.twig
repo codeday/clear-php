@@ -33,12 +33,18 @@
                 <input type="number" name="max_registrations" id="max_registrations" value="{{ event.max_registrations }}" placeholder="100" tabindex="9" />
                 <span class="help">The number of participants the venue supports.</span>
             </div>
+
+            <div class="field">
+                <label for="loaners_available">Loaner Computers</label>
+                <input type="number" name="loaners_available" id="loaners_available" value="{{ event.loaners_available }}" placeholder="25" tabindex="10" />
+                <span class="help">If there will be computers available for students to use on-site, indicate the number available.</span>
+            </div>
         </section>
         <section class="contact">
             <h3>Contact Information</h3>
-            <input type="text" name="venue_contact_first_name" id="venue_contact_first_name" placeholder="Amy" value="{{ event.venue_contact_first_name }}" tabindex="10" />
-            <input type="text" name="venue_contact_last_name" id="venue_contact_last_name" placeholder="Smith" value="{{ event.venue_contact_last_name }}" tabindex="11" />
-            <input type="text" name="venue_contact_email" id="venue_contact_email" placeholder="contact@myvenue.com" value="{{ event.venue_contact_email }}" tabindex="12" />
+            <input type="text" name="venue_contact_first_name" id="venue_contact_first_name" placeholder="Amy" value="{{ event.venue_contact_first_name }}" tabindex="11" />
+            <input type="text" name="venue_contact_last_name" id="venue_contact_last_name" placeholder="Smith" value="{{ event.venue_contact_last_name }}" tabindex="12" />
+            <input type="text" name="venue_contact_email" id="venue_contact_email" placeholder="contact@myvenue.com" value="{{ event.venue_contact_email }}" tabindex="13" />
             <input type="text" name="venue_contact_phone" id="venue_contact_phone" placeholder="5552342344" value="{{ event.venue_contact_phone }}" tabindex="13" />
         </section>
 
