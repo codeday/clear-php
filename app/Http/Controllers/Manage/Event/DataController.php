@@ -64,15 +64,15 @@ class DataController extends \CodeDay\Clear\Http\Controller {
         return [
             [
                 'name' => 'none',
-                'quantity' => $res['none'] ?? 0
+                'quantity' => $res['none'] ?? 0.001
             ],
             [
                 'name' => 'started',
-                'quantity' => $res['started'] ?? 0
+                'quantity' => $res['started'] ?? 0.001
             ],
             [
                 'name' => 'signed',
-                'quantity' => $res['signed'] ?? 0
+                'quantity' => $res['signed'] ?? 0.001
             ]
         ];
     }
