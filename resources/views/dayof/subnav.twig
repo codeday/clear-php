@@ -1,4 +1,5 @@
 <h2>Day-Of<br /><span class="confidential">Confidential</span></h2>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" />
 <div class="switcher">
     {% if me.is_admin %}
         {% set events = managed_batch.events %}
@@ -16,19 +17,32 @@
     {% endif %}
 </div>
 
-<section class="evangelism">
+<section class="checkin">
+    <h3><i class="fi-torsos-all-female"></i> Checkin/out</h3>
     <ul>
-        <li><a href="/dayof/checkin">Checkin</a></li>
-        <li><a href="#" class="new-registration-button">Register at the Door</a></li>
-        <li><a href="/dayof/deck/slides" target="_blank">Kickoff Slide Deck</a></li>
-        <li><a href="https://live.codeday.org/" target="_blank">Live Schedule Display</a></li>
-        <li><a href="/dayof/break">Break Checkout</a></li>
-        <li><a href="/dayof/support-calls">Support Call History</a></li>
-        <li><a href="/dayof/emergency">Emergency Contacts</a></li>
-        <li><a href="https://play.google.com/store/apps/details?id=org.srnd.codeday.clear.checkin" target="_blank">Android App</a></li>
+        <li><a href="/dayof/checkin">Main Doors</a></li>
+        <li><a href="/dayof/equipment">Equipment</a></li>
+        <li><a href="/dayof/break">Break</a></li>
+        <li><a href="#" class="new-registration-button">+ Register at the Door</a></li>
     </ul>
 </section>
-<p style="text-align:center;font-size:7px;text-transform:uppercase;"><img src="/dayof/checkin/configuration?cachebreak={{ random() }}" /><br />{{ event.name }} Config Barcode</p>
+
+<section class="displays">
+    <h3><i class="fi-projection-screen"></i> Display</h3>
+    <ul>
+        <li><a href="/dayof/deck/slides" target="_blank">Kickoff Slide Deck</a></li>
+        <li><a href="https://live.codeday.org/" target="_blank">Live Schedule Display</a></li>
+    </ul>
+</section>
+
+<section class="phone">
+    <h3><i class="fi-telephone"></i> Phone</h3>
+    <ul>
+        <li><a href="/event/{{ event.id }}/announcements" target="_blank">Push Announcement</a></li>
+        <li><a href="/dayof/support-calls">Support Call History</a></li>
+        <li><a href="/dayof/emergency">Emergency Contacts</a></li>
+    </ul>
+</section>
 
 <script type="text/javascript">
     $('#event-switcher').on('change', function(){

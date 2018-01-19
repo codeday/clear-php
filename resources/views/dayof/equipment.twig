@@ -1,0 +1,125 @@
+{% extends "template.twig" %}
+{% block title %}Equipment Checkout{% endblock %}
+{% block section %}dayof{% endblock %}
+{% block subnav %}{% include "dayof/subnav.twig" %}{% endblock %}
+{% block content %}
+        <header>
+            <h2>Equipment Checkin/out</h2>
+        </header>
+        <input type="text" id="search" placeholder="Search by name or email" value="" autocomplete="off" />
+        <div class="equipment-checkinout">
+            {% for registration in event.registrations %}
+                <div class="registration {% if registration.request_loaner %}reservation{% else %}no-reservation{% endif %}">
+                    <span class="name"><a href="/event/{{ registration.event.id }}/registrations/attendee/{{ registration.id }}" target="_blank">{{ registration.name }}</a></span>
+                    <span class="email">{{ registration.email }}</span>
+                    <span class="id">{{ registration.id }}</span>
+                    <span class="info">{% if registration.request_loaner %}Computer Reserved{% endif %}</span>
+                    <div class="equipment">
+                        <ul>
+                            {% for equipment in registration.equipment %}
+                                <li>
+                                    {{ equipment.equipment_id }}
+                                    <form method="post" action="/dayof/equipment/checkin" class="checkin">
+                                        <input type="hidden" name="equipment" value="{{ equipment.id }}" />
+                                        <input type="hidden" name="id" value="{{ registration.id }}" />
+                                        <input type="submit" value="In" />
+                                    {{csrf|raw}}</form>
+                                </li>
+                            {% endfor %}
+                            <li>
+                                <form method="post" action="/dayof/equipment/checkout" class="checkout">
+                                    <input name="equipment" class="equipment" value="" placeholder="Equipment ID" type="text" required />
+                                    <input type="hidden" name="id" value="{{ registration.id }}" />
+                                    <input type="submit" value="Out" />
+                                {{csrf|raw}}</form>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+{% endblock %}
+{% block scripts %}
+    <script type="application/javascript">
+        $(document).ready(function(){
+            $('#search').on('keyup', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var search = $(this).val();
+
+                $('.equipment-checkinout .registration').each(function(i, elem) {
+                    var name = "" + $(elem).children('.name').text();
+                    var email = "" + $(elem).children('.email').text();
+                    var id = "" + $(elem).children('.id').text();
+
+                    if (name.toUpperCase().indexOf(search.toUpperCase()) >= 0
+                            || email.toUpperCase().indexOf(search.toUpperCase()) >= 0
+                            || id.toUpperCase().indexOf(search.toUpperCase()) >= 0
+                        || search == "") {
+                        $(this).css('display', 'inline-block');
+                    } else {
+                        $(this).css('display', 'none');
+                    }
+                });
+
+                return false;
+            });
+
+            var checkInOutBuilder = function(action) {
+                return function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    try {
+                        var soundSuccess = new Audio('/assets/mp3/success.mp3');
+                    } catch(e) {}
+
+                    var _this = $(this);
+                    var id = $(this).children('input[name="id"]').val();
+                    var equipment = $(this).children('input[name="equipment"]').val();
+
+                    $.ajax({
+                        type: 'POST',
+                        dataType: 'json',
+                        url: '/dayof/equipment/'+action+'?event={{ event.id }}',
+                        data: {
+                            id: id,
+                            equipment: equipment,
+                            "_token": "{{csrf_token|raw}}"
+                        },
+                        success: function(data) {
+                            soundSuccess.play();
+                            if (action == "checkout") {
+                                var list = _this.closest('.registration').find('.equipment ul');
+                                var elem = $('<li>'+equipment+'<form method="post" action="/dayof/equipment/checkin" class="checkin">'+
+                                    '<input type="hidden" name="equipment" value="'+data.id+'" />'+
+                                    '<input type="hidden" name="id" value="'+id+'" />'+
+                                    '<input type="submit" value="In" />'+
+                                    '{{csrf|raw}}</form></li>')
+                                elem.find('form').on('submit', checkInOutBuilder('checkin'));
+                                list.prepend(elem);
+                                _this.find('input[type="text"]').val('');
+                            } else if (action == "checkin") {
+                                _this.closest('li').remove();
+                            }
+                        },
+                        error: function(error) {
+                            swal({
+                                title: 'Something has gone wrong.',
+                                text: error,
+                                type: 'error'
+                            });
+                        }
+                    });
+
+                    return false;
+                };
+            };
+
+            $('form.checkout').on('submit', checkInOutBuilder('checkout'));
+            $('form.checkin').on('submit', checkInOutBuilder('checkin'));
+        });
+    </script>
+{% endblock %}

@@ -122,7 +122,8 @@
                         else if (_this.parent('.registration').hasClass('student')) soundSuccess.play();
                         else soundStaff.play();
                     } else {
-                        soundCheckout.play();
+                        if (data.equipment) { soundFailure.play(); alert("Warning: Attendee has equipment checked-out!"); }
+                        else soundCheckout.play();
                     }
                 },
                 error: function(error) {
