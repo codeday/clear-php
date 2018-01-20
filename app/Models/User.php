@@ -93,6 +93,11 @@ class User extends \Eloquent {
         return self::$_me;
     }
 
+    public static function IsLoggedIn()
+    {
+        return (isset(self::$_me) || \Session::get('s5_username'));
+    }
+
     public static function fromToken($token)
     {
         list($username, $signature) = explode('$', base64_decode($token));

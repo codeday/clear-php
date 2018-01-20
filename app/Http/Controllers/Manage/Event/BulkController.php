@@ -1,7 +1,9 @@
 <?php
 namespace CodeDay\Clear\Http\Controllers\Manage\Event;
 
-use \CodeDay\Clear\Models;
+use CodeDay\Clear\Models;
+use CodeDay\Clear\Exceptions;
+use CodeDay\Clear\Services;
 
 class BulkController extends \CodeDay\Clear\Http\Controller {
     /**
@@ -9,20 +11,30 @@ class BulkController extends \CodeDay\Clear\Http\Controller {
      */
     public function getIndex()
     {
+        if (\Input::get('dl')) {
+            $contents = file_get_contents(\Input::get('dl'));
+            return $this->postIndex($contents);
+        }
         return \View::make('event/registrations/bulk/index');
     }
 
     /**
      * Uploads the CSV and shows a field mapping tool.
      */
-    public function postIndex()
+    public function postIndex($file = null)
     {
-        $file = file_get_contents(\Input::file('file'));
-        $fields = $this->rotate($this->strToCsv($file));
+        if (!isset($file)) {
+            $file = file_get_contents(\Input::file('file'));
+            unlink(\Input::file('file'));
+        }
 
-        unlink(\Input::file('file'));
+        $csv = $this->strToCsv($file);
+        if (trim(strtolower($csv[0][0])) == "first name") array_shift($csv);
 
-        return \View::make('event/registrations/bulk/fields', ['file' => $file, 'fields' => $fields]);
+        $fields = $this->rotate($csv);
+
+
+        return \View::make('event/registrations/bulk/fields', ['file' => $file, 'csv' => $csv, 'fields' => $fields]);
     }
 
     /**
@@ -30,62 +42,55 @@ class BulkController extends \CodeDay\Clear\Http\Controller {
      */
     public function postFinalize()
     {
-        $fields = array_flip(\Input::get('fields'));
-        $file = $this->strToCsv(trim(\Input::get('file')));
         $event = \Route::input('event');
-        foreach ($file as $line) {
-            $registration = new Models\Batch\Event\Registration;
-            foreach (['first_name', 'last_name', 'email', 'type', 'parent_name', 'parent_email', 'parent_phone',
-                      'parent_secondary_phone'] as $field) {
-                if (isset($fields[$field])) {
-                    $registration->$field = trim($line[intval($fields[$field])]);
-                }
+        $fields = array_flip(\Input::get('fields'));
+        $csv = $this->strToCsv(trim(\Input::get('file')));
+        if (trim(strtolower($csv[0][0])) == "first name") array_shift($csv);
+
+        // Only allow setting recognized fields
+        $recognizedFields = [
+            'first_name', 'last_name', 'email', 'type', 'parent_name', 'parent_email', 'parent_phone',
+            'parent_secondary_phone', 'phone', 'request_loaner'
+        ];
+        $fields = array_filter($fields,
+            function($elem) use ($recognizedFields) { return in_array($elem, $recognizedFields); },
+            ARRAY_FILTER_USE_KEY
+        );
+
+        // Reindex [0...n] => [fields[0]...fields[n]]
+        $csv = array_map(function($line) use ($fields) {
+            $x = [];
+            foreach ($fields as $field=>$i) {
+                $x[$field] = trim($line[$i]);
             }
+            return $x;
+        }, $csv);
 
-            if (!isset($registration->type) || !trim($registration->type)) {
-                $registration->type = 'student';
-            }
+        // Create registrations
+        $results = Services\Registration::RegisterGroup($csv, $event, Models\User::Me()->is_admin);
 
-            if (!in_array($registration->type, ['student', 'volunteer']) && !isset($registration->parent_email)) {
-                $registration->parent_no_info = true;
-            }
+        // Display exceptions
+        // TODO(@tylermenezes): There should be an actual display for this
+        if (count($results->Exceptions) > 0)
+            return implode("", array_map(function($x) { return "<li>".htmlentities($x)."</li>"; }, $results->Registrations))
+                    .implode("", array_map(function($x) { return "<li>".$x->getMessage()."</li>"; }, $results->Exceptions));
 
-            if (Models\User::Me()->is_admin && isset($fields['webname'])) {
-                $webname = $line[intval($fields['webname'])];
-                // TODO: This isn't very efficient
-                try {
-                    $event = Models\Batch\Event
-                        ::where('batch_id', '=', Models\Batch::Managed()->id)
-                        ->where(function($w) use ($webname) {
-                            return $w
-                                ->where('webname_override', '=', $webname)
-                                ->orWhere(function($w2) use ($webname) {
-                                    return $w2
-                                        ->where('region_id', '=', $webname)
-                                        ->whereNull('webname_override');
-                                });
-                        })
-                        ->orderBy('webname_override')
-                        ->first();
-                    $registration->batches_event_id = $event->id;
-                } catch (\Exception $ex) { echo "No webname $webname"; } // TODO: Better error handling
-            } else {
-                $registration->batches_event_id = $event->id;
-            }
-
-            $registration->save();
-        }
-
-        \Session::flash('status_message', count($file).' registrations added.');
+        // No exceptions!
+        \Session::flash('status_message', count($results->Registrations).' registrations added.');
         return \Redirect::to('/event/'.$event->id.'/registrations');
     }
 
     /**
      * Converts a string into a multi-dimensional array of CSV lines/columns.
      */
-    private function strToCsv($file)
+    private function strToCsv(string $file)
     {
-        return array_map('str_getcsv', explode("\n", str_replace("\r\n", "\n", $file)));
+        $csv = array_map('str_getcsv', explode("\n", trim(str_replace("\r\n", "\n", $file))));
+
+        // Remove empty lines
+        return array_filter($csv, function($line) {
+            return count(array_filter($line, function($elem){ return trim($elem) !== ""; })) > 0;
+        });
     }
 
     /**

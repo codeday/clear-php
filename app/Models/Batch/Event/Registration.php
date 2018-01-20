@@ -51,6 +51,11 @@ class Registration extends \Eloquent {
         return Services\Waiver::get($this);
     }
 
+    public function __toString()
+    {
+        return sprintf('"%s" <%s>', $this->name, $this->email);
+    }
+
     public function getRelatedRegistrationsAttribute()
     {
         if (!$this->stripe_id) {
@@ -140,7 +145,6 @@ class Registration extends \Eloquent {
             $model->{$model->getKeyName()} = $id;
         });
     }
-
     private static function generateUnambiguousRandomString($length = 10) {
         $characters = '234679abcdefghkmnpqruvwxy';
         $charactersLength = strlen($characters);

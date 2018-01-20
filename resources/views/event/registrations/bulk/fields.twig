@@ -14,11 +14,13 @@
                     <option value="first_name">First Name</option>
                     <option value="last_name">Last Name</option>
                     <option value="email">Email</option>
-                    <option value="type">Type</option>
                     <option value="parent_name">Parent Name</option>
                     <option value="parent_email">Parent Email</option>
                     <option value="parent_phone">Parent Phone</option>
                     <option value="parent_secondary_phone">Parent Secondary Phone</option>
+                    <option value="type">Type</option>
+                    <option value="phone">Student Phone</option>
+                    <option value="request_loaner">Request Loaner Computer?</option>
                     {% if me.is_admin %}
                         <option value="webname">Webname*</option>
                     {% endif %}
@@ -29,4 +31,20 @@
         <input type="hidden" name="file" value="{{ file|escape('html_attr') }}" />
         <input type="submit" value="Upload" />
     {{ csrf|raw }}</form>
+
+    <h4>CSV Data</h4>
+    <style>
+        table.import td { border: 1px solid black; }
+    </style>
+    <table class="import">
+        <tbody>
+            {% for row in csv %}
+                <tr>
+                    {% for col in row %}
+                        <td>{{ col }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

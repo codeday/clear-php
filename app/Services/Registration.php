@@ -1,10 +1,12 @@
 <?php
 namespace CodeDay\Clear\Services;
 
-use \Carbon\Carbon;
-use \CodeDay\Clear\Models;
-use \CodeDay\Clear\Services;
-use \CodeDay\Clear\ModelContracts;
+use Carbon\Carbon;
+use CodeDay\Clear\Models;
+use CodeDay\Clear\Services;
+use CodeDay\Clear\Exceptions;
+use CodeDay\Clear\ModelContracts;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Registration CRUD interface for front-end registration flows.
@@ -19,10 +21,26 @@ use \CodeDay\Clear\ModelContracts;
  * @license     Perl Artistic License 2.0
  */
 class Registration {
-    public static function CreateRegistrationRecord(Models\Batch\Event $event, $firstName, $lastName, $email, $type)
+    public static function CreateRegistrationRecord(Models\Batch\Event $event,
+        string $firstName, string $lastName, $email = null, $type = null)
     {
-        $past_registrations = Models\Batch\Event\Registration::orderBy('created_at', 'desc')->where('email', $email)->get();
-        
+        // Sanitize info
+        $firstName = self::sanitizeField('first_name', $firstName);
+        $lastName = self::sanitizeField('first_name', $lastName);
+        $email = self::sanitizeField('email', $email);
+        $type = self::sanitizeField('type', $type);
+
+        // Set defaults for optional info
+        if (!$type) $type = 'student';
+        if (!$email) $email = null;
+
+        if (!$firstName || !$lastName)
+            throw new Exceptions\Registration\MissingRequiredField(
+                sprintf("First Name and Last Name are required for all registrations (got %s, %s, %s)",
+                        $firstName, $lastName, $email)
+            );
+
+        // Create the registration
         $reg = new Models\Batch\Event\Registration;
         $reg->batches_event_id = $event->id;
         $reg->first_name = $firstName;
@@ -31,35 +49,90 @@ class Registration {
         $reg->type = $type;
         $reg->save();
 
-        if(count($past_registrations) > 0) {
-            foreach($past_registrations as $previous_registration) {
-                $devices = $previous_registration->devices;
-                
-                foreach($devices as $device) {
-                    if($device->service == "app") {
-                        Firebase::SendMessage([
-                            "type" => "sign_in",
-                            "id" => $reg->id
-                        ], $device->token);
+
+        // TODO(@tylermenezes): This should be moved into an event handler (cc @tjhorner)
+        try {
+            $past_registrations = Models\Batch\Event\Registration::orderBy('created_at', 'desc')->where('email', $email)->get();
+            if(count($past_registrations) > 0) {
+                foreach($past_registrations as $previous_registration) {
+                    $devices = $previous_registration->devices;
+                    
+                    foreach($devices as $device) {
+                        if($device->service == "app") {
+                            Firebase::SendMessage([
+                                "type" => "sign_in",
+                                "id" => $reg->id
+                            ], $device->token);
+                        }
                     }
                 }
             }
-        }
-    
-        try {
-            (new \Customerio\Api(\config('customerio.site'), \config('customerio.secret'), new \Customerio\Request))
-                ->createCustomer($reg->email, $reg->email, [
-                    'type' => $reg->type,
-                    'first_name' => $reg->first_name,
-                    'last_name' => $reg->last_name,
-                    'city' => $event->name,
-                    'season' => $event->batch->name
-                ]);
         } catch (\Exception $ex) {}
 
         \Event::fire('registration.register', [ModelContracts\Registration::Model($reg, ['admin', 'internal'])]);
-
         return $reg;
+    }
+
+    public static function RegisterGroup($allRegistrations, Models\Batch\Event $event, bool $allowEventOverride = false)
+    {
+        $createdRegistrations = [];
+        $exceptions = [];
+        foreach ($allRegistrations as $registration) {
+            try {
+                // Make sure we have all the required fields.
+                //
+                // This will be checked again in CreateRegistrationRecord, but the error message there won't contain
+                // any reference to which line threw the error.
+                $requiredFields = ['first_name', 'last_name'];
+                foreach ($requiredFields as $field)
+                    if (!isset($registration[$field]) || !trim($registration[$field]))
+                        throw new Exceptions\Registration\MissingRequiredField(
+                            sprintf("%s is required (%s)", $field, json_encode($registration))
+                        );
+
+                // Get the event to register into
+                $regEvent = $event;
+                if ($allowEventOverride) {
+                    try {
+                        if (isset($registration['batches_event_id'])) {
+                            $regEvent = Models\Batch\Event::where('id', '=', $regEvent)->firstOrFail();
+                        } else if (isset($registration['webname'])) {
+                            $regEvent = (Models\User::IsLoggedIn() ? Models\Batch::Managed() : Models\Batch::Loaded())
+                                            ->EventWithWebname($registration['webname']);
+                        }
+                    } catch (ModelNotFoundException $ex) {
+                        throw new Exceptions\Registration\InvalidValue(
+                            sprintf("Could not find event (%s)", json_encode($registration))
+                        );
+                    }
+                }
+                    
+                // Create the registration
+                $createdRegistration = self::CreateRegistrationRecord(
+                    $regEvent, $registration['first_name'], $registration['last_name'],
+                    $registration['email'] ?? null, $registration['type'] ?? null
+                );
+
+                // Group registrations often include all required information, so we'll set the additional info here.
+                $otherKnownFields = [
+                    'parent_name', 'parent_email', 'parent_phone', 'parent_secondary_phone', 'phone', 'request_loaner'
+                ];
+                foreach ($otherKnownFields as $field)
+                    if (isset($registration[$field]))
+                        $createdRegistration->$field = self::sanitizeField($field, $registration[$field]);
+
+                $createdRegistrations[] = $createdRegistration;
+            } catch (\Exception $ex) {
+                $exceptions[] = $ex;
+            }
+        }
+
+        // Return a container object containing the created registrations, as well as any exceptions which occurred
+        // during registration.
+        return (object)[
+            'Registrations' => $createdRegistrations,
+            'Exceptions' => $exceptions
+        ];
     }
 
     public static function ChargeCardForRegistrations($registrations, $totalCost, $cardToken)
@@ -276,4 +349,85 @@ class Registration {
 
         return $out;
     }
+
+    /**
+     * Sanatizes a value before saving it to the database.
+     *
+     * @param string $field The name of the field to sanatize.
+     * @param mixed  $val   The value to sanatize.
+     * @return mixed        Sanatized value.
+     */
+    private static function sanitizeField(string $field, $val)
+    {
+        // Propertly capitalize names
+        $field_sanitizers = [
+            'name' => function($val) { return self::fixNameCase($val); },
+            'lower' => function($val) { return strtolower($val); },
+            'bool' => function($val) {
+                if (in_array(strtolower($val), ['true', 'yes', 'y', '1'])) return true;
+                if (in_array(strtolower($val), ['false', 'no', 'n', '0', '-1'])) return false;
+                return (bool)$val;
+            },
+            'phone' => function($val) {
+                $phone = preg_replace('/\D+/', '', $val);
+                if (strlen($phone) == 11) $phone = substr($phone, 1);
+                return $phone;
+            },
+        ];
+
+        $field_mappings = [
+            'first_name' => 'name',
+            'last_name' => 'name',
+            'parent_name' => 'name',
+            'email' => 'lower',
+            'type' => 'lower',
+            'parent_email' => 'lower',
+            'parent_phone' => 'phone',
+            'parent_secondary_phone' => 'phone',
+            'phone' => 'phone',
+            'request_loaner' => 'bool',
+        ];
+
+        if (isset($field_mappings[$field])) {
+            $val = $field_sanitizers[$field_mappings[$field]](trim($val));
+        }
+
+        return $val;
+    }
+
+    /**
+     * Properly capitalizes names
+     *
+     * From http://www.media-division.com/correct-name-capitalization-in-php/
+     */
+    private static function fixNameCase($string) 
+    {
+        $word_splitters = array(' ', '-', "O'", "L'", "D'", 'St.', 'Mc');
+        $lowercase_exceptions = array('the', 'van', 'den', 'von', 'und', 'der', 'de', 'da', 'of', 'and', "l'", "d'");
+        $uppercase_exceptions = array('III', 'IV', 'VI', 'VII', 'VIII', 'IX');
+    
+        $string = strtolower($string);
+        foreach ($word_splitters as $delimiter)
+        { 
+            $words = explode($delimiter, $string); 
+            $newwords = array(); 
+            foreach ($words as $word)
+            { 
+                if (in_array(strtoupper($word), $uppercase_exceptions))
+                    $word = strtoupper($word);
+                else
+                if (!in_array($word, $lowercase_exceptions))
+                    $word = ucfirst($word); 
+    
+                $newwords[] = $word;
+            }
+    
+            if (in_array(strtolower($delimiter), $lowercase_exceptions))
+                $delimiter = strtolower($delimiter);
+    
+            $string = join($delimiter, $newwords); 
+        } 
+        return $string; 
+    }
+
 }

@@ -7,7 +7,6 @@
     {% elseif event.venue %}
         {% set status = "venue" %}
     {% endif %}
-    
     <a href="/event/{{ event.id }}" class="event-hud {{ status }}">
         <div class="image" style="background-image: url(/api/i/region/{{ event.region_id }}_512,256.jpg"></div>
         <div class="data">

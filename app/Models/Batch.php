@@ -50,6 +50,23 @@ class Batch extends \Eloquent {
             ->get();
     }
 
+    public function EventWithWebname(string $webname) : Batch\Event
+    {
+        return Batch\Event
+            ::where('batch_id', '=', $this->id)
+            ->where(function($group) use ($webname) {
+                return $group
+                    ->where('webname_override', '=', $webname)
+                    ->orWhere(function($w2) use ($webname) {
+                        return $w2
+                            ->where('region_id', '=', $webname)
+                            ->whereNull('webname_override');
+                    });
+            })
+            ->orderBy('webname_override')
+            ->firstOrFail(); 
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -1,5 +1,7 @@
 <?php
 
+use CodeDay\Clear\Models;
+
 \Route::bind('region', function($val) {
     $region = \CodeDay\Clear\Models\Region::where('id', '=', $val)->first();
     if ($region) {
@@ -13,7 +15,14 @@
 });
 
 \Route::bind('event', function($val) {
-    $event = \CodeDay\Clear\Models\Batch\Event::where('id', '=', $val)->firstOrFail();
+    $event = \CodeDay\Clear\Models\Batch\Event::where('id', '=', $val)->first();
+
+    // If we coudn't find that event, maybe it's a webname? If so, get the current one
+    if (!$event)
+        $event = (Models\User::IsLoggedIn() ? Models\Batch::Managed() : Models\Batch::Loaded())->EventWithWebname($val);
+
+    if (!$event) \abort(404);
+
     \View::share('event', $event);
     return $event;
 });
