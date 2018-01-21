@@ -78,8 +78,7 @@ class Batch extends \Eloquent {
 
     public static function Loaded()
     {
-        // return self::where('is_loaded', '=', true)->first();        
-        return \Cache::remember('loaded', 60, function(){
+        return \Cache::remember('loaded', \config('app.debug') ? 0 : 15, function(){
             return self::where('is_loaded', '=', true)->first();
         });
     }

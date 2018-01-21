@@ -14,6 +14,23 @@ class DatabaseSeeder extends Seeder {
 	{
         Model::unguard();
 
+        // Add test application
+        if (!Models\Application::where('public', '=', 'testtesttesttesttesttest')->exists()) {
+            $app = new Models\Application;
+            $app->name = 'Test App';
+            $app->description = 'Internal test';
+            $app->public = 'testtesttesttesttesttest';
+            $app->private = 'testtesttesttesttesttest';
+            $app->permission_admin = false;
+            $app->permission_internal = false;
+            $app->save();
+
+            // Overridden by creating method in model
+            $app->public = 'testtesttesttesttesttest';
+            $app->private = 'testtesttesttesttesttest';
+            $app->save();
+        }
+
         // Add batches
         if (!Models\Batch::exists()) {
 						$present_batch = new Models\Batch;
@@ -49,71 +66,59 @@ class DatabaseSeeder extends Seeder {
                 $region->save();
 
                 // Add an event in this region
-                $event = new Models\Batch\Event;
-                $event->region_id = $webname;
-                $event->batch_id = $batch->id;
-                $event->manager_username = null;
-                $event->registration_estimate = 100;
-                $event->venue_name = "StudentRND";
-                $event->venue_address_1 = "425 15th Ave E";
-                $event->venue_city = "Seattle";
-                $event->venue_state = "WA";
-                $event->venue_postal = "98102";
-                $event->venue_country = "US";
-                $event->venue_contact_first_name = "Tyler";
-                $event->venue_contact_last_name = "Menezes";
-                $event->venue_contact_email = "tylermenezes@srnd.org";
-                $event->venue_contact_phone = "1886077763";
-                $event->max_registrations = 100;
-                $event->allow_registrations = rand(0,10) < 8;
-                $event->save();
+                try {
+                    $event = new Models\Batch\Event;
+                    $event->region_id = $webname;
+                    $event->batch_id = $batch->id;
+                    $event->manager_username = null;
+                    $event->registration_estimate = 100;
+                    $event->venue_name = "StudentRND";
+                    $event->venue_address_1 = "425 15th Ave E";
+                    $event->venue_city = "Seattle";
+                    $event->venue_state = "WA";
+                    $event->venue_postal = "98102";
+                    $event->venue_country = "US";
+                    $event->venue_contact_first_name = "Tyler";
+                    $event->venue_contact_last_name = "Menezes";
+                    $event->venue_contact_email = "tylermenezes@srnd.org";
+                    $event->venue_contact_phone = "1886077763";
+                    $event->max_registrations = 100;
+                    $event->allow_registrations = rand(0,10) < 8;
+                    $event->save();
+                } catch (\Exception $ex) {}
 
-                if ($event->allow_registrations && false) {
-                    $attendees = rand(60,100);
-                    for($i = 0; $i < $attendees; $i++) {
-                        $attendee = new Models\Batch\Event\Registration;
-                        $attendee->id = \str_random(10);
-                        $attendee->first_name = ucfirst($this->randWord());
-                        $attendee->last_name = ucfirst($this->randWord());
-                        $attendee->amount_paid = 10;
-                        $attendee->email = "null@localhost.localhost";
-                        $attendee->type = rand(0,10) < 7 ? 'student' : array_rand(['volunteer', 'mentor', 'judge', 'vip']);
-                        if (rand(0,10) < 8) {
-                            $attendee->age = rand(15,30);
-                            if ($attendee->age >= 18) {
-                                $attendee->parent_no_info = true;
-                            } else {
-                                $attendee->parent_name = "Tyler Menezes";
-                                $attendee->parent_email = "null@localhost.localhost";
-                                $attendee->parent_phone = "2067394741";
+                try {
+                    if ($event->allow_registrations && false) {
+                        $attendees = rand(60,100);
+                        for($i = 0; $i < $attendees; $i++) {
+                            $attendee = new Models\Batch\Event\Registration;
+                            $attendee->id = \str_random(10);
+                            $attendee->first_name = ucfirst($this->randWord());
+                            $attendee->last_name = ucfirst($this->randWord());
+                            $attendee->amount_paid = 10;
+                            $attendee->email = "null@localhost.localhost";
+                            $attendee->type = rand(0,10) < 7 ? 'student' : array_rand(['volunteer', 'mentor', 'judge', 'vip']);
+                            if (rand(0,10) < 8) {
+                                $attendee->age = rand(15,30);
+                                if ($attendee->age >= 18) {
+                                    $attendee->parent_no_info = true;
+                                } else {
+                                    $attendee->parent_name = "Tyler Menezes";
+                                    $attendee->parent_email = "null@localhost.localhost";
+                                    $attendee->parent_phone = "2067394741";
+                                }
+                                if (rand(0,10) < 5) {
+                                    $attendee->waiver_pdf_link = "https://example.com/";
+                                }
                             }
-                            if (rand(0,10) < 5) {
-                                $attendee->waiver_pdf_link = "https://example.com/";
-                            }
+                            $attendee->batches_event_id = $event->id;
+                            $attendee->save();
                         }
-                        $attendee->batches_event_id = $event->id;
-                        $attendee->save();
                     }
-                }
+                } catch (\Exception $ex) {}
             }
         }
 
-        // Add test application
-        if (!Models\Application::where('public', '=', 'testtesttesttesttesttest')->exists()) {
-            $app = new Models\Application;
-            $app->name = 'Test App';
-            $app->description = 'Internal test';
-            $app->public = 'testtesttesttesttesttest';
-            $app->private = 'testtesttesttesttesttest';
-            $app->permission_admin = false;
-            $app->permission_internal = false;
-            $app->save();
-
-            // Overridden by creating method in model
-            $app->public = 'testtesttesttesttesttest';
-            $app->private = 'testtesttesttesttesttest';
-            $app->save();
-        }
     }
 
     private function randWord() {
