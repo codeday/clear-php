@@ -2,4 +2,4 @@
 
 namespace CodeDay\Clear\Exceptions\Registration;
 
-class InvalidValue extends Exception {}
+class Exception extends \Exception {}

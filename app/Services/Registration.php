@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  *
  * @package     CodeDay\Clear\Services
  * @author      Tyler Menezes <tylermenezes@studentrnd.org>
- * @copyright   (c) 2014-2015 StudentRND
+ * @copyright   (c) 2014-2018 StudentRND
  * @license     Perl Artistic License 2.0
  */
 class Registration {
@@ -39,6 +39,8 @@ class Registration {
                 sprintf("First Name and Last Name are required for all registrations (got %s, %s, %s)",
                         $firstName, $lastName, $email)
             );
+
+        if ($email) self::VerifyNotBanned($email);
 
         // Create the registration
         $reg = new Models\Batch\Event\Registration;
@@ -133,6 +135,23 @@ class Registration {
             'Registrations' => $createdRegistrations,
             'Exceptions' => $exceptions
         ];
+    }
+
+    public static function VerifyNotBanned(string $email): bool
+    {
+        $ban = Models\Ban::GetBannedReasonOrNull($registrant->email);
+        if ($ban) {
+            Services\Slack::Message(sprintf("%s tried to register while banned.", $ban->name), "#staff-policy");
+
+            $banExpiresTime = isset($ban->expires_at) ? "until " . date('F j, Y', $ban->expires_at->timestamp) : "forever";
+            $ex = new Exceptions\Registration\Banned(
+                sprintf("%s is banned %s for %s.", $email, $banExpiresTime, $ban->reason_name);
+            );
+            $ex->Ban = $ban;
+            throw $ex;
+        }
+
+        return true;
     }
 
     public static function ChargeCardForRegistrations($registrations, $totalCost, $cardToken)
@@ -256,16 +275,6 @@ class Registration {
         $registration->amount_paid -= $refundAmount;
         $registration->amount_refunded += $refundAmount;
         $registration->save();
-    }
-
-    public static function SendTicketEmail(Models\Batch\Event\Registration $reg)
-    {
-        // NOOP until we can fully remove this
-    }
-
-    public static function EnqueueSurveyEmail(Models\Batch\Event\Registration $reg)
-    {
-        // NOOP until we can fully remove this
     }
 
     public static function SendPartialRefundEmail(Models\Batch\Event\Registration $reg, $refundAmount)

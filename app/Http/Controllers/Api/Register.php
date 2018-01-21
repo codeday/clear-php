@@ -1,191 +1,118 @@
 <?php
 namespace CodeDay\Clear\Http\Controllers\Api;
 
-use \CodeDay\Clear\Models;
-use \CodeDay\Clear\Services;
+use CodeDay\Clear\Models;
+use CodeDay\Clear\Services;
+use CodeDay\Clear\Exceptions;
+
+use CodeDay\Clear\Models\Batch\Event;
+use CodeDay\Clear\Models\Batch\Event\Promotion;
+use CodeDay\Clear\Models\GiftCard;
 
 class Register extends \CodeDay\Clear\Http\Controller {
     protected $requiresApplication = false;
 
-    public function getIndex() {}
+    public function getIndex() { return self::getCorsRequest(); }
 
-    public function getPromotion()
+    public function getPromotion() { return self::getCorsRequest(json_encode($this->_getPromotion())); }
+    private function _getPromotion()
     {
         $event = \Route::input('event');
-        $promotion = Models\Batch\Event\Promotion::where('code', '=', strtoupper(\Input::get('code')))
+        $giftcard = GiftCard::where('code', '=', strtoupper(\Input::get('code')))->first();
+        $promotion = Promotion::where('code', '=', strtoupper(\Input::get('code')))
             ->where('batches_event_id', '=', $event->id)
             ->first();
 
-        $giftCard = Models\GiftCard::where('code', '=', strtoupper(\Input::get('code')))
-            ->first();
-
-        if ($promotion) {
-            $json = [
+        if ($promotion)
+            return [
                 'discount' => floatval($promotion->percent_discount),
                 'cost' => $promotion->event->cost * (1 - ($promotion->percent_discount / 100.0)),
                 'remaining_uses' => $promotion->remaining_uses,
                 'expired' => $promotion->expires_at ? $promotion->expires_at->isPast() : false,
                 'type' => $promotion->type
             ];
-        } elseif ($giftCard) {
-            $json = [
+        elseif ($giftcard)
+            return [
                 'discount' => 100,
                 'cost' => 0,
-                'remaining_uses' => $giftCard->is_used ? 0 : 1,
+                'remaining_uses' => $giftcard->is_used ? 0 : 1,
                 'expired' => false,
                 'type' => 'student'
             ];
-        } else {
-            \App::abort(404);
-        }
-
-        $response = \Response::make();
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->headers->set('Access-Control-Allow-Methods', '*');
-        $response->headers->set('Content-type', 'text/javascript');
-        $response->setContent(json_encode($json));
-        return $response;
+        else
+            \abort(404);
     }
 
-
-    public function optionsRegister()
-    {
-        $response = \Response::make();
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->headers->set('Access-Control-Allow-Methods', '*');
-        $response->headers->set('Content-type', 'text/javascript');
-        return $response;
-    }
-
-    public function postRegister()
-    {
-        $response = \Response::make();
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->headers->set('Access-Control-Allow-Methods', '*');
-        $response->headers->set('Content-type', 'text/javascript');
-        $response->setContent(json_encode($this->_postRegister()));
-        return $response;
-    }
-
+    public function optionsRegister() { return self::getCorsRequest(); }
+    public function postRegister() { return self::getCorsRequest(json_encode($this->_postRegister())); }
     private function _postRegister()
     {
         $event = \Route::input('event');
+        $registrants = $this->zipRegistrants(\Input::get('first_names'), \Input::get('last_names'), \Input::get('emails'));
+        $count = count($registrants);
+
+        $giftcard = Models\GiftCard::where('code', '=', strtoupper(\Input::get('code')))->first();
         $promotion = Models\Batch\Event\Promotion::where('code', '=', strtoupper(\Input::get('code')))
             ->where('batches_event_id', '=', $event->id)
             ->first();
-        $giftCard = Models\GiftCard::where('code', '=', strtoupper(\Input::get('code')))
-            ->first();
 
-        $quoted_price = floatval(\Input::get('quoted_price'));
+        $quote = floatval(\Input::get('quoted_price'));
+        $cost = $this->getCurrentCost($event, count($registrants), $promotion, $giftcard);
 
-        $first_names = \Input::get('first_names');
-        $last_names = \Input::get('last_names');
-        $emails = \Input::get('emails');
+        //
+        // Validate and verify
+        // (all methods return null if success, otherwise an error)
+        //
+        if ($e = self::verifyQuote($quote, $count, $event, $promotion, $giftcard)) return $e;
+        if ($e = self::verifyCapacity($event, $count)) return $e;
+        if ($promotion && $e = self::validatePromo($promotion, $count)) return $e;
+        if ($giftcard && $e = self::validateGiftcard($giftcard, $count)) return $e;
 
-        $registrants = [];
-        for ($i = 0; $i < count($emails); $i++) {
-            $registrants[] = (object)[
-                'first_name' => $first_names[$i],
-                'last_name' => $last_names[$i],
-                'email' => trim($emails[$i])
-            ];
-        }
+        //
+        // Process
+        //
+        if ($e = $this->doRegistration($registrants, $event, $cost)) return $e;
 
-        // Check if the cost is still the same
-        $unit_cost = $event->cost;
-        if ($promotion) {
-            $unit_cost *= (1 - ($promotion->percent_discount / 100.0));
-        } elseif ($giftCard) {
-            $unit_cost = 0;
-        }
+        //
+        // SUCCESS    (https://www.youtube.com/watch?v=jGoRYCbnVDg)
+        // 
+        return [
+            'status' => 200,
+            'ids' => array_map(function($reg) { return $reg->id; }, $registrations)
+        ];
+    }
 
-        $total_cost = $unit_cost * count($registrants);
-
-        if (number_format($total_cost, 2) != number_format($quoted_price, 2)) {
-            return [
-                'status' => 500,
-                'error' => 'quote_mismatch',
-                'message' => 'The total cost has changed from $'.number_format($quoted_price, 2).' to $'.number_format($total_cost, 2).' since you first loaded the page.'
-            ];
-        }
-
-
-        // Check if the promotion is still valid
-        if ($promotion) {
-            if ($promotion->expires_at && $promotion->expires_at->isPast()) {
-                return [
-                    'status' => 500,
-                    'error' => 'promotion_expired',
-                    'message' => 'That promotional code is expired.'
-                ];
-            }
-
-            if ($promotion->remaining_uses === 0) {
-                return [
-                    'status' => 500,
-                    'error' => 'promotion_used',
-                    'message' => 'That promotional code has already been used the maximum number of times.'
-                ];
-            } elseif ($promotion->remaining_uses != null && $promotion->remaining_uses < count($registrants)) {
-                return [
-                    'status' => 500,
-                    'error' => 'promotion_overused',
-                    'message' => 'You requested more tickets than that promotional code allows.'
-                ];
-            }
-        } elseif ($giftCard) {
-            if ($giftCard->is_used) {
-                return [
-                    'status' => 500,
-                    'error' => 'giftcard_used',
-                    'message' => 'That gift card has already been used.'
-                ];
-            } elseif (count($registrants) > 1) {
-                return [
-                    'status' => 500,
-                    'error' => 'giftcard_overused',
-                    'message' => 'That gift card can only be used for one ticket.'
-                ];
-            }
-        }
-
-        // Check if the event has room
-        if (!$event->remaining_registrations === 0) {
-            return [
-                'status' => 500,
-                'error' => 'sold_out',
-                'message' => 'The event is sold out.'
-            ];
-        } else if ($event->remaining_registrations < count($registrants)) {
-            return [
-                'status' => 500,
-                'error' => 'exceeds_capacity',
-                'message' => 'The event cannot fit the requested number of participants.'
-            ];
-        }
-
-        // Check if any of the registrants are banned
-        foreach ($registrants as $registrant) {
-            $ban = Models\Ban::GetBannedReasonOrNull($registrant->email);
-            if ($ban) {
-                Services\Slack::Message(sprintf("%s tried to register while banned.", $ban->name), "#staff-policy");
-                return [
-                    'status' => 500,
-                    'error' => 'banned',
-                    'message' => $ban->reason_text
-                        . ($ban->expires_at ? '<br /><br />You will be able to register again after '
-                            .date('F j, Y', $ban->expires_at->timestamp).'.' : '')
-                        . '<br /><br />You must <a href="mailto:contact@srnd.org">contact us</a> if believe this'
-                        . ' is incorrect; if you register under a different name or email you will be turned away at'
-                        . ' the door without a refund.'
-                ];
-            }
-        }
-
+    /**
+     * Registers the users, and charges the card.
+     *
+     * @param string[][] $registrants   Array of arrays of who to register, containing first_name, last_name, email
+     * @param Event? $event             The event to register for.
+     * @param Promotion? $promotion     The promotion to apply, if any.
+     * @param GiftCard? $giftcard       The giftcard to use, if any.
+     * @param float? $cost              The amount to charge the card, if any.
+     * @return object?                  An error message to return, if the registration failed. Otherwise, null.
+     */
+    private function doRegistration($registrants, Event $event, $promotion = null, $giftcard = null, float $cost = 0.0)
+    {
         \DB::beginTransaction(); // In case something goes wrong, we'll want to roll-back the insert.
-
-        // Create the registrations in the database
+        $registrations = [];
         try {
+
+            // We need to validate the emails first, because CreateRegistrationRecord allows null emails (some school
+            // partners don't give us emails for students). Registrations created through the web interface need to
+            // have an email, as we have no other way to get in touch.
+            foreach($registrants as $registrant) {
+                if (!filter_var($registrant->email, FILTER_VALIDATE_EMAIL))
+                    throw Exceptions\Registration\InvalidValue(
+                        sprintf("%s does not look like an email", $registrant->email)
+                    );
+
+                // TODO(@tylermenezes): Check if the email domains look like a typo.
+            }
+
+            // 
+            // Create the registrations
+            //
             $registrations = array_map(function($registrant) use ($event) {
                 return Services\Registration::CreateRegistrationRecord(
                     $event,
@@ -194,51 +121,243 @@ class Register extends \CodeDay\Clear\Http\Controller {
                     "student"
                 );
             }, $registrants);
-        } catch (\Exception $ex) { // Some sort of database error
-            \DB::rollBack();
-            return [
-                'status' => 500,
-                'error' => 'database_error',
-                'message' => 'There was an error processing your registration information. Your card was not charged.'
-            ];
-        }
 
-        \DB::commit(); // Looks good
-
-        // Charge the card
-        if ($total_cost > 0) {
-            if(\Input::get('card_token') != null) {
-                try {
-                    Services\Registration::ChargeCardForRegistrations($registrations, $total_cost, \Input::get('card_token'));
-                } catch(\Stripe\Error\Card $e) { } // If Stripe declines their card, we'll give them a free ticket anyway.
-            } else {
-                try {
-                    Services\Registration::ChargeBitcoinSourceForRegistrations($registrations, $total_cost, \Input::get('bitcoin_source'));
-                } catch(\Stripe\Error\Card $e) { } // If Stripe declines their card, we'll give them a free ticket anyway.
-            }
-        }
-
-        // Send the confirmation emails
-        foreach ($registrations as $registration) {
+            //
+            // Mark promotions/giftcards applied
+            // (but do not error in case anything weird happens)
+            //
             try {
                 if ($promotion) {
                     $registration->batches_events_promotion_id = $promotion->id;
                     $registration->type = $promotion->type;
                     $registration->save();
-                } elseif ($giftCard) {
-                    $giftCard->batches_events_registration_id = $registration->id;
-                    $giftCard->save();
+                } elseif ($giftcard) {
+                    $giftcard->batches_events_registration_id = $registration->id;
+                    $giftcard->save();
                 }
             } catch (\Exception $ex) {}
-            try {
-                Services\Registration::SendTicketEmail($registration);
-                Services\Registration::EnqueueSurveyEmail($registration);
-            } catch (\Exception $ex) {}
+        
+
+        //
+        // Error: User was banned
+        //
+        } catch (Exceptions\Registration\Banned $ex) {
+            \DB::rollBack();
+            $expiresText = ($ex->Ban->expires_at ? "until ".date('F j, Y', $ex->Ban->expires_at) : "indefinitely");
+            return self::apiThrow('banned',
+                sprintf(
+                    "%s. This ban is effective %s. YOU MUST CONTACT US IF YOU BELIEVE THIS IS INCORRECT! If you"
+                    ."register with a different name or email, you will be removed without a refund.",
+                    $ex->Ban->reason_text, $expiresText
+                )
+            );
+
+        //
+        // Error: Invalid value
+        //
+        } catch (Exceptions\Registration\InvalidValue $ex) {
+            \DB::rollBack();
+            return self::apiThrow('missing_info', $ex->getMessage());
+
+        //
+        // Error: Missing field
+        //
+        } catch (Exceptions\Registration\MissingRequiredField $ex) {
+            \DB::rollBack();
+            return self::apiThrow('missing_info', 'All fields are required.');
+
+        //
+        // Error: ???
+        //
+        } catch (\Exception $ex) {
+            \DB::rollBack();
+            // TODO(@tylermenezes): Log
+            return self::apiThrow();
         }
 
+        //
+        // Done! Now we try to charge the card, and then commit the database.
+        //
+        if ($cost > 0 && $e = $this->doCharge($registrations, $cost)) return $e;
+        \DB::commit();
+    }
+
+    /**
+     * Tries to charge the user.
+     *
+     * This will always succeed. If a card is declined we will pretend it was approved, because it's likely they could
+     * not afford the charge (would qualify for a scholarship) or are being rejected for AVS/Radar (no other way to
+     * pay).
+     *
+     * @param Registration[] $registrations     The registrations for which the user should be charged.
+     * @param float $cost                       The total to charge.
+     */
+    private function doCharge($registrations, float $cost)
+    {
+        try {
+            if(\Input::get('card_token'))
+                Services\Registration::ChargeCardForRegistrations($registrations, $cost, \Input::get('card_token'));
+            elseif(\Input::get('bitcoin_source'))
+                Services\Registration::ChargeBitcoinSourceForRegistrations($registrations, $cost, \Input::get('bitcoin_source'));
+        } catch(\Stripe\Error\Card $e) { }
+        } catch (\Exception $ex) { } // TODO(@tylermenezes): Log 
+    }
+
+    /**
+     * Verifies that the quoted price is current (or is greater than the current cost).
+     *
+     * @param float $quote  The quoted cost.
+     * @param float $cost   The actual cost.
+     * @return object?      If the quote is less than the cost, an error message to return. Otherwise, null.
+     */
+    private static function verifyQuote(float $quote, float $cost)
+    {
+        // Make sure the cost is the same, using float-error-safe subtraction method.
+        // (We will only throw an error if the difference is not in the user's favor.)
+        //
+        // eg [cost: $20.00] -  [quote: $10.00]  = $10 > 0.01
+        if ((floatval($cost) - floatval($quote)) > 0.01)
+            return self::apiThrow("quote_mismatch", sprintf(
+                'The total cost changed from $%s to $%s. (This probably means the early-bird special just ended.)',
+                        number_format($quote, 2), number_format($cost, 2)
+            ));
+
+        return null;
+    }
+
+    /**
+     * Verifies that the event can hold the requested number of participants.
+     *
+     * @param Event $event  The event to which the registration is desired.
+     * @param int $count    The number who want to register.
+     * @return object?      If the event does not have capacity, an error message to return. Otherwise, null.
+     */
+    private static function verifyCapacity(Event $event, int $count)
+    {
+        if (!$event->remaining_registrations === 0)
+            return self::apiThrow('capacity', "Sorry, this event is now sold out.");
+        elseif ($event->remaining_registrations < $count)
+            return self::apiThrow('capacity', "This event is almost sold-out, and can't fit that many people.");
+    }
+
+    /**
+     * Validates that the provided promotion code is not expired and supports the requested number of registrations.
+     *
+     * @param Promotion $promo  The promotion code to use.
+     * @param int $count        The number of registrants to use this code.
+     * @return object?          If the promo code cannot be used, an error message to return. Otherwise, null.
+     */
+    private static function validatePromo(Promotion $promotion, int $count)
+    {
+        $promoError = false;
+        if ($promotion->expires_at && $promotion->expires_at->isPast())
+            $promoError = "has expired";
+        elseif ($promotion->remaining_uses === 0)
+            $promoError = "has been used too many times";
+        elseif ($promotion->remaining_uses != null && $promotion->remaining_uses < $count)
+            $promoError = sprintf("only allows %s more uses, and you tried to register %s people",
+                                    $promotion->remaining_uses, count($registrants));
+
+        if ($promoError) return self::apiThrow('promo', sprintf("Sorry, the code %s %s.", $promotion->code, $promoError));
+
+        return null;
+    }
+
+
+    /**
+     * Validates that the giftcard has not been used (and that only one person is trying to register).
+     *
+     * @param GiftCard $giftcard    The giftcard to use.
+     * @param int $count            The number of registrants to use this code. If this is >1, this will throw an error.
+     * @return object?              If the giftcard cannot be used, an error message to return. Otherwise, null.
+     */
+    private static function validateGiftcard(GiftCard $giftcard, int $count)
+    {
+        if ($giftcard->is_used)
+            return self::apiThrow('giftcard', "That giftcard has already been used.");
+        elseif (count($registrants) > 1)
+            return self::apiThrow('giftcard',
+                "Giftcards are only valid for one ticket. (To use more than one, you'll need to place multiple orders.)");
+
+        return null;
+    }
+
+    /**
+     * Gets the current quote.
+     *
+     * @param Event $event          The event for which people are registering.
+     * @param int $count            The number of registrants,
+     * @param Promotion? $promotion The promotion code, if any, to use.
+     * @param Giftcard? $giftcard   The giftcard, if any, to use.
+     * @return float                The current cost.
+     */
+    private static function getCurrentCost(Event $event, int $count, $promotion = null, $giftcard = null) : float
+    {
+        $normalCost = floatval($event->cost * $count);
+
+        if ($giftcard)
+            return 0.0;
+        elseif ($promotion)
+            return $normalCost * (1 - ($promotion->percent_discount / 100.0));
+        else
+            return $normalCost;
+    }
+
+
+    /**
+     * Returns an error message to the client. Does NOT automatically return this to the client!
+     * 
+     * @param string $error     The error class, for use by programs (e.g. to highlight an error).
+     * @param string $message   The full error message, for display to users.
+     * @return object           The result, to return to the browser.
+     */
+    private static function apiThrow(string $error = "generic",
+        string $message = "An unusual error occurred. Your card was not charged, but please contact us before trying again.")
+    {
         return [
-            'status' => 200,
-            'ids' => array_map(function($reg) { return $reg->id; }, $registrations)
+            'status' => 500,
+            'error' => $error,
+            'message' => $message
         ];
+    }
+
+    /**
+     * Combines three lists (of first and last names and emails) into one array of associative arrays.
+     *
+     * @param string[] $firstNames  The registrant first names.
+     * @param string[] $lastNames   The registrant last names.
+     * @param string[] $emails      The registrant emails.
+     * @return string[][]           Array of associative arrays ([[first_name => ...], ...])
+     */
+    private static function zipRegistrants($firstNames, $lastNames, $emails)
+    {
+        $registrants = [];
+
+        for ($i = 0; $i < count($emails); $i++) {
+            $registrants[] = (object)[
+                'first_name' => $firstNames[$i],
+                'last_name' => $lastNames[$i],
+                'email' => trim($emails[$i])
+            ];
+        }
+
+        return $registrants;
+    }
+
+    /**
+     * Gets a CORS-enabled request.
+     *
+     * @param string? $content              Optional, request content.
+     * @return Illuminate\Http\Response     CORS-enabled request.
+     */
+    private static function getCorsRequest($content = null)
+    {
+        $response = \Response::make();
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', '*');
+        $response->headers->set('Content-type', 'text/javascript');
+        if (isset($content))
+            $response->setContent($content);
+        return $response;
     }
 }
