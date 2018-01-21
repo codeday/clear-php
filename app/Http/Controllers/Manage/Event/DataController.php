@@ -109,6 +109,22 @@ class DataController extends \CodeDay\Clear\Http\Controller {
 
     }
 
+    protected function Promotions()
+    {
+        $res = \DB::table(with(new Models\Batch\Event\Registration)->getTable())
+                ->selectRaw("batches_events_promotions.code as name, COUNT(*) as value")
+                ->leftJoin("batches_events_promotions", "batches_events_registrations.batches_events_promotion_id", "=", "batches_events_promotions.id")
+                ->where('batches_events_registrations.batches_event_id', '=', $this->event->id)
+                ->where('batches_events_registrations.type', '=', 'student')
+                ->groupBy('name')
+                ->orderBy('name', 'ASC')
+                ->get();
+
+        if (isset($res[0]) && !isset($res[0]->name)) $res[0]->name = '[none]';
+
+        return $res;
+    }
+
     private function transpose($queryResult)
     {
         $res = [];

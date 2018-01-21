@@ -70,6 +70,7 @@
         <div class="chart line" data-source="RegistrationsOverTime" data-colors="#ccc"><h3>Registrations</h3></div>
         <div class="chart bar" data-source="AgeDistribution" data-colors="#ccc"><h3>Age Distribution</h3></div>
         <div class="chart donut" data-source="WaiverStatus" data-colors="#fcf,#fdf,#cfc"><h3>Waiver Status</h3></div>
+        <div class="chart bar" data-source="Promotions" data-colors="#ccc"><h3>Promotions</h3></div>
     {% endif %}
 {% endblock %}
 {% block scripts %}
@@ -86,8 +87,8 @@
         $('.chart').each(function(){
             var chart = this;
             var chartType;
-            if ($(chart).hasClass('donut')) chartType = britecharts.donut();
-            if ($(chart).hasClass('bar')) chartType = britecharts.bar();
+            if ($(chart).hasClass('donut')) chartType = britecharts.donut().isAnimated(true);
+            if ($(chart).hasClass('bar')) chartType = britecharts.bar().isAnimated(true);
             if ($(chart).hasClass('line')) chartType = britecharts.line();
 
             chartType.colorSchema($(chart).data('colors').split(','));
