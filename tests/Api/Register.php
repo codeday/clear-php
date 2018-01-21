@@ -89,6 +89,7 @@ class Register extends Tests\ApiTestCase {
 
         $model = Models\Batch\Event\Registration::where('email', '=', $r)->firstOrFail();
         $this->assertEquals($model->id, $data->ids[0], 'API returned incorrect ID');
+        $this->assertEquals($model->type, 'student', 'Type not set to student');
         $this->assertNotNull($model->stripe_id, 'Funds not charged');
         $this->assertEquals(1000, \Stripe\Charge::retrieve($model->stripe_id)->amount, 'Charge amount was not $10');
         
