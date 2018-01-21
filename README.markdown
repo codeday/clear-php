@@ -20,7 +20,7 @@ Tasks on Clear largely fall into two categories: changing event configuration, a
 - PHP &ge; 7.0.0
 - Composer
 - Memcached
-- Beanstalk
+- Redis
 - A Raygun account (optional, used for error reporting)
 
 <a href="https://raygun.com/products/crash-reporting/">Error and crash reporting software</a> provided by <a href="https://raygun.com/">Raygun</a>
