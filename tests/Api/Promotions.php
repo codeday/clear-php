@@ -11,7 +11,7 @@ class Promotions extends Tests\ApiTestCase {
 
       $promotion = new Models\Batch\Event\Promotion;
       $promotion->batches_event_id = $event->id;
-      $promotion->code = "CODEDAY";
+      $promotion->code = "CODEDAYT";
       $promotion->notes = "some notes for this test code";
       $promotion->percent_discount = "20";
       $promotion->expires_at = null;
@@ -37,8 +37,8 @@ class Promotions extends Tests\ApiTestCase {
           'Notify response was not an object.');
       $this->assertEquals(0, $data->uses,
           'Uses was not 0.');
-      $this->assertEquals("CODEDAY", $data->code,
-          'Promotion code was not CODEDAY.');
+      $this->assertEquals("CODEDAYT", $data->code,
+          'Promotion code was not CODEDAYT.');
       $this->assertEquals("afakeuser", $data->created_by_user,
           'Promotion was not created by afakeuser.');
 
@@ -68,7 +68,7 @@ class Promotions extends Tests\ApiTestCase {
       ]);
       $this->assertValidOkApiResponse($response);
 
-      $promotion = Models\Batch\Event\Promotion::first();
+      $promotion = Models\Batch\Event\Promotion::where('code', '=', 'CODEDAY')->first();
 
       $this->assertEquals("CODEDAY", $promotion->code,
           'Promotion code was not CODEDAY.');

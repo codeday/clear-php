@@ -65,4 +65,363 @@ class Register extends Tests\ApiTestCase {
 
         $promotion->delete();
     }
+
+    public function testRegisterOk()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $r = strtolower(str_random(10)).'@srnd.org';
+
+        \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
+        $token = \Stripe\Token::create([
+            "card" => [
+                "number" => "4242424242424242",
+                "exp_month" => "01",
+                "exp_year" => date('y') + 2
+            ]
+        ])['id'];
+        $data = $this->register($event, ['test'], ['test'], [$r], 10, '', $token);
+        $this->assertEquals(200, $data->status, $data->message ?? null);
+        $this->assertNotNull($data->ids);
+
+        $model = Models\Batch\Event\Registration::where('email', '=', $r)->firstOrFail();
+        $this->assertEquals($model->id, $data->ids[0], 'API returned incorrect ID');
+        $this->assertNotNull($model->stripe_id, 'Funds not charged');
+        $this->assertEquals(1000, \Stripe\Charge::retrieve($model->stripe_id)->amount, 'Charge amount was not $10');
+        
+        $model->forcedelete();
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testClosedEvent()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = false;
+        $event->save();
+
+        $r = strtolower(str_random(10)).'@srnd.org';
+
+        $data = $this->register($event, ['test'], ['test'], [$r]);
+        $this->assertEquals(500, $data->status, 'API request succeeded where should have failed');
+        $this->assertEquals('capacity', $data->error);
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testCreationOnFail()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = false;
+        $event->save();
+
+        $r = strtolower(str_random(10)).'@srnd.org';
+
+        $data = $this->register($event, ['test'], ['test'], [$r]);
+
+        $model = Models\Batch\Event\Registration::where('email', '=', $r)->first();
+        $this->assertNull($model, 'Registration created for closed event');
+        if ($model) $model->forcedelete();
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testSanitization()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $r = strtolower(str_random(10)).'@srnd.org';
+
+        $data = $this->register($event, [" lower UPPER\t"], [" mcdaniel von smith\t"], [' '.strtoupper($r)."\t"]);
+        $this->assertEquals(200, $data->status, $data->message ?? null);
+        $this->assertNotNull($data->ids);
+
+        $model = Models\Batch\Event\Registration::where('email', '=', $r)->firstOrFail();
+        $this->assertEquals('Lower Upper', $model->first_name, 'First name not sanitized properly');
+        $this->assertEquals('McDaniel von Smith', $model->last_name, 'Last name not sanitized properly');
+        $this->assertEquals($r, $model->email, 'Email not sanitized properly');
+        $model->forcedelete();
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testMissingName()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $r = strtolower(str_random(10)).'@srnd.org';
+
+        $data = $this->register($event, [''], ['test'], [$r]);
+        $this->assertEquals(500, $data->status, 'API request succeeded where should have failed');
+        $this->assertEquals('missing_info', $data->error);
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testMissingEmail()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $data = $this->register($event, ['test'], ['test'], ['']);
+        $this->assertEquals(500, $data->status, 'API request succeeded where should have failed');
+        $this->assertEquals('missing_info', $data->error);
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testBadEmail()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $data = $this->register($event, ['test'], ['test'], ['foo']);
+        $this->assertEquals(500, $data->status, 'API request succeeded where should have failed');
+        $this->assertEquals('missing_info', $data->error);
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testBadName()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $data = $this->register($event, ["\t "], ['test'], ['foo']);
+        $this->assertEquals(500, $data->status, 'API request succeeded where should have failed');
+        $this->assertEquals('missing_info', $data->error);
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testBadQuote()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $data = $this->register($event, ["test"], ['test'], ['foo@foo.com'], 0);
+        $this->assertEquals(500, $data->status, 'API request succeeded where should have failed');
+        $this->assertEquals('quote_mismatch', $data->error);
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testGiftcard()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $gc = new Models\GiftCard;
+        $gc->code = strtoupper(str_random(5));
+        $gc->save();
+
+        $data = $this->register($event, ["test"], ['test'], ['foo@foo.com'], 0, strtolower($gc->code));
+        $this->assertEquals(200, $data->status, $data->message ?? '');
+
+        $gc = Models\GiftCard::where('code', '=', $gc->code)->firstOrFail();
+        $this->assertEquals($data->ids[0], $gc->batches_events_registration_id, 'Giftcard not marked used');
+
+        $gc->delete();
+
+        Models\Batch\Event\Registration::where('id', '=', $data->ids[0])->forcedelete();
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testPromoValid()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $promotion = new Models\Batch\Event\Promotion;
+        $promotion->batches_event_id = $event->id;
+        $promotion->code = strtoupper(str_random(5));
+        $promotion->notes = '';
+        $promotion->percent_discount = 50;
+        $promotion->expires_at = time() + 86400;
+        $promotion->allowed_uses = 10;
+        $promotion->save();
+
+        $data = $this->register($event, ["test"], ['test'], ['foo@foo.com'], 5, strtolower($promotion->code));
+        $this->assertEquals(200, $data->status, $data->message ?? '');
+
+        $reg = Models\Batch\Event\Registration::where('id', '=', $data->ids[0])->firstOrFail();
+        $this->assertEquals($promotion->id, $reg->batches_events_promotion_id, "Promo not marked used");
+
+        $reg->forcedelete();
+        $promotion->delete();
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testPromoInvalid()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $promotion = new Models\Batch\Event\Promotion;
+        $promotion->batches_event_id = $event->id;
+        $promotion->code = strtoupper(str_random(5));
+        $promotion->notes = '';
+        $promotion->percent_discount = 50;
+        $promotion->expires_at = time() - 86400;
+        $promotion->allowed_uses = 1;
+        $promotion->save();
+
+        $data = $this->register($event, ["test"], ['test'], ['foo@foo.com'], 5, strtolower($promotion->code));
+        $this->assertEquals(500, $data->status, 'API request succeeded where should have failed');
+        $this->assertEquals('promo', $data->error);
+
+        $promotion->delete();
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testPromoGibberish()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $data = $this->register($event, ["test"], ['test'], ['foo@foo.com'], 5, "FAIL");
+        $this->assertEquals(500, $data->status, 'API request succeeded where should have failed');
+        $this->assertEquals('promo', $data->error);
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testCappedEvent()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 0;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $r = strtolower(str_random(10)).'@srnd.org';
+
+        $data = $this->register($event, ['test'], ['test'], [$r]);
+        $this->assertEquals(500, $data->status, 'API request succeeded where should have failed');
+        $this->assertEquals('capacity', $data->error);
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testBan()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 10;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $r = strtolower(str_random(10)).'@srnd.org';
+
+        $ban = new Models\Ban;
+        $ban->first_name = "test";
+        $ban->last_name = "test";
+        $ban->email = $r;
+        $ban->reason = 'other';
+        $ban->details = '';
+        $ban->created_by_username = 'tylermenezes';
+        $ban->save();
+
+        $data = $this->register($event, ['test'], ['test'], [$r]);
+        $this->assertEquals(500, $data->status, 'API request succeeded where should have failed');
+        $this->assertEquals('banned', $data->error);
+
+        $ban->delete();
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+
+
+
+    private function register($event, $first_names, $last_names, $emails, $quote = 10, $code = '', $token = 'tok_hhh')
+    {
+        $response = $this->call('POST', '/api/register/'.$event->id.'/register', [
+            'access_token' => 'testtesttesttesttesttest',
+            'card_token' => $token,
+            'emails' => $emails,
+            'first_names' => $first_names,
+            'last_names' => $last_names,
+            'quoted_price' => $quote,
+            'code' => $code
+        ]);
+        $this->assertValidOkApiResponse($response);
+        return json_decode($response->getContent());
+    }
+
+    private function getFutureEvent()
+    {
+        foreach (Models\Batch::all() as $batch) { $batch->is_loaded = false; $batch->save(); }
+
+        $batch = new Models\Batch;
+        $batch->starts_at = time() + (60*60*24*12);
+        $batch->allow_registrations = true;
+        $batch->name = "Test";
+        $batch->is_loaded = true;
+        $batch->save();
+
+        $event = new Models\Batch\Event;
+        $event->region_id = Models\Region::first()->id;
+        $event->batch_id = $batch->id;
+        $event->save();
+
+        return $event;
+    }
 }

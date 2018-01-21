@@ -6,15 +6,19 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         processIsolation="false"
+         processIsolation="true"
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory suffix=".php">./tests/*</directory>
         </testsuite>
-    </testsuites>    <filter>
-        <whitelist>
-            <directory suffix=".php">app/</directory>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+            <exclude>
+                <file>./src/Illuminate/Foundation/Console/Optimize/config.php</file>
+            </exclude>
         </whitelist>
     </filter>
     <php>

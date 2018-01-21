@@ -44,7 +44,13 @@ class Register extends \CodeDay\Clear\Http\Controller {
     }
 
     public function optionsRegister() { return self::getCorsRequest(); }
-    public function postRegister() { return self::getCorsRequest(json_encode($this->_postRegister())); }
+    public function postRegister() { 
+        try {
+            return self::getCorsRequest(json_encode($this->_postRegister()));
+        } catch (\Exception $ex) {
+            return self::apiThrow('generic', \config('app.debug') ? self::getFriendlyEx($ex) : null);
+        }
+    }
     private function _postRegister()
     {
         $event = \Route::input('event');
@@ -56,6 +62,9 @@ class Register extends \CodeDay\Clear\Http\Controller {
             ->where('batches_event_id', '=', $event->id)
             ->first();
 
+        if (\Input::get('code') && !isset($giftcard) && !isset($promotion))
+            return self::apiThrow('promo', 'The promotion code you entered was invalid.');
+
         $quote = floatval(\Input::get('quoted_price'));
         $cost = $this->getCurrentCost($event, count($registrants), $promotion, $giftcard);
 
@@ -63,7 +72,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
         // Validate and verify
         // (all methods return null if success, otherwise an error)
         //
-        if ($e = self::verifyQuote($quote, $count, $event, $promotion, $giftcard)) return $e;
+        if ($e = self::verifyQuote($quote, $cost)) return $e;
         if ($e = self::verifyCapacity($event, $count)) return $e;
         if ($promotion && $e = self::validatePromo($promotion, $count)) return $e;
         if ($giftcard && $e = self::validateGiftcard($giftcard, $count)) return $e;
@@ -71,15 +80,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
         //
         // Process
         //
-        if ($e = $this->doRegistration($registrants, $event, $cost)) return $e;
-
-        //
-        // SUCCESS    (https://www.youtube.com/watch?v=jGoRYCbnVDg)
-        // 
-        return [
-            'status' => 200,
-            'ids' => array_map(function($reg) { return $reg->id; }, $registrations)
-        ];
+        if ($e = $this->doRegistration($registrants, $event, $promotion, $giftcard, $cost)) return $e;
     }
 
     /**
@@ -103,40 +104,40 @@ class Register extends \CodeDay\Clear\Http\Controller {
             // have an email, as we have no other way to get in touch.
             foreach($registrants as $registrant) {
                 if (!filter_var($registrant->email, FILTER_VALIDATE_EMAIL))
-                    throw Exceptions\Registration\InvalidValue(
+                    throw new Exceptions\Registration\InvalidValue(
                         sprintf("%s does not look like an email", $registrant->email)
                     );
 
                 // TODO(@tylermenezes): Check if the email domains look like a typo.
             }
 
-            // 
-            // Create the registrations
-            //
-            $registrations = array_map(function($registrant) use ($event) {
-                return Services\Registration::CreateRegistrationRecord(
+            $registrations = array_map(function($registrant) use ($event, $promotion, $giftcard) {
+                // 
+                // Create the registrations
+                //
+                $registration = Services\Registration::CreateRegistrationRecord(
                     $event,
                     $registrant->first_name, $registrant->last_name,
                     $registrant->email,
                     "student"
                 );
-            }, $registrants);
 
-            //
-            // Mark promotions/giftcards applied
-            // (but do not error in case anything weird happens)
-            //
-            try {
-                if ($promotion) {
+                //
+                // Mark promotions/giftcards applied
+                // (but do not error in case anything weird happens)
+                //
+                if (isset($promotion)) {
                     $registration->batches_events_promotion_id = $promotion->id;
                     $registration->type = $promotion->type;
                     $registration->save();
-                } elseif ($giftcard) {
+                } elseif (isset($giftcard)) {
                     $giftcard->batches_events_registration_id = $registration->id;
                     $giftcard->save();
                 }
-            } catch (\Exception $ex) {}
-        
+
+                return $registration;
+            }, $registrants);
+
 
         //
         // Error: User was banned
@@ -146,8 +147,8 @@ class Register extends \CodeDay\Clear\Http\Controller {
             $expiresText = ($ex->Ban->expires_at ? "until ".date('F j, Y', $ex->Ban->expires_at) : "indefinitely");
             return self::apiThrow('banned',
                 sprintf(
-                    "%s. This ban is effective %s. YOU MUST CONTACT US IF YOU BELIEVE THIS IS INCORRECT! If you"
-                    ."register with a different name or email, you will be removed without a refund.",
+                    "%s This ban is effective %s. YOU MUST CONTACT US IF YOU BELIEVE THIS IS INCORRECT. If you "
+                    ."register with a different name or email, you will be turned away at the door without a refund.",
                     $ex->Ban->reason_text, $expiresText
                 )
             );
@@ -171,8 +172,8 @@ class Register extends \CodeDay\Clear\Http\Controller {
         //
         } catch (\Exception $ex) {
             \DB::rollBack();
-            // TODO(@tylermenezes): Log
-            return self::apiThrow();
+            return self::apiThrow('generic', \config('app.debug') ? self::getFriendlyEx($ex) : null);
+            throw $ex;
         }
 
         //
@@ -180,14 +181,21 @@ class Register extends \CodeDay\Clear\Http\Controller {
         //
         if ($cost > 0 && $e = $this->doCharge($registrations, $cost)) return $e;
         \DB::commit();
+
+        //
+        // SUCCESS    (https://www.youtube.com/watch?v=jGoRYCbnVDg)
+        // 
+        return [
+            'status' => 200,
+            'ids' => array_map(function($reg) { return $reg->id; }, $registrations)
+        ];
     }
 
     /**
      * Tries to charge the user.
      *
-     * This will always succeed. If a card is declined we will pretend it was approved, because it's likely they could
-     * not afford the charge (would qualify for a scholarship) or are being rejected for AVS/Radar (no other way to
-     * pay).
+     * If a card is declined we will pretend it was approved, because it's likely they could not afford the charge
+     * (would qualify for a scholarship) or are being rejected for AVS/Radar (no other way to pay).
      *
      * @param Registration[] $registrations     The registrations for which the user should be charged.
      * @param float $cost                       The total to charge.
@@ -199,8 +207,10 @@ class Register extends \CodeDay\Clear\Http\Controller {
                 Services\Registration::ChargeCardForRegistrations($registrations, $cost, \Input::get('card_token'));
             elseif(\Input::get('bitcoin_source'))
                 Services\Registration::ChargeBitcoinSourceForRegistrations($registrations, $cost, \Input::get('bitcoin_source'));
+            elseif($cost > 0)
+                return self::apiThrow('payment', 'Payment is required');
         } catch(\Stripe\Error\Card $e) { }
-        } catch (\Exception $ex) { } // TODO(@tylermenezes): Log 
+          catch (\Exception $ex) { } // TODO(@tylermenezes): Log 
     }
 
     /**
@@ -234,7 +244,9 @@ class Register extends \CodeDay\Clear\Http\Controller {
      */
     private static function verifyCapacity(Event $event, int $count)
     {
-        if (!$event->remaining_registrations === 0)
+        if (!$event->batch->is_loaded || !$event->AllowRegistrationsCalculated)
+            return self::apiThrow('capacity', "Sorry, this event is not accepting new registrations right now.");
+        elseif (!$event->remaining_registrations === 0)
             return self::apiThrow('capacity', "Sorry, this event is now sold out.");
         elseif ($event->remaining_registrations < $count)
             return self::apiThrow('capacity', "This event is almost sold-out, and can't fit that many people.");
@@ -275,7 +287,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
     {
         if ($giftcard->is_used)
             return self::apiThrow('giftcard', "That giftcard has already been used.");
-        elseif (count($registrants) > 1)
+        elseif ($count > 1)
             return self::apiThrow('giftcard',
                 "Giftcards are only valid for one ticket. (To use more than one, you'll need to place multiple orders.)");
 
@@ -359,5 +371,10 @@ class Register extends \CodeDay\Clear\Http\Controller {
         if (isset($content))
             $response->setContent($content);
         return $response;
+    }
+
+    private static function getFriendlyEx(\Exception $ex)
+    {
+        return sprintf("%s (%s): %s)", $ex->getFile(), $ex->getLine(), $ex->getMessage());
     }
 }

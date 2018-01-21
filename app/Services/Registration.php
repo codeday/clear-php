@@ -139,13 +139,13 @@ class Registration {
 
     public static function VerifyNotBanned(string $email): bool
     {
-        $ban = Models\Ban::GetBannedReasonOrNull($registrant->email);
+        $ban = Models\Ban::GetBannedReasonOrNull($email);
         if ($ban) {
             Services\Slack::Message(sprintf("%s tried to register while banned.", $ban->name), "#staff-policy");
 
             $banExpiresTime = isset($ban->expires_at) ? "until " . date('F j, Y', $ban->expires_at->timestamp) : "forever";
             $ex = new Exceptions\Registration\Banned(
-                sprintf("%s is banned %s for %s.", $email, $banExpiresTime, $ban->reason_name);
+                sprintf("%s is banned %s for %s.", $email, $banExpiresTime, $ban->reason_name)
             );
             $ex->Ban = $ban;
             throw $ex;
