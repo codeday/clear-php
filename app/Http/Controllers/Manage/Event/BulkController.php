@@ -11,8 +11,9 @@ class BulkController extends \CodeDay\Clear\Http\Controller {
      */
     public function getIndex()
     {
-        if (\Input::get('dl')) {
-            $contents = file_get_contents(\Input::get('dl'));
+        $url = \Input::get('dl');
+        if ($url && self::isSafeUrl($url)) {
+            $contents = file_get_contents($url);
             return $this->postIndex($contents);
         }
         return \View::make('event/registrations/bulk/index');
@@ -106,5 +107,36 @@ class BulkController extends \CodeDay\Clear\Http\Controller {
         }
 
         return $newArr;
+    }
+
+    /**
+     * Ensures the passed URL is safe to open (e.g. a real, public URL).
+     *
+     * @param   string  $url    The URL to check.
+     * @return  bool            True if the URL is safe, otherwise false.
+     */
+    private static function isSafeUrl(string $url): bool
+    {
+        if (!filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) return false;
+        $host = parse_url($url, PHP_URL_HOST);
+
+        // Prevent filter:// attacks
+        if (!in_array(parse_url($url, PHP_URL_SCHEME), ['http', 'https'])) return false;
+
+        // Prevent direct IPs
+        if (filter_var($host, FILTER_VALIDATE_IP)) return false;
+
+        // Make sure the IP isn't for a private subnet
+        $ips = gethostbynamel($host);
+        if (!$ips) return false;
+        foreach ($ips as $ip) {
+            if (!filter_var(
+                $ip, 
+                FILTER_VALIDATE_IP, 
+                FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE |  FILTER_FLAG_NO_RES_RANGE
+            )) return false;
+        }
+
+        return true;
     }
 } 
