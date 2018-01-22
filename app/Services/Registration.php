@@ -370,9 +370,9 @@ class Registration {
     {
         // Propertly capitalize names
         $field_sanitizers = [
-            'name' => function($val) { return self::fixNameCase($val); },
+            'name'  => function($val) { return self::fixNameCase($val); },
             'lower' => function($val) { return strtolower($val); },
-            'bool' => function($val) {
+            'bool'  => function($val) {
                 if (in_array(strtolower($val), ['true', 'yes', 'y', '1'])) return true;
                 if (in_array(strtolower($val), ['false', 'no', 'n', '0', '-1'])) return false;
                 return (bool)$val;
@@ -380,17 +380,25 @@ class Registration {
             'phone' => function($val) {
                 $phone = preg_replace('/\D+/', '', $val);
                 if (strlen($phone) == 11) $phone = substr($phone, 1);
+                if ($phone && strlen($phone) < 10)
+                    throw new Exceptions\Registration\InvalidValue(sprintf("%s is not a valid phone number.", $phone));
                 return $phone;
             },
+            'email' => function($val) {
+                $email = strtolower($val);
+                if ($email && !filter_var($email, FILTER_VALIDATE_EMAIL))
+                    throw new Exceptions\Registration\InvalidValue(sprintf("%s is not a valid email.", $email));
+                return $email;
+            }
         ];
 
         $field_mappings = [
             'first_name' => 'name',
             'last_name' => 'name',
             'parent_name' => 'name',
-            'email' => 'lower',
+            'email' => 'email',
             'type' => 'lower',
-            'parent_email' => 'lower',
+            'parent_email' => 'email',
             'parent_phone' => 'phone',
             'parent_secondary_phone' => 'phone',
             'phone' => 'phone',

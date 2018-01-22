@@ -76,11 +76,15 @@ class Batch extends \Eloquent {
         });
     }
 
+    private static $_loaded = null;
     public static function Loaded()
     {
-        return \Cache::remember('loaded', \config('app.debug') ? 0 : 15, function(){
-            return self::where('is_loaded', '=', true)->first();
-        });
+        if (!isset(self::$_loaded))
+            self::$_loaded = \Cache::remember('loaded', \config('app.debug') ? 0 : 15, function(){
+                return Batch::where('is_loaded', '=', true)->first();
+            });
+
+        return self::$_loaded;
     }
 
     private static $_managed = null;

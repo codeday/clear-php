@@ -99,16 +99,14 @@ class Register extends \CodeDay\Clear\Http\Controller {
         $registrations = [];
         try {
 
-            // We need to validate the emails first, because CreateRegistrationRecord allows null emails (some school
+            // We need to validate that emails exist, because CreateRegistrationRecord allows null emails (some school
             // partners don't give us emails for students). Registrations created through the web interface need to
             // have an email, as we have no other way to get in touch.
             foreach($registrants as $registrant) {
-                if (!filter_var($registrant->email, FILTER_VALIDATE_EMAIL))
+                if (!trim($registrant->email))
                     throw new Exceptions\Registration\InvalidValue(
                         sprintf("%s does not look like an email", $registrant->email)
                     );
-
-                // TODO(@tylermenezes): Check if the email domains look like a typo.
             }
 
             $registrations = array_map(function($registrant) use ($event, $promotion, $giftcard) {

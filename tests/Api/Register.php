@@ -100,6 +100,34 @@ class Register extends Tests\ApiTestCase {
         $batch->delete();
     }
 
+    public function testInvalidEmail()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+
+        $r = strtolower(str_random(10)).'@srnd.teej';
+        $r2 = strtolower(str_random(10));
+
+        $data = $this->register($event, ['test', 'test'], ['test', 'test'], [$r, $r2], 20);
+        $this->assertEquals(500, $data->status, 'API request succeeded where should have failed');
+        $this->assertEquals('missing_info', $data->error);
+
+        $model = Models\Batch\Event\Registration::where('email', '=', $r2)->first();
+        $this->assertNull($model, 'Registration created for failed validity check');
+        if ($model) $model->forcedelete();
+
+        $model = Models\Batch\Event\Registration::where('email', '=', $r)->first();
+        $this->assertNull($model, 'Registration created when later record failed validity check.');
+        if ($model) $model->forcedelete();
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
     public function testClosedEvent()
     {
         $event = $this->getFutureEvent();
