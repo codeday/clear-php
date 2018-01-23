@@ -79,10 +79,18 @@ class Batch extends \Eloquent {
     private static $_loaded = null;
     public static function Loaded()
     {
-        if (!isset(self::$_loaded))
-            self::$_loaded = \Cache::remember('loaded', \config('app.debug') ? 0 : 15, function(){
-                return Batch::where('is_loaded', '=', true)->first();
+        if (!isset(self::$_loaded)) {
+            self::$_loaded = \Cache::remember('loaded', \config('app.debug') ? 1 : 15, function(){
+                $batch = Batch::where('is_loaded', '=', true)->first();
+                if (!$batch) {
+                    $batch = Batch::orderBy('starts_at', 'DESC')->firstOrFail();
+                    $batch->is_loaded = true;
+                    $batch->save();
+                }
+
+                return $batch;
             });
+        }
 
         return self::$_loaded;
     }
