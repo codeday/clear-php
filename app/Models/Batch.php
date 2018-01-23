@@ -80,7 +80,7 @@ class Batch extends \Eloquent {
     public static function Loaded()
     {
         if (!isset(self::$_loaded)) {
-            self::$_loaded = \Cache::remember('loaded', \config('app.debug') ? 1 : 15, function(){
+            self::$_loaded = \Cache::remember('loaded', \config('app.debug') ? 0 : 15, function(){
                 $batch = Batch::where('is_loaded', '=', true)->first();
                 if (!$batch) {
                     $batch = Batch::orderBy('starts_at', 'DESC')->firstOrFail();
