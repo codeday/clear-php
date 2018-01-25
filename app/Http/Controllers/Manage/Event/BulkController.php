@@ -14,7 +14,7 @@ class BulkController extends \CodeDay\Clear\Http\Controller {
         $url = \Input::get('dl');
         if ($url && self::isSafeUrl($url)) {
             $contents = file_get_contents($url);
-            return $this->postIndex($contents);
+            return $this->postIndex(null, $contents);
         }
         return \View::make('event/registrations/bulk/index');
     }
@@ -22,7 +22,7 @@ class BulkController extends \CodeDay\Clear\Http\Controller {
     /**
      * Uploads the CSV and shows a field mapping tool.
      */
-    public function postIndex($file = null)
+    public function postIndex($bug = null, $file = null)
     {
         if (!isset($file)) {
             $file = file_get_contents(\Input::file('file'));
@@ -87,6 +87,12 @@ class BulkController extends \CodeDay\Clear\Http\Controller {
     private function strToCsv(string $file)
     {
         $csv = array_map('str_getcsv', explode("\n", trim(str_replace("\r\n", "\n", $file))));
+
+        $csv = array_map(function($line){
+            return array_map(function($val) {
+                return in_array(strtolower(trim($val)), ['n/a', 'na', 'none', 'unknown']) ? '' : $val;
+            }, $line);
+        }, $csv);
 
         // Remove empty lines
         return array_filter($csv, function($line) {
