@@ -94,20 +94,27 @@
             chartType.colorSchema($(chart).data('colors').split(','));
 
             var dataUrl = '/event/{{ event.id }}/data.json?chart=' + $(chart).data('source');
-
+            
+            var _data = null;
             var redraw = function() {
                 chartType.width(chart.offsetWidth).height(chart.offsetHeight - 40);
                 if ($(chart).hasClass('donut')) {
                     chartType.externalRadius(chart.offsetWidth/2).internalRadius(chart.offsetWidth/4);
                 }
-                $.get(dataUrl, function(result){
-                    console.log(result);
-                    d3.select(chart).datum(result).call(chartType);
-                }, 'json');
+                if (_data == null) {
+                    $.get(dataUrl, function(result){
+                        _data = result;
+                        d3.select(chart).datum(_data).call(chartType);
+                    }, 'json');
+                } else {
+                    d3.select(chart).datum(_data).call(chartType);
+                }
             }
 
-            window.addEventListener("resize", redraw);
-            redraw();
+            if (!$(chart).hasClass('donut')) {
+                window.addEventListener("resize", redraw);
+            }
+            setTimeout(redraw, Math.random() + 4);
         });
     </script>
 {% endblock %}
