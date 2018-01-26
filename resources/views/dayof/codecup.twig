@@ -1,0 +1,26 @@
+{% extends "template.twig" %}
+{% block title %}CodeCup{% endblock %}
+{% block section %}dayof{% endblock %}
+{% block subnav %}{% include "dayof/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>CodeCup</h2>
+    </header>
+
+    <p style="text-align: center">Your city's CodeCup login information is:</p>
+
+    <p style="font-size:2em;font-family: monospace; text-align: center">
+        https://codecup.sh/<br />
+        Team: {{event.webname}}<br />
+        Pass: {{keys[event.webname]}}
+    </p>
+
+    {% if me.is_admin %}
+        <h3 onClick="document.getElementById('all-keys').style.display = 'block'">Admin - Click for All Keys</h3>
+        <ul id="all-keys" style="display: none">
+            {% for e,key in keys %}
+                <li>{{ e }} - {{key}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

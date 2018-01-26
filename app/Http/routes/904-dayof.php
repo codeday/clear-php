@@ -28,6 +28,7 @@ use \CodeDay\Clear\Models;
     \Route::controller('/equipment', 'EquipmentController');
     \Route::controller('/break', 'BreakController');
     \Route::controller('/deck', 'DeckController');
+    \Route::controller('/codecup', 'CodeCupController');
     \Route::controller('/emergency', 'EmergencyController');
     \Route::controller('/support-calls', 'SupportCallsController');
 });
