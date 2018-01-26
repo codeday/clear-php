@@ -9,7 +9,7 @@ class CodeCupController extends \CodeDay\Clear\Http\Controller {
     {
         $keys = [];
         foreach (Models\Batch::Managed()->events as $event) {
-            $keyFull = hash_hmac('whirlpool', $event->webname, config('app.key'));
+            $keyFull = hash_hmac('whirlpool', $event->webname . $event->batch->starts_at, config('app.key'));
             $keys[$event->webname] = substr($keyFull, 0, 3).'-'.substr($keyFull, 3, 3);
         }
         return \View::make('dayof/codecup', ['keys' => $keys]);
