@@ -318,6 +318,39 @@ class Register extends Tests\ApiTestCase {
 
         $reg = Models\Batch\Event\Registration::where('id', '=', $data->ids[0])->firstOrFail();
         $this->assertEquals($promotion->id, $reg->batches_events_promotion_id, "Promo not marked used");
+        $this->assertEquals("student", $reg->type, "Registration did not take default type");
+
+        $reg->forcedelete();
+        $promotion->delete();
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testPromoType()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $promotion = new Models\Batch\Event\Promotion;
+        $promotion->batches_event_id = $event->id;
+        $promotion->code = strtoupper(str_random(5));
+        $promotion->notes = '';
+        $promotion->percent_discount = 50;
+        $promotion->expires_at = time() + 86400;
+        $promotion->allowed_uses = 10;
+        $promotion->type = "vip";
+        $promotion->save();
+
+        $data = $this->register($event, ["test"], ['test'], ['foo@foo.com'], 5, strtolower($promotion->code));
+        $this->assertEquals(200, $data->status, $data->message ?? '');
+
+        $reg = Models\Batch\Event\Registration::where('id', '=', $data->ids[0])->firstOrFail();
+        $this->assertEquals($promotion->id, $reg->batches_events_promotion_id, "Promo not marked used");
+        $this->assertEquals($promotion->type, $reg->type, "Registration did not take promo type");
 
         $reg->forcedelete();
         $promotion->delete();

@@ -117,7 +117,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
                     $event,
                     $registrant->first_name, $registrant->last_name,
                     $registrant->email,
-                    "student"
+                    (isset($promotion) && isset($promotion->type)) ? $promotion->type : "student"
                 );
 
                 //
@@ -126,7 +126,6 @@ class Register extends \CodeDay\Clear\Http\Controller {
                 //
                 if (isset($promotion)) {
                     $registration->batches_events_promotion_id = $promotion->id;
-                    $registration->type = $promotion->type;
                     $registration->save();
                 } elseif (isset($giftcard)) {
                     $giftcard->batches_events_registration_id = $registration->id;
