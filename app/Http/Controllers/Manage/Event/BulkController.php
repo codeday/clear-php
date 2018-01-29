@@ -29,6 +29,8 @@ class BulkController extends \CodeDay\Clear\Http\Controller {
             unlink(\Input::file('file'));
         }
 
+        $file = mb_convert_encoding($file, 'UTF-8', 'UTF-8');
+
         $csv = $this->strToCsv($file);
         if (trim(strtolower($csv[0][0])) == "first name") array_shift($csv);
 
@@ -51,7 +53,7 @@ class BulkController extends \CodeDay\Clear\Http\Controller {
         // Only allow setting recognized fields
         $recognizedFields = [
             'first_name', 'last_name', 'email', 'type', 'parent_name', 'parent_email', 'parent_phone',
-            'parent_secondary_phone', 'phone', 'request_loaner'
+            'parent_secondary_phone', 'phone', 'request_loaner', 'webname'
         ];
         $fields = array_filter($fields,
             function($elem) use ($recognizedFields) { return in_array($elem, $recognizedFields); },
