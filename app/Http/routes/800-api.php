@@ -25,6 +25,7 @@
     \Route::get('events/managed-by/{username}', 'Events@getManagedBy');
     \Route::get('event/{event}/announcements', 'Events@getAnnouncements');
     \Route::get('events/volunteered-for', 'Events@getVolunteeredFor');
+    \Route::get('events/has-access/{user}/', 'Events@getHasAccess');
 
     \Route::get('registration/by-email/{email}', 'Registrations@getByEmail');
     \Route::get('registration/{registration}', 'Registrations@getRegistration');
@@ -44,6 +45,7 @@
     \Route::get('/i/{class}/{id}_{imagesize}/{timestamp}.jpg', 'ImageController@showPhoto');
 
     \Route::controller('notify', 'Notify');
+    \Route::get('batch/{batch}/events', 'Batches@getEvents');
     \Route::controller('batches', 'Batches');
     \Route::controller('user', 'UserController');
 });

@@ -30,6 +30,23 @@ class Events extends ApiController {
         return json_encode($response);
     }
 
+    public function getHasAccess()
+    {
+        $user = Models\User::where('username', '=', \Input::get('username'))->firstOrFail();
+        if ($user->is_admin) return ModelContracts\Event::Collection(Models\Batch\Event::get(), $this->permissions);
+
+        $events = Models\Batch\Event
+            ::select('batches_events.*')
+            ->leftJoin('users_grants', 'users_grants.batches_event_id', '=', 'batches_events.id')
+            ->where('manager_username', '=', $user->username)
+            ->orWhere('coach_username', '=', $user->username)
+            ->orWhere('evangelist_username', '=', $user->username)
+            ->orWhere('users_grants.username', '=', $user->username)
+            ->get();
+
+        return ModelContracts\Event::Collection($events, $this->permissions);
+    }
+
     public function getNowPlaying() {
         $event = \Route::input('event');
         if($event->spotify_access_token) {

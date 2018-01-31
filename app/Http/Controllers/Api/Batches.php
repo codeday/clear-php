@@ -14,4 +14,9 @@ class Batches extends ApiController {
     {
         return json_encode(ModelContracts\Batch::Model(Models\Batch::Loaded(), $this->permissions));
     }
+
+    public function getEvents()
+    {
+        return json_encode(ModelContracts\Event::Collection(Models\Batch\Event::where('batch_id', '=', \Route::input('batch')->id)->get(), $this->permissions));
+    }
 }

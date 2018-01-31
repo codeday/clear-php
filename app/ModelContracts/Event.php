@@ -31,11 +31,25 @@ class Event extends ModelContract
                 'value'         => function($model) { return $model->name; }
             ],
 
+            'region_id' => [
+                'name'          => 'Region ID',
+                'description'   => 'The ID of the region of the event. Often, but not always, the webname.',
+                'example'       => 'seattle',
+                'value'         => function($model) { return $model->region_id; }
+            ],
+
             'webname' => [
                 'name'          => 'Webname Name',
                 'description'   => 'The webname for the event.',
                 'example'       => 'seattle',
                 'value'         => function($model) { return $model->webname; }
+            ],
+
+            'timezone' => [
+                'name'          => 'Timezone',
+                'description'   => 'The timezone for the event.',
+                'example'       => 'America/Los_Angeles',
+                'value'         => function($model) { return $model->region->timezone; }
             ],
 
             'hashtag' => [
