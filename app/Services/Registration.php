@@ -167,7 +167,7 @@ class Registration {
         // Make the charge
         \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
         $charge = \Stripe\Charge::create([
-            'currency' => 'usd',
+            'currency' => $event->currency,
             'statement_description' => 'CODEDAY',
 
             'amount' => intval($totalCost * 100),

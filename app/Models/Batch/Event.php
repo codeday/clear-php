@@ -81,6 +81,14 @@ class Event extends \Eloquent {
         return $this->starts_at + (60 * 60 * 24);
     }
 
+    public function getCurrencyAttribute()
+    {
+        $specialCurrencies = [
+            'ca' => 'cad'
+        ];
+        return $specialCurrencies[strtolower($this->venue_country)] ?? 'usd';
+    }
+
     public function getAttendeesRequestingLoanersAttribute()
     {
         return \CodeDay\Clear\Models\Batch\Event\Registration::where('request_loaner', '=', true)

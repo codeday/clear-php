@@ -100,6 +100,37 @@ class Register extends Tests\ApiTestCase {
         $batch->delete();
     }
 
+    public function testCad()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->venue_country = 'CA';
+        $event->save();
+
+        $r = strtolower(str_random(10)).'@srnd.org';
+
+        \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
+        $token = \Stripe\Token::create([
+            "card" => [
+                "number" => "4242424242424242",
+                "exp_month" => "01",
+                "exp_year" => date('y') + 2
+            ]
+        ])['id'];
+        $data = $this->register($event, ['test'], ['test'], [$r], 10, '', $token);
+        $this->assertEquals(200, $data->status, $data->message ?? null);
+        $this->assertNotNull($data->ids);
+
+        $model = Models\Batch\Event\Registration::where('email', '=', $r)->firstOrFail();
+        $this->assertEquals('cad', \Stripe\Charge::retrieve($model->stripe_id)->currency, 'Currency was not canadian');
+        $model->forcedelete();
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
     public function testInvalidEmail()
     {
         $event = $this->getFutureEvent();

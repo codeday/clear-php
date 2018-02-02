@@ -263,6 +263,14 @@ class Event extends ModelContract
                 'value'         => function ($model) { return $model->cost; }
             ],
 
+            'currency' => [
+                'name'          => 'Currency',
+                'description'   => 'The price unit.',
+                'example'       => 'usd',
+                'rich'          => true,
+                'value'         => function ($model) { return $model->currency; }
+            ],
+
             'notice' => [
                 'name'          => 'Notice',
                 'description'   => 'If an important notice exists for the event, the notice. Otherwise null.',
