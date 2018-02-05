@@ -262,9 +262,7 @@ class Registration {
         \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
         $charge = \Stripe\Charge::retrieve($registration->stripe_id);
 
-        if ($registration->amount_paid == $refundAmount) {
-            $charge->refunds->create();
-        } elseif ($registration->amount_paid > $refundAmount) {
+        if ($registration->amount_paid >= $refundAmount) {
             $charge->refunds->create([
                 'amount' => $refundAmount * 100
             ]);
