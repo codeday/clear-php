@@ -44,7 +44,7 @@ class SubusersController extends \CodeDay\Clear\Http\Controller {
 
             Services\Email::SendOnQueue(
                 'CodeDay', 'codeday@srnd.org',
-                $user->name, $user->email,
+                $user->name, $user->username.'@srnd.org',
                 'Clear Access Granted', null,
                 \View::make('emails/actions/subuser', ['user' => $user, 'event' => $event, 'from' => Models\User::me()]),
                 false

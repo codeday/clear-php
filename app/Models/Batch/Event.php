@@ -517,7 +517,7 @@ class Event extends \Eloquent {
                 'time' => 7 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
                 'title' => 'CodeCup (presented by Splunk)',
                 'type' => 'workshop',
-                'url' => 'https://cup.codeday.org/',
+                'url' => 'https://codecup.sh/',
                 'description' => 'Work with other attendees to make your city #1 worldwide!'
             ],
             (Object)[
@@ -558,11 +558,41 @@ class Event extends \Eloquent {
 
         $internal = [
             (Object)[
+                'time' => -0.25,
+                'title' => 'Icebreaker',
+                'type' => 'internal',
+                'description' => 'Lead Code Evangelist to lead kickoff icebreaker, see Evg guide.'
+            ],
+            (Object)[
                 'time' => 0.25,
                 'title' => 'Sponsors',
                 'type' => 'internal',
                 'description' => ''
-            ]
+            ],
+            (Object)[
+                'time' => 0.5,
+                'title' => 'Pitches',
+                'type' => 'internal',
+                'description' => 'All volunteers and staff pitch silly ideas to get things started.'
+            ],
+            (Object)[
+                'time' => 2,
+                'title' => 'Natnl mentor shifts end',
+                'type' => 'internal',
+                'description' => 'SRND-national scheduled mentors only.'
+            ],
+            (Object)[
+                'time' => 2.5,
+                'title' => 'Add teams to Showcase',
+                'type' => 'internal',
+                'description' => 'Volunteer should add each team to showcase.srnd.org.'
+            ],
+            (Object)[
+                'time' => 11,
+                'title' => 'Natnl mentor shifts end',
+                'type' => 'internal',
+                'description' => 'SRND-national scheduled mentors only.'
+            ],
         ];
 
         if (!$this->hide_default_workshops) {

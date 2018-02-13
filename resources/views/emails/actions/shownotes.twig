@@ -1,0 +1,7 @@
+{% extends "emails/template_transactional.twig" %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}{{ who.name }} just updated the show-notes for {{ event.full_name }}.{% endblock %}
+{% block title %}{{ who.name }} just updated the show-notes to read:{% endblock %}
+{% block body %}
+    {{ notes|markdown|raw }}
+{% endblock %}
