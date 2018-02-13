@@ -37,7 +37,7 @@ class NotesController extends \CodeDay\Clear\Http\Controller {
                 if ($user === null) continue;
                 Services\Email::SendOnQueue(
                     'CodeDay', 'codeday@srnd.org',
-                    $user->name, $user->email,
+                    $user->name, $user->username.'@srnd.org',
                     'Show Notes: '.$event->full_name, null,
                     \View::make('emails/actions/shownotes', ['who' => $who, 'event' => $event, 'notes' => $notes]),
                     false
