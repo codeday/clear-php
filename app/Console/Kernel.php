@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('dispatch:transactional-emails')
-                ->everyMinute()
+                ->everyFiveMinutes()
                 ->withoutOverlapping();
 
         $schedule->command('dispatch:waiver-sync')
