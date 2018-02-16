@@ -22,9 +22,9 @@ class SendTransactionalEmailsJob extends Job
 
     private function sendEmailsForRegistration(Models\Batch\Event\Registration $registration)
     {
+        $allEmails = $this->getEmailsForRegistration($registration);
         foreach ($allEmails as $email) {
             try {
-                $allEmails = $this->getEmailsForRegistration($registration);
                 $sentEmails = Models\TransactionalEmail::where('batches_events_registration_id', '=', $registration->id)->get();
                 $sentEmailIds = array_map(function($a){ return $a->email_id; }, iterator_to_array($sentEmails));
 
