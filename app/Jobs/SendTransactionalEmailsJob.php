@@ -186,9 +186,9 @@ class SendTransactionalEmailsJob extends Job
 
         switch ($direction) {
             case '+':
-                return $registration->created_at->addSeconds($offset);
+                return $registration->created_at->addSeconds($offset)->addMinutes(rand(0,60));
             case '-':
-                return $registration->event->batch->starts_at->addSeconds(-1*$offset);
+                return $registration->event->batch->starts_at->addSeconds(-1*$offset)->addMinutes(rand(0,60));
             default:
                 throw new \Exception("$direction is not a valid time direction.");
         }
