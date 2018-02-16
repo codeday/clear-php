@@ -186,7 +186,7 @@ class SendTransactionalEmailsJob extends Job
 
         switch ($direction) {
             case '+':
-                return $registration->created_at->addSeconds($offset)->addMinutes(rand(0,60));
+                return $registration->created_at->addSeconds($offset);
             case '-':
                 return $registration->event->batch->starts_at->addSeconds(-1*$offset)->addMinutes(rand(0,60));
             default:
