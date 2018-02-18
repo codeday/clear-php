@@ -78,7 +78,7 @@ class IncomingSupportController extends \CodeDay\Clear\Http\Controller {
             $i++;
             $xml .= '<Play>/assets/mp3/phone/codeday_pre.mp3</Play>';
             $xml .= '<Say>'.$event->name.'</Say>';
-            $xml .= '<Play>/assets/mp3/phone/press_'.$i.'.mp3</Play>';
+            $xml .= '<Play>/assets/mp3/phone/press_'.$i.'.mp3?v2</Play>';
             $xml .= '<Pause length="1" />';
         }
 
