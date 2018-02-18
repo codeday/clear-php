@@ -71,14 +71,14 @@ class IncomingSupportController extends \CodeDay\Clear\Http\Controller {
         $events = $this->getEventsByTimezone()[$regions[$region_index - 1]];
 
         $xml = '<Response>';
-        $xml .= '<Gather numDigits="1" action="/phone/support/event?region='.$region_index.'" method="GET">';
+        $xml .= '<Gather numDigits="2" action="/phone/support/event?region='.$region_index.'" method="GET">';
 
         $i = 0;
         foreach ($events as $event) {
             $i++;
             $xml .= '<Play>/assets/mp3/phone/codeday_pre.mp3</Play>';
             $xml .= '<Say>'.$event->name.'</Say>';
-            $xml .= '<Play>/assets/mp3/phone/press_'.$i.'.mp3</Play>';
+            $xml .= '<Play>/assets/mp3/phone/press_'.str_pad($i, 2, "0").'.mp3</Play>';
             $xml .= '<Pause length="1" />';
         }
 
