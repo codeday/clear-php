@@ -1,0 +1,19 @@
+{% extends "emails/template_transactional.twig" %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-tyler.png{% endblock %}
+{% block sign_name %}Tyler Menezes{% endblock %}
+{% block sign_title %}Executive Director, srnd.org{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-tyler.png{% endblock %}
+{% block body %}
+    <p>Hi {{ event.manager.first_name }},</p>
+
+    <p>Thanks for making CodeDay a success this season. It's me, the definitely not automated Tyler.</p>
+    
+    <p>Two things we need from you to wrap things up:</p>
+
+    <ol>
+        <li><a href="https://www.cognitoforms.com/Srnd1/OrganizerExperience">Let me know how I did, and whether you're organizing again next season.</a></li>
+        <li><a href="https://showcase.srnd.org/">Add your event photos to Showcase</a></li>
+    </ol>
+{% endblock %}

@@ -77,6 +77,15 @@ class TasksController extends \CodeDay\Clear\Http\Controller {
             []
         );
 
+        Services\Email::SendToBatch(
+            'Tyler Menezes', 'tylermenezes@srnd.org',
+            Models\Batch::Managed(), 'rms',
+            'How did I do?',
+            null,
+            \View::make('emails/postevent/rm')
+        );
+
+
         \Session::flash('status_message', 'Email enqueued');
 
         return \Redirect::to('/batch/tasks');

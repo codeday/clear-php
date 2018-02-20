@@ -478,6 +478,19 @@ class Email {
                 }
             ],
 
+            'rms' => [
+                'id' => 'event-staff',
+                'name' => 'Event Staff',
+                'lambda' => function($event) {
+                    if ($event->manager) {
+                        return [(object)[
+                            'name' => $event->manager->name,
+                            'email' => $event->manager->email
+                        ]];
+                    } else return [];
+                }
+            ],
+
             'venues' => [
                 'id' => 'venues',
                 'name' => 'Venues',
