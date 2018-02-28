@@ -10,7 +10,7 @@
         <p>Name, Address (Line 1), City, State, and Postal Code are required to publish
            the site.</p>
     </header>
-    <form method="post" class="venue">
+    <form method="post" class="venue" enctype="multipart/form-data">
         <section class="location">
             <h3>Location Information</h3>
             <div class="field">
@@ -38,6 +38,12 @@
                 <label for="loaners_available">Loaner Computers</label>
                 <input type="number" name="loaners_available" id="loaners_available" value="{{ event.loaners_available }}" placeholder="25" tabindex="10" />
                 <span class="help">If there will be computers available for students to use on-site, indicate the number available.</span>
+            </div>
+
+            <div class="field">
+                <label for="venue_agreement">Venue Agreement (Waiver/NDA) PDF</label>
+                <input type="file" name="venue_agreement" accept="application/pdf" />
+                <span class="help">If the venue has a waiver or NDA, upload it so students are reminded to print it.{% if event.venue_agreement %}<br /><a href="{{ event.venue_agreement }}" target="_blank">(Currently)</a>{% endif %}</span>
             </div>
         </section>
         <section class="contact">

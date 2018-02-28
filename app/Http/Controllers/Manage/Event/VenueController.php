@@ -28,9 +28,33 @@ class VenueController extends \CodeDay\Clear\Http\Controller {
         $event->venue_contact_email = \Input::get('venue_contact_email') ? \Input::get('venue_contact_email') : null;
         $event->venue_contact_phone = \Input::get('venue_contact_phone') ? \Input::get('venue_contact_phone') : null;
 
-        \Session::flash('status_message', 'Venue updated');
+
+        if (\Request::hasFile('venue_agreement')) {
+            $s3 = \Aws\S3\S3Client::factory([
+                'credentials' => [
+                    'key' => \Config::get('aws.key'),
+                    'secret' => \Config::get('aws.secret')
+                ],
+                'version' => '2006-03-01',
+                'region' => 'us-west-1'
+            ]);
+            $uploadPath = 'codeday/clear/venue-agreement-'.$event->id.'-'.time().'.pdf';
+            $result = $s3->putObject(array(
+                'Bucket'       => \Config::get('aws.s3.assetsBucket'),
+                'Key'          => $uploadPath,
+                'Body'         => file_get_contents(\Request::file('venue_agreement')->getRealPath()),
+                'ContentType'  => 'application/pdf',
+                'ACL'          => 'public-read',
+                'Metadata'     => [
+                    'Content-Type' => 'application/pdf'
+                ]
+            ));
+
+            $event->venue_agreement = \Config::get('aws.s3.assetsUrl').$uploadPath;
+        }
 
         $event->save();
+        \Session::flash('status_message', 'Venue updated');
         return \Redirect::to('/event/'.$event->id.'/venue');
     }
 } 

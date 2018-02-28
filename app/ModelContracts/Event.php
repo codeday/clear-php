@@ -190,11 +190,11 @@ class Event extends ModelContract
                 'value'         => function($model) { return $model->preevent_additional; }
             ],
 
-            'waiver' => [
-                'name'          => 'Waiver',
-                'description'   => 'If a waiver is required for this event, the URL to the waiver. Otherwise null.',
-                'example'       => 'https://www.dropbox.com/s/tf3g3txhdg947gg/waiver.pdf?dl=1',
-                'value'         => function ($model) { return $model->waiver_link; }
+            'venue_agreement' => [
+                'name'          => 'Venue Agreement',
+                'description'   => 'If a custom PDF is required to be signed by participants, the link to the PDF. Otherwise null.',
+                'example'       => 'https://srnd-cdn.net/codeday/clear/venue-agreement-myevent.pdf',
+                'value'         => function ($model) { return $model->venue_agreement; }
             ],
 
             'stripe_public_key' => [
