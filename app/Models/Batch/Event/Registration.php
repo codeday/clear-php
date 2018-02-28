@@ -46,9 +46,29 @@ class Registration extends \Eloquent {
         return $this->first_name.' '.$this->last_name;
     }
 
-    public function getWaiverAttribute()
+    public function getIsMinorAttribute()
     {
-        return Services\Waiver::get($this);
+        $consentAges = [
+            'default'               => 18,
+            'US-AL'                 => 19,
+            'US-Alabama'            => 19,
+            'US-NE'                 => 19,
+            'US-Nebraska'           => 19,
+            'CA-BC'                 => 19,
+            'CA-British Columbia'   => 19,
+            'CA-NB'                 => 19,
+            'CA-New Brunswick'      => 19,
+            'CA-NL'                 => 19,
+            'CA-Newfoundland'       => 19,
+            'CA-NS'                 => 19,
+            'CA-Nova Scotia'        => 19,
+        ];
+
+        $lookup = sprintf("%s-%s", $this->event->venue_country, $this->event->venue_state);
+        $localConsentAge = $consentAges[$lookup] ?? $consentAges['default'];
+
+        if ($this->age >= $localConsentAge) return false;
+        else return true;
     }
 
     public function __toString()

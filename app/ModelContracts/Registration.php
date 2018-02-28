@@ -101,6 +101,13 @@ class Registration extends ModelContract
                 'example'       => '13',
                 'value'         => function($model) { return floatval($model->age); }
             ],
+            
+            'is_minor' => [
+                'name'          => 'Is Minor',
+                'description'   => 'True if the attendee is a minor in the venue jurisdiction.',
+                'example'       => 'true',
+                'value'         => function($model) { return $model->is_minor; }
+            ],
 
             'request_loaner' => [
                 'name'          => 'Request Loaner?',

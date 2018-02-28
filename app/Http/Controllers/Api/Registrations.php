@@ -37,7 +37,7 @@ class Registrations extends ApiController {
 
     if (\Input::get('age')) {
         $registration->age = \Input::get('age');
-        if ($registration->age >= 18) {
+        if (!$registration->is_minor) {
             $registration->parent_no_info = true;
             $registration->parent_name = null;
             $registration->parent_email = null;

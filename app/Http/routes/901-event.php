@@ -45,7 +45,7 @@ use CodeDay\Clear\Models;
         \Route::post('/registrations/attendee/{registration}/removedevices', 'RegistrationsController@postRemovedevices');
         \Route::post('/registrations/attendee/{registration}/resend', 'RegistrationsController@postResend');
         \Route::post('/registrations/attendee/{registration}/notes', 'RegistrationsController@postNotes');
-        \Route::get('/registrations/attendee/{registration}/waiver', 'RegistrationsController@getWaiver');
+        \Route::post('/registrations/attendee/{registration}/waiver', 'RegistrationsController@postCancelWaiver');
         \Route::controller('/registrations/bulk', 'BulkController');
         \Route::controller('/registrations', 'RegistrationsController');
 

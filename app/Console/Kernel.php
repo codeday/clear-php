@@ -14,7 +14,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\DispatchTransactionalEmailsCommand::class,
-        Commands\DispatchWaiverSyncCommand::class,
         Commands\CronCommand::class
     ];
 
@@ -28,10 +27,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('dispatch:transactional-emails')
                 ->everyFiveMinutes()
-                ->withoutOverlapping();
-
-        $schedule->command('dispatch:waiver-sync')
-                ->dailyAt('17:00')
                 ->withoutOverlapping();
 
         $schedule->command('cron')

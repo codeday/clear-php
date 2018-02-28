@@ -79,7 +79,7 @@
                         <label for="age">Age</label>
                         <input type="number" name="age" id="age" value="{{ registration.age }}" />
                     </div>
-                    {% if registration.age < 18 %}
+                    {% if registration.is_minor %}
                         <div class="field">
                             <label for="parent_name">Name</label>
                             <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />
@@ -211,10 +211,11 @@
         <section class="waiver menu-waiver">
             {% if registration.waiver_pdf_link %}
                 <a href="{{ registration.waiver_pdf_link }}">Download</a>
-            {% elseif registration.parent_no_info or (registration.parent_name and registration.parent_email) %}
-                <a href="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver" target="_blank">Waiver Signing URL (will invalidate past URLs)</a>
+                <form method="post" class="small dangerous" action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}/waiver">
+                    <input type="submit" value="Clear Waiver" />
+                {{ csrf|raw }}</form>
             {% else %}
-                <p>Parent information not yet captured.</p>
+                <p>Waiver not signed.</p>
             {% endif %}
         </section>
 

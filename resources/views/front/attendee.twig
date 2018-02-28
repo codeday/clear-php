@@ -26,7 +26,7 @@
         </nav>
 
         <section class="info registration menu-info">
-            <p>Registered on {{ registration.created_at|date('F j, Y g:i A') }} (<a href="/e/ticket?r={{ registration.id }}" target="_blank">ticket</a>, <a href="/e/ticket/receipt?r={{ registration.id }}" target="_blank">receipt</a>)</p>
+            <p>Registered for {{ registration.event.full_name }} on {{ registration.created_at|date('F j, Y g:i A') }} (<a href="/e/ticket?r={{ registration.id }}" target="_blank">ticket</a>, <a href="/e/ticket/receipt?r={{ registration.id }}" target="_blank">receipt</a>)</p>
             <form action="/event/{{ event.id }}/registrations/attendee/{{ registration.id }}"method="post" class="info" target="_blank">
                 <div class="attendee">
                     <h4>Attendee Info</h4>
@@ -61,7 +61,7 @@
                         <label for="age">Age</label>
                         <input type="number" name="age" id="age" value="{{ registration.age }}" />
                     </div>
-                    {% if registration.age < 18 %}
+                    {% if registration.is_minor %}
                         <div class="field">
                             <label for="parent_name">Name</label>
                             <input type="text" name="parent_name" id="parent_name" value="{{ registration.parent_name }}" />

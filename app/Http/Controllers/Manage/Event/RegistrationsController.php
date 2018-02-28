@@ -95,7 +95,7 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
             $registration->age = \Input::get('age');
         }
         if ($registration->age) {
-            $registration->parent_no_info = $registration->age >= 18;
+            $registration->parent_no_info = !$registration->is_minor;
             if ($registration->parent_no_info) {
                 $registration->parent_name = null;
                 $registration->parent_email = null;
@@ -171,11 +171,13 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
         }
     }
 
-    public function getWaiver()
+    public function postCancelWaiver()
     {
         $event = \Route::input('event');
         $registration = \Route::input('registration');
-        return "One-time use only! ".$registration->waiver->signers[0]->getLink();
+        $registration->waiver_pdf_link = null;
+        $registration->save();
+        return \Redirect::to('/event/'.$event->id.'/registrations/attendee/'.$registration->id);
     }
 
 

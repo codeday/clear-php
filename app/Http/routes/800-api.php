@@ -1,5 +1,7 @@
 <?php
 
+\Route::post('/incoming-waiver', 'IncomingWaiverController@postIndex');
+
 \Route::group(['namespace' => 'Api', 'prefix' => 'api', 'middleware' => ['api']], function() {
     \Route::get('stats', 'Stats@getIndex');
 
