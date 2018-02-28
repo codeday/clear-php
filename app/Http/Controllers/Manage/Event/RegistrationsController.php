@@ -58,9 +58,6 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
             \Input::get('first_name'), \Input::get('last_name'),
             \Input::get('email'), \Input::get('type'));
 
-        if ($registration->type !== 'student') {
-            $registration->parent_no_info = true;
-        }
         $registration->save();
 
         \Session::flash('status_message', $registration->name.' was registered');
@@ -95,8 +92,7 @@ class RegistrationsController extends \CodeDay\Clear\Http\Controller {
             $registration->age = \Input::get('age');
         }
         if ($registration->age) {
-            $registration->parent_no_info = !$registration->is_minor;
-            if ($registration->parent_no_info) {
+            if (!$registration->is_minor) {
                 $registration->parent_name = null;
                 $registration->parent_email = null;
                 $registration->parent_phone = null;

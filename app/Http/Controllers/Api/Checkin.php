@@ -58,7 +58,7 @@ class Checkin extends ApiController {
         $allowMissing = \Input::get('allow_missing') ? true : false;
         $disallowMissingInfo = \Input::get('disallow_missing_info') ? true : false;
 
-        $hasParent = isset($registration->parent_email) || $registration->parent_no_info;
+        $hasParent = isset($registration->parent_email) || !$registration->is_minor;
         $hasWaiver = isset($registration->waiver_pdf_link) || $registration->type !== 'student';
 
         $existing = isset($registration->checked_in_at) ? 'in' : 'out';

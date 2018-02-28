@@ -38,7 +38,6 @@ class Registrations extends ApiController {
     if (\Input::get('age')) {
         $registration->age = \Input::get('age');
         if (!$registration->is_minor) {
-            $registration->parent_no_info = true;
             $registration->parent_name = null;
             $registration->parent_email = null;
             $registration->parent_phone = null;
@@ -47,7 +46,6 @@ class Registrations extends ApiController {
     }
 
     if (\Input::get('parent_name') || \Input::get('parent_email')) {
-        $registration->parent_no_info = false;
         $registration->parent_name = \Input::get('parent_name');
         $registration->parent_email = \Input::get('parent_email');
         $registration->parent_phone = \Input::get('parent_phone');

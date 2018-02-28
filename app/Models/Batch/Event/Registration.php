@@ -46,8 +46,21 @@ class Registration extends \Eloquent {
         return $this->first_name.' '.$this->last_name;
     }
 
+    public function getRequiresWaiverAttribute()
+    {
+        return $this->type == 'student';
+    }
+
+    public function getRequiresEmergencyInfoAttribute()
+    {
+        return in_array($this->type, ['student', 'volunteer']) && $this->is_minor;
+    }
+
     public function getIsMinorAttribute()
     {
+        if (!$this->requires_emergency_info) return false;
+        if (!$this->age) return true;
+
         $consentAges = [
             'default'               => 18,
             'US-AL'                 => 19,

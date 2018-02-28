@@ -21,12 +21,14 @@ class SendParentInfoReminderJob {
                 ->where('batches_events.batch_id', '=', Models\Batch::Loaded()->id)
                 ->where(function($where) {
                     $where->whereNull('parent_email')
-                          ->where('parent_no_info', '=', false);
+                        ->where('age', '<', 21); // "Minor" varies by state, and we can't calculate until we have the registrations, but we
+                                                 // can save some time by not pulling obviously-adults.
                 })
-                ->where('batches_events_registrations.type', '=', 'student')
+                ->where('batches_events_registrations.type', '=', 'student') // TODO(@tylermenezes): Check if ->requires_emergency_info instead
                 ->get();
 
             foreach ($registrationsMissingParentInfo as $registration) {
+                if (!$registration->is_minor) continue;
                 Services\Email::SendOnQueue(
                     'CodeDay '.$registration->event->name, $registration->event->webname.'@codeday.org',
                     $registration->name, $registration->email,

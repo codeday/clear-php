@@ -116,9 +116,6 @@ class Events extends ApiController {
           \Input::get('first_name'), \Input::get('last_name'),
           \Input::get('email'), "student");
 
-      if ($registration->type !== 'student') {
-          $registration->parent_no_info = true;
-      }
       $registration->save();
 
       return json_encode(ModelContracts\Registration::Model($registration, $this->permissions));

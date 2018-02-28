@@ -84,8 +84,6 @@ class DashboardController extends \CodeDay\Clear\Http\Controller {
             $reg->parent_email = \Input::get('parent_email') ? \Input::get('parent_email') : null;
             $reg->parent_phone = \Input::get('parent_phone') ? \Input::get('parent_phone') : null;
             $reg->parent_secondary_phone = \Input::get('parent_secondary_phone') ? \Input::get('parent_secondary_phone') : null;
-        } elseif(\Input::get('type') !== 'student') {
-            $reg->parent_no_info = true;
         }
         $reg->save();
 
