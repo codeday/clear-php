@@ -58,7 +58,7 @@ class Registration extends \Eloquent {
 
     public function getIsMinorAttribute()
     {
-        if (!$this->requires_emergency_info) return false;
+        if (in_array($this->type, ['student', 'volunteer'])) return false;
         if (!$this->age) return true;
 
         $consentAges = [
