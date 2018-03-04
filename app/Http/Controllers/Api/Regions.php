@@ -40,7 +40,8 @@ class Regions extends ApiController {
 
         if ($withCurrentEvent) {
             $regions = $regions->rightJoin('batches_events', 'batches_events.region_id', '=', 'regions.id')
-                ->whereRaw('batches_events.batch_id = "'.Models\Batch::Loaded()->id.'"')
+                ->join('batches', 'batches.id', '=', 'batches_events.batch_id')
+                ->whereRaw('batches.is_loaded = 1')
                 ->whereNotNull('regions.id')
                 ->whereNull('batches_events.deleted_at')
                 ->whereNull('batches_events.overflow_for_id');
@@ -83,7 +84,8 @@ class Regions extends ApiController {
             $regionsQuery = Models\Region
                 ::select('regions.*')
                 ->rightJoin('batches_events', 'batches_events.region_id', '=', 'regions.id')
-                ->whereRaw('batches_events.batch_id = "'.Models\Batch::Loaded()->id.'"')
+                ->join('batches', 'batches.id', '=', 'batches_events.batch_id')
+                ->whereRaw('batches.is_loaded = 1')
                 ->whereNull('batches_events.overflow_for_id')
                 ->whereNotNull('regions.id')
                 ->whereNull('batches_events.deleted_at')

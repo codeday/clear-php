@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('dispatch:transactional-emails')
-                ->everyFiveMinutes()
+                ->everyMinute()
                 ->withoutOverlapping();
 
         $schedule->command('cron')

@@ -10,6 +10,7 @@ class ShareBatch
     {
         if (Models\User::is_logged_in()) {
             \View::share('loaded_batch', Models\Batch::Loaded());
+            \View::share('loaded_batches', Models\Batch::LoadedAll());
             \View::share('managed_batch', Models\Batch::Managed());
         }
         \View::share('stripe_pk', \Config::get('stripe.public'));

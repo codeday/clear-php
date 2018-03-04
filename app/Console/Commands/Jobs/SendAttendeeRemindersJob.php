@@ -12,18 +12,20 @@ class SendAttendeeRemindersJob {
     public function fire()
     {
         return;
-        foreach (Models\Batch::Loaded()->events as $event) {
-            foreach($event->schedule as $day) {
-                foreach($day as $activity){
-                    $adjustedBatchTimezone = Models\Batch::Loaded()->starts_at->setTimezone($event->batch->timezone)->hour(12);
+        foreach (Models\Batch::LoadedAll() as $batch) {
+            foreach ($batch->events as $event) {
+                foreach($event->schedule as $day) {
+                    foreach($day as $activity){
+                        $adjustedBatchTimezone = $batch->starts_at->setTimezone($event->batch->timezone)->hour(12);
 
-                    $activityTime = $adjustedBatchTimezone->addMinutes($activity->time * 60);
-                    $notifyTime = $activityTime->subMinutes(30);
+                        $activityTime = $adjustedBatchTimezone->addMinutes($activity->time * 60);
+                        $notifyTime = $activityTime->subMinutes(30);
 
-                    $now = Carbon::now()->setTimezone($event->batch->timezone);
+                        $now = Carbon::now()->setTimezone($event->batch->timezone);
 
-                    if($notifyTime->diffInMinutes($now) == 0 && $activity->type == "workshop") {
-                        Services\Notifications::SendNotificationsForActivity($activity, $event);
+                        if($notifyTime->diffInMinutes($now) == 0 && $activity->type == "workshop") {
+                            Services\Notifications::SendNotificationsForActivity($activity, $event);
+                        }
                     }
                 }
             }

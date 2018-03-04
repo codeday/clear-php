@@ -145,11 +145,12 @@ class BatchesController extends \CodeDay\Clear\Http\Controller {
     {
         $batch = \Route::input('batch');
         foreach (Models\Batch::all() as $b) {
-            if ($b->id == $batch->id) {
+            if ($b->id == $batch->id)
                 $b->is_loaded = true;
-            } else {
-                $b->is_loaded = false;
-            }
+            else
+                if (\Input::get('unload'))
+                    $b->is_loaded = false;
+
             $b->save();
         }
 

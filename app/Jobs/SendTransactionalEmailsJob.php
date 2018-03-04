@@ -10,10 +10,12 @@ class SendTransactionalEmailsJob extends Job
 {
     public function handle()
     {
-        foreach (Models\Batch::Loaded()->registrations as $registration) {
-            try{
-            	$this->sendEmailsForRegistration($registration);
-            }catch(\Exception $ex){ }
+        foreach (Models\Batch::LoadedAll() as $batch) {
+            foreach ($batch->registrations as $registration) {
+                try{
+                    $this->sendEmailsForRegistration($registration);
+                }catch(\Exception $ex){ }
+            }
         }
     }
 

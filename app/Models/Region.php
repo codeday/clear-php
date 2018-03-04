@@ -62,7 +62,9 @@ class Region extends \Eloquent {
     public function getCurrentEventAttribute()
     {
         if (!isset(self::$_allEvents)) {
-            self::$_allEvents = Batch\Event::where('batch_id', '=', Batch::Loaded()->id)
+            self::$_allEvents = Batch\Event::selectRaw('batches_events.*')
+                ->join('batches', 'batches.id', '=', 'batches_events.batch_id')
+                ->where('is_loaded', '=', true)
                 ->whereNull('overflow_for_id')
                 ->get();
         }

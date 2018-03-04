@@ -11,28 +11,30 @@ class SendEvangelistInfoReminderJob {
     
     public function fire()
     {
-        if (Carbon::now()->gte(Models\Batch::Loaded()->starts_at->addWeeks(-3))) {
-            $evangelistsWithMissingInformation = Models\User
-                ::select('users.*')
-                ->leftJoin('batches_events', 'batches_events.evangelist_username', '=', 'users.username')
-                ->where('batches_events.batch_id', '=', Models\Batch::Loaded()->id)
-                ->whereNull('users.phone')
-                ->groupBy('batches_events.evangelist_username')
-                ->get();
+        foreach (Models\Batch::LoadedAll() as $batch) {
+            if (Carbon::now()->gte($batch->starts_at->addWeeks(-3))) {
+                $evangelistsWithMissingInformation = Models\User
+                    ::select('users.*')
+                    ->leftJoin('batches_events', 'batches_events.evangelist_username', '=', 'users.username')
+                    ->where('batches_events.batch_id', '=', $batch->id)
+                    ->whereNull('users.phone')
+                    ->groupBy('batches_events.evangelist_username')
+                    ->get();
 
-            foreach ($evangelistsWithMissingInformation as $evangelist) {
-                echo "Queuing reminder for {$evangelist->name}\n";
-                Services\Email::SendOnQueue(
-                    'StudentRND Robot', 'contact@srnd.org',
-                    $evangelist->name, $evangelist->email,
-                    'Phone Number Required For CodeDay',
-                    null,
-                    \View::make('emails/nags/evangelist_info_html', ['user' => $evangelist]),
-                    false
-                );
+                foreach ($evangelistsWithMissingInformation as $evangelist) {
+                    echo "Queuing reminder for {$evangelist->name}\n";
+                    Services\Email::SendOnQueue(
+                        'StudentRND Robot', 'contact@srnd.org',
+                        $evangelist->name, $evangelist->email,
+                        'Phone Number Required For CodeDay',
+                        null,
+                        \View::make('emails/nags/evangelist_info_html', ['user' => $evangelist]),
+                        false
+                    );
+                }
+            } else {
+                echo "Skipping reminder emails, too early.\n";
             }
-        } else {
-            echo "Skipping reminder emails, too early.\n";
         }
     }
 }

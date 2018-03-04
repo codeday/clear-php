@@ -1,63 +1,70 @@
-<table class="status">
-    <thead>
-        <tr>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-            <th><abbr title="Venue Set">VEN</abbr></th>
-            <th><abbr title="Registrations Open">GO</abbr></th>
-            <th><abbr title="Shipping Address Set">SHA</abbr></th>
-            <th><abbr title="Total Registrations">Tot</abbr></th>
-            <th><abbr title="Registrations Today">TDy</abbr></th>
-            <th><abbr title="Registrations This Week">TWk</abbr></th>
-            <th class="tickets">Tix</th>
-            <th class="sponsors">Spns</th>
-            <th class="revenue">Rev</th>
-            <th class="cogs">COGS</th>
-            <th class="net">Net</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% set ticket_rev = 0 %}
-        {% set sponsor_rev = 0 %}
-        {% set rev = 0 %}
-        {% set costs = 0 %}
-
-        {% for event in managed_batch.events %}
+{% if managed_batch.is_loaded %}
+    {% set batches = loaded_batches %}
+{% else %}
+    {% set batches = [managed_batch] %}
+{% endif %}
+{% for batch in batches %}
+    <h2>{{ batch.name }}</h2>
+    <table class="status">
+        <thead>
             <tr>
-                <th><a href="/event/{{ event.id }}">{{ event.name }}</a></th>
-                <td><a href="https://s5.srnd.org/user/{{ event.manager_username }}" target="_blank">{{ event.manager.name }}</a></td>
-                <td {% if event.venue %}class="okay"{% endif %}><span><span></span></span></td>
-                <td {% if event.allow_registrations %}class="okay"{% endif %}><span><span></span></span></td>
-                <td {% if event.ship_address_1 %}class="okay"{% endif %}><span><span></span></span></td>
-                <td>{{ event.registrations.count }}</td>
-                <td>{{ event.registrations_today|length }}</td>
-                <td>{{ event.registrations_this_week|length }}</td>
-                <td class="tickets">${{ event.ticket_revenue|number_format(0) }}</td>
-                <td class="sponsors">${{ event.sponsor_revenue|number_format(0) }}</td>
-                <td class="revenue">${{ event.revenue|number_format(0) }}</td>
-                <td class="cogs">${{ event.costs|number_format(0) }}</td>
-                <td class="net {% if (event.revenue - event.costs) < 0 %}negative{% endif %}">
-                    ${{ (event.revenue-event.costs)|abs|number_format(0) }}</td>
-
-                {% set ticket_rev = ticket_rev + event.ticket_revenue %}
-                {% set sponsor_rev = sponsor_rev + event.sponsor_revenue %}
-                {% set rev = rev + event.revenue %}
-                {% set costs = costs + event.costs %}
-
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th><abbr title="Venue Set">VEN</abbr></th>
+                <th><abbr title="Registrations Open">GO</abbr></th>
+                <th><abbr title="Shipping Address Set">SHA</abbr></th>
+                <th><abbr title="Total Registrations">Tot</abbr></th>
+                <th><abbr title="Registrations Today">TDy</abbr></th>
+                <th><abbr title="Registrations This Week">TWk</abbr></th>
+                <th class="tickets">Tix</th>
+                <th class="sponsors">Spns</th>
+                <th class="revenue">Rev</th>
+                <th class="cogs">COGS</th>
+                <th class="net">Net</th>
             </tr>
-        {% endfor %}
-            <tr>
-                <th>TOTAL</th>
-                <td colspan="7">&nbsp;</td>
-                <td class="tickets">${{ ticket_rev|number_format(0) }}</td>
-                <td class="sponsors">${{ sponsor_rev|number_format(0) }}</td>
-                <td class="revenue">${{ rev|number_format(0) }}</td>
-                <td class="cogs">${{ costs|number_format(0) }}</td>
-                <td class="net {% if (rev-costs) < 0 %}negative{% endif %}">
-                    ${{ (rev - costs)|abs|number_format(0) }}
-                </td>
-            </tr>
+        </thead>
+        <tbody>
+            {% set ticket_rev = 0 %}
+            {% set sponsor_rev = 0 %}
+            {% set rev = 0 %}
+            {% set costs = 0 %}
 
-    </tbody>
-</table>
+            {% for event in batch.events %}
+                <tr>
+                    <th><a href="/event/{{ event.id }}">{{ event.name }}</a></th>
+                    <td><a href="https://s5.srnd.org/user/{{ event.manager_username }}" target="_blank">{{ event.manager.name }}</a></td>
+                    <td {% if event.venue %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.allow_registrations %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td {% if event.ship_address_1 %}class="okay"{% endif %}><span><span></span></span></td>
+                    <td>{{ event.registrations.count }}</td>
+                    <td>{{ event.registrations_today|length }}</td>
+                    <td>{{ event.registrations_this_week|length }}</td>
+                    <td class="tickets">${{ event.ticket_revenue|number_format(0) }}</td>
+                    <td class="sponsors">${{ event.sponsor_revenue|number_format(0) }}</td>
+                    <td class="revenue">${{ event.revenue|number_format(0) }}</td>
+                    <td class="cogs">${{ event.costs|number_format(0) }}</td>
+                    <td class="net {% if (event.revenue - event.costs) < 0 %}negative{% endif %}">
+                        ${{ (event.revenue-event.costs)|abs|number_format(0) }}</td>
 
+                    {% set ticket_rev = ticket_rev + event.ticket_revenue %}
+                    {% set sponsor_rev = sponsor_rev + event.sponsor_revenue %}
+                    {% set rev = rev + event.revenue %}
+                    {% set costs = costs + event.costs %}
+
+                </tr>
+            {% endfor %}
+                <tr>
+                    <th>TOTAL</th>
+                    <td colspan="7">&nbsp;</td>
+                    <td class="tickets">${{ ticket_rev|number_format(0) }}</td>
+                    <td class="sponsors">${{ sponsor_rev|number_format(0) }}</td>
+                    <td class="revenue">${{ rev|number_format(0) }}</td>
+                    <td class="cogs">${{ costs|number_format(0) }}</td>
+                    <td class="net {% if (rev-costs) < 0 %}negative{% endif %}">
+                        ${{ (rev - costs)|abs|number_format(0) }}
+                    </td>
+                </tr>
+
+        </tbody>
+    </table>
+{% endfor %}

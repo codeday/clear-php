@@ -14,6 +14,7 @@
         <form method="post">
             <a href="/settings/batches/{{ batch.id }}">Back</a>
             <input type="submit" value="Load"/>
+            <label for="unload">Unload Others</label><input type="checkbox" name="unload" id="unload" value="1" checked />
         {{ csrf|raw }}</form>
     {% endif %}
 {% endblock %}

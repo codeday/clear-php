@@ -95,6 +95,26 @@ class Batch extends \Eloquent {
         return self::$_loaded;
     }
 
+    private static $_loadedAll = null;
+    public static function LoadedAll()
+    {
+        if (!isset(self::$_loadedAll)) {
+            self::$_loadedAll = \Cache::remember('loaded_all', \config('app.debug') ? 0 : 15, function(){
+                $batches = Batch::where('is_loaded', '=', true)->get();
+                if (count($batches) == 0) {
+                    $batch = Batch::orderBy('starts_at', 'DESC')->firstOrFail();
+                    $batch->is_loaded = true;
+                    $batch->save();
+                    $batches = [$batch];
+                }
+
+                return $batches;
+            });
+        }
+
+        return self::$_loadedAll;
+    }
+
     private static $_managed = null;
     public static function Managed()
     {

@@ -30,7 +30,8 @@ class SupportCall extends \Eloquent {
         return Models\Batch\Event\Registration
             ::select('batches_events_registrations.*')
             ->join('batches_events', 'batches_events_registrations.batches_event_id', '=', 'batches_events.id')
-            ->where('batches_events.batch_id', '=', Models\Batch::Loaded()->id)
+            ->join('batches', 'batches_events.batch_id', '=', 'batches.id')
+            ->where('batches.is_loaded', '=', true)
             ->where(function($sub) use ($phone) {
                 return $sub
                     ->where('batches_events_registrations.parent_phone', '=', $phone)

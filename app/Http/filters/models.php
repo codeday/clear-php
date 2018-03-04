@@ -7,6 +7,7 @@ use CodeDay\Clear\Models;
     if ($region) {
         return $region;
     } else {
+        // TODO(@tylermenezes): Support multiple loaded batches
         $event = Models\Batch::Loaded()->EventWithWebname($val);
         $region = $event->region;
         $region->_event_override = $event;
