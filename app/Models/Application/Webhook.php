@@ -49,7 +49,7 @@ class Webhook extends \Eloquent {
         Services\Slack::SendPayloadToUrl([
           'icon_url' => "https://clear.codeday.org/assets/img/logo-square.png",
           'username' => "Clear",
-          'text' => "<https://clear.codeday.org/event/".$data->event->id."/registrations/attendee/".$data->id."|".$data->name.">"." registered for ".$data->event->name
+          'text' => "<https://clear.codeday.org/event/".$data->event->id."/registrations/attendee/".$data->id."|".$data->name."> (".$data->type.") registered for ".$data->event->name
         ], $hook->url);
       }
     }
