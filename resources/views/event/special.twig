@@ -65,6 +65,16 @@
             <span class="help">Regular price.</span>
         </div>
 
+        <div class="field">
+            <label for="batch_id">Batch ID</label>
+            <select name="batch_id">
+                {% for batch in all_batches %}
+                    <option value="{{ batch.id }}" {% if batch.id == event.batch_id %}selected{% endif %}>{{ batch.name }} ({{ batch.id }})</option>
+                {% endfor %}
+            </select>
+            <span class="help">Batch for the event. Ensure the batch does not have an event (including a deleted event) already!</span>
+        </div>
+
 
         <input type="submit" value="Save" />
     {{ csrf|raw }}</form>

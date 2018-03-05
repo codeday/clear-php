@@ -119,19 +119,17 @@ class Batch extends \Eloquent {
     public static function Managed()
     {
         if (!isset(self::$_managed)) {
-            if (!\Session::get('managed_batch_id')) {
-                \Session::set('managed_batch_id', self::Loaded()->id);
-            }
+            if (\Session::get('managed_batch_id')) {
+                $batch = self::where('id', '=', \Session::get('managed_batch_id'))->with('events')->first();
+            } else {
+                foreach (self::orderBy('starts_at', 'DESC')->get() as $recentBatch) {
+                    if (User::is_logged_in() && (User::me()->getManagedEvents($recentBatch) || User::me()->is_admin)) {
+                        $batch = $recentBatch;
+                        break;
+                    }
+                }
 
-            $batch = self::where('id', '=', \Session::get('managed_batch_id'))->with('events')->first();
-
-            if ((User::is_logged_in() && !User::me()->is_admin)
-                && count(User::me()->getManagedEvents($batch)) == 0
-                && count(User::me()->managed_batches) > 0) {
-                $batches = User::me()->managed_batches;
-                $most_recent_batch = $batches[count($batches) - 1];
-                \Session::set('managed_batch_id', $most_recent_batch->id);
-                $batch = $most_recent_batch;
+                \Session::set('managed_batch_id', $batch);
             }
 
             self::$_managed = $batch;

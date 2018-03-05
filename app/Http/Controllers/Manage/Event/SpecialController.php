@@ -7,7 +7,7 @@ use \CodeDay\Clear\Services;
 class SpecialController extends \CodeDay\Clear\Http\Controller {
     public function getIndex()
     {
-        return \View::make('event/special');
+        return \View::make('event/special', ['all_batches' => Models\Batch::get()]);
     }
 
     public function postIndex()
@@ -23,6 +23,7 @@ class SpecialController extends \CodeDay\Clear\Http\Controller {
         $event->webname_override = \Input::get('webname_override') ? \Input::get('webname_override') : null;
         $event->price_earlybird = \Input::get('price_earlybird') ?? 10;
         $event->price_regular = \Input::get('price_regular') ?? 20;
+        $event->batch_id = \Input::get('batch_id');
         $event->save();
 
         return \Redirect::to('/event/'.$event->id.'/special');

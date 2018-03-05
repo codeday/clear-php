@@ -2,7 +2,14 @@
     <form method="post" action="/new" class="info" id="register-form">
         <h2>Create a New Registration</h2>
         {% if me.is_admin %}
-            {% set events = managed_batch.events %}
+            {% if managed_batch.is_loaded %}
+                {% set events = [] %}
+                {% for batch in loaded_batches %}
+                    {% set events = events|merge(batch.events) %}
+                {% endfor %}
+            {% else %}
+                {% set events = managed_batch.events %}
+            {% endif %}
         {% else %}
             {% set events = me.current_managed_events %}
         {% endif %}
@@ -10,7 +17,7 @@
             <label for="batches_event_id">Event</label>
             <select name="batches_event_id" id="batches_event_id">
                 {% for _event in events %}
-                    <option value="{{ _event.id }}" {% if _event.id == event.id %}selected{% endif %}>{{ _event.name }}</option>
+                    <option value="{{ _event.id }}" {% if _event.id == event.id %}selected{% endif %}>{{ _event.name }} ({{ _event.batch.name }})</option>
                 {% endfor %}
             </select>
         </div>
