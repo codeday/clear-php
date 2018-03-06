@@ -121,9 +121,12 @@ class Batch extends \Eloquent {
         if (!isset(self::$_managed)) {
             if (\Session::get('managed_batch_id')) {
                 $batch = self::where('id', '=', \Session::get('managed_batch_id'))->with('events')->first();
-            } else {
+                if (!isset($batch) || count(User::me()->getManagedEvents($batch)) == 0) $batch = null;
+            }
+
+            if (!isset($batch)) {
                 foreach (self::orderBy('starts_at', 'DESC')->get() as $recentBatch) {
-                    if (User::is_logged_in() && (User::me()->getManagedEvents($recentBatch) || User::me()->is_admin)) {
+                    if (User::is_logged_in() && (count(User::me()->getManagedEvents($recentBatch)) > 0 || User::me()->is_admin)) {
                         $batch = $recentBatch;
                         break;
                     }
