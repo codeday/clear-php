@@ -33,7 +33,7 @@ RUN apt-get remove -y \
       libmagickwand-dev
 
 # Install some other needed stuff
-RUN apt-get install -y git socat nginx
+RUN apt-get install -y git nginx
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
@@ -67,5 +67,5 @@ RUN chown -R www-data /app/bootstrap
 # Expose the nginx port
 EXPOSE 80
 
-# Start nginx (it will daemonize itself) and run php-fpm
-CMD nginx && php-fpm
+# Migrate the database schema, start nginx (it will daemonize itself), and run php-fpm
+CMD php artisan migrate --force && nginx && php-fpm
