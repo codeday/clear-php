@@ -1,0 +1,28 @@
+version: '3'
+services:
+  app:
+    depends_on:
+      - db
+      - redis
+    build:
+      context: .
+      args:
+        DOMAIN: "192.168.1.69"
+    volumes:
+      - ./config/local.json:/app/config/local.json
+      - ./storage:/app/storage
+    ports:
+      - "1337:80"
+# Optional services, comment these out if you don't need them
+  db:
+    image: mysql:5.5
+    restart: always
+    volumes:
+      - ./docker/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: clear
+      MYSQL_DATABASE: clear
+      MYSQL_USER: clear
+      MYSQL_PASSWORD: clear
+  redis:
+    image: redis:latest

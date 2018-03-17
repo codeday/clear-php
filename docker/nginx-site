@@ -1,0 +1,33 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name SERVER_DOMAIN;
+
+    root /app/public;
+
+    client_max_body_size 25M;
+
+    access_log /var/log/nginx/access.log;
+    error_log  /var/log/nginx/error.log error;
+
+    charset utf-8;
+
+    location / {
+        index index.php;
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        include fastcgi_params;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    fastcgi_buffers  16 16k;
+    fastcgi_buffer_size  32k;
+
+    error_page 404 /index.php;
+}

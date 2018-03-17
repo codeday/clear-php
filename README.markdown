@@ -23,6 +23,23 @@ Tasks on Clear largely fall into two categories: changing event configuration, a
 - Redis
 - A Raygun account (optional, used for error reporting)
 
+## Deploying with Docker
+
+We recommend using `docker-compose` to set everything up; a sample `docker-compose.yml` is included.
+Make sure to create `config/local.json`. If you are using our `docker-compose.yml` file, this can get you
+set up pretty quickly:
+
+```bash
+git clone https://github.com/srnd/Clear.git clear
+cd clear
+cp config/local.sample.json config/local.json # You will need to edit this file (remove the comments and set the vars)
+cp docker-compose.sample.yml docker-compose.yml
+docker-compose build
+docker-compose up -d
+docker exec -it clear_app_1 php artisan migrate # type "yes" when prompted
+# Visit localhost:1337
+```
+
 <a href="https://raygun.com/products/crash-reporting/">Error and crash reporting software</a> provided by <a href="https://raygun.com/">Raygun</a>
 
 <img width="200" src="http://i.imgur.com/yuoIAvf.png"></img>

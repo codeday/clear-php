@@ -57,7 +57,7 @@
         "connections": {
             "mysql": {
                 "driver": "mysql",
-                "host": "localhost",
+                "host": "db",
                 "database": "clear",
                 "username": "clear",
                 "password": "clear",
@@ -76,6 +76,17 @@
                 "queue": "clear",
                 "ttr": 60
             }
+        }
+    },
+
+    "redis": { /* caching */
+        "client": "redis",
+        "default": {
+            "host": "redis",
+            "port": "6379",
+            "database": 0,
+            "prefix": "codeday_clear_",
+            "persistent": true
         }
     },
 
