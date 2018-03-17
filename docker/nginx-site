@@ -1,8 +1,8 @@
 server {
-    listen 80;
+    listen 80 default_server;
     listen [::]:80;
 
-    server_name SERVER_DOMAIN;
+    server_name _;
 
     root /app/public;
 

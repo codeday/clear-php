@@ -38,6 +38,9 @@ RUN apt-get install -y git socat nginx
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
+# Make Composer not complain about root
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
 # Install Composer dependencies
 WORKDIR /app
 COPY composer* ./
@@ -49,10 +52,7 @@ RUN composer dump-autoload
 RUN php artisan clear-compiled
 
 # Configure nginx
-ARG DOMAIN=clear.codeday.dev
-
-COPY ./docker/nginx-site /etc/nginx/sites-enabled/$DOMAIN
-RUN sed -i "s/SERVER_DOMAIN/$DOMAIN/g" /etc/nginx/sites-enabled/$DOMAIN
+COPY ./docker/nginx-site /etc/nginx/sites-enabled/default
 
 # Do some stuff for error logging
 COPY ./docker/php-fpm.conf /usr/local/etc/php-fpm.d/enable-logging.conf
