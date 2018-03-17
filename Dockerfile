@@ -68,4 +68,4 @@ RUN chown -R www-data /app/bootstrap
 EXPOSE 80
 
 # Migrate the database schema, start nginx (it will daemonize itself), and run php-fpm
-CMD php artisan migrate --force && nginx && php-fpm
+CMD nginx && php-fpm

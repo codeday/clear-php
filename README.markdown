@@ -25,6 +25,8 @@ Tasks on Clear largely fall into two categories: changing event configuration, a
 
 ## Deploying with Docker
 
+**Note:** Building the Clear image for the first time will probably take a long time
+
 We recommend using `docker-compose` to set everything up; a sample `docker-compose.yml` is included.
 Make sure to create `config/local.json`. If you are using our `docker-compose.yml` file, this can get you
 set up pretty quickly:
