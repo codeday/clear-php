@@ -7,5 +7,7 @@ Homestead.json
 app/storage
 /.sass-cache
 /storage/views
+/storage/framework
+/storage/logs
 /docker/db
 docker-compose.yml
