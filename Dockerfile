@@ -67,5 +67,5 @@ RUN chown -R www-data /app/bootstrap
 # Expose the nginx port
 EXPOSE 80
 
-# Migrate the database schema, start nginx (it will daemonize itself), and run php-fpm
-CMD nginx && php-fpm
+# Start things
+CMD [ "bash", "./docker-entrypoint.sh" ]

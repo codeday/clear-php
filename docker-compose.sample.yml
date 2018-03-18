@@ -4,9 +4,10 @@ services:
     depends_on:
       - db
       - redis
-    build: .
+    build: srnd/clear:latest
+    env_file:
+      - .env
     volumes:
-      - ./config/local.json:/app/config/local.json
       - ./storage:/app/storage
     ports:
       - "1337:80"
