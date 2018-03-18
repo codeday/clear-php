@@ -49,7 +49,6 @@ RUN composer install --no-autoloader --no-scripts
 # Copy code to the docker container and run it
 COPY . .
 RUN composer dump-autoload
-RUN php artisan clear-compiled
 
 # Configure nginx
 COPY ./docker/nginx-site /etc/nginx/sites-enabled/default
@@ -58,7 +57,7 @@ COPY ./docker/nginx-site /etc/nginx/sites-enabled/default
 COPY ./docker/php-fpm.conf /usr/local/etc/php-fpm.d/enable-logging.conf
 
 # Make some dirs for mount points
-RUN mkdir -p /app/storage
+RUN mkdir -p /app/storage /app/storage/logs /app/storage/framework /app/boostrap
 
 # Fix permissions for some directories
 RUN chown -R www-data /app/storage
