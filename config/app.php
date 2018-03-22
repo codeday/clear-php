@@ -52,7 +52,6 @@ return [
         CodeDay\Clear\Providers\EventServiceProvider::class,
         CodeDay\Clear\Providers\RouteServiceProvider::class,
         TwigBridge\ServiceProvider::class,
-        Morrislaptop\LaravelQueueClear\LaravelQueueClearServiceProvider::class,
     ],
     'aliases' => [
         'App'       => Illuminate\Support\Facades\App::class,

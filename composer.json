@@ -21,21 +21,17 @@
         "twig/twig": "1.30",
         "aws/aws-sdk-php": "3.*",
         "tecnickcom/TCPDF": "6.2.*",
-        "tylermenezes/legalesign-php": "0.9.3",
         "sendgrid/sendgrid": "^4.0",
         "tijsverkoyen/css-to-inline-styles": "^1.5",
         "soundasleep/html2text": "^0.3.1",
         "jbdemonte/barcode": "^2.1",
-        "eo/passbook": "^1.3",
         "mindscape/raygun4php": "1.*",
-        "userscape/customerio": "^1.0",
         "setasign/fpdi": "1.6.1",
         "setasign/fpdi-fpdf": "1.6.1",
         "spatie/pdf-to-image": "^1.3",
         "predis/predis": "^1.1",
         "studentrnd/s5laravel": "1.0.*",
         "doctrine/dbal": "^2.5",
-        "morrislaptop/laravel-queue-clear": "^1.0",
         "wildbit/postmark-php": "^2.4"
     },
     "require-dev": {
@@ -67,13 +63,14 @@
         ],
         "post-install-cmd": [
             "php artisan clear-compiled",
-            "php artisan optimize"
+            "php artisan optimize",
+            "rm -rf vendor/tecnickcom/tcpdf/fonts"
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"
         ],
         "post-update-cmd": [
-            "php artisan optimize"
+            "rm -rf vendor/tecnickcom/tcpdf/fonts"
         ]
     },
     "config": {
