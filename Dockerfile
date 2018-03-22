@@ -3,7 +3,6 @@ WORKDIR /tmp
 
 # Install php exts and their dependencies
 RUN apt-get remove imagemagick
-RUN apt-get autoremove
 
 RUN apt-get update && \
     apt-get install -y \
@@ -49,6 +48,9 @@ RUN composer install --no-autoloader --no-scripts
 # Copy code to the docker container and run it
 COPY . .
 RUN composer dump-autoload
+
+# Shrink the image size by removing deps that aren't needed anymore
+RUN apt-get autoremove -y
 
 # Configure nginx
 COPY ./docker/nginx-site /etc/nginx/sites-enabled/default
