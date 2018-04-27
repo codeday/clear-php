@@ -521,11 +521,11 @@ class Event extends \Eloquent {
                 'description' => 'Work with other attendees to make your city #1 worldwide!'
             ],
             (Object)[
-                'time' => 8.5 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
-                'title' => 'Game Tourney (presented by Kinesis)',
+                'time' => 2 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
+                'title' => 'HERE: Why & How to Use Location Services in Your Apps',
                 'type' => 'workshop',
-                'url' => 'https://goo.gl/forms/Abwj5C9ybByAl16V2',
-                'description' => 'Sign up now to play Smash against other CodeDay attendees across the world.'
+                'url' => 'https://here.webex.com/here/j.php?MTID=ma3a1cbdbdd9e12a7531e154dfe6613de',
+                'description' => 'Location data enables us to connect with our environment.'
             ],
         ];
 
