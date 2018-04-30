@@ -9,5 +9,6 @@ app/storage
 /storage/views
 /storage/framework
 /storage/logs
+/storage/debugbar
 /docker/db
 docker-compose.yml
