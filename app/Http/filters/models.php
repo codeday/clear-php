@@ -7,8 +7,22 @@ use CodeDay\Clear\Models;
     if ($region) {
         return $region;
     } else {
-        // TODO(@tylermenezes): Support multiple loaded batches
-        $event = Models\Batch::Loaded()->EventWithWebname($val);
+        $event = Models\Batch\Event
+            ::select('batches_events.*')
+            ->join('batches', 'batches.id', '=', 'batches_events.batch_id')
+            ->where('batches.is_loaded', '=', true)
+            ->where(function($group) use ($val) {
+                return $group
+                    ->where('webname_override', '=', $val)
+                    ->orWhere(function($w2) use ($val) {
+                        return $w2
+                            ->where('region_id', '=', $val)
+                            ->whereNull('webname_override');
+                    });
+            })
+            ->orderBy('webname_override')
+            ->orderBy('batches_events.created_at', 'DESC')
+            ->firstOrFail();
         $region = $event->region;
         $region->_event_override = $event;
         return $region;
