@@ -38,15 +38,6 @@
                 "marketing": true
             },
             {
-                "id":   "student_promo_2",
-                "subject": "Actual request: CodeDay help",
-                "html": "emails/preevent/student_promote_2",
-                "when": "+7d",
-                "from_n": "Tyler Menezes",
-                "from_e": "tylermenezes@srnd.org",
-                "marketing": true
-            },
-            {
                 "id":   "parent_preevent",
                 "subject": "Your student is attending CodeDay",
                 "html": "emails/preevent/parent_html",
