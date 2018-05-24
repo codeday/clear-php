@@ -507,11 +507,18 @@ class Event extends \Eloquent {
 
         $workshops = [
             (Object)[
-                'time' => 1,
+                'time' => 0.5,
                 'title' => 'Beginner: Intro to coding',
                 'type' => 'workshop',
                 'url' => 'https://blog.srnd.org/jumping-over-chairs-and-learning-to-make-a-game-with-construct-2-a796f4def9e9#.v37wzagti',
                 'description' => "Totally new to coding? No problem! Attend this workshop and our Code Evangelists will walk you through creating your first game."
+            ],
+            (Object)[
+                'time' => 2 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
+                'title' => 'HERE: Why & How to Use Location Services in Your Apps',
+                'type' => 'workshop',
+                'url' => 'https://www.twitch.tv/srnd_org',
+                'description' => 'Location data enables us to connect with our environment.'
             ],
             (Object)[
                 'time' => 7 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
@@ -519,13 +526,6 @@ class Event extends \Eloquent {
                 'type' => 'workshop',
                 'url' => 'https://codecup.sh/',
                 'description' => 'Work with other attendees to make your city #1 worldwide!'
-            ],
-            (Object)[
-                'time' => 0 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
-                'title' => 'HERE: Why & How to Use Location Services in Your Apps',
-                'type' => 'workshop',
-                'url' => 'https://here.webex.com/here/j.php?MTID=ma3a1cbdbdd9e12a7531e154dfe6613de',
-                'description' => 'Location data enables us to connect with our environment.'
             ],
         ];
 
