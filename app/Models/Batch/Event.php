@@ -515,10 +515,10 @@ class Event extends \Eloquent {
             ],
             (Object)[
                 'time' => 2 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
-                'title' => 'HERE: Why & How to Use Location Services in Your Apps',
+                'title' => 'HERE: Why & How to Use Location Services in Your Apps + Coding Challenge w/ Prize',
                 'type' => 'workshop',
-                'url' => 'https://www.twitch.tv/srnd_org',
-                'description' => 'Location data enables us to connect with our environment.'
+                'url' => 'https://www.twitch.tv/heredevs',
+                'description' => 'Location data enables us to connect with our environment. Learn how to use it in your app, plus win a Sparkfun Inventor Kit valued at $100!'
             ],
             (Object)[
                 'time' => 7 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
