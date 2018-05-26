@@ -527,6 +527,13 @@ class Event extends \Eloquent {
                 'url' => 'https://codecup.sh/',
                 'description' => 'Work with other attendees to make your city #1 worldwide!'
             ],
+            (Object)[
+                'time' => 9 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
+                'title' => 'Online Game Tournament (presented by Kinesis Gaming)',
+                'type' => 'workshop',
+                'url' => 'https://www.cognitoforms.com/Srnd1/CodeDayVideoGameTournamentRegistration',
+                'description' => 'Compete against other CodeDay participants. The top three win a Kinesis Gaming Keyboard!'
+            ],
         ];
 
         $meals = [
