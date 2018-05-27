@@ -669,7 +669,9 @@ class Event extends \Eloquent {
     }
 
     private function getTimezoneOffset($region) {
-        return timezone_offset_get(new \DateTimeZone($region), Carbon::createFromTimestamp($this->starts_at, $region))/(60*60);
+        $x = timezone_offset_get(new \DateTimeZone($region), Carbon::createFromTimestamp($this->starts_at, $region))/(60*60);
+        if ($this->region_id === 'phoenix' || $this->region_id === 'arizona') $x -= 1;
+        return $x;
     }
 
     public function getManifestGeneratedAttribute()
