@@ -72,7 +72,7 @@ class BanlistController extends \CodeDay\Clear\Http\Controller {
             $ban->creator ? $ban->creator->name : 'Someone',
             $ban->name,
             $ban->reason_name ? $ban->reason_name : 'reasons',
-            $ban->expires_at ? $ban->toDateString() : 'the heat death of the universe',
+            $ban->expires_at ? $ban->expires_at->toDateString() : 'the heat death of the universe',
             $ban->details), "#staff-safety");
 
         \Session::flash('status_message', 'Ban created.');
