@@ -26,7 +26,8 @@
                 "html": "emails/preevent/student_html",
                 "when": "-3d",
                 "work": true,
-                "from_n": "John Peter"
+                "from_n": "CodeDay",
+                "from_e": "tickets@codeday.org"
             },
             {
                 "id":   "student_promo_1",
