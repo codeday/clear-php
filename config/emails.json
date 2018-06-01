@@ -68,14 +68,6 @@
         ],
         
         "mentor": [
-            {
-                "id":   "mentor_preevent",
-                "subject": "Mentors: What to know for CodeDay",
-                "html": "emails/preevent/mentor_html",
-                "when": "-3d",
-                "from_n": "Tyler Menezes",
-                "from_e": "volunteer@srnd.org"
-            }
         ],
         
         "teacher": [
