@@ -26,3 +26,7 @@ Tasks on Clear largely fall into two categories: changing event configuration, a
 <a href="https://raygun.com/products/crash-reporting/">Error and crash reporting software</a> provided by <a href="https://raygun.com/">Raygun</a>
 
 <img width="200" src="http://i.imgur.com/yuoIAvf.png"></img>
+
+Testing provided by BrowserStack.
+
+<a href="https://www.browserstack.com/"><img src="https://i.imgur.com/PBbgYuQ.png" /></a>
