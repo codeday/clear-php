@@ -634,7 +634,7 @@ class Event extends \Eloquent {
             if ($activity->type == 'internal' && !$includeInternal) continue;
             $activity->timestamp->tz = $this->region->timezone;
             $activities[] = (object)[
-                'time' => $activity->time,
+                'time' => floatval($activity->time),
                 'title' => $activity->title,
                 'type' => $activity->type,
                 'url' => $activity->url,
