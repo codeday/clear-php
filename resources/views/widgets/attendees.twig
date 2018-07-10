@@ -31,7 +31,7 @@
                 {% endif %}
             </span>
             <span class="devices">
-                {% for deviceType in ["sms", "messenger", "app"] %}
+                {% for deviceType in ["sms", "messenger", "app", "app_ios_dev", "app_ios_prod"] %}
                     {% if attendee.hasDeviceType(deviceType) %}
                         <span class="device device-{{ deviceType }}" title="Attendee subscribed to notifications via {{ deviceType }}"></span>
                     {% endif %}

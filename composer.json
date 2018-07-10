@@ -32,7 +32,8 @@
         "predis/predis": "^1.1",
         "studentrnd/s5laravel": "1.0.*",
         "doctrine/dbal": "^2.5",
-        "wildbit/postmark-php": "^2.4"
+        "wildbit/postmark-php": "^2.4",
+        "duccio/apns-php": "v2.0.0-alpha"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

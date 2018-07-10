@@ -9,6 +9,19 @@ class Notifications {
     $event = $announcement->event;
     $registrations = $event->registrations;
 
+    // open connections to APNs
+    $apns_prod = new \ApnsPHP_Push(\ApnsPHP_Abstract::ENVIRONMENT_PRODUCTION, base_path()."/resources/signing/apns_prod.pem");
+    $apns_prod->setProviderCertificatePassphrase(\Config::get("apple.apns_prod_password"));
+
+    $apns_dev = new \ApnsPHP_Push(\ApnsPHP_Abstract::ENVIRONMENT_SANDBOX, base_path()."/resources/signing/apns_dev.pem");
+    $apns_dev->setProviderCertificatePassphrase(\Config::get("apple.apns_dev_password"));
+
+    $apns_prod->setRootCertificationAuthority(base_path()."/resources/signing/entrust.pem");
+    $apns_dev->setRootCertificationAuthority(base_path()."/resources/signing/entrust.pem");
+
+    $apns_prod->connect();
+    $apns_dev->connect();
+
     foreach($registrations as $registration) {
       $devices = $registration->devices;
 
@@ -45,9 +58,49 @@ class Notifications {
               Firebase::SendNotification("CodeDay Announcement", $announcement->body, $device->token);
             }
             break;
+          default:
+            if($device->service == "app_ios_dev" || $device->service == "app_ios_prod") {
+              $sandbox = $device->service == "app_ios_dev";
+
+              $message = new \ApnsPHP_Message($device->token);
+              $message->setText($announcement->body);
+
+              if($sandbox == true) {
+                $apns_dev->add($message);
+              } else {
+                $apns_prod->add($message);
+              }
+            }
+            break;
         }
       }
     }
+
+    \Queue::push(function ($job) use ($apns_prod, $apns_dev) {
+      if(!empty($apns_prod->getQueue(false))) {
+        $apns_prod->connect();
+        $apns_prod->send();
+        $apns_prod->disconnect();
+        $prod_errors = $apns_prod->getErrors();
+        
+        if(!empty($prod_errors)) {
+          \Log::error($prod_errors);
+        }
+      }
+  
+      if(!empty($apns_dev->getQueue(false))) {
+        $apns_dev->connect();
+        $apns_dev->send();
+        $apns_dev->disconnect();
+        $dev_errors = $apns_dev->getErrors();
+        
+        if(!empty($dev_errors)) {
+          \Log::error($dev_errors);
+        }
+      }
+      
+      $job->delete();
+    });
   }
 
   public static function SendCheckinNotification($registration) {

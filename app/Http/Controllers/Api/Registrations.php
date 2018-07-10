@@ -67,13 +67,15 @@ class Registrations extends ApiController {
     $allowed_services = [
       "messenger",
       "sms",
-      "app"
+      "app",
+      "app_ios_dev",
+      "app_ios_prod"
     ];
 
     if(!in_array($service, $allowed_services)) {
       return json_encode([
         'ok' => false,
-        'error' => 'service must be one of (messenger, sms, app)'
+        'error' => 'service must be one of (messenger, sms, app, app_ios_[dev/prod])'
       ]);
     }
 
