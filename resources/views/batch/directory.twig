@@ -19,35 +19,43 @@
             </tr>
         </thead>
         <tbody>
+            {% set all_emails = [] %}
             {% for event in managed_batch.events %}
                 {% if event.manager %}
                     <tr class="event">
                         <th>{{ event.name }}</th>
-                        <td>{{ event.manager.name }}</td>
+                        <td>{{ event.manager.name }} ({{ event.manager.username }})</td>
                         <td>Event Manager</td>
                         <td><a href="mailto:{{ event.manager.email }}">{{ event.manager.email }}</a></td>
                         <td><a href="tel:{{ event.manager.phone }}">{{ event.manager.phone }}</a></td>
+                        {% set all_emails = all_emails|merge([event.manager.email, event.manager.username~'@srnd.org']) %}
                     </tr>
                     {% if event.evangelist %}
                         <tr>
                             <th>&nbsp;</th>
-                            <td>{{ event.evangelist.name }}</td>
+                            <td>{{ event.evangelist.name }} ({{ event.evangelist.username }})</td>
                             <td>Lead Evangelist</td>
                             <td><a href="mailto:{{ event.evangelist.email }}">{{ event.evangelist.email }}</a></td>
                             <td><a href="tel:{{ event.evangelist.phone }}">{{ event.evangelist.phone }}</a></td>
                         </tr>
+                        {% set all_emails = all_emails|merge([event.evangelist.email, event.evangelist.username~'@srnd.org']) %}
                     {% endif %}
                     {% for grant in event.grants %}
                         <tr>
                             <th>&nbsp;</th>
-                            <td>{{ grant.user.name }}</td>
+                            <td>{{ grant.user.name }} ({{ grant.user.username }})</td>
                             <td>Volunteer</td>
                             <td><a href="mailto:{{ grant.user.email }}">{{ grant.user.email }}</a></td>
                             <td><a href="tel:{{ grant.user.phone }}">{{ grant.user.phone }}</a></td>
                         </tr>
+                        {% set all_emails = all_emails|merge([grant.user.email, grant.user.username~'@srnd.org']) %}
                     {% endfor %}
                 {% endif %}
             {% endfor %}
         </tbody>
     </table>
+
+    {% if me.is_admin %}
+        <textarea>{{ all_emails|join(", ") }}</textarea>
+    {% endif %}
 {% endblock %}
