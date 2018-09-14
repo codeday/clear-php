@@ -30,7 +30,7 @@
                     {% if promotion.percent_discount != 100 or promotion.allowed_uses != 1 or promotion.expires_at != null %}
                         <tr class="promo">
                             <td class="code"><input type="text" value="{{ promotion.code }}" readonly /></td>
-                            <td>{{ promotion.percent_discount }}%</td>
+                            <td>{% if promotion.percent_discount %}{{ promotion.percent_discount }}%{% else %}${{ promotion.force_price }}{% endif %}</td>
                             <td>
                                 <a href="/event/{{ event.id }}/promotions/uses?code={{ promotion.id }}">
                                     {{ promotion.registrations.count }}{#
@@ -115,8 +115,14 @@
 
         <div class="field" style="display: none">
             <label for="percent_discount">Discount %</label>
-            <input type="number" name="percent_discount" id="percent_discount" value="" placeholder="50" min="1" max="100" step="1" required />
+            <input type="number" name="percent_discount" id="percent_discount" value="" placeholder="50" min="1" max="100" step="1" />
             <span class="help">The amount to discount tickets when the code is applied.</span>
+        </div>
+
+        <div class="field" style="display: none">
+            <label for="force_price">Force Price</label>
+            <input type="number" name="force_price" id="force_price" value="" placeholder="5" min="0" step="1" />
+            <span class="help">The amount to charge for the ticket. If a % discount is specified instead, this will be ignored.</span>
         </div>
 
         <div class="field" style="display: none">
@@ -182,7 +188,7 @@
                 },
                 custom: {}
             };
-            var all_fields = ['code', 'notes', 'percent_discount', 'expires_at', 'allowed_uses', 'type'];
+            var all_fields = ['code', 'notes', 'percent_discount', 'expires_at', 'allowed_uses', 'type', 'force_price'];
 
             $('#purpose').on('change', function(){
                 var selected_type = $(this).val();

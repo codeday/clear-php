@@ -39,6 +39,33 @@ class Register extends Tests\ApiTestCase {
         $promotion->delete();
     }
 
+    public function testForcePricePromotion()
+    {
+        $event = Models\Batch\Event::first();
+        $code = str_random(12);
+
+        $promotion = new Models\Batch\Event\Promotion;
+        $promotion->batches_event_id = $event->id;
+        $promotion->code = strtoupper($code);
+        $promotion->notes = '';
+        $promotion->force_price = 1.0;
+        $promotion->save();
+
+        $response = $this->call('GET', '/api/register/'.$event->id.'/promotion', [
+            'code' => $code
+        ]);
+
+        $this->assertValidOkApiResponse($response);
+        $data = json_decode($response->getContent());
+
+        $this->assertNotNull($data->cost,
+            'Promotion cost should be $1.');
+        $this->assertEquals(90, $data->discount,
+            'Discount percent should be 90%');
+
+        $promotion->delete();
+    }
+
     public function testExpiredPromotion()
     {
         $event = Models\Batch\Event::first();
@@ -350,6 +377,32 @@ class Register extends Tests\ApiTestCase {
         $reg = Models\Batch\Event\Registration::where('id', '=', $data->ids[0])->firstOrFail();
         $this->assertEquals($promotion->id, $reg->batches_events_promotion_id, "Promo not marked used");
         $this->assertEquals("student", $reg->type, "Registration did not take default type");
+
+        $reg->forcedelete();
+        $promotion->delete();
+
+        $batch = $event->batch;
+        $event->forcedelete();
+        $batch->delete();
+    }
+
+    public function testPromoForcedPrice()
+    {
+        $event = $this->getFutureEvent();
+        $event->max_registrations = 20;
+        $event->allow_registrations = true;
+        $event->save();
+
+        $promotion = new Models\Batch\Event\Promotion;
+        $promotion->batches_event_id = $event->id;
+        $promotion->code = strtoupper(str_random(5));
+        $promotion->force_price = 1.0;
+        $promotion->save();
+
+        $data = $this->register($event, ["test"], ['test'], ['foo@foo.com'], 1, strtolower($promotion->code));
+        $this->assertEquals(200, $data->status, $data->message ?? '');
+
+        $reg = Models\Batch\Event\Registration::where('id', '=', $data->ids[0])->firstOrFail();
 
         $reg->forcedelete();
         $promotion->delete();

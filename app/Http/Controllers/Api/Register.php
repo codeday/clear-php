@@ -23,15 +23,25 @@ class Register extends \CodeDay\Clear\Http\Controller {
             ->where('batches_event_id', '=', $event->id)
             ->first();
 
-        if ($promotion)
+        if ($promotion) {
+            $cost = $promotion->event->cost;
+            $discount = 0;
+            if (isset($promotion->force_price)) {
+                $cost = floatval($promotion->force_price);
+                $discount = (1-($cost/$promotion->event->cost))*100;
+            } elseif (isset($promotion->percent_discount)) {
+                $discount = floatval($promotion->percent_discount);
+                $cost *= (1 - ($promotion->percent_discount / 100.0));
+            } else \abort(404);
+
             return [
-                'discount' => floatval($promotion->percent_discount),
-                'cost' => $promotion->event->cost * (1 - ($promotion->percent_discount / 100.0)),
+                'discount' => $discount,
+                'cost' => $cost,
                 'remaining_uses' => $promotion->remaining_uses,
                 'expired' => $promotion->expires_at ? $promotion->expires_at->isPast() : false,
                 'type' => $promotion->type
             ];
-        elseif ($giftcard)
+        } elseif ($giftcard)
             return [
                 'discount' => 100,
                 'cost' => 0,
@@ -266,6 +276,8 @@ class Register extends \CodeDay\Clear\Http\Controller {
         elseif ($promotion->remaining_uses != null && $promotion->remaining_uses < $count)
             $promoError = sprintf("only allows %s more uses, and you tried to register %s people",
                                     $promotion->remaining_uses, count($registrants));
+        elseif (!isset($promotion->percent_discount) && !isset($promotion->force_price))
+            $promoError = sprintf("does not provide a discount");
 
         if ($promoError) return self::apiThrow('promo', sprintf("Sorry, the code %s %s.", $promotion->code, $promoError));
 
@@ -306,10 +318,12 @@ class Register extends \CodeDay\Clear\Http\Controller {
 
         if ($giftcard)
             return 0.0;
-        elseif ($promotion)
-            return $normalCost * (1 - ($promotion->percent_discount / 100.0));
-        else
-            return $normalCost;
+        elseif ($promotion) {
+            if (isset($promotion->force_price)) return floatval($promotion->force_price);
+            elseif (isset($promotion->percent_discount)) return $normalCost * (1 - ($promotion->percent_discount / 100.0));
+        }
+        
+        return $normalCost;
     }
 
 

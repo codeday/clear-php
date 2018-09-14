@@ -41,7 +41,8 @@ class PromotionsController extends \CodeDay\Clear\Http\Controller {
         $promotion->batches_event_id = $event->id;
         $promotion->code = strtoupper($code);
         $promotion->notes = \Input::get('notes');
-        $promotion->percent_discount = \Input::get('percent_discount');
+        $promotion->percent_discount = \Input::get('percent_discount') ? \Input::get('percent_discount') : null;
+        $promotion->force_price = \Input::get('percent_discount') ? null : \Input::get('force_price');
         $promotion->expires_at = $expires_at;
         $promotion->allowed_uses = $allowed_uses;
         $promotion->type = \Input::get('type');
