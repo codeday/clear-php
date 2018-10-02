@@ -513,7 +513,6 @@ class Event extends \Eloquent {
                 'url' => 'https://blog.srnd.org/jumping-over-chairs-and-learning-to-make-a-game-with-construct-2-a796f4def9e9#.v37wzagti',
                 'description' => "Totally new to coding? No problem! Attend this workshop and our Code Evangelists will walk you through creating your first game."
             ],
-            /*
             (Object)[
                 'time' => 2 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
                 'title' => 'HERE: Why & How to Use Location Services in Your Apps + Coding Challenge w/ Prize',
@@ -534,7 +533,7 @@ class Event extends \Eloquent {
                 'type' => 'workshop',
                 'url' => 'https://www.cognitoforms.com/Srnd1/CodeDayVideoGameTournamentRegistration',
                 'description' => 'Compete against other CodeDay participants. The top three win a Kinesis Gaming Keyboard!'
-            ],*/
+            ],
         ];
 
         $meals = [
