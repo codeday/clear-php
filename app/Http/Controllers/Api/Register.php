@@ -319,7 +319,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
         if ($giftcard)
             return 0.0;
         elseif ($promotion) {
-            if (isset($promotion->force_price)) return floatval($promotion->force_price);
+            if (isset($promotion->force_price)) return floatval($promotion->force_price) * $count;
             elseif (isset($promotion->percent_discount)) return $normalCost * (1 - ($promotion->percent_discount / 100.0));
         }
         
