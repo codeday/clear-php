@@ -16,11 +16,7 @@ class Activity extends \Eloquent {
 
     public function getHourAttribute()
     {
-        if (floor($this->time) != $this->time) {
-            return $this->timestamp->format('g:ia');
-        } else {
-            return $this->timestamp->format('ga');
-        }
+        return $this->timestamp->format('g:ia');
     }
 
     public function getTimestampAttribute()
