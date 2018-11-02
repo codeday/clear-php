@@ -680,7 +680,7 @@ class Event extends \Eloquent {
             'sku' => 'SUP-S',
             'name' => 'Seasonal Event Supplies',
             'quantity' => 1,
-            'weight' => 2
+            'weight' => ['value' => 2, 'unit' => 'lbs']
         ]];
     }
 
