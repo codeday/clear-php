@@ -34,7 +34,7 @@ class ShipmentController extends \CodeDay\Clear\Http\Controller {
     {
         $count = 0;
         foreach (Models\Batch::Managed()->events as $event) {
-            if (!$event->ship_for || !$event->ship_address_1 || !$event->ship_city || !$event->ship_state || !$event->ship_postal)
+            if (!$event->ship_address_1 || !$event->ship_city || !$event->ship_state || !$event->ship_postal)
                 continue;
 
             $order = Services\Ship::ToEvent('EVT-'.$event->id, $event, $event->manifestGenerated);
