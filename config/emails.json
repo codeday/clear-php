@@ -48,6 +48,13 @@
                 "from_e": "tylermenezes@srnd.org"
             },
             {
+                "id":   "student_chat",
+                "subject": "CodeDay Chat!",
+                "html": "emails/preevent/student_chat",
+                "when": "-2d",
+                "from_n": "John Peter"
+            },
+            {
                 "id":   "student_resources",
                 "subject": "CodeDay Resources",
                 "html": "emails/preevent/student_resources",

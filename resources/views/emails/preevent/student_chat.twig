@@ -1,0 +1,22 @@
+{% extends "emails/template_transactional.twig" %}
+{% block unsubscribe %}You cannot unsubscribe from this sort of email.{% endblock %}
+{% block preview %}It's almost CodeDay! Now's the time to chat with other attendees!{% endblock %}
+{% block img %}https://srnd-cdn.net/emails/header-line.jpg{% endblock %}
+{% block title %}Want to chat?{% endblock %}
+
+{% block sign_img %}https://srnd-cdn.net/emails/sign-john.png{% endblock %}
+{% block sign_name %}John Peter{% endblock %}
+{% block sign_title %}100% Authentic Human{% endblock %}
+{% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}
+{% block body %}
+    <p>{{ registration.first_name }},</p>
+
+    <p>Did you know CodeDay is a worldwide community? This weekend, you'll be working with students in your city, sure,
+       but you'll also be working alongside students from around the world!</p>
+    
+    <p>That's why I wanted to quickly invite you to the CodeDay chatroom. It's a fun way to talk with students from
+       your city and beyond, as well as to get help with your project at CodeDay. (Hey, the mentors would probably
+       even help you with your homework if you needed it...)</p>
+
+    <p><a href="https://chat.srnd.org/">Just visit chat.srnd.org to start chatting!</a> See you this weekend!</p>
+{% endblock %}
