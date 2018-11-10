@@ -439,6 +439,22 @@ class Email {
                 }
             ],
 
+            'mentors' => [
+                'id' => 'mentors',
+                'name' => 'Mentors',
+                'lambda' => function($event) {
+                    return array_map(function($user){
+                        return (object)[
+                            'name' => $user->name,
+                            'email' => $user->email,
+                            'registration' => ModelContracts\Registration::Model($user, ['internal'])
+                        ];
+                    }, array_filter(iterator_to_array($event->registrations), function($registration) {
+                        return $registration->type === 'mentor';
+                    }));
+                }
+            ],
+
             'event-staff' => [
                 'id' => 'event-staff',
                 'name' => 'Event Staff',
