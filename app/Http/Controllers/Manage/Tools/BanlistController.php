@@ -10,7 +10,7 @@ class BanlistController extends \CodeDay\Clear\Http\Controller {
     public function getIndex()
     {
         if (!Models\User::me()->is_admin) {
-            return \Redirect::to('https://srnd.wufoo.com/forms/incident-report/');
+            return \Redirect::to('https://www.cognitoforms.com/Srnd1/ConductReport');
         }
 
         $banlist = Models\Ban
