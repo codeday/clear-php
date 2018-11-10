@@ -13,9 +13,9 @@
                     <span class="id">{{ registration.id }}</span>
                     <span class="info">{{ registration.type }}: <a href="https://codeday.vip/{{ registration.id }}" target="_blank">{{ registration.id }}</a></span>
                     {% if registration.type == 'student' or registration.type == 'volunteer' %}
-                        <span class="age">Age: {% if registration.age and registration.age <= 25 %}{{ registration.age }}{% elseif registration.age > 25 %}<span class="warning">{{ registration.age }} (over 25!)</span>{% else %}<span class="missing">missing</span>{% endif %}</span>
-                        <span class="parent">Parent: {% if registration.parent_no_info %}(exempt){% elseif not registration.parent_name %}<span class="missing">missing</span>{% else %}{{ registration.parent_name }}{% endif %}</span>
-                        <span class="waiver">Waiver: {% if registration.waiver_pdf_link %}<a href="{{ registration.waiver_pdf_link }}" target="_blank">ok</a>{% else %}<span class="missing">missing</span>{% endif %}</span>
+                        <span class="age">Age: {% if registration.age and registration.age <= 25 %}{{ registration.age }}{% elseif registration.age > 25 %}<span class="warning">{{ registration.age }} (over 25!)</span>{% else %}<span class="missing"><a href="https://codeday.vip/{{ registration.id }}/waiver" target="_blank">missing</a></span>{% endif %}</span>
+                        <span class="parent">Parent: {% if registration.parent_no_info %}(exempt){% elseif not registration.parent_name %}<span class="missing"><a href="https://codeday.vip/{{ registration.id }}/waiver" target="_blank">missing</a></span>{% else %}{{ registration.parent_name }}{% endif %}</span>
+                        <span class="waiver">Waiver: {% if registration.waiver_pdf_link %}<a href="{{ registration.waiver_pdf_link }}" target="_blank">ok</a>{% else %}<span class="missing"><a href="https://codeday.vip/{{ registration.id }}/waiver" target="_blank">missing</a></span>{% endif %}</span>
                     {% else %}
                         <span class="age">Age: (exempt)</span>
                         <span class="age">Parent: (exempt)</span>
