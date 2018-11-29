@@ -121,6 +121,7 @@ class Events extends ApiController {
 
         // Handle PaymentIntents
         if(\Input::get('stripe_pi', '') !== "") {
+            \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
             $pi = \Stripe\PaymentIntent::retrieve(\Input::get('stripe_pi'));
 
             $registration->stripe_id = $pi->charges->data[0]->id;
