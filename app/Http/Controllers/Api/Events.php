@@ -108,17 +108,29 @@ class Events extends ApiController {
 
     public function postRegistrations()
     {
-      $this->requirePermission(['admin']);
-      $event = \Route::input('event');
+        $this->requirePermission(['admin']);
+        $event = \Route::input('event');
 
-      $registration = Services\Registration::CreateRegistrationRecord(
-          $event,
-          \Input::get('first_name'), \Input::get('last_name'),
-          \Input::get('email'), "student");
+        $registration = Services\Registration::CreateRegistrationRecord(
+            $event,
+            \Input::get('first_name'), \Input::get('last_name'),
+            \Input::get('email'),
+            // default = student
+            \Input::get('type', 'student')
+        );
 
-      $registration->save();
+        // Handle PaymentIntents
+        if(\Input::get('stripe_pi', '') !== "") {
+            $pi = \Stripe\PaymentIntent::retrieve(\Input::get('stripe_pi'));
 
-      return json_encode(ModelContracts\Registration::Model($registration, $this->permissions));
+            $registration->stripe_id = $pi->charges->data[0]->id;
+            $registration->amount_paid = $pi->amount_received;
+            $registration->is_earlybird_pricing = $event->is_earlybird_pricing;
+        }
+
+        $registration->save();
+
+        return json_encode(ModelContracts\Registration::Model($registration, $this->permissions));
     }
 
     public function getAnnouncements()

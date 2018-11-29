@@ -51,7 +51,6 @@ class Registration {
         $reg->type = $type;
         $reg->save();
 
-
         // TODO(@tylermenezes): This should be moved into an event handler (cc @tjhorner)
         try {
             $past_registrations = Models\Batch\Event\Registration::orderBy('created_at', 'desc')->where('email', $email)->get();
@@ -162,7 +161,7 @@ class Registration {
         $forDescriptor = implode(', ', array_map(function($reg) {
             return $reg->name;
         }, $registrations));
-        $forDescriptor = 'CodeDay '.$event->name. ' Registration:'.$forDescriptor;
+        $forDescriptor = 'CodeDay '.$event->name. ' Registration: '.$forDescriptor;
 
         // Make the charge
         \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
