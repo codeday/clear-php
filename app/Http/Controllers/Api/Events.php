@@ -129,6 +129,12 @@ class Events extends ApiController {
             $registration->is_earlybird_pricing = $event->is_earlybird_pricing;
         }
 
+        $registration->age = \Input::get('age', null);
+        $registration->parent_name = \Input::get('parent_name', null);
+        $registration->parent_email = \Input::get('parent_email', null);
+        $registration->parent_phone = \Input::get('parent_phone', null);
+        $registration->parent_secondary_phone = \Input::get('parent_secondary_phone', null);
+
         $registration->save();
 
         return json_encode(ModelContracts\Registration::Model($registration, $this->permissions));
