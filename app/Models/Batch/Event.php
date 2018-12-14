@@ -522,9 +522,9 @@ class Event extends \Eloquent {
             ],
             (Object)[
                 'time' => 9 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
-                'title' => 'Game Tournament - Minecraft Survival Games (presented by Kinesis Gaming)',
+                'title' => 'Game Tournament - TBA',
                 'type' => 'workshop',
-                'url' => 'https://www.cognitoforms.com/Srnd1/CodeDayVideoGameTournamentRegistration',
+                'url' => null,
                 'description' => 'Compete against other CodeDay participants. The top three win a Kinesis Gaming Keyboard!'
             ],
         ];
