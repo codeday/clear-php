@@ -48,14 +48,21 @@ class FlyerController extends \CodeDay\Clear\Http\Controller
             $textHosted = 'HOSTED AT '.strtoupper($event->venue_name);
             $pdf->SetFontSize(10);
             $centerText($rightBlockMid, 160, $textHosted);
-        }
+
+            $centerText($rightBlockMid, 164, $event->venue_address_1);
+            $centerText($rightBlockMid, 168, $event->venue_city.', '.$event->venue_state);}
 
         $textUrl = 'Get your tickets: codeday.org'.($event ? '/'.$event->webname : '');
         $pdf->SetTextColor(0, 0, 0);
         $pdf->SetFontSize(25);
         $centerText(108, 256, $textUrl);
 
-        $textPromo = $promotion ? 'Promo code '.$promotion->code : 'Tickets sell out quickly!';
+        $textPromo = 'Tickets sell out quickly!';
+        if ($promotion && $promotion->percent_discount) {
+            $textPromo = 'Use promo code '.$promotion->code.' for '.round($promotion->percent_discount,0).'% off.';
+        } else if ($promotion && $promotion->force_price) {
+            $textPromo = 'Use promo code '.$promotion->code.' for $'.number_format($promotion->force_price, 2).' tickets.';
+        }
         $pdf->SetFontSize(16);
         $centerText(108, 265, $textPromo);
 
@@ -146,8 +153,13 @@ class FlyerController extends \CodeDay\Clear\Http\Controller
         $textUrl = 'For more info and to get your tickets, visit: codeday.org'.($event ? '/'.$event->webname : '');
         $pdf->SetFont('Proxima Nova', 'B');
         $centerText($pageMid, 59, $textUrl);
-
-        $textPromo = $promotion ? 'Use promo code '.$promotion->code.' for '.round($promotion->percent_discount,0).'% off' : 'Tickets sell out quickly!';
+        
+        $textPromo = 'Tickets sell out quickly!';
+        if ($promotion && $promotion->percent_discount) {
+            $textPromo = 'Use promo code '.$promotion->code.' for '.round($promotion->percent_discount,0).'% off.';
+        } else if ($promotion && $promotion->force_price) {
+            $textPromo = 'Use promo code '.$promotion->code.' for $'.number_format($promotion->force_price, 2).' tickets.';
+        }
         $pdf->SetFont('Proxima Nova', '');
         $centerText($pageMid, 64, $textPromo);
 
