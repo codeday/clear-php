@@ -522,9 +522,9 @@ class Event extends \Eloquent {
             ],
             (Object)[
                 'time' => 9 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
-                'title' => 'Game Tournament - TBA',
+                'title' => 'Global Game Tournament',
                 'type' => 'workshop',
-                'url' => null,
+                'url' => 'https://www.srnd.org/codeday-gaming-tourney',
                 'description' => 'Compete against other CodeDay participants. The top three win a Kinesis Gaming Keyboard!'
             ],
         ];
