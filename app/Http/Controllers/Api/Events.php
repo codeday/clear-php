@@ -125,7 +125,7 @@ class Events extends ApiController {
             $pi = \Stripe\PaymentIntent::retrieve(\Input::get('stripe_pi'));
 
             $registration->stripe_id = $pi->charges->data[0]->id;
-            $registration->amount_paid = $pi->amount_received;
+            $registration->amount_paid = $pi->amount_received / 100.0;
             $registration->is_earlybird_pricing = $event->is_earlybird_pricing;
         }
 
