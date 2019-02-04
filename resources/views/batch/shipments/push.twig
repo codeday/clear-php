@@ -8,6 +8,7 @@
         <p>This tool will push all boxes to ShipStation.</p>
     </header>
     <form method="post">
+        <input type="text" name="suffix" placeholder="Order ID Suffix" />
         <input type="submit" value="Do it!" />
     {{ csrf|raw }}</form>
 {% endblock %}
