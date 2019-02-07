@@ -517,7 +517,7 @@ class Event extends \Eloquent {
                 'time' => 7 + ($this->getTimezoneOffset($this->region->timezone) - $this->getTimezoneOffset('America/Los_Angeles')),
                 'title' => 'CodeCup (presented by Splunk)',
                 'type' => 'workshop',
-                'url' => 'https://info.codecup.sh/',
+                'url' => 'https://playcodecup.com/',
                 'description' => 'Work with other attendees to make your city #1 worldwide!'
             ],
             (Object)[
