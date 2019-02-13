@@ -51,7 +51,7 @@
                 "id":   "student_chat",
                 "subject": "CodeDay Chat!",
                 "html": "emails/preevent/student_chat",
-                "when": "-2d",
+                "when": "-1d",
                 "from_n": "John Peter"
             },
             {
