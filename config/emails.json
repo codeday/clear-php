@@ -51,14 +51,7 @@
                 "id":   "student_chat",
                 "subject": "CodeDay Chat!",
                 "html": "emails/preevent/student_chat",
-                "when": "-1d",
-                "from_n": "John Peter"
-            },
-            {
-                "id":   "student_resources",
-                "subject": "CodeDay Resources",
-                "html": "emails/preevent/student_resources",
-                "when": "-1h",
+                "when": "-3h",
                 "from_n": "John Peter"
             }
         ],
