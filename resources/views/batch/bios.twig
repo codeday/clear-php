@@ -1,0 +1,47 @@
+{% extends "template.twig" %}
+{% block title %}Bios{% endblock %}
+{% block section %}batch{% endblock %}
+{% block subnav %}{% include "batch/subnav.twig" %}{% endblock %}
+{% block content %}
+    <header>
+        <h2>Bios</h2>
+        <p>Here's the experience of your fellow batchmates.</p>
+    </header>
+
+    {% for userInfo in users %}
+        <h1>{{userInfo.user.name}}</h1>
+        <ul>
+            {% if userInfo.previously_managed|length > 0 %}
+                <li>
+                    Managed:
+                    <ul>
+                        {% for event in userInfo.previously_managed %}
+                            <li>{{ event.full_name }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+            {% if userInfo.previously_subuser|length > 0 %}
+                <li>
+                    Helped At:
+                    <ul>
+                        {% for event in userInfo.previously_subuser %}
+                            <li>{{ event.full_name }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+            {% if userInfo.previously_attended|length > 0 %}
+                <li>
+                    Attended:
+                    <ul>
+                        {% for registration in userInfo.previously_attended %}
+                            <li>{{ registration.event.full_name }} ({{ registration.type }})</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+        </ul>
+    {% endfor %}
+
+{% endblock %}

@@ -4,6 +4,7 @@
     \Route::get('', function(){ return \Redirect::to('/batch/change'); });
     \Route::controller('/directory', 'DirectoryController');
     \Route::controller('/change', 'ChangeController');
+    \Route::controller('/bios', 'StaffBiosController');
 
     \Route::group(['before' => 's5_admin'], function(){
         \Route::controller('promotions', 'PromotionsController');
