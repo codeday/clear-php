@@ -12,7 +12,7 @@ class StaffBiosController extends \CodeDay\Clear\Http\Controller {
         foreach (Models\Batch::Managed()->events as $event) {
             if (!$event->manager_username || !$event->manager) continue;
 
-            $previouslyManagedEvents = Models\Batch\Event::where('manager_username', '=', $event->manager_username)->where('batch_id', '!=', $batchId)->get();
+            $previouslyManagedEvents = Models\Batch\Event::where('manager_username', '=', $event->manager_username)->where('batch_id', '!=', $batchId)->where('allow_registrations', '=', true)->get();
             $previouslySubuserEvents = Models\User\Grant::where('username', '=', $event->manager_username)->get();
             $previouslyAttendedEvents = Models\Batch\Event\Registration::where('email', '=', $event->manager->email)->where('type', '!=', 'volunteer')->get();
 
