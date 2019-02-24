@@ -218,7 +218,7 @@ class Event extends \Eloquent {
                         ]
                     ]
                 ]);
-                return $taxRate->rate;
+                return $taxRate->rate ?? 0;
             });
         } catch (\Exception $ex) {
             return 0;

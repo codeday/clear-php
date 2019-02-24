@@ -182,7 +182,7 @@ class Registration {
         $stripeFee = ($totalCost * 0.027) + 0.30;
         $amountReceived = $totalCost - ($stripeFee + $taxCost);
 
-        if ($taxCost > 0) {
+        if ($taxCost > 0 && !\Config::get('app.debug')) {
             // Record the tax transaction
             $c = \TaxJar\Client::withApiKey(\Config::get('taxjar.token'));
             $c->createOrder([
@@ -247,7 +247,7 @@ class Registration {
         $amountReceived = $totalCost - ($stripeFee + $taxCost);
 
         // Record the tax transaction
-        if ($taxCost > 0) {
+        if ($taxCost > 0 && !\Config::get('app.debug')) {
             $c = \TaxJar\Client::withApiKey(\Config::get('taxjar.token'));
             $c->createOrder([
                 'transaction_id' => $charge->id,
@@ -321,8 +321,8 @@ class Registration {
                 }
             }
 
-            if ($totalRefundTax > 0) {
-                // Record the tax transaction
+            // Record the tax transaction
+            if ($totalRefundTax > 0 && !\Config::get('app.debug')) {
                 $c = \TaxJar\Client::withApiKey(\Config::get('taxjar.token'));
                 $c->createRefund([
                     'transaction_id' => $refund->id,
@@ -376,7 +376,7 @@ class Registration {
         $refundPercent = ($refundAmount / $registration->amount_paid);
         $refundTax = $registration->tax_paid * $refundPercent;
 
-        if ($refundTax > 0) {
+        if ($refundTax > 0 && !\Config::get('app.debug')) {
             // Record the tax transaction
             $c = \TaxJar\Client::withApiKey(\Config::get('taxjar.token'));
             $c->createRefund([
