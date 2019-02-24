@@ -128,8 +128,8 @@
                     {% if tax > 0 %}
                         <tr>
                             <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>Tax: {{ tax|number_format(2) }}</td>
+                            <td style="text-align: right">Sales Tax:</td>
+                            <td> {{ tax|number_format(2) }}</td>
                         </tr>
                     {% endif %}
                     <tr>
