@@ -140,7 +140,7 @@
             </form>
             <section class="other">
                 <ul>
-                    <li><a href="https://organizer.training.srnd.org/" target="_blank">Organizer Guide</a></li>
+                    <li><a href="https://www.notion.so/srnd/" target="_blank">Wiki/Guides</a></li>
                     <li {% if block('section') == 'tools' %}class="active"{% endif %}><a href="/tools">Tools</a></li>
                     {% if managed_batch.starts_at.addDays(-30).isPast or block('section') == 'dayof' %}
                         <li {% if block('section') == 'dayof' %}class="active"{% endif %}><a href="/dayof">Day-Of</a></li>
