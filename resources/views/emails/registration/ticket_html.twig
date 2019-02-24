@@ -116,13 +116,22 @@
                         <th width="55%">Attendee</th>
                         <th width="10%">Cost</th>
                     </tr>
+                    {% set tax = 0 %}
                     {% for reg in registration.all_in_order %}
                         <tr>
                             <td style="padding-right: 1rem">{% if reg.type == 'vip' %}VIP{% else %}{{ reg.type|capitalize }}{% endif %}</td>
                             <td style="padding-right: 1rem">{{ reg.name }}</td>
                             <td>{{ reg.amount_paid|number_format(2) }}</td>
+                            {% set tax = tax + reg.tax_paid %}
                         </tr>
                     {% endfor %}
+                    {% if tax > 0 %}
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>Tax: {{ tax|number_format(2) }}</td>
+                        </tr>
+                    {% endif %}
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
