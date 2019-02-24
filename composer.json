@@ -33,7 +33,8 @@
         "studentrnd/s5laravel": "1.0.*",
         "doctrine/dbal": "^2.5",
         "wildbit/postmark-php": "^2.4",
-        "duccio/apns-php": "v2.0.0-alpha"
+        "duccio/apns-php": "v2.0.0-alpha",
+        "taxjar/taxjar-php": "^1.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

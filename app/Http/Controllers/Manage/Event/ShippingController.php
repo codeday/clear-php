@@ -51,6 +51,11 @@ class ShippingController extends \CodeDay\Clear\Http\Controller {
             $event->ship_is_residential = \Input::get('ship_is_residential') ? true : false;
         }
 
+        $event->ship_country = strtoupper($event->ship_country);
+        if ($event->ship_country == 'UN') {
+            $event->ship_country = 'US';
+        }
+
         \Session::flash('status_message', 'Shipping information updated');
 
         $event->save();

@@ -52,7 +52,15 @@
             <input type="text" name="venue_contact_last_name" id="venue_contact_last_name" placeholder="Smith" value="{{ event.venue_contact_last_name }}" tabindex="12" />
             <input type="text" name="venue_contact_email" id="venue_contact_email" placeholder="contact@myvenue.com" value="{{ event.venue_contact_email }}" tabindex="13" />
             <input type="text" name="venue_contact_phone" id="venue_contact_phone" placeholder="5552342344" value="{{ event.venue_contact_phone }}" tabindex="13" />
+
+            <h3>Tax Rate</h3>
+            {% if event.sales_tax_rate != null %}
+                <p>{{ event.sales_tax_rate }}</p>
+            {% else %}
+                <p>Couldn't calculate sales tax rate!</p>
+            {% endif %}
         </section>
+
 
         <input type="submit" value="Save" tabindex="14" />
     {{ csrf|raw }}</form>

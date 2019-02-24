@@ -76,13 +76,15 @@ class Register extends \CodeDay\Clear\Http\Controller {
             return self::apiThrow('promo', 'The promotion code you entered was invalid.');
 
         $quote = floatval(\Input::get('quoted_price'));
+        $quoteTax = floatval(\Input::get('quoted_tax'));
         $cost = $this->getCurrentCost($event, count($registrants), $promotion, $giftcard);
+        $tax = $this->getCurrentTax($event, $cost);
 
         //
         // Validate and verify
         // (all methods return null if success, otherwise an error)
         //
-        if ($e = self::verifyQuote($quote, $cost)) return $e;
+        if ($e = self::verifyQuote($quote, $cost, $quoteTax, $tax)) return $e;
         if ($e = self::verifyCapacity($event, $count)) return $e;
         if ($promotion && $e = self::validatePromo($promotion, $count)) return $e;
         if ($giftcard && $e = self::validateGiftcard($giftcard, $count)) return $e;
@@ -90,7 +92,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
         //
         // Process
         //
-        if ($e = $this->doRegistration($registrants, $event, $promotion, $giftcard, $cost)) return $e;
+        if ($e = $this->doRegistration($registrants, $event, $promotion, $giftcard, $cost, $tax)) return $e;
     }
 
     /**
@@ -100,10 +102,11 @@ class Register extends \CodeDay\Clear\Http\Controller {
      * @param Event? $event             The event to register for.
      * @param Promotion? $promotion     The promotion to apply, if any.
      * @param GiftCard? $giftcard       The giftcard to use, if any.
-     * @param float? $cost              The amount to charge the card, if any.
+     * @param float? $cost              The amount to charge the card, if any, not including sales tax.
+     * @param float? $tax               The amount of sales tax to charge the card, if any.
      * @return object?                  An error message to return, if the registration failed. Otherwise, null.
      */
-    private function doRegistration($registrants, Event $event, $promotion = null, $giftcard = null, float $cost = 0.0)
+    private function doRegistration($registrants, Event $event, $promotion = null, $giftcard = null, float $cost = 0.0, float $tax = 0.0)
     {
         \DB::beginTransaction(); // In case something goes wrong, we'll want to roll-back the insert.
         $registrations = [];
@@ -186,7 +189,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
         //
         // Done! Now we try to charge the card, and then commit the database.
         //
-        if ($cost > 0 && $e = $this->doCharge($registrations, $cost)) return $e;
+        if ($cost > 0 && $e = $this->doCharge($registrations, $cost, $tax)) return $e;
         \DB::commit();
 
         //
@@ -205,29 +208,34 @@ class Register extends \CodeDay\Clear\Http\Controller {
      * (would qualify for a scholarship) or are being rejected for AVS/Radar (no other way to pay).
      *
      * @param Registration[] $registrations     The registrations for which the user should be charged.
-     * @param float $cost                       The total to charge.
+     * @param float $cost                       The total to charge, not including sales tax.
+     * @param float $tax                        The total amount of sales tax.
      */
-    private function doCharge($registrations, float $cost)
+    private function doCharge($registrations, float $cost, float $tax)
     {
         try {
             if(\Input::get('card_token'))
-                Services\Registration::ChargeCardForRegistrations($registrations, $cost, \Input::get('card_token'));
+                Services\Registration::ChargeCardForRegistrations($registrations, $cost, $tax, \Input::get('card_token'));
             elseif(\Input::get('bitcoin_source'))
-                Services\Registration::ChargeBitcoinSourceForRegistrations($registrations, $cost, \Input::get('bitcoin_source'));
+                Services\Registration::ChargeBitcoinSourceForRegistrations($registrations, $cost, $tax, \Input::get('bitcoin_source'));
             elseif($cost > 0)
                 return self::apiThrow('payment', 'Payment is required');
         } catch(\Stripe\Error\Card $e) { }
-          catch (\Exception $ex) { } // TODO(@tylermenezes): Log 
+          catch (\Exception $ex) {
+            return self::apiThrow("api", $ex->getMessage());
+          }
     }
 
     /**
      * Verifies that the quoted price is current (or is greater than the current cost).
      *
-     * @param float $quote  The quoted cost.
-     * @param float $cost   The actual cost.
-     * @return object?      If the quote is less than the cost, an error message to return. Otherwise, null.
+     * @param float $quote      The quoted cost.
+     * @param float $cost       The actual cost
+     * @param float $taxQuote   The quoted tax.
+     * @param float $tax        The actual tax.
+     * @return object?          If the quote is less than the cost, an error message to return. Otherwise, null.
      */
-    private static function verifyQuote(float $quote, float $cost)
+    private static function verifyQuote(float $quote, float $cost, float $taxQuote, float $tax)
     {
         // Make sure the cost is the same, using float-error-safe subtraction method.
         // (We will only throw an error if the difference is not in the user's favor.)
@@ -235,8 +243,15 @@ class Register extends \CodeDay\Clear\Http\Controller {
         // eg [cost: $20.00] -  [quote: $10.00]  = $10 > 0.01
         if ((floatval($cost) - floatval($quote)) > 0.01)
             return self::apiThrow("quote_mismatch", sprintf(
-                'The total cost changed from $%s to $%s. (This probably means the early-bird special just ended.)',
+                'The ticket cost changed from $%s to $%s. (This probably means the early-bird special just ended.)',
                         number_format($quote, 2), number_format($cost, 2)
+            ));
+
+        // Make sure the tax is the same.
+        if ((floatval($taxQuote) - floatval($tax)) > 0.01)
+            return self::apiThrow("quote_mismatch", sprintf(
+                'The sales tax changed from $%s to $%s.',
+                    number_format($taxQuote, 2), number_format($tax, 2)
             ));
 
         return null;
@@ -324,6 +339,18 @@ class Register extends \CodeDay\Clear\Http\Controller {
         }
         
         return $normalCost;
+    }
+
+    /**
+     * Gets the current amount of sales tax which should be paid.
+     * 
+     * @param Event $event      The event for which people are registering.
+     * @param float $cost       The order total, minus tax.
+     * @return float            The current tax amount.
+     */
+    private static function getCurrentTax(Event $event, float $cost)
+    {
+        return $cost * $event->sales_tax_rate;
     }
 
 

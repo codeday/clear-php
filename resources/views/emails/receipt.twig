@@ -19,9 +19,12 @@
                     <td>{% if registration.amount_refunded > 0 %}(${{ registration.amount_refunded|number_format(2) }}){% endif %}</td>
                     <td>${{ registration.amount_paid }}</td>
                     {% set cost = cost + registration.amount_paid %}
+                    {% set tax = tax + registration.tax_paid %}
                 </tr>
             {% endfor %}
-            <tr><td></td><td></td><td style="border-top: 1px solid #000;font-weight: bold">Total: </td><td style="border-top: 1px solid #000;font-weight: bold">${{ cost|number_format(2) }}</td></tr>
+            <tr><td></td><td></td><td style="border-top: 1px solid #000">Sub-total: </td><td style="border-top: 1px solid #000;font-weight: bold">${{ cost|number_format(2) }}</td></tr>
+            <tr><td></td><td></td><td>Tax: ${{ tax|number_format(2) }}</td></tr>
+            <tr><td></td><td></td><td style="font-weight: bold">Total: ${{ (tax + cost)|number_format(2) }}</td></tr>
         </tbody>
     </table><br />
     <span style="font-size: 0.6em">Paid on {{ registration.created_at|date('F j, Y g:i A') }}</span>

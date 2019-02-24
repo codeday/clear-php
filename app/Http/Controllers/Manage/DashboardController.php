@@ -70,7 +70,7 @@ class DashboardController extends \CodeDay\Clear\Http\Controller {
         if (\Input::get('amount') > 0) {
             try {
                 Services\Registration::ChargeCardForRegistrations(
-                    [$reg], intval(\Input::get('amount')), \Input::get('token')
+                    [$reg], intval(\Input::get('amount')), intval(\Input::get('amount'))*$event->sales_tax_rate, \Input::get('token')
                 );
             } catch (\Exception $ex) {
                 $reg->delete();

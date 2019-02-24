@@ -198,6 +198,34 @@ class Event extends \Eloquent {
         return round(($national_average + (2 * $regional_attendance) + (3 * $national_attendance)) / 6);
     }
 
+    public function getSalesTaxRateAttribute() {
+        if (!$this->venue_state || !$this->venue_country || !$this->venue_postal) return null;
+        try {
+            return \Cache::remember('event_tax_rate_'.$this->id.'_'.$this->venue_postal, 60*60*24, function() {
+                $c = \TaxJar\Client::withApiKey(\Config::get('taxjar.token'));
+                $taxRate = $c->taxForOrder([
+                    'to_country' => $this->venue_country,
+                    'to_state' => $this->venue_state,
+                    'to_city' => $this->venue_city,
+                    'to_zip' => $this->venue_postal,
+                    'shipping' => 0,
+                    'line_items' => [
+                        [
+                            'id' => 1,
+                            'quantity' => 1,
+                            'product_tax_code' => \Config::get('taxjar.category'),
+                            'unit_price' => $this->price_regular
+                        ]
+                    ]
+                ]);
+                return $taxRate->rate;
+            });
+        } catch (\Exception $ex) {
+            return null;
+        }
+
+    }
+
     public function pretty_prediction(){
         $final_prediction = $this->prediction();
         return $final_prediction >= $this->max_registrations ? $this->max_registrations . "+" : $final_prediction;

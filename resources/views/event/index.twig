@@ -41,7 +41,7 @@
                         <div class="switch enableddisabled">
                             <input type="checkbox" name="allow_registrations" id="allow_registrations" value="1"
                                    {% if event.allow_registrations %}checked{% endif %}
-                                   {% if not event.venue or not event.max_registrations or not event.venue_contact_email %}disabled{% endif %} />
+                                   {% if not event.venue or not event.max_registrations or not event.venue_contact_email or event.sales_tax_rate == null %}disabled{% endif %} />
                             <label for="allow_registrations">
                                 <span class="inner"></span>
                                 <span class="switch">&#10005;</span>
@@ -53,13 +53,14 @@
         </ul>
     </section>
     {% if not event.allow_registrations %}
-        {% if not event.venue or not event.max_registrations or not event.venue_contact_email %}
+        {% if not event.venue or not event.max_registrations or not event.venue_contact_email or event.sales_tax_rate == null %}
             <h3>You're not quite ready to open registrations!</h3>
             <p>You're missing:</p>
             <ul>
                 {% if not event.venue %}<li>Venue address</li>{% endif %}
                 {% if not event.max_registrations %}<li>Venue capacity</li>{% endif %}
-                {% if not event.max_contact_email %}<li>Venue contact information</li>{% endif %}
+                {% if not event.venue_contact_email %}<li>Venue contact information</li>{% endif %}
+                {% if event.sales_tax_rate == null %}<li>Sales tax information</li>{% endif %}
             </ul>
         {% else %}
             <h3>Ready to open registrations?</h3>

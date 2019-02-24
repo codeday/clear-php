@@ -263,6 +263,14 @@ class Event extends ModelContract
                 'value'         => function ($model) { return $model->cost; }
             ],
 
+            'sales_tax_rate' => [
+                'name'          => 'Sales Tax Rate',
+                'description'   => 'The percent tax to charge per ticket.',
+                'example'       => '0.09',
+                'rich'          => true,
+                'value'         => function ($model) { return $model->sales_tax_rate; }
+            ],
+
             'currency' => [
                 'name'          => 'Currency',
                 'description'   => 'The price unit.',

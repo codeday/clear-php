@@ -30,6 +30,7 @@
             <button data-for-menu="cancel">Cancel/Delete</button>
             <button data-for-menu="emails">Re-send Emails</button>
             <button data-for-menu="waiver">Waiver</button>
+            <button data-for-menu="receipt">Receipt</button>
             {% if me.is_admin %}
                 <button data-for-menu="devices">Devices</button>
                 <button data-for-menu="webhooks">Fire Webhooks</button>
@@ -217,6 +218,14 @@
             {% else %}
                 <p>Waiver not signed.</p>
             {% endif %}
+        </section>
+
+        <section class="receipt menu-receipt">
+            <ul>
+                <li>Subtotal: {{ registration.amount_paid|number_format(2) }}</li>
+                <li>Tax: {{ registration.tax_paid|number_format(2) }}</li>
+                <li>Total: {{ (registration.amount_paid + registration.tax_paid)|number_format(2) }}</li>
+            </ul>
         </section>
 
         {% if me.is_admin %}

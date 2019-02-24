@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "54114983a742b7f304d2cd42ba2f14cc",
+    "content-hash": "5892d1b0a18b790b146d381b9f439e7b",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -3548,6 +3548,53 @@
                 "dump"
             ],
             "time": "2018-04-22T05:56:10+00:00"
+        },
+        {
+            "name": "taxjar/taxjar-php",
+            "version": "v1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/taxjar/taxjar-php.git",
+                "reference": "b13519498787f61e82dc4456c2951c277db65047"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/taxjar/taxjar-php/zipball/b13519498787f61e82dc4456c2951c277db65047",
+                "reference": "b13519498787f61e82dc4456c2951c277db65047",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0.2",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "internations/http-mock": "0.10.1",
+                "phpunit/phpunit": "4.8.*",
+                "silex/silex": "2.2.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TaxJar\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "TaxJar"
+                }
+            ],
+            "description": "Sales Tax API Client for PHP 5.5+",
+            "homepage": "https://www.taxjar.com/",
+            "keywords": [
+                "api",
+                "sales tax",
+                "taxjar"
+            ],
+            "time": "2018-11-30T17:13:42+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",

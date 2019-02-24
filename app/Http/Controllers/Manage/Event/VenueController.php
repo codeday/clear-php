@@ -19,7 +19,7 @@ class VenueController extends \CodeDay\Clear\Http\Controller {
         $event->venue_city = \Input::get('venue_city') ? \Input::get('venue_city') : null;
         $event->venue_state = \Input::get('venue_state') ? \Input::get('venue_state') : null;
         $event->venue_postal = \Input::get('venue_postal') ? \Input::get('venue_postal') : null;
-        $event->venue_country= \Input::get('venue_country') ? \Input::get('venue_country') : null;
+        $event->venue_country= \Input::get('venue_country') ? strtoupper(\Input::get('venue_country')) : null;
         $event->max_registrations = \Input::get('max_registrations') ? \Input::get('max_registrations') : null;
         $event->loaners_available = \Input::get('loaners_available') ? \Input::get('loaners_available') : 0;
 
@@ -27,6 +27,10 @@ class VenueController extends \CodeDay\Clear\Http\Controller {
         $event->venue_contact_last_name = \Input::get('venue_contact_last_name') ? \Input::get('venue_contact_last_name') : null;
         $event->venue_contact_email = \Input::get('venue_contact_email') ? \Input::get('venue_contact_email') : null;
         $event->venue_contact_phone = \Input::get('venue_contact_phone') ? \Input::get('venue_contact_phone') : null;
+
+        if ($event->venue_country == 'UN') {
+            $event->venue_country = 'US';
+        }
 
 
         if (\Request::hasFile('venue_agreement')) {

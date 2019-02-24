@@ -153,8 +153,9 @@ class Registration {
         return true;
     }
 
-    public static function ChargeCardForRegistrations($registrations, $totalCost, $cardToken)
+    public static function ChargeCardForRegistrations($registrations, $cost, $taxCost, $cardToken)
     {
+        $totalCost = $cost + $taxCost;
         $event = $registrations[0]->event;
 
         // Build the description for Stripe
@@ -179,19 +180,47 @@ class Registration {
         ]);
 
         $stripeFee = ($totalCost * 0.027) + 0.30;
-        $amountReceived = $totalCost - $stripeFee;
+        $amountReceived = $totalCost - ($stripeFee + $taxCost);
+
+        if ($taxCost > 0) {
+            // Record the tax transaction
+            $c = \TaxJar\Client::withApiKey(\Config::get('taxjar.token'));
+            $c->createOrder([
+                'transaction_id' => $charge->id,
+                'transaction_date' => date('c'),
+                'to_country' => $event->venue_country,
+                'to_zip' => $event->venue_postal,
+                'to_state' => $event->venue_state,
+                'amount' => $cost,
+                'shipping' => 0,
+                'sales_tax' => $taxCost,
+                'line_items' => [
+                    [
+                        'id' => 1,
+                        'unit_price' => $cost,
+                        'quantity' => 1,
+                        'product_identifier' => 'codeday',
+                        'description' => "CodeDay Admission",
+                        'product_tax_code' => \Config::get('taxjar.category'),
+                        'sales_tax' => $taxCost
+                    ]
+                ]
+            ]);
+        }
 
         // Update the registrants' billing status
         foreach ($registrations as $reg) {
             $reg->stripe_id = $charge->id;
-            $reg->amount_paid = $totalCost / count($registrations);
+            $reg->amount_paid = $cost / count($registrations);
+            $reg->tax_paid = $taxCost / count($registrations);
             $reg->is_earlybird_pricing = $reg->event->is_earlybird_pricing;
             $reg->save();
         }
     }
 
-    public static function ChargeBitcoinSourceForRegistrations($registrations, $totalCost, $source)
+    public static function ChargeBitcoinSourceForRegistrations($registrations, $cost, $taxCost, $source)
     {
+        $totalCost = $cost + $taxCost;
         $event = $registrations[0]->event;
 
         // Build the description for Stripe
@@ -215,12 +244,40 @@ class Registration {
         ]);
 
         $stripeFee = ($totalCost * 0.027) + 0.30;
-        $amountReceived = $totalCost - $stripeFee;
+        $amountReceived = $totalCost - ($stripeFee + $taxCost);
+
+        // Record the tax transaction
+        if ($taxCost > 0) {
+            $c = \TaxJar\Client::withApiKey(\Config::get('taxjar.token'));
+            $c->createOrder([
+                'transaction_id' => $charge->id,
+                'transaction_date' => date('c'),
+                'to_country' => $event->venue_country,
+                'to_city' => $event->venue_city,
+                'to_zip' => $event->venue_postal,
+                'to_state' => $event->venue_state,
+                'amount' => $cost,
+                'shipping' => 0,
+                'sales_tax' => $taxCost,
+                'line_items' => [
+                    [
+                        'id' => 1,
+                        'unit_price' => $cost,
+                        'quantity' => 1,
+                        'product_identifier' => 'codeday',
+                        'description' => "CodeDay Admission",
+                        'product_tax_code' => \Config::get('taxjar.category'),
+                        'sales_tax' => $taxCost
+                    ]
+                ]
+            ]);
+        }
 
         // Update the registrants' billing status
         foreach ($registrations as $reg) {
             $reg->stripe_id = $charge->id;
-            $reg->amount_paid = $totalCost / count($registrations);
+            $reg->amount_paid = $cost / count($registrations);
+            $reg->tax_paid = $taxCost / count($registrations);
             $reg->is_earlybird_pricing = $reg->event->is_earlybird_pricing;
             $reg->save();
         }
@@ -229,24 +286,71 @@ class Registration {
     public static function CancelRegistration(Models\Batch\Event\Registration $registration,
                                               $andRefund = true, $cancelRelated = false)
     {
+        $all_in_order = $registration->all_in_order;
+
         if ($andRefund && $registration->stripe_id) {
             \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
             $charge = \Stripe\Charge::retrieve($registration->stripe_id);
+            $refund = null;
 
             if ($cancelRelated || count($registration->all_in_order) == 1) {
-                $charge->refunds->create();
+                $refund = $charge->refunds->create();
             } else {
-                $charge->refunds->create([
-                    'amount' => $registration->amount_paid * 100
+                $refund = $charge->refunds->create([
+                    'amount' => ($registration->amount_paid + $registration->tax_paid) * 100
+                ]);
+            }
+
+            $totalRefundAmount = $registration->amount_paid;
+            $totalRefundTax = $registration->tax_paid;
+
+            $registration->amount_refunded += $registration->amount_paid;
+            $registration->amount_paid = 0;
+            $registration->tax_paid = 0;
+            $registration->save();
+
+            if ($cancelRelated) {
+                foreach ($all_in_order as $reg) {
+                    if ($reg->id == $registration->id) continue;
+                    $totalRefundAmount += $reg->amount_paid;
+                    $totalRefundTax += $reg->tax_paid;
+
+                    $reg->amount_paid = 0;
+                    $reg->tax_paid = 0;
+                    $reg->save();
+                }
+            }
+
+            if ($totalRefundTax > 0) {
+                // Record the tax transaction
+                $c = \TaxJar\Client::withApiKey(\Config::get('taxjar.token'));
+                $c->createRefund([
+                    'transaction_id' => $refund->id,
+                    'transaction_date' => date('c'),
+                    'transaction_reference_id' => $registration->stripe_id,
+                    'to_country' => $registration->event->venue_country,
+                    'to_city' => $registration->event->venue_city,
+                    'to_zip' => $registration->event->venue_postal,
+                    'to_state' => $registration->event->venue_state,
+                    'amount' => $totalRefundAmount,
+                    'shipping' => 0,
+                    'sales_tax' => $totalRefundTax,
+                    'line_items' => [
+                        [
+                            'id' => 1,
+                            'unit_price' => $totalRefundAmount,
+                            'quantity' => 1,
+                            'product_identifier' => 'codeday',
+                            'description' => "CodeDay Admission - CANCELED",
+                            'product_tax_code' => \Config::get('taxjar.category'),
+                            'sales_tax' => $totalRefundTax
+                        ]
+                    ]
                 ]);
             }
         }
 
-        $registration->amount_refunded += $registration->amount_paid;
-        $registration->amount_paid = 0;
-        $registration->save();
 
-        $all_in_order = $registration->all_in_order;
         $registration->delete();
 
         if ($cancelRelated) {
@@ -261,15 +365,47 @@ class Registration {
         \Stripe\Stripe::setApiKey(\Config::get('stripe.secret'));
         $charge = \Stripe\Charge::retrieve($registration->stripe_id);
 
-        if ($registration->amount_paid >= $refundAmount) {
-            $charge->refunds->create([
-                'amount' => $refundAmount * 100
-            ]);
-        } else {
+        if ($registration->amount_paid < $refundAmount) {
             throw new \Exception("Cannot refund more than the original ticket price.");
         }
 
+        $refund = $charge->refunds->create([
+            'amount' => $refundAmount * 100
+        ]);
+
+        $refundPercent = ($refundAmount / $registration->amount_paid);
+        $refundTax = $registration->tax_paid * $refundPercent;
+
+        if ($refundTax > 0) {
+            // Record the tax transaction
+            $c = \TaxJar\Client::withApiKey(\Config::get('taxjar.token'));
+            $c->createRefund([
+                'transaction_id' => $refund->id,
+                'transaction_date' => date('c'),
+                'transaction_reference_id' => $registration->stripe_id,
+                'to_country' => $registration->event->venue_country,
+                'to_city' => $registration->event->venue_city,
+                'to_zip' => $registration->event->venue_postal,
+                'to_state' => $registration->event->venue_state,
+                'amount' => $refundAmount,
+                'shipping' => 0,
+                'sales_tax' => $refundTax,
+                'line_items' => [
+                    [
+                        'id' => 1,
+                        'unit_price' => $refundAmount,
+                        'quantity' => 1,
+                        'product_identifier' => 'codeday',
+                        'description' => "CodeDay Admission - REFUND",
+                        'product_tax_code' => \Config::get('taxjar.category'),
+                        'sales_tax' => $refundTax
+                    ]
+                ]
+            ]);
+        }
+
         $registration->amount_paid -= $refundAmount;
+        $registration->tax_paid -= $refundTax;
         $registration->amount_refunded += $refundAmount;
         $registration->save();
     }
