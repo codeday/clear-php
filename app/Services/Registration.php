@@ -54,7 +54,7 @@ class Registration {
         // TODO(@tylermenezes): This should be moved into an event handler (cc @tjhorner)
         $past_registrations = Models\Batch\Event\Registration::orderBy('created_at', 'desc')->where('email', $email)->get();
         try {
-            if(count($past_registrations) > 0) {
+            if(count($past_registrations) > 1) { // one of these will be the current registration
                 foreach($past_registrations as $previous_registration) {
                     $devices = $previous_registration->devices;
                     
@@ -73,9 +73,9 @@ class Registration {
         // Send Mattermost notification to the region's room!
         try {
             $text = sprintf(
-                ":tada: [%s](https://clear.codeday.org/event/%s/registrations/attendee/%s) registered for CodeDay %s! %s",
-                $reg->name, $event->id, $reg->id, $event->name,
-                count($past_registrations) == 0 ? "It's their first time!" : "They've been ".count($past_registrations)." previous time(s).");
+                ":tada: [%s](https://clear.codeday.org/event/%s/registrations/attendee/%s) (%s) registered for CodeDay %s! %s",
+                $reg->name, $event->id, $reg->id, $reg->type, $event->name,
+                (count($past_registrations)-1) == 0 ? "It's their first time!" : "They've been ".(count($past_registrations)-1)." previous time(s).");
 
             Mattermost::Message("staff", "registrations", $text);
 
