@@ -27,6 +27,7 @@ class NotesController extends \CodeDay\Clear\Http\Controller {
         $event->save();
 
         if ($sendUpdate) {
+
             $who = Models\User::me();
             $notes = $event->notes;
 
@@ -43,6 +44,16 @@ class NotesController extends \CodeDay\Clear\Http\Controller {
                     false
                 );
             }
+
+            // Send a chat notification
+            $text = sprintf("@here %s just updated the shownotes to read:\n\n```\n%s\n```", $who->name, $notes);
+            Services\Mattermost::Message("staff", $event->webname, $text);
+            Services\Mattermost::Message("staff", 'staff-'.$event->webname, $text);
+            if ($event->region->webname !== $event->webname) {
+                Services\Mattermost::Message("staff", $event->region->webname, $text);
+                Services\Mattermost::Message("staff", 'staff-'.$event->region->webname, $text);
+            }
+
         }
 
         return \Redirect::to('/event/'.$event->id.'/notes');

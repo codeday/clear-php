@@ -138,9 +138,29 @@ class Email {
                                        $contentText, $contentHtml = null,
                                        $additionalContext = [], $isMarketing = false)
     {
+        // Send a chat post!
+        try {
+            $stubAttendee = [
+                'name' => '[name]',
+                'email' => '[email]',
+                'registration' => ['first_name' => '[name]', 'last_name' => '', '[name]' => 'everyone', 'id' => '[ticket id]']
+            ];
+
+            $rSubject = Email::renderTemplateWithContext($subject, array_merge($stubAttendee, $additionalContext));
+            $messageRender = Email::renderTemplateWithContext($additionalContext['content'], array_merge($stubAttendee, $additionalContext, ['subject' => $rSubject]));
+            if ($listType === "attendees") {
+                $postText = sprintf("@here Your event team just sent out an email! Here's the info --\n\n#### %s\n```\n%s\n```", $subject, $messageRender);
+                Mattermost::Message("community", $event->webname, $postText);
+                if ($event->webname !== $event->region->webname) {
+                    Mattermost::Message("community", $event->region->webname, $postText);
+                }
+            }
+        } catch (\Exception $ex) {}
+
         $eventId = $event->id;
         $contentText = self::serializeView($contentText);
         $contentHtml = self::serializeView($contentHtml);
+
 
         $fn = function($job) use ($listType, $fromName, $fromEmail, $eventId, $subject,
                                          $contentText, $contentHtml, $additionalContext, $isMarketing) {
@@ -171,6 +191,7 @@ class Email {
                 $job->delete();
             }
         };
+
 
         if ($listType === 'me') {
             $fn(null);

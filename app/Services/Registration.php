@@ -52,8 +52,8 @@ class Registration {
         $reg->save();
 
         // TODO(@tylermenezes): This should be moved into an event handler (cc @tjhorner)
+        $past_registrations = Models\Batch\Event\Registration::orderBy('created_at', 'desc')->where('email', $email)->get();
         try {
-            $past_registrations = Models\Batch\Event\Registration::orderBy('created_at', 'desc')->where('email', $email)->get();
             if(count($past_registrations) > 0) {
                 foreach($past_registrations as $previous_registration) {
                     $devices = $previous_registration->devices;
@@ -67,6 +67,24 @@ class Registration {
                         }
                     }
                 }
+            }
+        } catch (\Exception $ex) {}
+
+        // Send Mattermost notification to the region's room!
+        try {
+            $text = sprintf(
+                ":tada: [%s](https://clear.codeday.org/event/%s/registrations/attendee/%s) registered for CodeDay %s! %s",
+                $reg->name, $event->id, $reg->id, $event->name,
+                count($past_registrations) == 0 ? "It's their first time!" : "They've been ".count($past_registrations)." previous time(s).");
+
+            Mattermost::Message("staff", "registrations", $text);
+
+            // Account for spelling mistakes by just sending four of them and hope one works
+            Mattermost::Message("staff", $event->webname, $text);
+            Mattermost::Message("staff", 'staff-'.$event->webname, $text);
+            if ($event->region->webname !== $event->webname) {
+                Mattermost::Message("staff", $event->region->webname, $text);
+                Mattermost::Message("staff", 'staff-'.$event->region->webname, $text);
             }
         } catch (\Exception $ex) {}
 
@@ -140,7 +158,7 @@ class Registration {
     {
         $ban = Models\Ban::GetBannedReasonOrNull($email);
         if ($ban) {
-            Services\Slack::Message(sprintf("%s tried to register while banned.", $ban->name), "#staff-policy");
+            Mattermost::Message("staff", "safety", sprintf("%s tried to register while banned.", $ban->name));
 
             $banExpiresTime = isset($ban->expires_at) ? "until " . date('F j, Y', $ban->expires_at->timestamp) : "forever";
             $ex = new Exceptions\Registration\Banned(
