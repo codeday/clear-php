@@ -25,4 +25,10 @@
         <a href="#" class="new-registration-button">New Registration</a>
         <a href="/event/{{event.id}}/registrations/bulk">CSV Upload</a>
     </section>
+
+    <section class="waivers">
+        <h3>Waiver</h3>
+        <textarea>{% for registration in registrations %}{% if registration.waiver_pdf_link %}{{ registration.waiver_pdf_link }}
+{% endif %}{% endfor %}</textarea>
+    </section>
 {% endblock %}
