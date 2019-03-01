@@ -484,6 +484,7 @@ class Registration {
                         'parent_secondary_phone' => 'parentphonealt',
                         'checked_in_at' => 'checkedin',
                         'created_at' => 'created',
+                        'waiver_pdf_link' => 'waiver',
                         'event'     => (object)['webname' => 'event']]];
         }
 
@@ -493,7 +494,7 @@ class Registration {
                 return str_replace("\n", "", implode(',', [$reg->event->webname, $reg->type, $reg->last_name, $reg->first_name, $reg->email, $reg->age,
                     ($reg->promotion ? $reg->promotion->code : ''), $reg->amount_paid,
                     $reg->parent_name, $reg->parent_email, $reg->parent_phone, $reg->parent_secondary_phone,
-                    $reg->checked_in_at, $reg->created_at]));
+                    $reg->checked_in_at, $reg->created_at, $reg->waiver_pdf_link]));
             }, array_merge($header, $registrations))
         );
 

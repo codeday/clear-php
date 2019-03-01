@@ -27,8 +27,8 @@
     </section>
 
     <section class="waivers">
-        <h3>Waiver</h3>
-        <textarea>{% for registration in registrations %}{% if registration.waiver_pdf_link %}{{ registration.waiver_pdf_link }}
+        <h3>Download Waiver Links</h3>
+        <textarea style="width: 100%">{% for registration in registrations %}{% if registration.waiver_pdf_link %}{{ registration.waiver_pdf_link }}
 {% endif %}{% endfor %}</textarea>
     </section>
 {% endblock %}
