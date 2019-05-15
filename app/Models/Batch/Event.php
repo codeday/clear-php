@@ -712,6 +712,7 @@ class Event extends \Eloquent {
             foreach ($this->batch->events as $event) {
                 if (!$event->ship_for) {
                     throw new \Exception('No ship for estimate for '.$event->name);
+                    $event->ship_for = 100;
                 }
                 $total_events++;
                 $total_attendees += $event->ship_for;
