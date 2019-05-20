@@ -520,7 +520,7 @@ class Registration {
      */
     private static function sanitizeField(string $field, $val)
     {
-        // Propertly capitalize names
+        // Properly capitalize names
         $field_sanitizers = [
             'name'  => function($val) { return self::fixNameCase($val); },
             'lower' => function($val) { return strtolower($val); },
@@ -571,6 +571,10 @@ class Registration {
      */
     private static function fixNameCase($string) 
     {
+        // My name is not Tj
+        //   - @tjhorner
+        if(strlen($string) <= 3) return $string;
+
         $word_splitters = array(' ', '-', "O'", "L'", "D'", 'St.', 'Mc');
         $lowercase_exceptions = array('the', 'van', 'den', 'von', 'und', 'der', 'de', 'da', 'of', 'and', "l'", "d'");
         $uppercase_exceptions = array('III', 'IV', 'VI', 'VII', 'VIII', 'IX');
