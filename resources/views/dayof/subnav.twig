@@ -7,14 +7,13 @@
         {% set events = me.current_managed_events %}
     {% endif %}
 
-    {% if events|length > 1 %}
-        <select id="event-switcher">
-            {% for switch_event in events %}
-                <option value="{{ switch_event.id }}"
-                        {% if switch_event.id == event.id %}selected{% endif %}>{{ switch_event.name }}</option>
-            {% endfor %}
-        </select>
-    {% endif %}
+    <select id="event-switcher">
+        {% for switch_event in events %}
+            <option value="{{ switch_event.id }}"
+                    {% if switch_event.id == event.id %}selected{% endif %}>{{ switch_event.name }} {{ switch_event.batch_name }}</option>
+            <option value="">(none)</option>
+        {% endfor %}
+    </select>
 </div>
 
 <section class="checkin">
@@ -56,6 +55,7 @@
 
 <script type="text/javascript">
     $('#event-switcher').on('change', function(){
-        window.location = '/dayof/switch?event='+$(this).val();
+        if ($(this).val())
+            window.location = '/dayof/switch?event='+$(this).val();
     });
 </script>
