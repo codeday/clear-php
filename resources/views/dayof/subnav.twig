@@ -11,8 +11,8 @@
         {% for switch_event in events %}
             <option value="{{ switch_event.id }}"
                     {% if switch_event.id == event.id %}selected{% endif %}>{{ switch_event.name }} {{ switch_event.batch_name }}</option>
-            <option value="">(none)</option>
         {% endfor %}
+        <option value="">(pick this and switch back to the current event if you have bugs)</option>
     </select>
 </div>
 
