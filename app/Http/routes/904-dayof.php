@@ -50,7 +50,7 @@ if (!function_exists('getDayOfEvent')) {
             $event = null;
         }
 
-        if (isset($event) && !$event->batch_id == Models\Batch::Managed()->id) {
+        if (isset($event) && $event->batch_id !== Models\Batch::Managed()->id) {
             $event = null;
         }
 
