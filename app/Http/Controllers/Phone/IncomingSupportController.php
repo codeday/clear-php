@@ -5,10 +5,20 @@ use \CodeDay\Clear\Models;
 use \Carbon\Carbon;
 
 class IncomingSupportController extends \CodeDay\Clear\Http\Controller {
+    private function getBatch() {
+        foreach (Models\Batch::LoadedAll() as $batch) {
+            if ($batch->starts_at->isPast() && $batch->ends_at->isFuture()) {
+                return $batch;
+            }
+        }
+
+        return $batch;
+    }
+
     private function getEventsByTimezone()
     {
         $tz_regions = ['America/Los_Angeles' => [], 'America/Denver' => [], 'America/Chicago' => [], 'America/Detroit' => []];
-        foreach (Models\Batch::Loaded()->events as $event) {
+        foreach ($this->getBatch()->events as $event) {
             if (!$event->evangelist_username) continue;
             $tz_regions[$event->region->timezone][] = $event;
         }
@@ -18,7 +28,7 @@ class IncomingSupportController extends \CodeDay\Clear\Http\Controller {
 
     public function getIndex()
     {
-        if (Models\Batch::Loaded()->starts_at->isFuture()) {
+        if ($this->getBatch()->starts_at->isFuture()) {
             $xml = '<Response>';
             $xml .= '<Play>/assets/mp3/phone/support_closed.mp3</Play>';
             $xml .= '<Hangup />';
