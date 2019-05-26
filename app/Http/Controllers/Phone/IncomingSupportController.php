@@ -7,7 +7,7 @@ use \Carbon\Carbon;
 class IncomingSupportController extends \CodeDay\Clear\Http\Controller {
     private function getBatch() {
         foreach (Models\Batch::LoadedAll() as $batch) {
-            if ($batch->starts_at->isPast() && $batch->ends_at->isFuture()) {
+            if ($batch->starts_at->isPast() && $batch->ends_at->addDays(1)->isFuture()) {
                 return $batch;
             }
         }
