@@ -121,7 +121,7 @@ class Batch extends \Eloquent {
         if (!isset(self::$_managed)) {
             if (\Session::get('managed_batch_id')) {
                 $batch = self::where('id', '=', \Session::get('managed_batch_id'))->with('events')->first();
-                if (!isset($batch) || count(User::me()->getManagedEvents($batch)) == 0) $batch = null;
+                if (!isset($batch) || (count(User::me()->getManagedEvents($batch)) == 0 && !User::me()->is_admin)) $batch = null;
             }
 
             if (!isset($batch)) {
