@@ -21,6 +21,8 @@
                         <span class="age">Parent: (exempt)</span>
                         <span class="age">Waiver: (exempt)</span>
                     {% endif %}
+		    <span class="computer">Computer: {% if registration.request_loaner %}Yes{% else %}No{% endif %}</span>
+
 
                     <form class="checkin" method="post">
                         <input type="hidden" name="id" value="{{ registration.id }}" />
