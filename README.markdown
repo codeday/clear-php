@@ -1,6 +1,7 @@
 # Clear
 
 [![Deployment status from DeployBot](https://srnd.deploybot.com/badge/66802254112581/110470.svg)](http://deploybot.com)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsrnd%2FClear.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsrnd%2FClear?ref=badge_shield)
 
 Named for its function as a clearinghouse for event-related data, Clear is largely a glorified database frontend with features specifically designed to reduce the amount of busywork involved in managing your event.
 
@@ -30,3 +31,7 @@ Tasks on Clear largely fall into two categories: changing event configuration, a
 Testing provided by BrowserStack.
 
 <a href="https://www.browserstack.com/"><img src="https://i.imgur.com/PBbgYuQ.png" /></a>
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsrnd%2FClear.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsrnd%2FClear?ref=badge_large)
