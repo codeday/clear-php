@@ -20,6 +20,7 @@ class SendParentInfoReminderJob {
                     ::select('batches_events_registrations.*')
                     ->leftJoin('batches_events', 'batches_events.id', '=', 'batches_events_registrations.batches_event_id')
                     ->where('batches_events.batch_id', '=', $batch->id)
+                    ->where('batches_events.venue_country', '!=', 'KE')
                     ->where(function($where) {
                         $where->whereNull('parent_email')
                             ->where('age', '<', 21); // "Minor" varies by state, and we can't calculate until we have the registrations, but we
