@@ -57,7 +57,7 @@ class Registration {
             if(count($past_registrations) > 1) { // one of these will be the current registration
                 foreach($past_registrations as $previous_registration) {
                     $devices = $previous_registration->devices;
-                    
+
                     foreach($devices as $device) {
                         if($device->service == "app") {
                             Firebase::SendMessage([
@@ -125,7 +125,7 @@ class Registration {
                         );
                     }
                 }
-                    
+
                 // Create the registration
                 $createdRegistration = self::CreateRegistrationRecord(
                     $regEvent, $registration['first_name'], $registration['last_name'],
@@ -173,7 +173,7 @@ class Registration {
 
     public static function ChargeCardForRegistrations($registrations, $cost, $taxCost, $cardToken)
     {
-        $totalCost = $cost + $taxCost;
+        $totalCost = max(($cost + $taxCost), 0);
         $event = $registrations[0]->event;
 
         // Build the description for Stripe
@@ -569,7 +569,7 @@ class Registration {
      *
      * From http://www.media-division.com/correct-name-capitalization-in-php/
      */
-    private static function fixNameCase($string) 
+    private static function fixNameCase($string)
     {
         // My name is not Tj
         //   - @tjhorner
@@ -578,29 +578,29 @@ class Registration {
         $word_splitters = array(' ', '-', "O'", "L'", "D'", 'St.', 'Mc');
         $lowercase_exceptions = array('the', 'van', 'den', 'von', 'und', 'der', 'de', 'da', 'of', 'and', "l'", "d'");
         $uppercase_exceptions = array('III', 'IV', 'VI', 'VII', 'VIII', 'IX');
-    
+
         $string = strtolower($string);
         foreach ($word_splitters as $delimiter)
-        { 
-            $words = explode($delimiter, $string); 
-            $newwords = array(); 
+        {
+            $words = explode($delimiter, $string);
+            $newwords = array();
             foreach ($words as $word)
-            { 
+            {
                 if (in_array(strtoupper($word), $uppercase_exceptions))
                     $word = strtoupper($word);
                 else
                 if (!in_array($word, $lowercase_exceptions))
-                    $word = ucfirst($word); 
-    
+                    $word = ucfirst($word);
+
                 $newwords[] = $word;
             }
-    
+
             if (in_array(strtolower($delimiter), $lowercase_exceptions))
                 $delimiter = strtolower($delimiter);
-    
-            $string = join($delimiter, $newwords); 
-        } 
-        return $string; 
+
+            $string = join($delimiter, $newwords);
+        }
+        return $string;
     }
 
 }
