@@ -142,6 +142,8 @@
                 <ul>
                     <li {% if block('section') == 'tools' %}class="active"{% endif %}><a href="/tools">Tools</a></li>
                     {% if managed_batch.starts_at.addDays(-30).isPast or block('section') == 'dayof' %}
+                        <li><a href="https://present.codeday.org/" target="_blank">Projector</a></li>
+                        <li><a href="https://showcase.srnd.org/login?return=/" target="_blank">Teams</a></li>
                         <li {% if block('section') == 'dayof' %}class="active"{% endif %}><a href="/dayof">Day-Of</a></li>
                     {% endif %}
                     {% if me.is_admin %}
