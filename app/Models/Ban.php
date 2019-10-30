@@ -69,6 +69,7 @@ class Ban extends \Eloquent {
 
     public static function GetBannedReasonOrNull($email)
     {
+        if (!$email) return null
         return self
             ::where('email', '=', trim($email))
             ->where(function ($query) {
