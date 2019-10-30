@@ -52,7 +52,8 @@ class DashboardController extends \CodeDay\Clear\Http\Controller {
         }
 
         // Check if the registrant is banned
-        $ban = Models\Ban::GetBannedReasonOrNull(\Input::get('email'));
+        $email = trim(\Input::get('email')) !== '' ? \Input::get('email') : null;
+        $ban = Models\Ban::GetBannedReasonOrNull($email);
         if ($ban) {
             \Session::flash('error', 'Participant is banned: '.$ban->reason_name.' Violation. Do not admit; have'
                 .' participant call (425) 780-7901 to resolve.');
@@ -63,7 +64,7 @@ class DashboardController extends \CodeDay\Clear\Http\Controller {
             $event,
             \Input::get('first_name'),
             \Input::get('last_name'),
-            \Input::get('email'),
+            $email,
             \Input::get('type')
         );
 
