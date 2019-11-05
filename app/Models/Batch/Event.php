@@ -502,6 +502,18 @@ class Event extends \Eloquent {
                 'description' => "After forming teams, it's time to get to work on your project! Our Code Evangelists and other mentors will be helping teams throughout the event."
             ],
             (Object)[
+                'time' => 10,
+                'title' => 'Younger Students Leave',
+                'type' => 'event',
+                'description' => "Middle school students (12 or under) should be picked up before the night portion of CodeDay."
+            ],
+            (Object)[
+                'time' => 19,
+                'title' => 'Younger Students Return',
+                'type' => 'event',
+                'description' => "Middle school students (12 or under) are welcome back for presentations and judging!"
+            ],
+            (Object)[
                 'time' => 20,
                 'title' => 'Presentation sign-up',
                 'type' => 'event',
