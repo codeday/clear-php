@@ -505,13 +505,13 @@ class Event extends \Eloquent {
                 'time' => 10,
                 'title' => 'Younger Students Leave',
                 'type' => 'event',
-                'description' => "Middle school students (12 or under) should be picked up before the night portion of CodeDay."
+                'description' => "Middle school students (grades 6-8) should be picked up before the night portion of CodeDay."
             ],
             (Object)[
                 'time' => 19,
                 'title' => 'Younger Students Return',
                 'type' => 'event',
-                'description' => "Middle school students (12 or under) are welcome back for presentations and judging!"
+                'description' => "Middle school students (grades 6-8) are welcome back for presentations and judging!"
             ],
             (Object)[
                 'time' => 20,
