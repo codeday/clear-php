@@ -7,16 +7,16 @@ class DeckController extends \CodeDay\Clear\Http\Controller {
 
     public function getIndex()
     {
-        return \View::make('dayof/deck/index');
+        return \Redirect::to('https://present.codeday.org/');
     }
 
     public function getSlides()
     {
-        return \View::make('dayof/deck/slides');
+        return \Redirect::to('https://present.codeday.org/');
     }
 
     public function getNotes()
     {
-        return \View::make('dayof/deck/notes');
+        return \Redirect::to('https://present.codeday.org/');
     }
 }
