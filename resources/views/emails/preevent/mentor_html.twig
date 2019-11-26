@@ -11,6 +11,9 @@
 {% block body %}
     <p>{{ registration.first_name }}, we're excited to have you join us as a mentor this weekend.</p>
 
+    <p>Please check out our <a href="https://f1.srnd.org/codeday/mentor-training.pdf">Mentor Training Guide</a> before
+       you arrive!</p>
+
     {% if registration.event.evangelist %}
         <p>Your primary contact this weekend will be {{ registration.event.evangelist.name }}, who can be reached at
            {{ registration.event.evangelist.phone }} or {{ registration.event.evangelist.email }}.</p>
