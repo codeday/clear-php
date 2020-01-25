@@ -1,5 +1,12 @@
 <?php
 
-$config = json_decode(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'local.json'), true);
-
-return $config['mattermost'];
+return [
+  "community" => [
+    "username" => env("MM_COMMUNITY_USERNAME"),
+    "webhook" => env("MM_COMMUNITY_WEBHOOK"),
+  ],
+  "staff" => [
+    "username" => env("MM_STAFF_USERNAME"),
+    "webhook" => env("MM_STAFF_WEBHOOK"),
+  ]
+];

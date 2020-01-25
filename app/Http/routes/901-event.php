@@ -33,8 +33,6 @@ use CodeDay\Clear\Models;
         \Route::controller('/subscriptions', 'SubscriptionsController');
         \Route::controller('/overview', 'OverviewController');
         \Route::controller('/notes', 'NotesController');
-        \Route::controller('/slack', 'SlackController');
-        \Route::controller('/spotify', 'SpotifyController');
 
         \Route::get('/registrations/attendee/{registration}', 'RegistrationsController@getAttendee');
         \Route::post('/registrations/attendee/{registration}', 'RegistrationsController@postAttendee');

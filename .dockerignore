@@ -3,3 +3,4 @@
 /storage
 /docker/db
 /config/local.json
+.env

@@ -8,9 +8,6 @@ use \Carbon\Carbon;
 /**
  * Class Event
  * @package CodeDay\Clear\Models\Batch
- *
- * @property Models\SigningRequest  $signing_request
- * @property string                 $agreement_signed_url;
  */
 class Event extends \Eloquent {
     public function getAllowRegistrationsCalculatedAttribute()
@@ -952,35 +949,6 @@ class Event extends \Eloquent {
     public function agreement()
     {
         return $this->hasOne('\CodeDay\Clear\Models\Agreement', 'id', 'agreement_id');
-    }
-
-    /**
-     * Gets the signing request
-     *
-     * @return Models\SigningRequest
-     * @throws \Exception
-     */
-    public function getSigningRequestAttribute()
-    {
-        if (!isset($this->agreement_signing_id)) {
-            if (!isset($this->agreement_id)) {
-                throw new \Exception('No agreement to sign.');
-            }
-
-            $signingRequest = Models\SigningRequest::NewFromHtml(
-                $this->agreement->name,
-                $this->agreement->RenderHtmlFor($this),
-                (object)[
-                    'firstName' => $this->manager->first_name,
-                    'lastName' => $this->manager->last_name,
-                    'email' => $this->manager->email
-                ]
-            );
-            $this->agreement_signing_id = $signingRequest->id;
-            $this->save();
-        }
-
-        return Models\SigningRequest::FromId($this->agreement_signing_id);
     }
 
     public function getAgreementPdfAttribute()

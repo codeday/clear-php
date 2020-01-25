@@ -136,9 +136,6 @@ class User extends \Eloquent {
             $user->email = $s5_user->email;
             if($user->phone){ $user->phone = $s5_user->phone; } // TODO find out why the phone variable isn't set sometimes
             $user->is_admin = $s5_user->is_admin;
-            $user->is_certified_evangelist = count(array_filter($s5_user->groups, function($e) {
-                return $e->id == \Config::get('s5.groups.certified_evangelist');
-            })) > 0;
             $user->save();
         }
 
@@ -158,9 +155,6 @@ class User extends \Eloquent {
         $this->email = $s5_user->email;
         $this->phone = $s5_user->phone;
         $this->is_admin = $s5_user->is_admin;
-        $this->is_certified_evangelist = count(array_filter($s5_user->groups, function($e) {
-                return $e->id == \Config::get('s5.groups.certified_evangelist');
-            })) > 0;
         $this->save();
     }
 

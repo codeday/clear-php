@@ -4,9 +4,9 @@ namespace CodeDay\Clear\Services;
 use GuzzleHttp;
 
 /**
- * Supports sending messages to Slack.
+ * Supports sending messages to Mattermost.
  *
- * Contains functionality to send messages to the Slack configured in the local settings.
+ * Contains functionality to send messages to the Mattermost configured in the local settings.
  *
  * @package     CodeDay\Clear\Services
  * @author      Tyler Menezes <tylermenezes@studentrnd.org>
@@ -65,4 +65,4 @@ class Mattermost {
     }
 }
 
-Slack::booting();
+Mattermost::booting();

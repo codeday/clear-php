@@ -1,20 +1,18 @@
 <?php
 
-$config = json_decode(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'local.json'), true);
-
 return [
-    'debug' => $config['app']['debug'],
-    'url' => $config['app']['url'],
-    'timezone' => $config['app']['timezone'],
+    'debug' => env('APP_DEBUG', true),
+    'url' => env('APP_URL', 'http://localhost:8080/'),
+    'timezone' => env('APP_TIMEZONE', 'America/Los_Angeles'),
     'locale' => 'en',
     'fallback_locale' => 'en',
-    'key' => $config['app']['key'],
+    'key' => env('APP_KEY', true),
     'cipher' => 'AES-256-CBC',
     'env' => 'production',
     'manifest' => storage_path().'/meta',
-    'log' => $config['app']['debug'] ? 'single' : 'syslog',
-    'price_earlybird' => $config['app']['price_earlybird'] ?? 10,
-    'price_regular' => $config['app']['price_regular'] ?? 20,
+    'log' => env('APP_DEBUG', true) ? 'single' : 'syslog',
+    'price_earlybird' => env('APP_PRICE_DEFAULT_EARLYBIRD', 10),
+    'price_regular' => env('APP_PRICE_DEFAULT_REGULAR', true),
     'providers' => [
 
         /*

@@ -7,9 +7,7 @@ use CodeDay\Clear\Services;
 class SubusersController extends \CodeDay\Clear\Http\Controller {
     public function getIndex()
     {
-        return \View::make('event/subusers', [
-            's5_invite_link' => \Config::get('s5.invite_link')
-        ]);
+        return \View::make('event/subusers');
     }
 
     public function postRevoke()

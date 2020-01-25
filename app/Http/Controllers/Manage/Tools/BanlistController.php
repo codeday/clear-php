@@ -68,13 +68,6 @@ class BanlistController extends \CodeDay\Clear\Http\Controller {
         }
         $ban->save();
 
-        Services\Slack::Message(sprintf("<!channel> %s <https://clear.codeday.org/tools/banlist|banned> %s for %s until %s:\n>>>%s",
-            $ban->creator ? $ban->creator->name : 'Someone',
-            $ban->name,
-            $ban->reason_name ? $ban->reason_name : 'reasons',
-            $ban->expires_at ? $ban->expires_at->toDateString() : 'the heat death of the universe',
-            $ban->details), "#staff-safety");
-
         \Session::flash('status_message', 'Ban created.');
         return \Redirect::to('/tools/banlist');
     }
@@ -109,12 +102,6 @@ class BanlistController extends \CodeDay\Clear\Http\Controller {
                 $ban->save();
                 break;
         }
-
-
-        Services\Slack::Message(sprintf("<!channel> %s %s %s's <https://clear.codeday.org/tools/banlist|ban>",
-            Models\User::Me()->name,
-            $action,
-            $ban->name), "#staff-safety");
 
         \Session::flash('status_message', 'Ban updated.');
         return \Redirect::to('/tools/banlist');

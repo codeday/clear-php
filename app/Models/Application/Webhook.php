@@ -43,17 +43,6 @@ class Webhook extends \Eloquent {
       }
     }
 
-    public static function FireSlack($event, $data){
-      $all_hooks = self::where('event', '=', $event)->get();
-      foreach ($all_hooks as $hook) {
-        Services\Slack::SendPayloadToUrl([
-          'icon_url' => "https://clear.codeday.org/assets/img/logo-square.png",
-          'username' => "Clear",
-          'text' => "<https://clear.codeday.org/event/".$data->event->id."/registrations/attendee/".$data->id."|".$data->name."> (".$data->type.") registered for ".$data->event->name
-        ], $hook->url);
-      }
-    }
-
     protected static function boot()
     {
       parent::boot();

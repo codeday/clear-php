@@ -8,8 +8,8 @@
         <p>You can use this to allow volunteers, evangelists, etc. to manage this event.
            Invited users will be given permissions to manage this event, including to
            grant or revoke access to other users (except to the event manager).</p>
-        <p>If you need to invite a volunteer without an s5 account, send them this link to invite
-           them: <a href="{{ s5_invite_link }}">{{ s5_invite_link }}</a></p>
+        <p>If you need to invite a volunteer without an SRND account, send them this link to invite
+           them: <a href="https://account.srnd.org/">https://account.srnd.org/</a></p>
     </header>
 
     {% if event.grants.count > 0 %}
@@ -30,9 +30,9 @@
     <h3>Add New User</h3>
     <form action="/event/{{ event.id }}/subusers/grant" method="post">
         <div class="field">
-            <label for="username">s5 Username</label>
+            <label for="username">SRND Username</label>
             <input type="text" name="username" id="username" value="" placeholder="tylermenezes" required />
-            <span class="help">The s5 username of the person to be given access to this event.</span>
+            <span class="help">The username (from accounts.srnd.org) of the person to be given access to this event.</span>
         </div>
 
         <input type="submit" value="Add" />

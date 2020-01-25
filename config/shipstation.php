@@ -1,9 +1,10 @@
 <?php
 
-$config = json_decode(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'local.json'), true);
-
 return [
-    'key' => $config['shipstation']['key'],
-    'secret' => $config['shipstation']['secret'],
-    'tags' => $config['shipstation']['tags']
+  'key' => env('SHIPSTATION_KEY'),
+  'secret' => env('SHIPSTATION_SECRET'),
+  'tags' => [
+    'event_supplies' => env('SHIPSTATION_TAG_EVENT'),
+    'general_supplies' => env('SHIPSTATION_TAG_GENERAL'),
+  ],
 ];
