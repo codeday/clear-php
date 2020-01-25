@@ -8,8 +8,8 @@ server {
 
     client_max_body_size 25M;
 
-    access_log /var/log/nginx/access.log;
-    error_log  /var/log/nginx/error.log error;
+    access_log /dev/fd/1;
+    error_log  /dev/fd/2 error;
 
     charset utf-8;
 

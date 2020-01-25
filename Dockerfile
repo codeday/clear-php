@@ -1,46 +1,47 @@
-FROM php:7.0-fpm
+FROM php:7-fpm-alpine
 WORKDIR /tmp
 
 # Install php exts and their dependencies
-RUN apt-get remove imagemagick
+RUN apk upgrade --update
+RUN apk add curl autoconf
 
-RUN apt-get update && \
-    apt-get install -y \
-      libpng-dev \
-      libmcrypt-dev \
-      libssl-dev \
-      libcurl4-openssl-dev \
-      pkg-config \
-      libxml2-dev \
-      libyaml-dev \
-      libmagickwand-dev \
-      curl
+# Install GD
+RUN apk add freetype-dev libjpeg-turbo-dev libpng-dev freetype libjpeg libpng
+RUN docker-php-ext-install gd
+RUN apk del freetype-dev libjpeg-turbo-dev libpng-dev
 
-RUN docker-php-ext-install gd mcrypt mbstring xml mysqli pdo_mysql zip
-RUN pecl install imagick-beta redis yaml
-RUN docker-php-ext-enable imagick redis yaml
+# Install MBString
+RUN apk add oniguruma-dev oniguruma
+RUN docker-php-ext-install mbstring
+RUN apk del oniguruma-dev
 
-# Remove the build-time deps
-RUN apt-get remove -y \
-      libpng-dev \
-      libmcrypt-dev \
-      libssl-dev \
-      libcurl4-openssl-dev \
-      pkg-config \
-      libxml2-dev \
-      libyaml-dev \
-      libmagickwand-dev
+# Install XML
+RUN apk add libxml2-dev libxml2
+RUN docker-php-ext-install xml
+RUN apk del libxml2-dev
 
-# Install some other needed stuff
-RUN apt-get install -y git nginx
+# Install MySQL
+RUN docker-php-ext-install mysqli pdo_mysql
+
+# Install ZIP
+RUN apk add libzip-dev libzip
+RUN docker-php-ext-install zip
+RUN apk del libzip-dev
+
+# Install PECL packages
+ENV MAGICK_HOME=/usr
+RUN apk add gcc g++ libmcrypt-dev dpkg-dev imagemagick-dev libc-dev dpkg make yaml-dev yaml libmcrypt file imagemagick
+RUN pecl install imagick-beta redis yaml mcrypt
+RUN docker-php-ext-enable imagick redis yaml mcrypt
+RUN apk del gcc g++ libmcrypt-dev dpkg-dev imagemagick-dev libc-dev dpkg make yaml-dev
 
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-
-# Make Composer not complain about root
 ENV COMPOSER_ALLOW_SUPERUSER 1
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+RUN composer global require hirak/prestissimo
 
 # Install Composer dependencies
+RUN apk add git
 WORKDIR /app
 COPY composer* ./
 RUN composer install --no-autoloader --no-scripts
@@ -49,24 +50,20 @@ RUN composer install --no-autoloader --no-scripts
 COPY . .
 RUN composer dump-autoload
 
-# Shrink the image size by removing deps that aren't needed anymore
-RUN apt-get autoremove -y
-
-# Configure nginx
-COPY ./docker/nginx-site /etc/nginx/sites-enabled/default
-
-# Do some stuff for error logging
-COPY ./docker/php-fpm.conf /usr/local/etc/php-fpm.d/enable-logging.conf
-
 # Make some dirs for mount points
 RUN mkdir -p /app/storage /app/storage/logs /app/storage/framework /app/boostrap
+RUN ln -sf /dev/fd/2 /app/storage/logs/laravel.log
 
 # Fix permissions for some directories
 RUN chown -R www-data /app/storage
 RUN chown -R www-data /app/bootstrap
 
-# Expose the nginx port
-EXPOSE 80
+# Install Nginx
+RUN apk add nginx
+COPY ./docker/nginx-site /etc/nginx/conf.d/default.conf
+COPY ./docker/php-fpm.conf /usr/local/etc/php-fpm.d/enable-logging.conf
+RUN mkdir /run/nginx
 
-# Start things
-CMD [ "bash", "./docker-entrypoint.sh" ]
+# Run it!
+EXPOSE 80
+CMD [ "sh", "./docker-entrypoint.sh" ]
