@@ -19,7 +19,7 @@
         "guzzlehttp/guzzle": "6.*",
         "twilio/sdk": "~4.2",
         "twig/twig": "1.30",
-        "aws/aws-sdk-php": "3.*",
+        "aws/aws-sdk-php": "3.67",
         "tecnickcom/TCPDF": "6.2.*",
         "sendgrid/sendgrid": "^4.0",
         "tijsverkoyen/css-to-inline-styles": "^1.5",
