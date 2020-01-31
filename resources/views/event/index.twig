@@ -4,7 +4,11 @@
 {% block subnav %}{% include "event/subnav.twig" %}{% endblock %}
 {% block content %}
     <section class="status">
-        {% set attendance_goal = ((event.previous_event.registrations|length)*1.1)|number_format(0) %}
+        {% if event.previous_event %}
+            {% set attendance_goal = ((event.previous_event.registrations|length)*1.1)|number_format(0) %}
+        {% else %}
+            {% set attendance_goal = 60 %}
+        {% endif %}
         {% if attendance_goal < 60 %}{% set attendance_goal = 60 %}{% endif %}
         {% set kpis = [
             {
