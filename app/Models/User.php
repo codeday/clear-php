@@ -1,6 +1,7 @@
 <?php
 namespace CodeDay\Clear\Models;
 
+use \CodeDay\Clear\Services;
 use \Carbon\Carbon;
 
 class User extends \Eloquent {
@@ -59,43 +60,41 @@ class User extends \Eloquent {
         ]);
     }
 
-    public function forget()
-    {
-        \Session::forget('s5_username');
-    }
-
     public static function is_logged_in()
     {
-        return \Session::has('s5_username');
+        return Services\Auth::isLoggedIn();
+    }
+
+    public static function IsLoggedIn()
+    {
+        return Services\Auth::isLoggedIn();
     }
 
     private static $_me = null;
     public static function me()
     {
         if (!isset(self::$_me)) {
-            if (!\Session::has('s5_username')) {
-                self::api()->RequireLogin(['extended']);
-                \Session::set('s5_username', self::api()->User->me()->username);
-
-                $me = self::fromS5Username(\Session::get('s5_username'));
+            if (!\Session::has('username')) {
+                if (!Services\Auth::isLoggedIn()) {
+                    header('Location: http://' . $_SERVER['HTTP_HOST'] . '/login');
+                    die();
+                }
+                $userInfo = Services\Auth::getUserInfo();
+                \Session::set('username', $userInfo['https://codeday.xyz/username']);
+                $me = self::fromS5Username(\Session::get('username'));
                 if (!$me->logged_in_at) {
                     $me->wasFirstLogin = true;
                 }
                 $me->logged_in_at = Carbon::now();
                 $me->save();
             } else {
-                $me = self::fromS5Username(\Session::get('s5_username'));
+                $me = self::fromS5Username(\Session::get('username'));
             }
 
             self::$_me = $me;
         }
 
         return self::$_me;
-    }
-
-    public static function IsLoggedIn()
-    {
-        return (isset(self::$_me) || \Session::get('s5_username'));
     }
 
     public static function fromToken($token)
@@ -125,7 +124,17 @@ class User extends \Eloquent {
 
         if (!$user->exists || $user->updated_at->diffInHours() > 1) {
             try {
-                $s5_user = self::api()->User->get($username);
+                $s5_user = Services\Auth::getUserInfo($username);
+                if (isset($s5_user)) {
+                    if (isset($s5_user->phone_number)) {
+                        $s5_user->phone = $s5_user->phone_number;
+                    }
+                    $s5_user->first_name = $s5_user->given_name;
+                    $s5_user->last_name = $s5_user->family_name;
+                    $s5_user->is_admin = count(array_filter($s5_user->permissions, function($e) { return $e === 'read:dashboard'; })) > 0;
+                } else {
+                    $s5_user = self::api()->User->get($username);
+                }
             } catch (\Exception $ex) {
                 return null;
             }
@@ -134,7 +143,7 @@ class User extends \Eloquent {
             $user->first_name = $s5_user->first_name;
             $user->last_name = $s5_user->last_name;
             $user->email = $s5_user->email;
-            if($user->phone){ $user->phone = $s5_user->phone; } // TODO find out why the phone variable isn't set sometimes
+            if($s5_user->phone){ $user->phone = $s5_user->phone; }
             $user->is_admin = $s5_user->is_admin;
             $user->save();
         }
@@ -145,7 +154,10 @@ class User extends \Eloquent {
     public function s5Update()
     {
         try {
-            $s5_user = self::api()->User->get($this->username);
+            $s5_user = Services\Auth::getUserInfo($this->username);
+            if (!isset($s5_user)) {
+                $s5_user = self::api()->User->get($this->username);
+            }
         } catch (\Exception $ex) {
             return null;
         }

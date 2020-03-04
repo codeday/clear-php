@@ -4,8 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ebfa73918cb9d4bb902ba86748ff0918",
+    "content-hash": "afb92f3c617f07d96d514d54598a00a5",
     "packages": [
+        {
+            "name": "auth0/auth0-php",
+            "version": "5.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/auth0/auth0-PHP.git",
+                "reference": "1bf6d8568fe729804922afa28dfb4107e9c20225"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/auth0/auth0-PHP/zipball/1bf6d8568fe729804922afa28dfb4107e9c20225",
+                "reference": "1bf6d8568fe729804922afa28dfb4107e9c20225",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "firebase/php-jwt": "^5.0",
+                "guzzlehttp/guzzle": "~6.0",
+                "php": "^5.5 || ^7.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+                "josegonzalez/dotenv": "^2.0",
+                "phpcompatibility/php-compatibility": "^8.1",
+                "phpunit/phpunit": "^4.8 || ^5.7",
+                "squizlabs/php_codesniffer": "^3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Auth0\\SDK\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Auth0",
+                    "email": "support@auth0.com",
+                    "homepage": "http://www.auth0.com/"
+                }
+            ],
+            "description": "Auth0 PHP SDK.",
+            "homepage": "https://github.com/auth0/auth0-PHP",
+            "time": "2019-12-09T22:36:51+00:00"
+        },
         {
             "name": "aws/aws-sdk-php",
             "version": "3.67.0",
@@ -742,6 +790,52 @@
                 "push"
             ],
             "time": "2016-06-01T11:05:19+00:00"
+        },
+        {
+            "name": "firebase/php-jwt",
+            "version": "v5.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/firebase/php-jwt.git",
+                "reference": "4566062c68f76f43d44f1643f4970fe89757d4c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/4566062c68f76f43d44f1643f4970fe89757d4c6",
+                "reference": "4566062c68f76f43d44f1643f4970fe89757d4c6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8|^5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Firebase\\JWT\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Neuman Vong",
+                    "email": "neuman+pear@twilio.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anant Narayanan",
+                    "email": "anant@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+            "homepage": "https://github.com/firebase/php-jwt",
+            "time": "2020-02-24T23:15:03+00:00"
         },
         {
             "name": "guzzle/guzzle",

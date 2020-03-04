@@ -34,7 +34,8 @@
         "doctrine/dbal": "^2.5",
         "wildbit/postmark-php": "^2.4",
         "duccio/apns-php": "v2.0.0-alpha",
-        "taxjar/taxjar-php": "^1.8"
+        "taxjar/taxjar-php": "^1.8",
+        "auth0/auth0-php": "~5.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
