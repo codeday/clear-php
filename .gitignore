@@ -1,14 +1,6 @@
 /vendor
 /node_modules
+/storage
 /bootstrap
-Homestead.yaml
-Homestead.json
-.env
-app/storage
 /.sass-cache
-/storage/views
-/storage/framework
-/storage/logs
-/storage/debugbar
-/docker/db
-docker-compose.yml
+.env

@@ -1,6 +1,12 @@
 /vendor
+/node_modules
 /.sass-cache
 /storage
-/docker/db
-/config/local.json
+/.git
+/.vs
+/.sass-cache
+/docker
+/bootstrap
 .env
+README.markdown
+LICENSE.txt
