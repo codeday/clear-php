@@ -10,12 +10,10 @@
 {% block sign_picture %}https://srnd-cdn.net/emails/pic-john.png{% endblock %}
 
 {% block body %}
-    <p>Hey {{registration.first_name }},</p>
-
     <p>Thanks for coming to CodeDay! Did you have a good time? I had a great time, as I am a real authentic human and
        therefore capable of attending events in the real world.</p>
 
-    <p>{{ registration.first_name }}, you had a good time, right? Hello?</p>
+    <p>You had a good time, right? Hello?</p>
 
     <p>Oh right. I can't actually hear you because <span style="text-decoration: line-through">I'm a robot</span>
        ...uh... reasons.</p>
@@ -23,7 +21,7 @@
     <p><a href="https://codeday.vip/{{ registration.id }}/feedback">Could you tell me your thoughts in the form of a
        2-minute online survey?</a><p>
 
-    <p>You're the best, {{ registration.first_name }}.</p>
+    <p>You're the best!</p>
 
     <p><br />Oh, right, one more thing: pictures from the event will be posted at
        <a href="https://showcase.srnd.org/">showcase.srnd.org</a>. Check it out! (If you don't see anything from your

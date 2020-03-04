@@ -6,8 +6,11 @@
 {% block content %}
     <header>
         <h2>Registrations <span class="confidential">Confidential</span></h2>
-        <p>If the venue requires an attendance list, they can download an up-to-date one
-            <a href="/event/{{ event.id }}/registrations/csv?signature={{ signature }}">here.</a></p>
+        {% if event.manager_username == me.username or event.evangelist_username == me.username or me.is_admin %}
+            <p><a href="/event/{{ event.id }}/registrations/csv?signature={{ signature }}">CSV Attendee List Download</a>
+               You can send this link directly to a venue, no login required! (Do not share with anyone else unless
+               necessary.)</p>
+        {% endif %}
     </header>
 
     <section class="current registrations">

@@ -36,6 +36,16 @@
         {% endfor %}
     </ul>
 
+
+    {% if event.manager_username == me.username or me.is_admin %}
+        <h3>Previous Attendees CSVs (Manager Only)</h3>
+        <ul>
+            {% for prev_event in event.region.all_events %}
+                <li><a href="/event/{{ prev_event.id }}/registrations/csv?signature={{ prev_event.signature }}">{{ prev_event.batch.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <script type="text/javascript">
         var emails_sent = {
             {% for email in event.emailsSent %}

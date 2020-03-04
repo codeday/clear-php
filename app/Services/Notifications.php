@@ -10,17 +10,17 @@ class Notifications {
     $registrations = $event->registrations;
 
     // open connections to APNs
-    $apns_prod = new \ApnsPHP_Push(\ApnsPHP_Abstract::ENVIRONMENT_PRODUCTION, base_path()."/resources/signing/apns_prod.pem");
-    $apns_prod->setProviderCertificatePassphrase(\Config::get("apple.apns_prod_password"));
+    //$apns_prod = new \ApnsPHP_Push(\ApnsPHP_Abstract::ENVIRONMENT_PRODUCTION, base_path()."/resources/signing/apns_prod.pem");
+    //$apns_prod->setProviderCertificatePassphrase(\Config::get("apple.apns_prod_password"));
 
-    $apns_dev = new \ApnsPHP_Push(\ApnsPHP_Abstract::ENVIRONMENT_SANDBOX, base_path()."/resources/signing/apns_dev.pem");
-    $apns_dev->setProviderCertificatePassphrase(\Config::get("apple.apns_dev_password"));
+    //$apns_dev = new \ApnsPHP_Push(\ApnsPHP_Abstract::ENVIRONMENT_SANDBOX, base_path()."/resources/signing/apns_dev.pem");
+    //$apns_dev->setProviderCertificatePassphrase(\Config::get("apple.apns_dev_password"));
 
-    $apns_prod->setRootCertificationAuthority(base_path()."/resources/signing/entrust.pem");
-    $apns_dev->setRootCertificationAuthority(base_path()."/resources/signing/entrust.pem");
+    //$apns_prod->setRootCertificationAuthority(base_path()."/resources/signing/entrust.pem");
+    //$apns_dev->setRootCertificationAuthority(base_path()."/resources/signing/entrust.pem");
 
-    $apns_prod->connect();
-    $apns_dev->connect();
+    //$apns_prod->connect();
+    //$apns_dev->connect();
 
     foreach($registrations as $registration) {
       $devices = $registration->devices;
@@ -66,16 +66,16 @@ class Notifications {
               $message->setText($announcement->body);
 
               if($sandbox == true) {
-                $apns_dev->add($message);
+                //$apns_dev->add($message);
               } else {
-                $apns_prod->add($message);
+                //$apns_prod->add($message);
               }
             }
             break;
         }
       }
     }
-
+/*
     \Queue::push(function ($job) use ($apns_prod, $apns_dev) {
       if(!empty($apns_prod->getQueue(false))) {
         $apns_prod->connect();
@@ -100,7 +100,7 @@ class Notifications {
       }
       
       $job->delete();
-    });
+    });*/
   }
 
   public static function SendCheckinNotification($registration) {
