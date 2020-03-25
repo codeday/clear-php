@@ -3,9 +3,12 @@ namespace CodeDay\Clear\Services;
 
 use CodeDay\Clear\Models\Batch\Event;
 use CodeDay\Clear\Models\Batch\Event\Registration;
+use CodeDay\Clear\ModelContracts;
 
 class Notifications {
   public static function SendNotificationsForAnnouncement($announcement) {
+    \Event::fire('announcement.post', [ModelContracts\Announcement::Model($announcement, ['admin', 'internal'])]);
+
     $event = $announcement->event;
     $registrations = $event->registrations;
 
