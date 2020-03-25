@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'debug' => env('APP_DEBUG', true),
+    'debug' => env('APP_DEBUG', false),
     'url' => env('APP_URL', 'http://localhost:8080/'),
     'timezone' => env('APP_TIMEZONE', 'America/Los_Angeles'),
     'locale' => 'en',
@@ -10,7 +10,7 @@ return [
     'cipher' => 'AES-256-CBC',
     'env' => 'production',
     'manifest' => storage_path().'/meta',
-    'log' => env('APP_DEBUG', true) ? 'single' : 'syslog',
+    'log'             => env('APP_DEBUG', false) ? 'single' : 'errorlog',
     'price_earlybird' => env('APP_PRICE_DEFAULT_EARLYBIRD', 10),
     'price_regular' => env('APP_PRICE_DEFAULT_REGULAR', true),
     'providers' => [
