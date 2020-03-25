@@ -20,7 +20,7 @@
         "twilio/sdk": "~4.2",
         "twig/twig": "1.30",
         "aws/aws-sdk-php": "3.67",
-        "tecnickcom/TCPDF": "6.2.*",
+        "tecnickcom/tcpdf": "6.2.*",
         "sendgrid/sendgrid": "^4.0",
         "tijsverkoyen/css-to-inline-styles": "^1.5",
         "soundasleep/html2text": "^0.3.1",

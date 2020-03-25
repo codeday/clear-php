@@ -5,8 +5,6 @@
 /.git
 /.vs
 /.sass-cache
-/docker
-/bootstrap
 .env
 README.markdown
 LICENSE.txt
