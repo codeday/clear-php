@@ -9,7 +9,7 @@ class Promotions extends ApiController {
   public function getPromotion()
   {
     $this->requirePermission(['admin']);
-    $promotion = Models\Batch\Event\Promotion::where('id', '=', \Route::input('promotion'))->firstOrFail();
+    $promotion = Models\Batch\Event\Promotion::where('id', '=', \Route::input('promo'))->firstOrFail();
 
     // TODO Create model contract for promotions.
     // This should work for now since we are assuming
