@@ -18,8 +18,8 @@ class Register extends \CodeDay\Clear\Http\Controller {
     private function _getPromotion()
     {
         $event = \Route::input('event');
-        $giftcard = GiftCard::where('code', '=', strtoupper(\Input::get('code')))->first();
-        $promotion = Promotion::where('code', '=', strtoupper(\Input::get('code')))
+        $giftcard = GiftCard::where('code', '=', strtoupper(\Input::get('promo')))->first();
+        $promotion = Promotion::where('code', '=', strtoupper(\Input::get('promo')))
             ->where('batches_event_id', '=', $event->id)
             ->first();
 
@@ -54,7 +54,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
     }
 
     public function optionsRegister() { return self::getCorsRequest(); }
-    public function postRegister() { 
+    public function postRegister() {
         try {
             return self::getCorsRequest(json_encode($this->_postRegister()));
         } catch (\Exception $ex) {
@@ -67,12 +67,12 @@ class Register extends \CodeDay\Clear\Http\Controller {
         $registrants = $this->zipRegistrants(\Input::get('first_names'), \Input::get('last_names'), \Input::get('emails'));
         $count = count($registrants);
 
-        $giftcard = Models\GiftCard::where('code', '=', strtoupper(\Input::get('code')))->first();
-        $promotion = Models\Batch\Event\Promotion::where('code', '=', strtoupper(\Input::get('code')))
+        $giftcard = Models\GiftCard::where('code', '=', strtoupper(\Input::get('promo')))->first();
+        $promotion = Models\Batch\Event\Promotion::where('code', '=', strtoupper(\Input::get('promo')))
             ->where('batches_event_id', '=', $event->id)
             ->first();
 
-        if (\Input::get('code') && !isset($giftcard) && !isset($promotion))
+        if (\Input::get('promo') && !isset($giftcard) && !isset($promotion))
             return self::apiThrow('promo', 'The promotion code you entered was invalid.');
 
         $quote = floatval(\Input::get('quoted_price'));
@@ -123,7 +123,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
             }
 
             $registrations = array_map(function($registrant) use ($event, $promotion, $giftcard) {
-                // 
+                //
                 // Create the registrations
                 //
                 $registration = Services\Registration::CreateRegistrationRecord(
@@ -194,7 +194,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
 
         //
         // SUCCESS    (https://www.youtube.com/watch?v=jGoRYCbnVDg)
-        // 
+        //
         return [
             'status' => 200,
             'ids' => array_map(function($reg) { return $reg->id; }, $registrations)
@@ -337,13 +337,13 @@ class Register extends \CodeDay\Clear\Http\Controller {
             if (isset($promotion->force_price)) return floatval($promotion->force_price) * $count;
             elseif (isset($promotion->percent_discount)) return $normalCost * (1 - ($promotion->percent_discount / 100.0));
         }
-        
+
         return $normalCost;
     }
 
     /**
      * Gets the current amount of sales tax which should be paid.
-     * 
+     *
      * @param Event $event      The event for which people are registering.
      * @param float $cost       The order total, minus tax.
      * @return float            The current tax amount.
@@ -356,7 +356,7 @@ class Register extends \CodeDay\Clear\Http\Controller {
 
     /**
      * Returns an error message to the client. Does NOT automatically return this to the client!
-     * 
+     *
      * @param string $error     The error class, for use by programs (e.g. to highlight an error).
      * @param string $message   The full error message, for display to users.
      * @return object           The result, to return to the browser.

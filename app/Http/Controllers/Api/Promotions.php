@@ -22,10 +22,10 @@ class Promotions extends ApiController {
   public function postNew()
   {
     $this->requirePermission(['admin']);
-    
+
     $promotion = new Models\Batch\Event\Promotion;
     $promotion->batches_event_id = \Input::get('event');
-    $promotion->code = strtoupper(\Input::get('code'));
+    $promotion->code = strtoupper(\Input::get('promo'));
     $promotion->notes = \Input::get('notes');
     $promotion->percent_discount = "20";
     $promotion->expires_at = null;
