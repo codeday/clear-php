@@ -52,8 +52,18 @@ class Auth {
         die();
     }
 
+    private static function getStoredToken() {
+      $info = json_decode(file_get_contents(storage_path() . '/auth0.json'));
+      if ($info->exp <= time()) return null;
+      return $info->token;
+    }
+
+    private static function storeToken($token) {
+      file_put_contents(storage_path().'/auth0.json', json_encode(["token" => $token, "exp" => time() + (60*60*23)]));
+    }
+
     private static function getManagementToken() {
-        if (!\Session::has('auth0_management_token')) {
+        if (!self::getStoredToken()) {
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
@@ -78,11 +88,11 @@ class Auth {
             if ($err) {
                 throw new \Exception($err);
             } else {
-                \Session::set('auth0_management_token', \json_decode($response)->access_token);
+                self::storeToken(\json_decode($response)->access_token);
             }
         }
 
-        return \Session::get('auth0_management_token');
+        return self::getStoredToken();
     }
 }
 Auth::boot();
