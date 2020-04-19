@@ -33,7 +33,6 @@ class Events extends ApiController {
     public function getHasAccess()
     {
         $user = Models\User::where('username', '=', \Input::get('username'))->firstOrFail();
-        if ($user->is_admin) return ModelContracts\Event::Collection(Models\Batch\Event::get(), $this->permissions);
 
         $events = Models\Batch\Event
             ::select('batches_events.*')
