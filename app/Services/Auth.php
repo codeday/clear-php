@@ -53,9 +53,13 @@ class Auth {
     }
 
     private static function getStoredToken() {
-      $info = json_decode(file_get_contents(storage_path() . '/auth0.json'));
-      if ($info->exp <= time()) return null;
-      return $info->token;
+      try {
+        $info = json_decode(file_get_contents(storage_path() . '/auth0.json'));
+        if ($info->exp <= time()) return null;
+        return $info->token;
+      } catch (\Exception $ex) {
+        return null;
+      }
     }
 
     private static function storeToken($token) {
