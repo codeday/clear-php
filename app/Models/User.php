@@ -126,12 +126,10 @@ class User extends \Eloquent {
             try {
                 $s5_user = Services\Auth::getUserInfo($username);
                 if (isset($s5_user)) {
-                    if (isset($s5_user->phone_number)) {
-                        $s5_user->phone = $s5_user->phone_number;
-                    }
-                    $s5_user->first_name = $s5_user->given_name;
-                    $s5_user->last_name = $s5_user->family_name;
-                    $s5_user->is_admin = count(array_filter($s5_user->permissions, function($e) { return $e === 'read:dashboard'; })) > 0;
+                  $s5_user->phone = $s5_user->phone_number ?? null;
+                  $s5_user->first_name = $s5_user->given_name ?? $username;
+                  $s5_user->last_name = $s5_user->family_name ?? "";
+                  $s5_user->is_admin = count(array_filter($s5_user->permissions, function($e) { return $e === 'read:dashboard'; })) > 0;
                 } else {
                     $s5_user = self::api()->User->get($username);
                 }

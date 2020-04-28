@@ -64,7 +64,7 @@ class Batch extends \Eloquent {
                     });
             })
             ->orderBy('webname_override')
-            ->firstOrFail(); 
+            ->firstOrFail();
     }
 
     protected static function boot()
@@ -132,6 +132,8 @@ class Batch extends \Eloquent {
                     }
                 }
 
+                if (!isset($batch)) \abort(401);
+
                 \Session::set('managed_batch_id', $batch);
             }
 
@@ -163,4 +165,4 @@ class Batch extends \Eloquent {
     {
         return $this->hasMany('\CodeDay\Clear\Models\Batch\Supply', 'batch_id', 'id');
     }
-} 
+}
