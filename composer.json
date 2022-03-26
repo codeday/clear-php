@@ -18,7 +18,7 @@
         "pda/pheanstalk": "3.1.*",
         "guzzlehttp/guzzle": "6.*",
         "twilio/sdk": "~4.2",
-        "twig/twig": "1.30",
+        "twig/twig": "1.38.0",
         "aws/aws-sdk-php": "3.67",
         "tecnickcom/tcpdf": "6.2.*",
         "sendgrid/sendgrid": "^4.0",
