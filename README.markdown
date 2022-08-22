@@ -1,6 +1,4 @@
-# Clear
-
-[![Deployment status from DeployBot](https://srnd.deploybot.com/badge/66802254112581/110470.svg)](http://deploybot.com)
+# This version of Clear has been deprecated in favor of <a href="https://github.com/codeday/clear-gql">clear-gql</a> and <a href="https://github.com/codeday/www-clear">www-clear</a>.
 
 Named for its function as a clearinghouse for event-related data, Clear is largely a glorified database frontend with features specifically designed to reduce the amount of busywork involved in managing your event.
 
